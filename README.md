@@ -44,6 +44,16 @@ Following ace permission allows selected players to bypass the anticheat detecti
 
 ``` add_principal identifier.license:<yourlicense> group.<yourgroup>  ```
 
+### Banning
+Many anticheats come with custom ban-systems or databases. Icarus avoids such systems to improve compatibility and reduce code overload. To use Icarus properly it is necessary to add your own ban logic to the script. This can be done in the server confuguration file.
+
+```lua 
+function issueBan(source, reason)
+  -- Your own ban logic goes here.
+  -- EXAMPLE: TriggerEvent("EasyAdmin:banPlayer", source, reason, 1044463300)
+end
+```
+
 ### Dependencies
 | Onesync | FXServer | Screenshot-basic |
 |---------|----------|------------------|
