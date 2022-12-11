@@ -25,7 +25,6 @@ client_script {
 	'modules/client/vison.lua',
 	'modules/client/pickup.lua',
 	'modules/client/vehicle_teleport.lua',
-	'modules/client/weapon_blacklist.lua',
 	'modules/client/weapon_explosive_bullet.lua',
 	'modules/client/weapon_modifier.lua',
 }
@@ -50,6 +49,7 @@ server_script {
 	'modules/server/resource_stopper.lua',
 	'modules/server/weapon_range.lua',
 	'modules/server/ped_blacklist.lua',
+	'modules/server/weapon_blacklist.lua',
 }
 
 shared_script {

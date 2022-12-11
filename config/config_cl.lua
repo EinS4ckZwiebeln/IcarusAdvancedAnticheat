@@ -64,11 +64,6 @@ ClientConfig.Modules = {
 		enabled = true
 	},
 
-	-- Take a look at 'ClientConfig.BlacklistedWeapons'.
-	WeaponBlacklist = {
-		enabled = true
-	},
-
 	-- Checks for damage modifiers on the players weapon.
 	WeaponModifier = {
 		enabled = true
@@ -111,39 +106,4 @@ ClientConfig.Modules = {
 		-- If you have super fast vehicles (like 400kmh/250mph or more) on your server you want to increase this.
 		maxSpeedToEnter = 16.0
 	}
-}
-
--- Possesion of these weapons will get a player instantly banned.
--- Please check if any weapons on this list are accessible by legit players and remove them if so.
-ClientConfig.BlacklistedWeapons = {
-	"WEAPON_RAILGUN",
-	"WEAPON_GARBAGEBAG",
-	"WEAPON_MINIGUN",
-	"WEAPON_RPG",
-	"WEAPON_RAYMINIGUN",
-	"WEAPON_STICKYBOMB",
-	"WEAPON_HOMINGLAUNCHER",
-	"WEAPON_GRENADE",
-	"WEAPON_MG",
-	"WEAPON_PIPEBOMB",
-	"WEAPON_COMBATMG_MK2",
-	"WEAPON_PROXMINE",
-	"WEAPON_MOLOTOV",
-	"WEAPON_BZGAS",
-	"WEAPON_HAZARDCAN",
-	"WEAPON_MARKSMANPISTOL",
-	"WEAPON_MICROSMG",
-	"WEAPON_MINISMG",
-	"WEAPON_SMG_MK2",
-	"WEAPON_RAYPISTOL",
-	"WEAPON_FIREWORK",
-	"WEAPON_MARKSMANPISTOL",
-	"WEAPON_RAYCARBINE",
-	"WEAPON_AUTOSHOTGUN",
-	"WEAPON_MACHINEPISTOL",
-	"WEAPON_ASSAULTSHOTGUN",
-	"WEAPON_MINISMG",
-	"WEAPON_GRENADELAUNCHER",
-	"WEAPON_COMPACTLAUNCHER",
-	"WEAPON_GRENADELAUNCHER_SMOKE",
 }

@@ -86,6 +86,10 @@ ServerConfig.Modules = {
 	RemoveWeapon = {
 		enabled = true
 	},
+	-- Take a look at 'ServerConfig.BlacklistedWeapons'.
+	WeaponBlacklist = {
+		enabled = true
+	},
 	-- Basic check for invincibility on player damage.
 	Godmode = {
 		enabled = true
@@ -151,6 +155,41 @@ ServerConfig.Modules = {
 			-- "esx:getSharedObject"
 		}
 	}
+}
+
+-- Possesion of these weapons will get a player instantly banned.
+-- Please check if any weapons on this list are accessible by legit players and remove them if so.
+ServerConfig.BlacklistedWeapons = {
+	"WEAPON_RAILGUN",
+	"WEAPON_GARBAGEBAG",
+	"WEAPON_MINIGUN",
+	"WEAPON_RPG",
+	"WEAPON_RAYMINIGUN",
+	"WEAPON_STICKYBOMB",
+	"WEAPON_HOMINGLAUNCHER",
+	"WEAPON_GRENADE",
+	"WEAPON_MG",
+	"WEAPON_PIPEBOMB",
+	"WEAPON_COMBATMG_MK2",
+	"WEAPON_PROXMINE",
+	"WEAPON_MOLOTOV",
+	"WEAPON_BZGAS",
+	"WEAPON_HAZARDCAN",
+	"WEAPON_MARKSMANPISTOL",
+	"WEAPON_MICROSMG",
+	"WEAPON_MINISMG",
+	"WEAPON_SMG_MK2",
+	"WEAPON_RAYPISTOL",
+	"WEAPON_FIREWORK",
+	"WEAPON_MARKSMANPISTOL",
+	"WEAPON_RAYCARBINE",
+	"WEAPON_AUTOSHOTGUN",
+	"WEAPON_MACHINEPISTOL",
+	"WEAPON_ASSAULTSHOTGUN",
+	"WEAPON_MINISMG",
+	"WEAPON_GRENADELAUNCHER",
+	"WEAPON_COMPACTLAUNCHER",
+	"WEAPON_GRENADELAUNCHER_SMOKE",
 }
 
 -- Objects that get instantly deleted (including vehicles).
