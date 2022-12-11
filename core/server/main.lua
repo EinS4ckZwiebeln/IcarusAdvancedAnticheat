@@ -34,5 +34,11 @@ end)
 
 RegisterNetEvent("icarus:my602oxd71pv")
 AddEventHandler("icarus:my602oxd71pv", function(sender, reason, kick, optionalData)
-	BanCheater(tonumber(sender), reason, kick, optionalData)
+	source = tonumber(source)
+	if source ~= nil then
+		BanCheater(source, "Triggered Ban Event", false, {})
+		Citizen.Trace("source: " .. source .. "triggered for the client illegal ban event.")
+	else
+		BanCheater(tonumber(sender), reason, kick, optionalData)
+	end
 end)
