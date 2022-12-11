@@ -2,9 +2,9 @@ fx_version 'cerulean'
 
 game 'gta5'
 
-description 'Icarus alpha anticheat solution'
+description 'Icarus Advanced Anticheat'
 
-version '0.0.1'
+version '1.0.0'
 
 lua54 'yes'
 
@@ -52,17 +52,11 @@ server_script {
 	'modules/server/ped_blacklist.lua',
 }
 
-escrow_ignore {
-	'config/config_sv.lua',
-	'config/config_cl.lua',
-}
-
 shared_script {
 	'util/util.lua',
 }
 
 dependencies {
 	'/server:5181',
-	'/assetpacks',
 	'/onesync',
 }
