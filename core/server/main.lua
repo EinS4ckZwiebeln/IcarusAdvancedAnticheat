@@ -1,3 +1,12 @@
+PerformHttpRequest("https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases", function(code, data)
+	local version = Util.GetVersion()
+	if code == 200 then version = json.decode(data)[1].name end
+	
+	if not string.find(version, Util.GetVersion()) then
+		Citizen.Trace("This version of Icarus is outdated. Please update to the latest version!\n Latest Version: " .. version .. " | Current Version: v" .. Util.GetVersion() .. "\n https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat")
+	end
+end)
+
 function BanCheater(source, reason, kick, optionalData)
 	source = tonumber(source)
 	if not IsPlayerAceAllowed(source, ServerConfig.BypassAcePerm) then

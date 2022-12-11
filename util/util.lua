@@ -13,6 +13,11 @@ function Util.GetResourceName()
     return rName
 end
 
+local version = GetResourceMetadata(Util.GetResourceName(), "version", 0)
+function Util.GetVersion()
+    return version
+end
+
 local isSpawned = false
 AddEventHandler("playerSpawned", function()
     isSpawned = true
@@ -104,7 +109,7 @@ end
 function Util.ConstructEmbed(source, reason, data)
 	return {{
 		["color"] = "8421631",
-		["title"] = "Icarus Data Collector v" .. GetResourceMetadata(Util.GetResourceName(), "version", 0),
+		["title"] = "Icarus Data Collector v" .. Util.GetVersion(),
 		["fields"] = {
 			{
 				["name"] = "Violation",
