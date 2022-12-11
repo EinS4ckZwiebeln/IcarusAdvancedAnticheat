@@ -141,7 +141,9 @@ end
 
 function Util.SendEmbedToWebHook(url, username, data)
     PerformHttpRequest(url, function(err, text, headers) 
-        if not (err == 204 or err == 0) then print("Webhook POST error: " .. err) end
+        if not (err == 204 or err == 0) then 
+            Citizen.Trace("error: " .. err)
+        end
     end, "POST", json.encode({
         ["username"] = username,
         ["embeds"] = data,
