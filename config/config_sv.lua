@@ -29,39 +29,34 @@ ServerConfig.Encryption = false
 -- Configure any module/detection to your servers needs.
 -- Beware that some values are very sensitive and could break everything.
 ServerConfig.Modules = {
-
-    -- Checks if the player runs any unkown resources.
-    Injection = {
+	-- Checks if the player runs any unkown resources.
+	Injection = {
 		enabled = true
 	},
-
-    -- Everything connection related.
-    Connect = {
-        -- Prevents players using a VPN client from connecting.
+	-- Everything connection related.
+	Connect = {
+		-- Prevents players using a VPN client from connecting.
 		NoVPN = {
-            enabled = false,
-            rejectionMsg = "Connecting via a VPN is not allowed. Please disable your VPN in order to connect."
-        },
-        -- Filters non alphanumeric playernames.
-        NameFilter = {
-            enabled = false,
-            rejectionMsg = "Your name contains non alphanumeric (a-Z, 0-9) characters. Please consider changing your name in order to connect."
-        }
+			enabled = false,
+			rejectionMsg = "Connecting via a VPN is not allowed. Please disable your VPN in order to connect."
+		},
+		-- Filters non alphanumeric playernames.
+		NameFilter = {
+			enabled = false,
+			rejectionMsg = "Your name contains non alphanumeric (a-Z, 0-9) characters. Please consider changing your name in order to connect."
+		}
 	},
-
-    -- Filters non alphanumeric chat messages.
-    -- Other characters can be whitelisted via additionalRegex.
-    ChatFilter = {
-        enabled = false
-    },
-
-    -- Used for 'rape' or 'troll' functions in mod menus.
-    -- Leaving this enabled is highly recommended.
+	-- Filters non alphanumeric chat messages.
+	-- Other characters can be whitelisted via additionalRegex.
+	ChatFilter = {
+		enabled = false
+	},
+	-- Used for 'rape' or 'troll' functions in mod menus.
+	-- Leaving this enabled is highly recommended.
 	ClearTasks = {
 		enabled = true
 	},
-
-    -- Detects if a player has a non whitelisted playermodel (eg. monkey).
+	-- Detects if a player has a non whitelisted playermodel (eg. monkey).
 	PedBlacklist = {
 		enabled = true,
 		-- List of all allowed player models. You may add some.
@@ -77,94 +72,85 @@ ServerConfig.Modules = {
 			"a_m_y_hipster_02"
 		}
 	},
-
-    -- Detects if the shooter is somewhat looking at his target.
+	-- Detects if the shooter is somewhat looking at his target.
 	Aimbot = {
 		enabled = true,
-        -- Increment this by 1.0 (up to 6.0) if Aimbot C1 false positives occur.
-        maxAngle = 3.0
+		-- Increment this by 1.0 (up to 6.0) if Aimbot C1 false positives occur.
+		maxAngle = 3.0
 	},
-
-    -- Detects if a cheater gives weapons to others.
+	-- Detects if a cheater gives weapons to others.
 	GiveWeapon = {
 		enabled = true
 	},
-
-    -- Detects if a cheater removes weapons from others.
+	-- Detects if a cheater removes weapons from others.
 	RemoveWeapon = {
 		enabled = true
 	},
-
-    -- Basic check for invincibility on player damage.
-    Godmode = {
+	-- Basic check for invincibility on player damage.
+	Godmode = {
 		enabled = true
 	},
-
-    -- Checks for various suspicious particle scenarios.
+	-- Checks for various suspicious particle scenarios.
 	Particles = {
 		enabled = true,
-        -- Detects unsually large particle effects (greater 10.0).
-		maxScale = 10.0,
+		-- Detects unsually large particle effects (greater 10.0).
+		maxScale = 10.0
 	},
-
-    -- Detects blacklisted entities/vehicles.
-    -- Take a look at 'ServerConfig.IllegalModels'.
+	-- Detects blacklisted entities/vehicles.
+	-- Take a look at 'ServerConfig.IllegalModels'.
 	EntityCreate = {
 		enabled = true,
-        -- Wether or not the entity is owned by a legit script.
+		-- Wether or not the entity is owned by a legit script.
 		checkForScriptOwnership = true,
-        -- Automatically bans the network owner of the illegal entity.
-        banNetworkOwner = true
+		-- Automatically bans the network owner of the illegal entity.
+		banNetworkOwner = true
 	},
-
-    -- Bans players for causing a non whitelisted explosion.
+	-- Bans players for causing a non whitelisted explosion.
 	ExplosionFilter = {
 		enabled = true,
-        -- Explosion Types: https://docs.fivem.net/natives/?_0xE3AD2BDBAEE269AC
-        whitelistedExplosionTypes = { 
-            6, -- HI_OCTANE 
-            7, -- CAR 
-            8, -- PLANE 
-            9, -- PETROL_PUMP 
-            10, -- BIKE 
-            11, -- DIR_STEAM 
-            12, -- DIR_FLAME 
-            13, -- DIR_WATER_HYDRANT 
-            14, -- DIR_GAS_CANISTER 
-            15, -- BOAT 
-            16, -- SHIP_DESTROY 
-            17, -- TRUCK 
-            22, -- FLARE 
-            23, -- GAS_CANISTER 
-            24, -- EXTINGUISHER 
-            27, -- EXP_TAG_BARREL 
-            28, -- EXP_TAG_PROPANE 
-            30, -- EXP_TAG_DIR_FLAME_EXPLODE 
-            31, -- EXP_TAG_TANKER 
-            34, -- EXP_TAG_GAS_TANK 
-            38, -- EXP_TAG_FIREWORK 
-            39, -- EXP_TAG_SNOWBALL 
-            78, -- EXP_TAG_FLASHGRENADE 
-            79, -- EXP_TAG_STUNGRENADE 
-        }
+		-- Explosion Types: https://docs.fivem.net/natives/?_0xE3AD2BDBAEE269AC
+		whitelistedExplosionTypes = {
+			6, -- HI_OCTANE
+			7, -- CAR
+			8, -- PLANE
+			9, -- PETROL_PUMP
+			10, -- BIKE
+			11, -- DIR_STEAM
+			12, -- DIR_FLAME
+			13, -- DIR_WATER_HYDRANT
+			14, -- DIR_GAS_CANISTER
+			15, -- BOAT
+			16, -- SHIP_DESTROY
+			17, -- TRUCK
+			22, -- FLARE
+			23, -- GAS_CANISTER
+			24, -- EXTINGUISHER
+			27, -- EXP_TAG_BARREL
+			28, -- EXP_TAG_PROPANE
+			30, -- EXP_TAG_DIR_FLAME_EXPLODE
+			31, -- EXP_TAG_TANKER
+			34, -- EXP_TAG_GAS_TANK
+			38, -- EXP_TAG_FIREWORK
+			39, -- EXP_TAG_SNOWBALL
+			78, -- EXP_TAG_FLASHGRENADE
+			79 -- EXP_TAG_STUNGRENADE
+		}
 	},
-
-    -- Checks if a player tries to damage a too far away entity.
-    WeaponRange = {
+	-- Checks if a player tries to damage a too far away entity.
+	WeaponRange = {
 		enabled = true,
-        -- Max distance to taze somebody.
+		-- Max distance to taze somebody.
 		maxTazerRange = 15.0
 	},
-
-    -- Creates false events, that when triggered by a cheater ban them instantly.
-    -- A good startingpoint is always to add events from other frameworks (ESX, QBCore, vRP).
-    Events = {
+	-- Creates false events, that when triggered by a cheater ban them instantly.
+	-- A good startingpoint is always to add events from other frameworks (ESX, QBCore, vRP).
+	Events = {
 		enabled = true,
 		honeyPots = {
-            "example:event"
-            -- "esx:getSharedObject"
-        }
-	},
+			"example:event"
+			-- "esx:getSharedObject"
+		}
+	}
 }
 
 -- Objects that get instantly deleted (including vehicles).
