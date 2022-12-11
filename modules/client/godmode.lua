@@ -17,21 +17,11 @@ Citizen.CreateThread(function()
 		local postHealth = GetEntityHealth(ped)
 		if postHealth > modified and postHealth > 0 and not IsPedDeadOrDying(ped) then
 			TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C1]", false)
-			return
 		else
 			SetEntityHealth(ped, postHealth + rVal)
 		end
-	end
-end)
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(5000)
-		local ped = PlayerPedId()
-		local player = PlayerId()
-		local pedHealth = GetEntityHealth(ped)
-		local pedArmor = GetPedArmour(ped)
-
+		local pedHealth, pedArmor = GetEntityHealth(ped), GetPedArmour(ped)
 		if pedHealth > ClientConfig.Modules.Godmode.maxHealth or pedArmor > ClientConfig.Modules.Godmode.maxArmor then
 			TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C2]", false, {
 				health = pedHealth, 
@@ -39,7 +29,6 @@ Citizen.CreateThread(function()
 				armor = pedArmor,
 				maxArmor = ClientConfig.Modules.Godmode.maxArmor
 			})
-			return
 		end
 	end
 end)
