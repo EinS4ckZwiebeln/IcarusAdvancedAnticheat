@@ -37,7 +37,6 @@ AddEventHandler("icarus:my602oxd71pv", function(sender, reason, kick, optionalDa
 	source = tonumber(source)
 	if source ~= nil then
 		BanCheater(source, "Triggered Ban Event", false, {})
-		Citizen.Trace("source: " .. source .. "triggered for the client illegal ban event.")
 	else
 		BanCheater(tonumber(sender), reason, kick, optionalData)
 	end
