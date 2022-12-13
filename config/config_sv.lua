@@ -24,7 +24,7 @@ ServerConfig.UntilForcedHearbeat = 10 * 60000 -- ms
 ServerConfig.SecurityHashLength = 16
 
 -- EXPERIMENTAL: Scrambles all anticheat events on first server start.
-ServerConfig.Encryption = false
+ServerConfig.Scrambler = false
 
 -- Configure any module/detection to your servers needs.
 -- Beware that some values are very sensitive and could break everything.
