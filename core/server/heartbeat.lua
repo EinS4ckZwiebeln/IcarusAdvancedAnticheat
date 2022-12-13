@@ -24,7 +24,7 @@ Citizen.CreateThread(function()
 				Citizen.CreateThread(function()
 					local latency = GetPlayerPing(id)
 					if latency >= 0 and latency < ServerConfig.LatencyThreshold then
-						TriggerEvent("icarus:my602oxd71pv",id, "Client failed to send heartbeat to the server", true, {})
+						TriggerEvent("icarus:my602oxd71pv", id, "Client failed to send heartbeat to the server", true, {})
 					end
 				end)
 			end

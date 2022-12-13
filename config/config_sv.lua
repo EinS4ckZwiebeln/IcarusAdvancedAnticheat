@@ -47,7 +47,6 @@ ServerConfig.Modules = {
 		}
 	},
 	-- Filters non alphanumeric chat messages.
-	-- Other characters can be whitelisted via additionalRegex.
 	ChatFilter = {
 		enabled = false
 	},
@@ -104,8 +103,6 @@ ServerConfig.Modules = {
 	-- Take a look at 'ServerConfig.IllegalModels'.
 	EntityCreate = {
 		enabled = true,
-		-- Wether or not the entity is owned by a legit script.
-		checkForScriptOwnership = true,
 		-- Automatically bans the network owner of the illegal entity.
 		banNetworkOwner = true
 	},

@@ -1,9 +1,10 @@
+Godmode = {}
+
 if not ServerConfig.Modules.Godmode.enabled then
     return
 end
 
-AddEventHandler("weaponDamageEvent", function(sender, data)
-    sender = tonumber(sender)
+function Godmode.ProcessEventData(sender, data)
     local rawTargetData = data["hitGlobalId"] or data["hitGlobalIds"][1]
     local ped, target = GetPlayerPed(sender), NetworkGetEntityFromNetworkId(rawTargetData)
     
@@ -12,4 +13,4 @@ AddEventHandler("weaponDamageEvent", function(sender, data)
             TriggerEvent("icarus:my602oxd71pv", sender, "Godmode [C3]", false, {})
         end
     end
-end)
+end

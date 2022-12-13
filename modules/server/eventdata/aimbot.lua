@@ -1,3 +1,5 @@
+Aimbot = {}
+
 if not ServerConfig.Modules.Aimbot.enabled then
     return
 end
@@ -15,8 +17,7 @@ function GetForwardVector2D(pitch, yaw)
     return vec2(-sinYaw, (sinPitch * cosYaw))
 end
 
-AddEventHandler("weaponDamageEvent", function(sender, data)
-    sender = tonumber(sender)
+function Aimbot.ProcessEventData(sender, data)
     local weaponHash = data["weaponType"]
     if Util.IsMeleeWeapon(weaponHash) or Util.IsAOEWeapon(weaponHash) then
         return
@@ -43,4 +44,4 @@ AddEventHandler("weaponDamageEvent", function(sender, data)
             CancelEvent()
         end
     end
-end)
+end

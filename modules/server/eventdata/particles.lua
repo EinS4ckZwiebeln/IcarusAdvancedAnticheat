@@ -1,9 +1,10 @@
+Particles = {}
+
 if not ServerConfig.Modules.Particles.enabled then
     return
 end
 
-AddEventHandler("ptFxEvent", function(source, data)
-	source = tonumber(source)
+function Particles.ProcessEventData(source, data)
 	local entityNetId = data[4]
 	local entity = NetworkGetEntityFromNetworkId(entityNetId)
 
@@ -20,4 +21,4 @@ AddEventHandler("ptFxEvent", function(source, data)
 		TriggerEvent("icarus:my602oxd71pv", source, "ptFxEvent [C2]", false, {fxScale = scale})
 		CancelEvent()
 	end
-end)
+end

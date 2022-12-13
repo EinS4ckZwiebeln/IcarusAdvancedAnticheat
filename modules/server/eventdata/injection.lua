@@ -1,3 +1,5 @@
+Injection = {}
+
 if not ServerConfig.Modules.Injection.enabled then
     return
 end
@@ -13,7 +15,9 @@ end
 
 collectValidResourceList()
 
-AddEventHandler("onResourceListRefresh", collectValidResourceList)
+function Injection.ProcessEventData()
+    collectValidResourceList()
+end
 
 RegisterNetEvent("icarus:t98b173hbp66")
 AddEventHandler("icarus:t98b173hbp66", function(id, givenList)
