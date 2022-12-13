@@ -5,6 +5,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(ServerConfig.HeartbeatInterval)
 		local players = GetPlayers()
+		securityHash = Util.GetRandomVariable(ServerConfig.SecurityHashLength)
 
 		for i=1, #players do
 			local id = tonumber(players[i])
