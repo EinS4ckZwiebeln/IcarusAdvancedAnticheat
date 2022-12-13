@@ -90,7 +90,9 @@ ClientConfig.Modules = {
 
 	-- Detects Thermal and Nightvision cheats.
 	Vision = {
-		enabled = true
+		enabled = true,
+		-- Wether or not to ignore this check when the player is in a helicopter.
+		ignoreInHeli = true
 	},
 
 	-- Checks if the player camera is too far away.

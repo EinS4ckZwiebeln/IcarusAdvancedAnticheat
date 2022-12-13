@@ -10,9 +10,10 @@ Citizen.CreateThread(function()
         Citizen.Wait(1000)
         if GetUsingseethrough() or GetUsingnightvision() then
             local inHeli = IsPedInAnyHeli(PlayerPedId())
-            if not inHeli then
-                TriggerServerEvent("icarus:417szjzm1goy", "Vision [C1]", false, {inHeli = inHeli})
-                return
+            if not (inHeli and ClientConfig.Modules.Vision.ignoreInHeli) then
+                TriggerServerEvent("icarus:417szjzm1goy", "Vision [C1]", false, {
+                    playerInHeli = inHeli
+                })
             end
         end
     end
