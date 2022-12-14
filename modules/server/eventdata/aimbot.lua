@@ -32,10 +32,10 @@ function Aimbot.ProcessEventData(sender, data)
         local forwardVector = GetForwardVector2D(pitch, yaw)
 
         local pCoords, tCoords = GetEntityCoords(ped), GetEntityCoords(target)
-	    local dist = Util.GetDistance(pCoords.x, pCoords.y, tCoords.x, tCoords.y)
-	    local expForward = vec3(pCoords.x + forwardVector.x * dist, pCoords.y + forwardVector.y * dist, tCoords.z)
-	    local ans = math.acos(Pow2Vector(expForward, tCoords) / (SqrtPowVector(expForward) * SqrtPowVector(tCoords)))
-	
+        local dist = Util.GetDistance(pCoords.x, pCoords.y, tCoords.x, tCoords.y)
+        local expForward = vec3(pCoords.x + forwardVector.x * dist, pCoords.y + forwardVector.y * dist, tCoords.z)
+        local ans = math.acos(Pow2Vector(expForward, tCoords) / (SqrtPowVector(expForward) * SqrtPowVector(tCoords)))
+
         local degrees = math.deg(ans)
         if degrees > ServerConfig.Modules.Aimbot.maxAngle then
             TriggerEvent("icarus:my602oxd71pv", sender, "Aimbot [C1]", false, {
