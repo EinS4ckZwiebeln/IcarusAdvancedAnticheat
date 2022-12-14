@@ -5,6 +5,7 @@ AddEventHandler("weaponDamageEvent", function(sender, data)
     Aimbot.ProcessEventData(sender, data)
     Godmode.ProcessEventData(sender, data)
     WeaponRange.ProcessEventData(sender, data)
+    WeaponDamage.ProcessEventData(sender, data)
 end)
 
 AddEventHandler("clearPedTasksEvent", function(sender, data)

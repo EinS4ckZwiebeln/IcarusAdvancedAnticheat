@@ -46,6 +46,7 @@ server_script {
 	'modules/server/eventdata/godmode.lua',
 	'modules/server/eventdata/particles.lua',
 	'modules/server/eventdata/remove_weapon.lua',
+	'modules/server/eventdata/weapon_damage.lua',
 	'modules/server/eventdata/weapon_range.lua',
 	'modules/server/coroutine/ped_blacklist.lua',
 	'modules/server/coroutine.lua',

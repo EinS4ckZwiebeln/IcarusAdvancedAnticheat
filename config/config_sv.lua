@@ -89,6 +89,10 @@ ServerConfig.Modules = {
 	WeaponBlacklist = {
 		enabled = true
 	},
+	-- Filters damage data for blacklisted weapons.
+	WeaponDamage = {
+		enabled = true
+	},
 	-- Basic check for invincibility on player damage.
 	Godmode = {
 		enabled = true
