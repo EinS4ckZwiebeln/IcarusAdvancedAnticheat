@@ -109,7 +109,7 @@ end
 function Util.ConstructEmbed(source, reason, data)
 	return {{
 		["color"] = "8421631",
-		["title"] = "Icarus Data Collector v" .. Util.GetVersion(),
+		["title"] = "Icarus Anticheat v" .. Util.GetVersion(),
 		["fields"] = {
 			{
 				["name"] = "Violation",
