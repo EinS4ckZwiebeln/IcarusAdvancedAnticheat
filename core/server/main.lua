@@ -3,20 +3,27 @@ PerformHttpRequest("https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedA
 	if code == 200 then version = json.decode(data)[1].name end
 	
 	if not string.find(version, Util.GetVersion()) then
-		Citizen.Trace("This version of Icarus is outdated. Please update to the latest version!\n Latest Version: " .. version .. " | Current Version: v" .. Util.GetVersion() .. "\n https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat")
+		Citizen.Trace("This version of Icarus is outdated. Please update to the latest version!\nLatest Version: " .. version .. " | Current Version: v" .. Util.GetVersion() .. "\nhttps://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat\n")
 	end
 end)
 
 function BanCheater(source, reason, kick, optionalData)
-	source = tonumber(source)
+	if not optionalData then 
+		optionalData = "No optional data received" 
+	end
+	if ServerConfig.Debug then
+		Citizen.Trace(json.encode({
+			source = source,
+			reason = reason,
+			kicked = kick,
+			data = optionalData
+		}))
+		return
+	end
 	if not IsPlayerAceAllowed(source, ServerConfig.BypassAcePerm) then
-		reason = tostring(reason)
 		if not kick then
 			local webhooks = {}
 			if ServerConfig.DiscordWebhook then
-				if not optionalData then 
-					optionalData = "No optional data received" 
-				end
             	local embed = Util.ConstructEmbed(source, reason, json.encode(optionalData))
             	Util.SendEmbedToWebHook(ServerConfig.DiscordWebhook, "Icarus Anticheat", embed)
 				table.insert(webhooks, ServerConfig.DiscordWebhook)

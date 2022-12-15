@@ -1,5 +1,7 @@
 ServerConfig = {}
 
+ServerConfig.Debug = false
+
 ServerConfig.BypassAcePerm = "icarus.bypass"
 
 -- Ban data and game screenshots are send to this webhook.
