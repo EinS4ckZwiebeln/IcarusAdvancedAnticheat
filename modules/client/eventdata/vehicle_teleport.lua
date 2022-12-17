@@ -27,12 +27,14 @@ function CanEnterVehicle(vehicle)
 end
 
 function VehicleTeleport.ProcessEventData(name, data)
-    local vehicle = data[2]
-    if DoesEntityExist(vehicle) and not CanEnterVehicle(vehicle) then
-        TriggerServerEvent("icarus:417szjzm1goy", "Vehicle Teleport [C1]", false, {
-            vehicleSpeed = GetEntitySpeed(vehicle),
-            isInAir = IsEntityInAir(vehicle),
-            isUpsidedown = IsEntityUpsidedown(vehicle)
-        })
+    if name == "CEventNetworkPlayerEnteredVehicle" then
+        local vehicle = data[2]
+        if DoesEntityExist(vehicle) and not CanEnterVehicle(vehicle) then
+            TriggerServerEvent("icarus:417szjzm1goy", "Vehicle Teleport [C1]", false, {
+                vehicleSpeed = GetEntitySpeed(vehicle),
+                isInAir = IsEntityInAir(vehicle),
+                isUpsidedown = IsEntityUpsidedown(vehicle)
+            })
+        end
     end
 end
