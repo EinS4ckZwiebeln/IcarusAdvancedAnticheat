@@ -2,10 +2,15 @@ EventHandler = {}
 
 AddEventHandler("weaponDamageEvent", function(sender, data)
     sender = tonumber(sender)
-    Aimbot.ProcessEventData(sender, data)
-    Godmode.ProcessEventData(sender, data)
-    WeaponRange.ProcessEventData(sender, data)
-    WeaponDamage.ProcessEventData(sender, data)
+    local objects = {
+        Aimbot,
+        Godmode,
+        WeaponRange,
+        WeaponDamage
+    }
+    for i=1, #objects do
+        objects[i].ProcessEventData(sender, data)
+    end
 end)
 
 AddEventHandler("clearPedTasksEvent", function(sender, data)
