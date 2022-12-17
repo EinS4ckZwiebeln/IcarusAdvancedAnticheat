@@ -1,6 +1,6 @@
 ServerConfig = {}
 
-ServerConfig.Debug = false
+ServerConfig.Debug = GetConvar("IcarusDebug", "false") == "true"
 
 ServerConfig.BypassAcePerm = "icarus.bypass"
 
@@ -9,7 +9,6 @@ ServerConfig.DiscordWebhook = ""
 
 -- Add your own ban logic here.
 function issueBan(source, reason)
-	source = tonumber(source)
 	TriggerEvent("EasyAdmin:banPlayer", source, "Cheating (" .. reason .. ")", 1044463300) -- EasyAdmin for the sake of simplicity.
 end
 
@@ -31,7 +30,7 @@ ServerConfig.Scrambler = false
 -- Configure any module/detection to your servers needs.
 -- Beware that some values are very sensitive and could break everything.
 ServerConfig.Modules = {
-	-- Checks if the player runs any unkown resources.
+	-- Checks if the player runs any unknown resources.
 	Injection = {
 		enabled = true
 	},
