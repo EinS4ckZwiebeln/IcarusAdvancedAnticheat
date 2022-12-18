@@ -22,7 +22,7 @@ function WeaponModifier.ProcessEventData(sender, data)
 	local defenseMod2 = GetPlayerWeaponDefenseModifier_2(sender)
 	if defenseMod2 > 1.0 then
 		TriggerEvent("icarus:my602oxd71pv", sender, "Weapon Modifier [C4]", false, {
-			defenseMod
+			defenseMod2 = defenseMod2
 		})
 		CancelEvent()
 	end
