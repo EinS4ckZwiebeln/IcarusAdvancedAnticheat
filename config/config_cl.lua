@@ -64,11 +64,6 @@ ClientConfig.Modules = {
 		enabled = true
 	},
 
-	-- Checks for damage modifiers on the players weapon.
-	WeaponModifier = {
-		enabled = true
-	},
-
 	-- Checks for blacklisted damage types.
 	ExplosiveBullet = {
 		enabled = true,

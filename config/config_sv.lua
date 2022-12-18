@@ -94,6 +94,11 @@ ServerConfig.Modules = {
 	WeaponDamage = {
 		enabled = true
 	},
+	-- Detects weapon modifier greater than the 1.0 default.
+	-- Disable this if you have any resources that increase weapon damage or similar.
+	WeaponModifier = {
+		enabled = true,
+	},
 	-- Basic check for invincibility on player damage.
 	Godmode = {
 		enabled = true

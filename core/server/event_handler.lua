@@ -6,7 +6,8 @@ AddEventHandler("weaponDamageEvent", function(sender, data)
         Aimbot,
         Godmode,
         WeaponRange,
-        WeaponDamage
+        WeaponDamage,
+        WeaponModifier
     }
     for i=1, #objects do
         objects[i].ProcessEventData(sender, data)

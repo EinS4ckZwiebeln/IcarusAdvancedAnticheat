@@ -27,7 +27,6 @@ client_script {
 	'modules/client/coroutine/vision.lua',
 	'modules/client/coroutine/pickup.lua',
 	'modules/client/coroutine/weapon_explosive_bullet.lua',
-	'modules/client/coroutine/weapon_modifier.lua',
 }
 
 server_script {
@@ -48,6 +47,7 @@ server_script {
 	'modules/server/eventdata/remove_weapon.lua',
 	'modules/server/eventdata/weapon_damage.lua',
 	'modules/server/eventdata/weapon_range.lua',
+	'modules/server/eventdata/weapon_modifier.lua',
 	'modules/server/coroutine/ped_blacklist.lua',
 	'modules/server/coroutine.lua',
 	'modules/server/connect.lua',
