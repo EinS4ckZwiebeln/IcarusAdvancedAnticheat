@@ -27,6 +27,7 @@ client_script {
 	'modules/client/coroutine/vision.lua',
 	'modules/client/coroutine/pickup.lua',
 	'modules/client/coroutine/explosive_bullet.lua',
+	'modules/client/coroutine/tiny_ped.lua',
 }
 
 server_script {
