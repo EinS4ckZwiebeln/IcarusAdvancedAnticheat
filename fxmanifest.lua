@@ -26,7 +26,7 @@ client_script {
 	'modules/client/coroutine/superjump.lua',
 	'modules/client/coroutine/vision.lua',
 	'modules/client/coroutine/pickup.lua',
-	'modules/client/coroutine/weapon_explosive_bullet.lua',
+	'modules/client/coroutine/explosive_bullet.lua',
 }
 
 server_script {
