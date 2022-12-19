@@ -20,6 +20,7 @@ Icarus is a brand-new work in progress anticheat solution for your FiveM role-pl
 | Anti ResourceStopper | Anti IllegalDamage |  |
 | Anti Spectate | Anti WeaponModifier |  |
 | Anti NoClip |  |  |
+| Anti TinyPed |  |  |
 
 ### Installation
 1. Clone or download this repository.
