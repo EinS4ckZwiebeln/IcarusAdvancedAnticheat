@@ -30,10 +30,12 @@ ServerConfig.Scrambler = false
 -- Configure any module/detection to your servers needs.
 -- Beware that some values are very sensitive and could break everything.
 ServerConfig.Modules = {
+	
 	-- Checks if the player runs any unknown resources.
 	Injection = {
 		enabled = true
 	},
+	
 	-- Everything connection related.
 	Connect = {
 		-- Prevents players using a VPN client from connecting.
@@ -41,21 +43,25 @@ ServerConfig.Modules = {
 			enabled = false,
 			rejectionMsg = "Connecting via a VPN is not allowed. Please disable your VPN in order to connect."
 		},
+		
 		-- Filters non alphanumeric playernames.
 		NameFilter = {
 			enabled = false,
 			rejectionMsg = "Your name contains non alphanumeric (a-Z, 0-9) characters. Please consider changing your name in order to connect."
 		}
 	},
+	
 	-- Filters non alphanumeric chat messages.
 	ChatFilter = {
 		enabled = false
 	},
+	
 	-- Used for 'rape' or 'troll' functions in mod menus.
 	-- Leaving this enabled is highly recommended.
 	ClearTasks = {
 		enabled = true
 	},
+	
 	-- Detects if a player has a non whitelisted playermodel (eg. monkey).
 	PedBlacklist = {
 		enabled = true,
@@ -72,43 +78,52 @@ ServerConfig.Modules = {
 			"a_m_y_hipster_02"
 		}
 	},
+	
 	-- Detects if the shooter is somewhat looking at his target.
 	Aimbot = {
 		enabled = true,
 		-- Increment this by 1.0 (up to 6.0) if Aimbot C1 false positives occur.
 		maxAngle = 3.0
 	},
+	
 	-- Detects if a cheater gives weapons to others.
 	GiveWeapon = {
 		enabled = true
 	},
+	
 	-- Detects if a cheater removes weapons from others.
 	RemoveWeapon = {
 		enabled = true
 	},
+	
 	-- Take a look at 'ServerConfig.BlacklistedWeapons'.
 	WeaponBlacklist = {
 		enabled = true
 	},
+	
 	-- Filters damage data for blacklisted weapons.
 	WeaponDamage = {
 		enabled = true
 	},
+	
 	-- Detects weapon modifier greater than the 1.0 default.
 	-- Disable this if you have any resources that increase weapon damage or similar.
 	WeaponModifier = {
 		enabled = true,
 	},
+	
 	-- Basic check for invincibility on player damage.
 	Godmode = {
 		enabled = true
 	},
+	
 	-- Checks for various suspicious particle scenarios.
 	Particles = {
 		enabled = true,
 		-- Detects unsually large particle effects (greater 10.0).
 		maxScale = 10.0
 	},
+	
 	-- Detects blacklisted entities/vehicles.
 	-- Take a look at 'ServerConfig.IllegalModels'.
 	EntityCreate = {
@@ -116,6 +131,7 @@ ServerConfig.Modules = {
 		-- Automatically bans the network owner of the illegal entity.
 		banNetworkOwner = true
 	},
+	
 	-- Bans players for causing a non whitelisted explosion.
 	ExplosionFilter = {
 		enabled = true,
@@ -147,19 +163,46 @@ ServerConfig.Modules = {
 			79 -- EXP_TAG_STUNGRENADE
 		}
 	},
+	
 	-- Checks if a player tries to damage a too far away entity.
 	WeaponRange = {
 		enabled = true,
 		-- Max distance to taze somebody.
 		maxTazerRange = 15.0
 	},
-	-- Creates false events, that when triggered by a cheater ban them instantly.
-	-- A good startingpoint is always to add events from other frameworks (ESX, QBCore, vRP).
+	
+	-- Hooks into pre-existing events and bans the player if the condition is met.
+	-- A good startingpoint is always to add events that can be exploited by cheaters.
 	Events = {
 		enabled = true,
 		honeyPots = {
-			"example:event"
-			-- "esx:getSharedObject"
+			--[[
+			{
+				event = "your:event",
+				condition = function()
+					if <your_condition> then
+						-- If met bans the player/source.
+						return true
+					end
+					-- Everything is alright.
+					return false
+				end
+			}
+			--]]
+			{
+				event = "esx-qalle-jail:jailPlayer",
+				condition = function()
+					ESX = nil
+					TriggerEvent("esx:getSharedObject", function(obj)
+						ESX = obj 
+					end)
+					local xPlayer = ESX.GetPlayerFromId(source)
+					if xPlayer.getJob().name ~= "police" then
+						return true
+					end
+					return false
+				end
+			}
 		}
 	}
 }

@@ -3,9 +3,15 @@ if not ServerConfig.Modules.Events.enabled then
 end
 
 local honeypots = ServerConfig.Modules.Events.honeyPots
+
 for i=1, #honeypots do
-    AddEventHandler(honeypots[i], function(source, ...)
+    AddEventHandler(honeypots[i].event, function(...)
         source = tonumber(source)
-        TriggerEvent("icarus:my602oxd71pv", source, "Illegal Event [C1]", false, {eventName = honeypots[i]})
+        if honeypots[i].condition() then
+            TriggerEvent("icarus:my602oxd71pv", source, "Illegal Event [C1]", false, {
+                eventName = honeypots[i],
+                condition = honeypots[i].condition()
+            })
+        end
     end)
 end
