@@ -53,6 +53,11 @@ ClientConfig.Modules = {
 		enabled = true
 	},
 
+	-- Detects TinyPed cheat.
+	TinyPed = {
+		enabled = true
+	},
+
 	-- Detects unusually fast movement.
 	-- Maybe be prone to some false positives depending on your servers scripts.
 	Speed = {
