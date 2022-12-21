@@ -21,13 +21,8 @@ client_script {
 	'modules/client/coroutine/godmode.lua',
 	'modules/client/coroutine/injection.lua',
 	'modules/client/coroutine/noclip.lua',
-	'modules/client/coroutine/spectate.lua',
-	'modules/client/coroutine/speed.lua',
 	'modules/client/coroutine/superjump.lua',
-	'modules/client/coroutine/vision.lua',
 	'modules/client/coroutine/pickup.lua',
-	'modules/client/coroutine/explosive_bullet.lua',
-	'modules/client/coroutine/tiny_ped.lua',
 }
 
 server_script {
@@ -36,6 +31,7 @@ server_script {
 	'core/server/event_handler.lua',
 	'core/server/heartbeat.lua',
 	'core/server/scrambler.lua',
+	'core/server/injection.lua',
 	'modules/server/eventdata/clear_tasks.lua',
 	'modules/server/eventdata/chat_filter.lua',
 	'modules/server/eventdata/entity_create.lua',
