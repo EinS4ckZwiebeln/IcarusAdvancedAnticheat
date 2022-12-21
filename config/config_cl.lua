@@ -14,6 +14,10 @@ ClientConfig.Modules = {
 		enabled = true
 	},
 
+	Blips = {
+		enabled = true
+	},
+
 	-- Can detect if the player is using aimbot.
 	Aimbot = {
 		enabled = true,
