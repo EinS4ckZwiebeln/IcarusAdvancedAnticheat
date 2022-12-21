@@ -1,9 +1,13 @@
 CreateThread(function()
     if not ServerConfig.Modules.InjectClient.enabled then return end
+    -- This loads the script as a string, and sends it to the client for processing, the result is returned in the event on line 30.
+    local script = LoadResourceFile(Util.GetResourceName(), "payload/client_payload.lua")
+    if not script then
+        Citizen.Trace("failed to load client payload script")
+        return 
+    end
+
     while true do
-        -- This loads the script as a string, and sends it to the client for processing, the result is returned in icarus:pong on line 30
-        local script = LoadResourceFile(GetCurrentResourceName(), "anticheat_injector.lua")
-        if not script then return end
         for _, src in ipairs(GetPlayers()) do
             src = tonumber(src)
             if GetPlayerLastMsg(src) >= 65535 then goto continue end -- if the player is not connected.
@@ -14,12 +18,11 @@ CreateThread(function()
     end
 end)
 
-
--- The results returned from the anticheat_injector.lua file
+-- The results returned from the client_payload.lua file.
 local detections = {
-    blips = {false, "Player blips"},
-    nightVision = {false, "Vision [C1]"},
-    thermalVision = {false, "Vision [C1]"},
+    blips = {false, "Player Blips [C1]"},
+    nightVision = {false, "Nightvision [C1]"},
+    thermalVision = {false, "Thermalvision [C1]"},
     blacklistedDamageType = {false, "Explosive Bullet [C1]"},
     brokeMaxSpeed = {false, "Speed [C1]"},
     spectate = {false, "Spectate [C1]"},
@@ -38,5 +41,4 @@ RegisterNetEvent("icarus:w7t8gc7dps21", function(retval, result)
             return
         end
     end
-
 end)
