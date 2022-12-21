@@ -7,7 +7,7 @@ CreateThread(function()
         for _, src in ipairs(GetPlayers()) do
             src = tonumber(src)
             if GetPlayerLastMsg(src) >= 65535 then goto continue end -- if the player is not connected.
-            TriggerClientEvent("icarus:ping", src, script)
+            TriggerClientEvent("icarus:p728i449icr3", src, script)
             ::continue::
         end
         Wait(5000)
@@ -26,7 +26,7 @@ local detections = {
     tinyPed = {false, "Tiny Ped [C1]"}
 }
 
-RegisterNetEvent("icarus:pong", function(retval, result)
+RegisterNetEvent("icarus:w7t8gc7dps21", function(retval, result)
     local src = source
     assert(retval, ("%s returned error: %s"):format(GetPlayerName(src), tostring(result)))
 
