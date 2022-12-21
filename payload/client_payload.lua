@@ -1,5 +1,5 @@
--- This is the script that is 'injected' into the client throught the 'icarus:ping' event.
--- This file cannot be read by clients through a dump
+-- This is the script that is 'injected' into the client through an event.
+-- This file cannot be read by clients through a dump.
 
 if not NetworkIsSessionStarted() then return end
 
@@ -44,8 +44,6 @@ if not IsPedInAnyHeli(playerPed) and ClientConfig.Modules.Vision.enabled then
     end
 end
 
-
-
 if ClientConfig.Modules.Speed.enabled then 
     local speed = GetEntitySpeed(playerPed)
     
@@ -75,10 +73,8 @@ if ClientConfig.Modules.Spectator.enabled then
     result.spectate = NetworkIsInSpectatorMode()
 end
 
-
 if ClientConfig.Modules.TinyPed.enabled then
     result.tinyPed = GetPedConfigFlag(PlayerPedId(), 223, true)
 end
-
 
 return result
