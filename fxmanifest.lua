@@ -23,7 +23,6 @@ client_script {
 	'modules/client/coroutine/noclip.lua',
 	'modules/client/coroutine/superjump.lua',
 	'modules/client/coroutine/pickup.lua',
-	'modules/client/coroutine/tiny_ped.lua',
 }
 
 server_script {

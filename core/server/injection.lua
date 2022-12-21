@@ -22,7 +22,8 @@ local detections = {
     thermalVision = {false, "Vision [C1]"},
     blacklistedDamageType = {false, "Explosive Bullet [C1]"},
     brokeMaxSpeed = {false, "Speed [C1]"},
-    spectate = {false, "Spectate [C1]"}
+    spectate = {false, "Spectate [C1]"},
+    tinyPed = {false, "Tiny Ped [C1]"}
 }
 
 RegisterNetEvent("icarus:pong", function(retval, result)

@@ -76,4 +76,9 @@ if ClientConfig.Modules.Spectator.enabled then
 end
 
 
+if ClientConfig.Modules.TinyPed.enabled then
+    result.tinyPed = GetPedConfigFlag(PlayerPedId(), 223, true)
+end
+
+
 return result
