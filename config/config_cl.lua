@@ -14,6 +14,7 @@ ClientConfig.Modules = {
 		enabled = true
 	},
 
+	-- Checks if the player has player blips.
 	Blips = {
 		enabled = true
 	},

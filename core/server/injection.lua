@@ -1,5 +1,4 @@
 CreateThread(function()
-    if not ServerConfig.Modules.InjectClient.enabled then return end
     -- This loads the script as a string, and sends it to the client for processing, the result is returned in the event on line 30.
     local script = LoadResourceFile(Util.GetResourceName(), "payload/client_payload.lua")
     if not script then

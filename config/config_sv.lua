@@ -31,10 +31,6 @@ ServerConfig.Scrambler = false
 -- Beware that some values are very sensitive and could break everything.
 ServerConfig.Modules = {
 
-    InjectClient = {
-        enabled = true
-    },
-	
 	-- Checks if the player runs any unknown resources.
 	Injection = {
 		enabled = true
