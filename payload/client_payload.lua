@@ -77,4 +77,29 @@ if ClientConfig.Modules.TinyPed.enabled then
     result.tinyPed = GetPedConfigFlag(PlayerPedId(), 223, true)
 end
 
+if ClientConfig.Modules.FreeCam.enabled then
+    local function IsValidSituation()
+        if IsPlayerCamControlDisabled() or not IsGameplayCamRendering() then
+            return false
+        end
+        return true
+    end
+
+    local contextTable = {
+        [0] = 18.0,
+        [1] = 20.0,
+        [2] = 20.0,
+        [3] = 30.0,
+        [4] = 30.0,
+        [5] = 30.0,
+        [6] = 30.0,
+        [7] = 20.0,
+    }
+
+    local camcoords, contextValue = (GetEntityCoords(playerPed) - GetFinalRenderedCamCoord()), contextTable[GetCamActiveViewModeContext()]
+    if IsValidSituation() and ((camcoords.x > contextValue) or (camcoords.y > contextValue) or (camcoords.z > contextValue) or (camcoords.x < -contextValue) or (camcoords.y < -contextValue) or (camcoords.z < -contextValue)) then
+        result.freeCam = true
+    end
+end
+
 return result
