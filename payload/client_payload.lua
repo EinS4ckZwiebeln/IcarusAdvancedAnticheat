@@ -29,7 +29,7 @@ if ClientConfig.Modules.ExplosiveBullet.enabled then
         return false
     end
     
-    if IsIllegalDamage(GetWeaponDamageType(GetSelectedPedWeapon(PlayerPedId()))) then
+    if IsIllegalDamage(GetWeaponDamageType(GetSelectedPedWeapon(playerPed))) then
         result.blacklistedDamageType = true
     end
 end
@@ -74,7 +74,7 @@ if ClientConfig.Modules.Spectator.enabled then
 end
 
 if ClientConfig.Modules.TinyPed.enabled then
-    result.tinyPed = GetPedConfigFlag(PlayerPedId(), 223, true)
+    result.tinyPed = GetPedConfigFlag(playerPed, 223, true)
 end
 
 if ClientConfig.Modules.FreeCam.enabled then
