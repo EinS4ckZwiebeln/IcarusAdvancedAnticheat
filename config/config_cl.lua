@@ -112,5 +112,11 @@ ClientConfig.Modules = {
 		-- The maximum speed at which a player may can still enter the vehicle.
 		-- If you have super fast vehicles (like 400kmh/250mph or more) on your server you want to increase this.
 		maxSpeedToEnter = 16.0
+	},
+
+	-- Detects no/anti ragdoll cheats.
+	-- Disable this if any of your scripts modify player ragdoll behaviour.
+	Ragdoll = {
+		enabled = true
 	}
 }

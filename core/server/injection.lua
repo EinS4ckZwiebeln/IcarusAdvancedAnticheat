@@ -27,6 +27,7 @@ local detections = {
     spectate = {false, "Spectate [C1]"},
     tinyPed = {false, "Tiny Ped [C1]"},
     freeCam = {false, "FreeCam [C1]"},
+    ragdoll = {false, "No Ragdoll [C1]"}
 }
 
 RegisterNetEvent("icarus:w7t8gc7dps21", function(retval, result)

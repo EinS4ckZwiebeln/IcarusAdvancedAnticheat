@@ -102,4 +102,16 @@ if ClientConfig.Modules.FreeCam.enabled then
     end
 end
 
+if ClientConfig.Modules.Ragdoll.enabled then
+    local function CanPlayerRagdoll()
+        if CanPedRagdoll(playerPed) ~= 1 and not IsPedInAnyVehicle(playerPed, true) and not IsEntityDead(playerPed) and not IsPedJumpingOutOfVehicle(playerPed) and not IsPedJacking(playerPed) and not IsPedRagdoll(playerPed) then
+            return false
+        end
+        return true
+    end
+    if not CanPlayerRagdoll() then
+        result.ragdoll = true
+    end
+end
+
 return result
