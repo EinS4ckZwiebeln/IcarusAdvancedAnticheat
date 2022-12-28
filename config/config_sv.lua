@@ -5,6 +5,7 @@ ServerConfig.Debug = GetConvar("IcarusDebug", "false") == "true"
 ServerConfig.BypassAcePerm = "icarus.bypass"
 
 -- Ban data and game screenshots are send to this webhook.
+-- Screenshot-basic is necessary for this feature to work.
 ServerConfig.DiscordWebhook = ""
 
 -- Add your own ban logic here.
