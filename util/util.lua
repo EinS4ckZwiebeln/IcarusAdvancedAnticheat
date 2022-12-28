@@ -106,7 +106,7 @@ function Util.GetIdentifier(source, type)
     return (type .. "unknownlicense")
 end
 
-function Util.ConstructEmbed(source, reason, data)
+function Util.ConstructEmbed(source, reason, data, fileName)
 	return {{
 		["color"] = "8421631",
 		["title"] = "Icarus Anticheat v" .. Util.GetVersion(),
@@ -137,24 +137,13 @@ function Util.ConstructEmbed(source, reason, data)
 				["inline"] = false
 			},
 		},
+        ["image"] = {
+            ["url"] = "attachment://" .. fileName
+        },
 		["footer"] = {
-			["text"] = "Icarus Data Collector", 
-			["icon_url"] = nil
+			["text"] = "Icarus Data Collector"
 		}
 	}}
-end
-
-function Util.SendEmbedToWebHook(url, username, data)
-    PerformHttpRequest(url, function(err, text, headers) 
-        if not (err == 204 or err == 0) then 
-            Citizen.Trace("error: " .. err)
-        end
-    end, "POST", json.encode({
-        ["username"] = username,
-        ["embeds"] = data,
-    }), {
-        ["Content-Type"] = "application/json"
-    })
 end
 
 function Util.GetDistance(x1, y1, x2, y2)

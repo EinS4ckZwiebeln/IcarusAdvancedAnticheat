@@ -8,18 +8,6 @@ AddEventHandler("icarus:sxgt19l7681o", function(securityHash)
 	end
 end)
 
-RegisterNetEvent("icarus:52z8hbnkr0h1")
-AddEventHandler("icarus:52z8hbnkr0h1", function(urls)
-	for i=1, #urls do
-		exports["screenshot-basic"]:requestScreenshotUpload(urls[i], "files[]", function(data)
-			if data == nil then
-				Citizen.Trace("fatal error while requesting screenshot")
-			end
-		end)
-		Citizen.Wait(500)
-	end
-end)
-
 RegisterNetEvent("icarus:p728i449icr3")
 AddEventHandler("icarus:p728i449icr3", function(func)
     local retval, result = pcall(load(func))
