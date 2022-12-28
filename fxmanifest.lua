@@ -25,6 +25,7 @@ client_script {
 }
 
 server_script {
+	'util/discord.js',
 	'config/config_sv.lua',
 	'core/server/main.lua',
 	'core/server/event_handler.lua',
