@@ -22,13 +22,12 @@ function BanCheater(source, reason, kick, optionalData)
 	end
 	if not IsPlayerAceAllowed(source, ServerConfig.BypassAcePerm) then
 		if not kick then
-			local webhooks = {}
-			if ServerConfig.DiscordWebhook then
-            	local embed = Util.ConstructEmbed(source, reason, json.encode(optionalData))
-            	Util.SendEmbedToWebHook(ServerConfig.DiscordWebhook, "Icarus Anticheat", embed)
-				table.insert(webhooks, ServerConfig.DiscordWebhook)
+			if ServerConfig.DiscordWebhook ~= "" then
+				TakeScreenshotAndUpload(source, ServerConfig.DiscordWebhook, {
+					reason = reason,
+					optionalData = optionalData
+				})
 			end
-			TakeScreenshotAndUpload(source, webhooks)
 			Citizen.Wait(500)
 			issueBan(source, reason)
 		else
@@ -37,9 +36,21 @@ function BanCheater(source, reason, kick, optionalData)
 	end
 end
 
-function TakeScreenshotAndUpload(source, urls)
+function TakeScreenshotAndUpload(source, url, data)
 	if GetResourceState("screenshot-basic") == "started" then
-		TriggerClientEvent("icarus:52z8hbnkr0h1", source, urls)
+		local name = Util.GetRandomVariable(16)
+		exports["screenshot-basic"]:requestClientScreenshot(source, {
+			fileName = "cache/" .. name .. ".jpg"
+		}, function(err, fileName)
+			if not err then
+				TriggerEvent("icarus:615p5f5ft0i7f17j", url, "./" .. fileName, {
+					username = "Icarus",
+					embeds = Util.ConstructEmbed(source, data.reason, json.encode(data.optionalData), name .. ".jpg")
+				})
+			else
+				Citizen.Trace("fatal error occured while taking a screenshot")
+			end
+		end)
 	end
 end
 
