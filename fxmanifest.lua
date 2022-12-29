@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'Icarus Advanced Anticheat'
 
-version '1.2.0'
+version '1.2.1'
 
 lua54 'yes'
 
@@ -26,6 +26,7 @@ client_script {
 
 server_script {
 	'util/discord.js',
+	'util/onscreen.js',
 	'config/config_sv.lua',
 	'core/server/main.lua',
 	'core/server/event_handler.lua',
