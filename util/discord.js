@@ -7,6 +7,7 @@ const sendFileWithPayload = async (url, path, data) => {
     form.append("file0", fs.readFileSync(path), path);
     form.append("payload_json", JSON.stringify(data));
     await axios.post(url, form);
+    fs.unlinkSync(path);
 }
 
 on("icarus:615p5f5ft0i7f17j", (url, path, data) => {
