@@ -1,7 +1,7 @@
 -- This is the script that is 'injected' into the client through an event.
 -- This file cannot be read by clients through a dump.
 
-if not NetworkIsSessionStarted() then return end
+if not Util.IsPlayerSpawned() then return end
 
 local result = {}
 local playerPed = PlayerPedId()

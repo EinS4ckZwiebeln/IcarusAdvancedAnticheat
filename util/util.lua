@@ -31,8 +31,8 @@ function Util.IsPlayerSpawned()
     if isSpawned then
         return true
     else
-        if HasCollisionLoadedAroundEntity(PlayerPedId()) then
-            Citizen.Wait(1000)
+        if NetworkIsSessionActive() then
+            Citizen.Wait(5000)
             return true
         else
             return false
