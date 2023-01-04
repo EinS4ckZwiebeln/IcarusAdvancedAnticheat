@@ -14,8 +14,8 @@ on("icarus:615p5f5ft0i7f17j", (url, path, data) => {
     if (url != "" && url != null) {
         try {
             sendFileWithPayload(url, path, data);
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.error(err);
         }
     } else {
         console.log("url cannot be null or an empty string");
