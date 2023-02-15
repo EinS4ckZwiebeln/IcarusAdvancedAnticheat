@@ -8,8 +8,8 @@ AddEventHandler("weaponDamageEvent", function(sender, data)
         WeaponRange,
         WeaponDamage,
         WeaponModifier
-    }
-    for i=1, #objects do
+     }
+    for i = 1, #objects do
         objects[i].ProcessEventData(sender, data)
     end
 end)
@@ -55,4 +55,12 @@ end)
 
 AddEventHandler("onResourceListRefresh", function()
     Injection.ProcessEventData()
+end)
+
+AddEventHandler("playerEnteredScope", function(data)
+    PedBlacklist.ProcessEventData(data)
+end)
+
+AddEventHandler("playerLeftScope", function(data)
+    PedBlacklist.ProcessEventData(data)
 end)
