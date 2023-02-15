@@ -1,14 +1,15 @@
 -- This is the script that is 'injected' into the client through an event.
 -- This file cannot be read by clients through a dump.
-
-if not Util.IsPlayerSpawned() then return end
+if not Util.IsPlayerSpawned() then
+    return
+end
 
 local result = {}
 local playerPed = PlayerPedId()
 
 if ClientConfig.Modules.Blips.enabled then
     -- Entity Blips
-    for _, player in ipairs(GetActivePlayers()) do 
+    for _, player in ipairs(GetActivePlayers()) do
         local playerPed = GetPlayerPed(player)
         if DoesBlipExist(GetBlipFromEntity(playerPed)) then
             result.blips = true
@@ -21,14 +22,14 @@ end
 if ClientConfig.Modules.ExplosiveBullet.enabled then
     local function IsIllegalDamage(type)
         local hashes = ClientConfig.Modules.ExplosiveBullet.blacklistedTypes
-        for i=1, #hashes do
+        for i = 1, #hashes do
             if hashes[i] == type then
                 return true
             end
         end
         return false
     end
-    
+
     if IsIllegalDamage(GetWeaponDamageType(GetSelectedPedWeapon(playerPed))) then
         result.blacklistedDamageType = true
     end
@@ -36,17 +37,17 @@ end
 
 if not IsPedInAnyHeli(playerPed) and ClientConfig.Modules.Vision.enabled then
     -- Night vision/Thermal Checker
-    if GetUsingnightvision() then 
+    if GetUsingnightvision() then
         result.nightVision = true
     end
-    if GetUsingseethrough() then 
+    if GetUsingseethrough() then
         result.thermalVision = true
     end
 end
 
-if ClientConfig.Modules.Speed.enabled then 
+if ClientConfig.Modules.Speed.enabled then
     local speed = GetEntitySpeed(playerPed)
-    
+
     if not IsPedInAnyVehicle(playerPed, true) or IsPedRagdoll(playerPed) then
         local maxSpeed = 14.0
         if IsEntityInAir(playerPed) then
@@ -62,14 +63,14 @@ if ClientConfig.Modules.Speed.enabled then
                 end
             end
         end
-    
+
         if speed > maxSpeed then
             result.brokeMaxSpeed = true
         end
     end
 end
 
-if ClientConfig.Modules.Spectator.enabled then 
+if ClientConfig.Modules.Spectator.enabled then
     result.spectate = NetworkIsInSpectatorMode()
 end
 
@@ -87,14 +88,14 @@ if ClientConfig.Modules.FreeCam.enabled then
 
     local contextTable = {
         [0] = 18.0,
-        [1] = 20.0,
+        [1] = 28.0,
         [2] = 20.0,
         [3] = 30.0,
         [4] = 30.0,
         [5] = 30.0,
         [6] = 30.0,
-        [7] = 20.0,
-    }
+        [7] = 20.0
+     }
 
     local camcoords, contextValue = (GetEntityCoords(playerPed) - GetFinalRenderedCamCoord()), contextTable[GetCamActiveViewModeContext()]
     if IsValidSituation() and ((camcoords.x > contextValue) or (camcoords.y > contextValue) or (camcoords.z > contextValue) or (camcoords.x < -contextValue) or (camcoords.y < -contextValue) or (camcoords.z < -contextValue)) then
