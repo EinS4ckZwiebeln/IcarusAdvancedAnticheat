@@ -1,3 +1,5 @@
+local ignoredPlayers = {}
+
 function BanCheater(source, reason, kick, optionalData)
     if not optionalData then
         optionalData = "No optional data received"
@@ -11,7 +13,7 @@ function BanCheater(source, reason, kick, optionalData)
          }))
         return
     end
-    if not IsPlayerAceAllowed(source, ServerConfig.BypassAcePerm) then
+    if not IsPlayerAceAllowed(source, ServerConfig.BypassAcePerm) and not Util.TableContains(API.excusedPlayers, source) then
         if not kick then
             if ServerConfig.DiscordWebhook ~= "" then
                 TakeScreenshotAndUpload(source, ServerConfig.DiscordWebhook, {

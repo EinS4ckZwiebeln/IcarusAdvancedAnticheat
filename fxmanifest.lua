@@ -24,6 +24,7 @@ client_script {
  }
 
 server_script {
+    "exports.lua",
     "util/discord.js",
     "config/config_sv.lua",
     "core/server/update.js",
@@ -54,6 +55,11 @@ server_script {
 
 shared_script {
     "util/util.lua"
+ }
+
+server_export {
+    "AddExcuseForPlayer",
+    "RemoveExcuseFromPlayer"
  }
 
 dependencies {
