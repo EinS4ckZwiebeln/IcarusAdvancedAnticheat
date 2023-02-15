@@ -6,7 +6,7 @@ end
 
 local hashList = Util.HashifyList(ServerConfig.Modules.PedBlacklist.playerModels)
 
-function PedBlacklist.ProcessEventData(sender, data)
+function PedBlacklist.ProcessEventData(data)
     local player = tonumber(data["player"])
     if player > 0 then
         local ped = GetPlayerPed(player)
