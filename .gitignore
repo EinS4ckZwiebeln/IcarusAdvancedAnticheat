@@ -1,0 +1,7 @@
+# Extensions
+*.gitignore
+*.installed
+*.lock
+
+# Directories
+node_modules/
