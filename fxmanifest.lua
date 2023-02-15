@@ -15,7 +15,6 @@ client_script {
     "modules/client/eventdata/pickup.lua",
     "modules/client/eventdata/resource_stopper.lua",
     "modules/client/eventdata/vehicle_teleport.lua",
-    "modules/client/coroutine/aimbot.lua",
     "modules/client/coroutine/dui_textures.lua",
     "modules/client/coroutine/godmode.lua",
     "modules/client/coroutine/injection.lua",
