@@ -1,12 +1,10 @@
 # Icarus Advanced Anticheat
-Open source anticheat developed for FiveM.
-
 Icarus is a brand-new work in progress anticheat solution for your FiveM role-playing server. It offers many unique detections and a great variety of checks to catch cheaters. Currently, Icarus is still in an alpha state, so don't expect a silver bullet from this. False positives or bugs may occur, but giving this a shot might be worth it to you. Issues and pull requests are always appreciated!
 
 ### Features
 | Client | Server | Other |
 |--------|--------|---------|
-| Anti Aimbot | Anti Aimbot | Heartbeat |
+| Anti NoClip | Anti Aimbot | Heartbeat |
 | Anti DUI | Anti ClearTasks | Regex Filters |
 | Anti FreeCam | Anti EntityCreate | No VPN |
 | Anti PickUp | Anti Explosions | Honeypots |
@@ -19,7 +17,6 @@ Icarus is a brand-new work in progress anticheat solution for your FiveM role-pl
 | Anti Explosives | Anti Weapons |  |
 | Anti ResourceStopper | Anti IllegalDamage |  |
 | Anti Spectate | Anti WeaponModifier |  |
-| Anti NoClip |  |  |
 | Anti TinyPed |  |  |
 | Anti Ragdoll |  |  |
 
@@ -58,3 +55,23 @@ end
 | Onesync | FXServer | Screenshot-basic |
 |---------|----------|------------------|
 | Required | 5181+ | Optional |
+
+### Exports
+These exports can be used in order to create a temporary soft-bypass for a given player. Let's say some script of yours modifies the player in such a way that it causes severe false-positives. To avoid this behavior, you can ignore the player by adding an excuse right before the problematic code via following exports.
+```lua 
+exports[<resource_name>]:<function>(param1, param2, ...)
+```
+| Function | Parameters | Type |
+|---------|----------|------------------|
+| AddExcuseForPlayer | source: int; timeout: int | Server |
+| RemoveExcuseFromPlayer | source: int | Server |
+```lua
+-- Player won't be able to trigger any detections for 1000ms.
+exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000)
+
+-- Player won't be able to trigger any detections until his excuse is removed.
+exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, -1)
+
+-- Player can now trigger various detections again.
+exports["RemoveExcuseFromPlayer"]:RemoveExcuseFromPlayer(source)
+```
