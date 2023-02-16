@@ -23,7 +23,6 @@ ClientConfig.Modules = {
     Godmode = {
         enabled = true,
         -- Used for 'force full health' checks.
-        decrement = math.random(1, 3),
         wait = math.random(10, 25),
         -- The default max health on your server.
         maxHealth = 200,
