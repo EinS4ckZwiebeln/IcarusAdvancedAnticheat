@@ -25,7 +25,7 @@ function Aimbot.ProcessEventData(sender, data)
 
     local rawTargetData = data["hitGlobalId"] or data["hitGlobalIds"][1]
     local ped, target = GetPlayerPed(sender), NetworkGetEntityFromNetworkId(rawTargetData)
-    
+
     if DoesEntityExist(target) and IsPedAPlayer(target) then
         local radians = GetPlayerCameraRotation(sender)
         local pitch, yaw = radians[1], radians[3]
@@ -37,10 +37,12 @@ function Aimbot.ProcessEventData(sender, data)
         local ans = math.acos(Pow2Vector(expForward, tCoords) / (SqrtPowVector(expForward) * SqrtPowVector(tCoords)))
 
         local degrees = math.deg(ans)
+        -- TODO: Fix false-positives when player is drunk.
+        -- If anyone knows how to check if the player is drunk solely on the server feel free to open a PR.
         if degrees > ServerConfig.Modules.Aimbot.maxAngle then
             TriggerEvent("icarus:my602oxd71pv", sender, "Aimbot [C1]", false, {
                 degrees = degrees
-            })
+             })
             CancelEvent()
         end
     end

@@ -4,13 +4,15 @@ ServerConfig.Debug = GetConvar("IcarusDebug", "false") == "true"
 
 ServerConfig.BypassAcePerm = "icarus.bypass"
 
+ServerConfig.BypassAcePerm = "icarus.bypass"
+
 -- Ban data and game screenshots are send to this webhook.
 -- Screenshot-basic is necessary for this feature to work.
 ServerConfig.DiscordWebhook = ""
 
 -- Add your own ban logic here.
 function issueBan(source, reason)
-	TriggerEvent("EasyAdmin:banPlayer", source, "Cheating (" .. reason .. ")", 1044463300) -- EasyAdmin for the sake of simplicity.
+    TriggerEvent("EasyAdmin:banPlayer", source, "Cheating (" .. reason .. ")", 1044463300) -- EasyAdmin for the sake of simplicity.
 end
 
 -- Server to client heartbeat settings.
@@ -32,152 +34,153 @@ ServerConfig.Scrambler = false
 -- Beware that some values are very sensitive and could break everything.
 ServerConfig.Modules = {
 
-	-- Checks if the player runs any unknown resources.
-	Injection = {
-		enabled = true
-	},
-	
-	-- Everything connection related.
-	Connect = {
-		-- Prevents players using a VPN client from connecting.
-		NoVPN = {
-			enabled = false,
-			rejectionMsg = "Connecting via a VPN is not allowed. Please disable your VPN in order to connect."
-		},
-		
-		-- Filters non alphanumeric playernames.
-		NameFilter = {
-			enabled = false,
-			rejectionMsg = "Your name contains non alphanumeric (a-Z, 0-9) characters. Please consider changing your name in order to connect."
-		}
-	},
-	
-	-- Filters non alphanumeric chat messages.
-	ChatFilter = {
-		enabled = false
-	},
-	
-	-- Used for 'rape' or 'troll' functions in mod menus.
-	-- Leaving this enabled is highly recommended.
-	ClearTasks = {
-		enabled = true
-	},
-	
-	-- Detects if a player has a non whitelisted playermodel (eg. monkey).
-	PedBlacklist = {
-		enabled = true,
-		-- List of all allowed player models. You may add some.
-		playerModels = {
-			"player_one",
-			"player_two",
-			"player_zero",
-			"mp_m_freemode_01",
-			"mp_f_freemode_01",
-			"a_m_y_skater_01",
-			"a_m_y_skater_02",
-			"a_m_y_hipster_01",
-			"a_m_y_hipster_02"
-		}
-	},
-	
-	-- Detects if the shooter is somewhat looking at his target.
-	Aimbot = {
-		enabled = true,
-		-- Increment this by 1.0 (up to 6.0) if Aimbot C1 false positives occur.
-		maxAngle = 3.0
-	},
-	
-	-- Detects if a cheater gives weapons to others.
-	GiveWeapon = {
-		enabled = true
-	},
-	
-	-- Detects if a cheater removes weapons from others.
-	RemoveWeapon = {
-		enabled = true
-	},
-	
-	-- Take a look at 'ServerConfig.BlacklistedWeapons'.
-	WeaponBlacklist = {
-		enabled = true
-	},
-	
-	-- Filters damage data for blacklisted weapons.
-	WeaponDamage = {
-		enabled = true
-	},
-	
-	-- Detects weapon modifier greater than the 1.0 default.
-	-- Disable this if you have any resources that increase weapon damage or similar.
-	WeaponModifier = {
-		enabled = true,
-	},
-	
-	-- Basic check for invincibility on player damage.
-	Godmode = {
-		enabled = true
-	},
-	
-	-- Checks for various suspicious particle scenarios.
-	Particles = {
-		enabled = true,
-		-- Detects unsually large particle effects (greater 10.0).
-		maxScale = 10.0
-	},
-	
-	-- Detects blacklisted entities/vehicles.
-	-- Take a look at 'ServerConfig.IllegalModels'.
-	EntityCreate = {
-		enabled = true,
-		-- Automatically bans the network owner of the illegal entity.
-		banNetworkOwner = true
-	},
-	
-	-- Bans players for causing a non whitelisted explosion.
-	ExplosionFilter = {
-		enabled = true,
-		-- Explosion Types: https://docs.fivem.net/natives/?_0xE3AD2BDBAEE269AC
-		whitelistedExplosionTypes = {
-			6, -- HI_OCTANE
-			7, -- CAR
-			8, -- PLANE
-			9, -- PETROL_PUMP
-			10, -- BIKE
-			11, -- DIR_STEAM
-			12, -- DIR_FLAME
-			13, -- DIR_WATER_HYDRANT
-			14, -- DIR_GAS_CANISTER
-			15, -- BOAT
-			16, -- SHIP_DESTROY
-			17, -- TRUCK
-			22, -- FLARE
-			23, -- GAS_CANISTER
-			24, -- EXTINGUISHER
-			27, -- EXP_TAG_BARREL
-			28, -- EXP_TAG_PROPANE
-			30, -- EXP_TAG_DIR_FLAME_EXPLODE
-			31, -- EXP_TAG_TANKER
-			34, -- EXP_TAG_GAS_TANK
-			38, -- EXP_TAG_FIREWORK
-			39, -- EXP_TAG_SNOWBALL
-			78, -- EXP_TAG_FLASHGRENADE
-			79 -- EXP_TAG_STUNGRENADE
-		}
-	},
-	
-	-- Checks if a player tries to damage a too far away entity.
-	WeaponRange = {
-		enabled = true,
-		-- Max distance to taze somebody.
-		maxTazerRange = 15.0
-	},
-	
-	-- Hooks into pre-existing events and bans the player if the condition is met.
-	-- A good startingpoint is always to add events that can be exploited by cheaters.
-	Events = {
-		enabled = true,
-		honeyPots = {
-			--[[
+    -- Checks if the player runs any unknown resources.
+    Injection = {
+        enabled = true
+     },
+
+    -- Everything connection related.
+    Connect = {
+        -- Prevents players using a VPN client from connecting.
+        NoVPN = {
+            enabled = false,
+            rejectionMsg = "Connecting via a VPN is not allowed. Please disable your VPN in order to connect."
+         },
+
+        -- Filters non alphanumeric playernames.
+        NameFilter = {
+            enabled = false,
+            rejectionMsg = "Your name contains non alphanumeric (a-Z, 0-9) characters. Please consider changing your name in order to connect."
+         }
+    },
+
+    -- Filters non alphanumeric chat messages.
+    ChatFilter = {
+        enabled = false
+     },
+
+    -- Used for 'rape' or 'troll' functions in mod menus.
+    -- Leaving this enabled is highly recommended.
+    ClearTasks = {
+        enabled = true
+     },
+
+    -- Detects if a player has a non whitelisted playermodel (eg. monkey).
+    PedBlacklist = {
+        enabled = true,
+        -- List of all allowed player models. You may add some.
+        playerModels = {
+            "player_one",
+            "player_two",
+            "player_zero",
+            "mp_m_freemode_01",
+            "mp_f_freemode_01",
+            "a_m_y_skater_01",
+            "a_m_y_skater_02",
+            "a_m_y_hipster_01",
+            "a_m_y_hipster_02"
+         }
+    },
+
+    -- Detects if the shooter is somewhat looking at his target.
+    Aimbot = {
+        enabled = true,
+        -- Increment this if Aimbot C1 false positives occur.
+        -- In case you use any 'drug effects' or 'drunk' resources increase this to at least 12.0.
+        maxAngle = 3.0
+    },
+
+    -- Detects if a cheater gives weapons to others.
+    GiveWeapon = {
+        enabled = true
+     },
+
+    -- Detects if a cheater removes weapons from others.
+    RemoveWeapon = {
+        enabled = true
+     },
+
+    -- Take a look at 'ServerConfig.BlacklistedWeapons'.
+    WeaponBlacklist = {
+        enabled = true
+     },
+
+    -- Filters damage data for blacklisted weapons.
+    WeaponDamage = {
+        enabled = true
+     },
+
+    -- Detects weapon modifier greater than the 1.0 default.
+    -- Disable this if you have any resources that increase weapon damage or similar.
+    WeaponModifier = {
+        enabled = true
+     },
+
+    -- Basic check for invincibility on player damage.
+    Godmode = {
+        enabled = true
+     },
+
+    -- Checks for various suspicious particle scenarios.
+    Particles = {
+        enabled = true,
+        -- Detects unsually large particle effects (greater 10.0).
+        maxScale = 10.0
+    },
+
+    -- Detects blacklisted entities/vehicles.
+    -- Take a look at 'ServerConfig.IllegalModels'.
+    EntityCreate = {
+        enabled = true,
+        -- Automatically bans the network owner of the illegal entity.
+        banNetworkOwner = true
+    },
+
+    -- Bans players for causing a non whitelisted explosion.
+    ExplosionFilter = {
+        enabled = true,
+        -- Explosion Types: https://docs.fivem.net/natives/?_0xE3AD2BDBAEE269AC
+        whitelistedExplosionTypes = {
+            6, -- HI_OCTANE
+            7, -- CAR
+            8, -- PLANE
+            9, -- PETROL_PUMP
+            10, -- BIKE
+            11, -- DIR_STEAM
+            12, -- DIR_FLAME
+            13, -- DIR_WATER_HYDRANT
+            14, -- DIR_GAS_CANISTER
+            15, -- BOAT
+            16, -- SHIP_DESTROY
+            17, -- TRUCK
+            22, -- FLARE
+            23, -- GAS_CANISTER
+            24, -- EXTINGUISHER
+            27, -- EXP_TAG_BARREL
+            28, -- EXP_TAG_PROPANE
+            30, -- EXP_TAG_DIR_FLAME_EXPLODE
+            31, -- EXP_TAG_TANKER
+            34, -- EXP_TAG_GAS_TANK
+            38, -- EXP_TAG_FIREWORK
+            39, -- EXP_TAG_SNOWBALL
+            78, -- EXP_TAG_FLASHGRENADE
+            79 -- EXP_TAG_STUNGRENADE
+        }
+    },
+
+    -- Checks if a player tries to damage a too far away entity.
+    WeaponRange = {
+        enabled = true,
+        -- Max distance to taze somebody.
+        maxTazerRange = 15.0
+    },
+
+    -- Hooks into pre-existing events and bans the player if the condition is met.
+    -- A good startingpoint is always to add events that can be exploited by cheaters.
+    Events = {
+        enabled = true,
+        honeyPots = {
+            --[[
 			{
 				event = "your:event",
 				condition = function()
@@ -190,58 +193,58 @@ ServerConfig.Modules = {
 				end
 			}
 			--]]
-			{
-				event = "esx-qalle-jail:jailPlayer",
-				condition = function()
-					ESX = nil
-					TriggerEvent("esx:getSharedObject", function(obj)
-						ESX = obj 
-					end)
-					local xPlayer = ESX.GetPlayerFromId(source)
-					if xPlayer.getJob().name ~= "police" then
-						return true
-					end
-					return false
-				end
-			}
-		}
-	}
+            {
+                event = "esx-qalle-jail:jailPlayer",
+                condition = function()
+                    ESX = nil
+                    TriggerEvent("esx:getSharedObject", function(obj)
+                        ESX = obj
+                    end)
+                    local xPlayer = ESX.GetPlayerFromId(source)
+                    if xPlayer.getJob().name ~= "police" then
+                        return true
+                    end
+                    return false
+                end
+            }
+        }
+    }
 }
 
 -- Possesion of these weapons will get a player instantly banned.
 -- Please check if any weapons on this list are accessible by legit players and remove them if so.
 ServerConfig.BlacklistedWeapons = {
-	"WEAPON_RAILGUN",
-	"WEAPON_GARBAGEBAG",
-	"WEAPON_MINIGUN",
-	"WEAPON_RPG",
-	"WEAPON_RAYMINIGUN",
-	"WEAPON_STICKYBOMB",
-	"WEAPON_HOMINGLAUNCHER",
-	"WEAPON_GRENADE",
-	"WEAPON_MG",
-	"WEAPON_PIPEBOMB",
-	"WEAPON_COMBATMG_MK2",
-	"WEAPON_PROXMINE",
-	"WEAPON_MOLOTOV",
-	"WEAPON_BZGAS",
-	"WEAPON_HAZARDCAN",
-	"WEAPON_MARKSMANPISTOL",
-	"WEAPON_MICROSMG",
-	"WEAPON_MINISMG",
-	"WEAPON_SMG_MK2",
-	"WEAPON_RAYPISTOL",
-	"WEAPON_FIREWORK",
-	"WEAPON_MARKSMANPISTOL",
-	"WEAPON_RAYCARBINE",
-	"WEAPON_AUTOSHOTGUN",
-	"WEAPON_MACHINEPISTOL",
-	"WEAPON_ASSAULTSHOTGUN",
-	"WEAPON_MINISMG",
-	"WEAPON_GRENADELAUNCHER",
-	"WEAPON_COMPACTLAUNCHER",
-	"WEAPON_GRENADELAUNCHER_SMOKE",
-}
+    "WEAPON_RAILGUN",
+    "WEAPON_GARBAGEBAG",
+    "WEAPON_MINIGUN",
+    "WEAPON_RPG",
+    "WEAPON_RAYMINIGUN",
+    "WEAPON_STICKYBOMB",
+    "WEAPON_HOMINGLAUNCHER",
+    "WEAPON_GRENADE",
+    "WEAPON_MG",
+    "WEAPON_PIPEBOMB",
+    "WEAPON_COMBATMG_MK2",
+    "WEAPON_PROXMINE",
+    "WEAPON_MOLOTOV",
+    "WEAPON_BZGAS",
+    "WEAPON_HAZARDCAN",
+    "WEAPON_MARKSMANPISTOL",
+    "WEAPON_MICROSMG",
+    "WEAPON_MINISMG",
+    "WEAPON_SMG_MK2",
+    "WEAPON_RAYPISTOL",
+    "WEAPON_FIREWORK",
+    "WEAPON_MARKSMANPISTOL",
+    "WEAPON_RAYCARBINE",
+    "WEAPON_AUTOSHOTGUN",
+    "WEAPON_MACHINEPISTOL",
+    "WEAPON_ASSAULTSHOTGUN",
+    "WEAPON_MINISMG",
+    "WEAPON_GRENADELAUNCHER",
+    "WEAPON_COMPACTLAUNCHER",
+    "WEAPON_GRENADELAUNCHER_SMOKE"
+ }
 
 -- Objects that get instantly deleted (including vehicles).
 -- Please make sure non of these are spawned by any of your scripts or in npc traffic.
@@ -449,5 +452,5 @@ ServerConfig.IllegalModels = {
     "hei_prop_dt1_20_mp_gar2",
     "prop_dt1_13_groundlight",
     "prop_dt1_13_walllightsource",
-    "prop_dt1_20_mp_gar",
-}
+    "prop_dt1_20_mp_gar"
+ }
