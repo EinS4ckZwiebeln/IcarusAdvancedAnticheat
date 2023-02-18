@@ -21,7 +21,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(500)
 		local ped = PlayerPedId()
-    	local playerCoord = GetEntityCoords(ped)
+    		local playerCoord = GetEntityCoords(ped)
 		local origin = vec3(playerCoord.x, playerCoord.y, playerCoord.z + 0.5)
 		local vehicle = GetVehiclePedIsIn(ped)
 
