@@ -73,5 +73,5 @@ exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000)
 exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, -1)
 
 -- Player can now trigger various detections again.
-exports["RemoveExcuseFromPlayer"]:RemoveExcuseFromPlayer(source)
+exports["IcarusAdvancedAnticheat"]:RemoveExcuseFromPlayer(source)
 ```
