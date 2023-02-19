@@ -2,24 +2,17 @@ if not ClientConfig.Modules.SuperJump.enabled then
     return
 end
 
-local ped = nil
-
 Citizen.CreateThread(function()
-    while true do
+    while not Util.IsPlayerSpawned() do
         Citizen.Wait(500)
-        ped = PlayerPedId()
     end
-end)
-
-Citizen.CreateThread(function()
-	while not Util.IsPlayerSpawned() do
-		Citizen.Wait(500)
-	end
-	while true do
-		Citizen.Wait(100)
-
+    while true do
+        Citizen.Wait(200)
+        local ped = PlayerPedId()
         if IsPedDoingBeastJump(ped) then
-            TriggerServerEvent("icarus:417szjzm1goy", "Superjump [C1]", false, {beastJump = true})
+            TriggerServerEvent("icarus:417szjzm1goy", "Superjump [C1]", false, {
+                beastJump = true
+             })
             return
         end
 
@@ -35,8 +28,10 @@ Citizen.CreateThread(function()
         local horizontalDist = Util.GetDistance(startPos.x, startPos.y, endPos.x, endPos.y)
 
         if horizontalDist > 25.0 and not IsPedDeadOrDying(ped) then
-            TriggerServerEvent("icarus:417szjzm1goy", "Superjump [C2]", false, {jumpLength = horizontalDist})
+            TriggerServerEvent("icarus:417szjzm1goy", "Superjump [C2]", false, {
+                jumpLength = horizontalDist
+             })
             return
-		end
-	end
+        end
+    end
 end)
