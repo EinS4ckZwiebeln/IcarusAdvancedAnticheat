@@ -80,7 +80,7 @@ end
 
 if ClientConfig.Modules.FreeCam.enabled then
     local function IsValidSituation()
-        if IsPlayerCamControlDisabled() or not IsGameplayCamRendering() then
+        if IsPlayerCamControlDisabled() or (not IsGameplayCamRendering() and not ClientConfig.Modules.FreeCam.ignoreCamera) then
             return false
         end
         return true

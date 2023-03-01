@@ -98,8 +98,9 @@ ClientConfig.Modules = {
     -- Checks if the player camera is too far away.
     -- Might cause issues with camera scripts.
     FreeCam = {
-        enabled = true
-     },
+        enabled = true,
+        ignoreCamera = false -- Enable this if using camera scripts (eg. qbcore spawing menu)
+    },
 
     -- Detects if the player teleports into a vehicle.
     VehicleTeleport = {
