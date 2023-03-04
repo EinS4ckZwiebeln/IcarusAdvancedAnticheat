@@ -48,7 +48,7 @@ end
 if ClientConfig.Modules.Speed.enabled then
     local speed = GetEntitySpeed(playerPed)
 
-    if not IsPedInAnyVehicle(playerPed, true) or IsPedRagdoll(playerPed) then
+    if not IsPedInAnyVehicle(playerPed, true) and not IsPedOnVehicle(playerPed) and not IsPedRagdoll(playerPed) then
         local maxSpeed = 14.0
         if IsEntityInAir(playerPed) then
             if IsPedFalling(playerPed) or IsPedInParachuteFreeFall(playerPed) or GetPedParachuteState(playerPed) > 0 then
