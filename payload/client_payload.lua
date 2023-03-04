@@ -1,118 +1,153 @@
--- This is the script that is 'injected' into the client through an event.
--- This file cannot be read by clients through a dump.
-if not Util.IsPlayerSpawned() then
-    return
-end
+_G.PLAYER_PED = PlayerPedId()
 
-local result = {}
-local playerPed = PlayerPedId()
-
-if ClientConfig.Modules.Blips.enabled then
-    -- Entity Blips
-    for _, player in ipairs(GetActivePlayers()) do
-        local playerPed = GetPlayerPed(player)
-        if DoesBlipExist(GetBlipFromEntity(playerPed)) then
-            result.blips = true
-            break
-        end
+Citizen.CreateThread(function()
+    while true do
+        _G.PLAYER_PED = PlayerPedId()
+        Citizen.Wait(500)
     end
-end
+end)
 
--- Damage Type Checker
-if ClientConfig.Modules.ExplosiveBullet.enabled then
-    local function IsIllegalDamage(type)
-        local hashes = ClientConfig.Modules.ExplosiveBullet.blacklistedTypes
-        for i = 1, #hashes do
-            if hashes[i] == type then
-                return true
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.Blips.enabled do
+        Citizen.Wait(5000)
+        for _, player in ipairs(GetActivePlayers()) do
+            local playerPed = GetPlayerPed(player)
+            if DoesBlipExist(GetBlipFromEntity(playerPed)) then
+                TriggerServerEvent("icarus:417szjzm1goy", "Player Blips [C1]", false)
+                return
             end
         end
-        return false
     end
+end)
 
-    if IsIllegalDamage(GetWeaponDamageType(GetSelectedPedWeapon(playerPed))) then
-        result.blacklistedDamageType = true
-    end
-end
-
-if not IsPedInAnyHeli(playerPed) and ClientConfig.Modules.Vision.enabled then
-    -- Night vision/Thermal Checker
-    if GetUsingnightvision() then
-        result.nightVision = true
-    end
-    if GetUsingseethrough() then
-        result.thermalVision = true
-    end
-end
-
-if ClientConfig.Modules.Speed.enabled then
-    local speed = GetEntitySpeed(playerPed)
-
-    if not IsPedInAnyVehicle(playerPed, true) and not IsPedOnVehicle(playerPed) and not IsPedRagdoll(playerPed) then
-        local maxSpeed = 14.0
-        if IsEntityInAir(playerPed) then
-            if IsPedFalling(playerPed) or IsPedInParachuteFreeFall(playerPed) or GetPedParachuteState(playerPed) > 0 then
-                maxSpeed = 90.0
-            end
-        else
-            if IsPedSwimmingUnderWater(playerPed) or IsPedSwimming(playerPed) then
-                maxSpeed = 18.0
-            else
-                if IsPedSprinting(playerPed) or IsPedWalking(playerPed) then
-                    maxSpeed = 10.0
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.ExplosiveBullet.enabled do
+        Citizen.Wait(2000)
+        local function IsIllegalDamage(type)
+            local hashes = ClientConfig.Modules.ExplosiveBullet.blacklistedTypes
+            for i = 1, #hashes do
+                if hashes[i] == type then
+                    return true
                 end
             end
-        end
-
-        if speed > maxSpeed then
-            result.brokeMaxSpeed = true
-        end
-    end
-end
-
-if ClientConfig.Modules.Spectator.enabled then
-    result.spectate = NetworkIsInSpectatorMode()
-end
-
-if ClientConfig.Modules.TinyPed.enabled then
-    result.tinyPed = GetPedConfigFlag(playerPed, 223, true)
-end
-
-if ClientConfig.Modules.FreeCam.enabled then
-    local function IsValidSituation()
-        if IsPlayerCamControlDisabled() or (not IsGameplayCamRendering() and not ClientConfig.Modules.FreeCam.ignoreCamera) then
             return false
         end
-        return true
-    end
 
-    local contextTable = {
-        [0] = 18.0,
-        [1] = 28.0,
-        [2] = 20.0,
-        [3] = 30.0,
-        [4] = 30.0,
-        [5] = 30.0,
-        [6] = 30.0,
-        [7] = 20.0
-     }
-
-    local camcoords, contextValue = (GetEntityCoords(playerPed) - GetFinalRenderedCamCoord()), contextTable[GetCamActiveViewModeContext()]
-    if IsValidSituation() and ((camcoords.x > contextValue) or (camcoords.y > contextValue) or (camcoords.z > contextValue) or (camcoords.x < -contextValue) or (camcoords.y < -contextValue) or (camcoords.z < -contextValue)) then
-        result.freeCam = true
-    end
-end
-
-if ClientConfig.Modules.Ragdoll.enabled then
-    local function CanPlayerRagdoll()
-        if CanPedRagdoll(playerPed) ~= 1 and not IsPedInAnyVehicle(playerPed, true) and not IsEntityDead(playerPed) and not IsPedJumpingOutOfVehicle(playerPed) and not IsPedJacking(playerPed) and not IsPedRagdoll(playerPed) then
-            return false
+        local damageType = GetWeaponDamageType(GetSelectedPedWeapon(_G.PLAYER_PED))
+        if IsIllegalDamage(damageType) then
+            TriggerServerEvent("icarus:417szjzm1goy", "Illegal Damage Type [C1]", false, {
+                damageType = damageType
+             })
+            return
         end
-        return true
     end
-    if not CanPlayerRagdoll() then
-        result.ragdoll = true
-    end
-end
+end)
 
-return result
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.Vision.enabled do
+        Citizen.Wait(5000)
+        if not IsPedInAnyHeli(_G.PLAYER_PED) then
+            if GetUsingnightvision() or GetUsingseethrough() then
+                TriggerServerEvent("icarus:417szjzm1goy", "Vision [C1]", false)
+                return
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.Speed.enabled do
+        Citizen.Wait(2000)
+        local speed = GetEntitySpeed(_G.PLAYER_PED)
+
+        if not IsPedInAnyVehicle(_G.PLAYER_PED, true) and not IsPedOnVehicle(_G.PLAYER_PED) and not IsPedRagdoll(_G.PLAYER_PED) then
+            local maxSpeed = 14.0
+            if IsEntityInAir(_G.PLAYER_PED) then
+                if IsPedFalling(_G.PLAYER_PED) or IsPedInParachuteFreeFall(_G.PLAYER_PED) or GetPedParachuteState(_G.PLAYER_PED) > 0 then
+                    maxSpeed = 90.0
+                end
+            else
+                if IsPedSwimmingUnderWater(_G.PLAYER_PED) or IsPedSwimming(_G.PLAYER_PED) then
+                    maxSpeed = 18.0
+                else
+                    if IsPedSprinting(_G.PLAYER_PED) or IsPedWalking(_G.PLAYER_PED) then
+                        maxSpeed = 10.0
+                    end
+                end
+            end
+
+            if speed > maxSpeed then
+                TriggerServerEvent("icarus:417szjzm1goy", "Speed [C1]", false, {
+                    speed = speed,
+                    maxSpeed = maxSpeed
+                 })
+                return
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.Spectator.enabled do
+        Citizen.Wait(5000)
+        if NetworkIsInSpectatorMode() then
+            TriggerServerEvent("icarus:417szjzm1goy", "Spectator [C1]", false)
+            return
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.TinyPed.enabled do
+        Citizen.Wait(10000)
+        if GetPedConfigFlag(_G.PLAYER_PED, 223, true) then
+            TriggerServerEvent("icarus:417szjzm1goy", "TinyPed [C1]", false)
+            return
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.FreeCam.enabled do
+        Citizen.Wait(10000)
+        local function IsValidSituation()
+            if IsPlayerCamControlDisabled() or (not IsGameplayCamRendering() and not ClientConfig.Modules.FreeCam.ignoreCamera) then
+                return false
+            end
+            return true
+        end
+
+        local contextTable = {
+            [0] = 18.0,
+            [1] = 28.0,
+            [2] = 20.0,
+            [3] = 30.0,
+            [4] = 30.0,
+            [5] = 30.0,
+            [6] = 30.0,
+            [7] = 20.0
+         }
+
+        local camcoords, contextValue = (GetEntityCoords(_G.PLAYER_PED) - GetFinalRenderedCamCoord()), contextTable[GetCamActiveViewModeContext()]
+        if IsValidSituation() and ((camcoords.x > contextValue) or (camcoords.y > contextValue) or (camcoords.z > contextValue) or (camcoords.x < -contextValue) or (camcoords.y < -contextValue) or (camcoords.z < -contextValue)) then
+            TriggerServerEvent("icarus:417szjzm1goy", "FreeCam [C1]", false)
+            return
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.Ragdoll.enabled do
+        Citizen.Wait(10000)
+        local function CanPlayerRagdoll()
+            if CanPedRagdoll(_G.PLAYER_PED) ~= 1 and not IsPedInAnyVehicle(_G.PLAYER_PED, true) and not IsEntityDead(_G.PLAYER_PED) and not IsPedJumpingOutOfVehicle(_G.PLAYER_PED) and not IsPedJacking(_G.PLAYER_PED) and not IsPedRagdoll(_G.PLAYER_PED) then
+                return false
+            end
+            return true
+        end
+        if not CanPlayerRagdoll() then
+            TriggerServerEvent("icarus:417szjzm1goy", "Ragdoll [C1]", false)
+            return
+        end
+    end
+end)

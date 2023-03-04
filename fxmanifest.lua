@@ -32,7 +32,7 @@ server_script {
     "core/server/event_handler.lua",
     "core/server/heartbeat.lua",
     "core/server/scrambler.lua",
-    "core/server/injection.lua",
+    "core/server/injection.js",
     "modules/server/eventdata/clear_tasks.lua",
     "modules/server/eventdata/chat_filter.lua",
     "modules/server/eventdata/entity_create.lua",
