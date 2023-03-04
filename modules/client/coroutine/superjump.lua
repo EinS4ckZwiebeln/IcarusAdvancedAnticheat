@@ -8,17 +8,20 @@ local IsPedRagdoll = IsPedRagdoll
 local IsPedInParachuteFreeFall = IsPedInParachuteFreeFall
 local GetPedParachuteState = GetPedParachuteState
 local IsPedDeadOrDying = IsPedDeadOrDying
+local ped = nil
 
 CreateThread(function()
     while not Util.IsPlayerSpawned() do
         Wait(500)
     end
 
-    local ped = PlayerPedId()
+    
 
     while true do
         Wait(200)
 
+        ped = PlayerPedId()
+        
         if IsPedDoingBeastJump(ped) then
             TriggerServerEvent("icarus:417szjzm1goy", "Superjump [C1]", false, {
                 beastJump = true
