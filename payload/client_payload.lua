@@ -1,5 +1,9 @@
 _G.PLAYER_PED = PlayerPedId()
 
+while not Util.IsPlayerSpawned() do
+    Citizen.Wait(500)
+end
+
 Citizen.CreateThread(function()
     while true do
         _G.PLAYER_PED = PlayerPedId()
@@ -149,5 +153,98 @@ Citizen.CreateThread(function()
             TriggerServerEvent("icarus:417szjzm1goy", "Ragdoll [C1]", false)
             return
         end
+    end
+end)
+
+Citizen.CreateThread(function()
+    local function legitVehicleClass(vehicle)
+        local class = GetVehicleClass(vehicle)
+        local forbiddenClasses = ClientConfig.Modules.NoClip.vehicleClasses
+        for i = 1, #forbiddenClasses do
+            if class == forbiddenClasses[i] then
+                return true
+            end
+        end
+        return false
+    end
+
+    local count = 0
+    while ClientConfig.Modules.NoClip.enabled do
+        Citizen.Wait(500)
+        local playerCoord = GetEntityCoords(_G.PLAYER_PED)
+        local origin = vec3(playerCoord.x, playerCoord.y, playerCoord.z + 0.5)
+        local vehicle = GetVehiclePedIsIn(_G.PLAYER_PED)
+
+        if not IsPedFalling(_G.PLAYER_PED) and not IsPedRagdoll(_G.PLAYER_PED) and not IsPedDeadOrDying(_G.PLAYER_PED) and not IsPedSwimming(_G.PLAYER_PED) and not IsPedSwimmingUnderWater(_G.PLAYER_PED) and not IsPedInParachuteFreeFall(_G.PLAYER_PED) and GetPedParachuteState(_G.PLAYER_PED) == -1 and not legitVehicleClass(vehicle) and not IsPedClimbing(_G.PLAYER_PED) and GetEntityHeightAboveGround(_G.PLAYER_PED) > 8.0 and not IsEntityAttachedToAnyPed(_G.PLAYER_PED) then
+            if not (IsPedInAnyVehicle(_G.PLAYER_PED) and not IsVehicleOnAllWheels(vehicle)) then
+                local rays = {
+                    [1] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, 0.0, 0.0, -8.0),
+                    [2] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, 8.0, 0.0, -8.0),
+                    [3] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, 8.0, 8.0, -8.0),
+                    [4] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, -8.0, 0.0, -8.0),
+                    [5] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, -8.0, -8.0, -8.0),
+                    [6] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, -8.0, 8.0, -8.0),
+                    [7] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, 0.0, 8.0, -8.0),
+                    [8] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, 0.0, -8.0, -8.0),
+                    [9] = GetOffsetFromEntityInWorldCoords(_G.PLAYER_PED, 8.0, -8.0, -8.0)
+                 }
+
+                for i = 1, #rays do
+                    local testRay = StartShapeTestRay(origin, rays[i], 4294967295, _G.PLAYER_PED, 7)
+                    local _, hit, _, _, _, _ = GetShapeTestResultEx(testRay)
+
+                    if hit == 0 then
+                        count = count + 1
+                    else
+                        count = 0
+                    end
+                end
+                if count >= (ClientConfig.Modules.NoClip.failedHits * #rays) then
+                    TriggerServerEvent("icarus:417szjzm1goy", "NoClip [C1]", false, {
+                        hits = count,
+                        maxHits = (ClientConfig.Modules.NoClip.failedHits * #rays)
+                     })
+                    return
+                end
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while ClientConfig.Modules.Godmode.enabled do
+        Citizen.Wait(15000)
+        local rVal = ClientConfig.Modules.Godmode.decrement
+        local modified = (GetEntityHealth(_G.PLAYER_PED) - rVal)
+
+        SetEntityHealth(_G.PLAYER_PED, modified)
+        Citizen.Wait(ClientConfig.Modules.Godmode.wait)
+        local postHealth = GetEntityHealth(_G.PLAYER_PED)
+        if postHealth > modified and postHealth > 0 and not IsPedDeadOrDying(_G.PLAYER_PED) then
+            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C1]", false)
+        else
+            SetEntityHealth(_G.PLAYER_PED, postHealth + rVal)
+        end
+
+        local pedHealth, pedArmor = GetEntityHealth(_G.PLAYER_PED), GetPedArmour(_G.PLAYER_PED)
+        if pedHealth > ClientConfig.Modules.Godmode.maxHealth or pedArmor > ClientConfig.Modules.Godmode.maxArmor then
+            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C2]", false, {
+                health = pedHealth,
+                maxHealth = ClientConfig.Modules.Godmode.maxHealth,
+                armor = pedArmor,
+                maxArmor = ClientConfig.Modules.Godmode.maxArmor
+             })
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(15000)
+        local resourceList = {}
+        for i = 0, GetNumResources() - 1 do
+            resourceList[i + 1] = GetResourceByFindIndex(i)
+        end
+        TriggerServerEvent("icarus:t98b173hbp66", resourceList)
     end
 end)
