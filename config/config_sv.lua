@@ -13,18 +13,6 @@ function issueBan(source, reason)
     TriggerEvent("EasyAdmin:banPlayer", source, "Cheating (" .. reason .. ")", 1044463300) -- EasyAdmin for the sake of simplicity.
 end
 
--- Server to client heartbeat settings.
--- Do not touch if you have no clue what you are doing!
-ServerConfig.LatencyThreshold = 1000 -- ms
-
--- How often a heartbeat is requested from the players.
-ServerConfig.HeartbeatInterval = 30000 -- ms
-
-ServerConfig.UntilForcedHearbeat = 10 * 60000 -- ms
-
--- The char length of the security hash which is used to verify heartbeats.
-ServerConfig.SecurityHashLength = 16
-
 -- EXPERIMENTAL: Scrambles all anticheat events on first server start.
 ServerConfig.Scrambler = false
 
