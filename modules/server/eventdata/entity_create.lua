@@ -4,10 +4,11 @@ if not ServerConfig.Modules.EntityCreate.enabled then
     return
 end
 
+local hashList = Util.HashifyList(ServerConfig.IllegalModels)
+
 function IsIllegalModel(modelHash)
-    local models = ServerConfig.IllegalModels
-    for i = 1, #models do
-        if modelHash == GetHashKey(models[i]) then
+    for i = 1, #hashList do
+        if modelHash == hashList[i] then
             return true
         end
     end
