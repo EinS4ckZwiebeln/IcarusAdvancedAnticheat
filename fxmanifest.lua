@@ -14,9 +14,7 @@ client_script {
     "core/client/event_handler.lua",
     "modules/client/eventdata/pickup.lua",
     "modules/client/eventdata/resource_stopper.lua",
-    "modules/client/eventdata/vehicle_teleport.lua",
-    "modules/client/coroutine/dui_textures.lua",
-    "modules/client/coroutine/superjump.lua"
+    "modules/client/eventdata/vehicle_teleport.lua"
  }
 
 server_script {
