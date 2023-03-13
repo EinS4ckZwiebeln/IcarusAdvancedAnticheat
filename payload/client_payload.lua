@@ -235,6 +235,19 @@ Citizen.CreateThread(function()
                 maxArmor = ClientConfig.Modules.Godmode.maxArmor
              })
         end
+
+        -- Highly inefficient but way more compact for the sake of sanity.
+        local jsonProofs = json.encode({
+            GetEntityProofs(_G.PLAYER_PED)
+         })
+        for key, val in pairs(json.decode(jsonProofs)) do
+            if key ~= 1 and val == 1 then
+                TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false, {
+                    proofType = key,
+                    proofValue = val
+                 })
+            end
+        end
     end
 end)
 
