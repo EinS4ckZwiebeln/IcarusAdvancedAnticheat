@@ -44,7 +44,7 @@ server_script {
     "modules/server/coroutine.lua",
     "modules/server/connect.lua",
     "modules/server/events.lua",
-    "modules/server/state.lua"
+    "modules/server/resource_state.js"
  }
 
 shared_script {
