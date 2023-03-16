@@ -48,7 +48,8 @@ server_script {
  }
 
 shared_script {
-    "util/util.lua"
+    "util/util.lua",
+    "util/util.js"
  }
 
 server_export {
