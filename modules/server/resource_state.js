@@ -5,13 +5,13 @@ onNet("onResourceStop", (rName) => {
     if (!alteredStates.includes(rName)) {
         alteredStates.push(rName);
     }
-    if (rName === GetCurrentResourceName()) {
+    if (rName === curName) {
         SetResourceKvp("resource_states", JSON.stringify(alteredStates));
     }
 });
 
 onNet("onResourceStart", (rName) => {
-    if (rName === GetCurrentResourceName()) {
+    if (rName === curName) {
         alteredStates = kvp ? JSON.parse(kvp) : [];
     }
     setTimeout(() => {

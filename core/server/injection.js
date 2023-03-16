@@ -1,6 +1,3 @@
-const Delay = (ms) => new Promise(res => setTimeout(res, ms));
-
-const curName = GetCurrentResourceName();
 const payload = LoadResourceFile(curName, "payload/client_payload.lua");
 
 onNet("playerJoining", async (source, _) => {
