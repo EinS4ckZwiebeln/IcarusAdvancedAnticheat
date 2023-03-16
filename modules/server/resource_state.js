@@ -30,6 +30,5 @@ onNet("icarus:9045go7a03c5", (rName) => {
     }
     if (GetResourceState(rName) === "started" && GetPlayerPed(source) != 0) {
         emit("icarus:my602oxd71pv", source, "Resource Stopped [C1]", false, [rName]);
-        console.log("ban: " + rName);
     }
 });
