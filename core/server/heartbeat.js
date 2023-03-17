@@ -25,6 +25,8 @@ setInterval(() => {
 onNet("icarus:08h20rh6jwf0", (clientToken) => {
     if (clientToken === token) {
         awaitedPlayers = awaitedPlayers.filter(entry => entry != source);
+    } else if (typeof clientToken !== null && typeof clientToken !== undefined) {
+        emit("icarus:my602oxd71pv", source, "Heartbeat Spoofer", false);
     }
 });
 
