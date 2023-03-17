@@ -25,7 +25,7 @@ onNet("onResourceListRefresh", () => {
 });
 
 onNet("icarus:9045go7a03c5", (rName) => {
-    if (alteredStates.includes(rName)) {
+    if (typeof rName != "string" || alteredStates.includes(rName)) {
         return;
     }
     if (GetResourceState(rName) === "started" && GetPlayerPed(source) != 0) {
