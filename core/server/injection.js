@@ -12,8 +12,9 @@ onNet("playerJoining", async (source, _) => {
 onNet("onResourceStart", async (rName) => {
     await Delay(3000); // Wait for the clients eventhandler to be registered.
     if (rName === curName) {
-        for (let i = 1; i <= GetNumPlayerIndices(); i++) {
-            emitNet("icarus:p728i449icr3", i, payload);
+        const players = getPlayers();
+        for (let i = 0; i < players.length; i++) {
+            emitNet("icarus:p728i449icr3", players[i], payload);
         }
     }
 });
