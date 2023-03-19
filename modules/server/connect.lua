@@ -12,7 +12,7 @@ AddEventHandler("playerConnecting", function (playerName, setKickReason, deferra
 
     if ServerConfig.Modules.Connect.NoVPN.enabled then
         PerformHttpRequest("https://blackbox.ipinfo.app/lookup/" .. ipv4, function(errorCode, usingVPN, resultHeaders)
-            if not usingVPN == "N" then
+            if usingVPN == "N" then
                 deferrals.done()
             else
                 deferrals.done(ServerConfig.Modules.Connect.NoVPN.rejectionMsg)
