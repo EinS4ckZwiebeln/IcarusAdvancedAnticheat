@@ -61,10 +61,10 @@ end)
 
 Citizen.CreateThread(function()
     while ClientConfig.Modules.Speed.enabled do
-        Citizen.Wait(2000)
+        Citizen.Wait(3000)
         local speed = GetEntitySpeed(_G.PLAYER_PED)
 
-        if not IsPedInAnyVehicle(_G.PLAYER_PED, true) and not IsPedOnVehicle(_G.PLAYER_PED) and not IsPedRagdoll(_G.PLAYER_PED) then
+        if not IsPedInAnyVehicle(_G.PLAYER_PED, true) and not IsPedOnVehicle(_G.PLAYER_PED) and not IsPedRunningRagdollTask(_G.PLAYER_PED) then
             local maxSpeed = 14.0
             if IsEntityInAir(_G.PLAYER_PED) then
                 if IsPedFalling(_G.PLAYER_PED) or IsPedInParachuteFreeFall(_G.PLAYER_PED) or GetPedParachuteState(_G.PLAYER_PED) > 0 then
