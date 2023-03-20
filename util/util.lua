@@ -177,6 +177,11 @@ function Util.ConstructEmbed(source, reason, data, fileName)
                     ["inline"] = false
                  },
                 {
+                    ["name"] = "Name",
+                    ["value"] = GetPlayerName(source),
+                    ["inline"] = false
+                 },
+                {
                     ["name"] = "Steam",
                     ["value"] = Util.GetIdentifier(source, "steam:"),
                     ["inline"] = false
