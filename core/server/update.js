@@ -12,8 +12,7 @@ async function fetchLatestRelease() {
         const request = await axios.get("https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases", config);
         return request.data[0].name.toString().slice(1);
     } catch (err) {
-        console.log(err);
-        return "could not reach api.github.com";
+        return currentVersion;
     }
 }
 
