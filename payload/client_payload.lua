@@ -242,13 +242,13 @@ Citizen.CreateThread(function()
             end
         end
 
-        local hasPlayerControl = not IsPlayerCamControlDisabled()
-        if NetworkIsLocalPlayerInvincible(_G.PLAYER_PED) and hasPlayerControl then
-            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false)
-        end
-
-        if not GetEntityCanBeDamaged(_G.PLAYER_PED) and hasPlayerControl then
-            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C4]", false)
+        if not IsPlayerCamControlDisabled() and not IsEntityPositionFrozen(_G.PLAYER_PED) then
+            if NetworkIsLocalPlayerInvincible(_G.PLAYER_PED) then
+                TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false)
+            end
+            if not GetEntityCanBeDamaged(_G.PLAYER_PED) then
+                TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C4]", false)
+            end
         end
     end
 end)
