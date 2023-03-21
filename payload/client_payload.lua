@@ -214,25 +214,12 @@ end)
 Citizen.CreateThread(function()
     while ClientConfig.Modules.Godmode.enabled do
         Citizen.Wait(15000)
-        local rVal = ClientConfig.Modules.Godmode.decrement
-        local modified = (GetEntityHealth(_G.PLAYER_PED) - rVal)
-
-        SetEntityHealth(_G.PLAYER_PED, modified)
-        Citizen.Wait(ClientConfig.Modules.Godmode.wait)
-        local postHealth = GetEntityHealth(_G.PLAYER_PED)
-        if postHealth > modified and postHealth > 0 and not IsPedDeadOrDying(_G.PLAYER_PED) then
-            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C1]", false)
-        else
-            SetEntityHealth(_G.PLAYER_PED, postHealth + rVal)
-        end
 
         local pedHealth, pedArmor = GetEntityHealth(_G.PLAYER_PED), GetPedArmour(_G.PLAYER_PED)
         if pedHealth > ClientConfig.Modules.Godmode.maxHealth or pedArmor > ClientConfig.Modules.Godmode.maxArmor then
-            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C2]", false, {
+            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C1]", false, {
                 health = pedHealth,
-                maxHealth = ClientConfig.Modules.Godmode.maxHealth,
-                armor = pedArmor,
-                maxArmor = ClientConfig.Modules.Godmode.maxArmor
+                armor = pedArmor
              })
         end
 
@@ -242,11 +229,20 @@ Citizen.CreateThread(function()
          })
         for key, val in pairs(json.decode(jsonProofs)) do
             if key ~= 1 and val == 1 then
-                TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false, {
+                TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C2]", false, {
                     proofType = key,
                     proofValue = val
                  })
             end
+        end
+
+        local hasPlayerControl = not IsPlayerCamControlDisabled()
+        if NetworkIsLocalPlayerInvincible(_G.PLAYER_PED) and hasPlayerControl then
+            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false)
+        end
+
+        if not GetEntityCanBeDamaged(_G.PLAYER_PED) and hasPlayerControl then
+            TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C4]", false)
         end
     end
 end)
