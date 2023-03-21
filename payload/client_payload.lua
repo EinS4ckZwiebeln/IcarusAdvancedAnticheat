@@ -143,13 +143,19 @@ end)
 Citizen.CreateThread(function()
     while ClientConfig.Modules.Ragdoll.enabled do
         Citizen.Wait(10000)
-        local function CanPlayerRagdoll()
-            if CanPedRagdoll(_G.PLAYER_PED) ~= 1 and not IsPedInAnyVehicle(_G.PLAYER_PED, true) and not IsEntityDead(_G.PLAYER_PED) and not IsPedJumpingOutOfVehicle(_G.PLAYER_PED) and not IsPedJacking(_G.PLAYER_PED) and not IsPedRagdoll(_G.PLAYER_PED) then
-                return false
+        local function PerformsVehicleAction()
+            if IsPedInAnyVehicle(_G.PLAYER_PED, true) or GetVehiclePedIsEntering(_G.PLAYER_PED) > 0 or IsPedJumpingOutOfVehicle(_G.PLAYER_PED) or IsPedJacking(_G.PLAYER_PED) then
+                return true
             end
-            return true
+            return false
         end
-        if not CanPlayerRagdoll() then
+        local function CanPlayerRagdoll()
+            if CanPedRagdoll(_G.PLAYER_PED) == 1 and IsPedRunningRagdollTask(_G.PLAYER_PED) then
+                return true
+            end
+            return false
+        end
+        if CanPlayerRagdoll() and not PerformsVehicleAction() and not IsPedDeadOrDying(_G.PLAYER_PED, 1) then
             TriggerServerEvent("icarus:417szjzm1goy", "Ragdoll [C1]", false)
             return
         end
