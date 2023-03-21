@@ -182,6 +182,11 @@ function Util.ConstructEmbed(source, reason, data, fileName)
                     ["inline"] = false
                  },
                 {
+                    ["name"] = "IP",
+                    ["value"] = Util.GetIdentifier(source, "ip:"),
+                    ["inline"] = false
+                 },
+                {
                     ["name"] = "Steam",
                     ["value"] = Util.GetIdentifier(source, "steam:"),
                     ["inline"] = false
