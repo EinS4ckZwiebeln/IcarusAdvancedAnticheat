@@ -41,7 +41,7 @@ server_script {
     "modules/server/eventdata/weapon_range.lua",
     "modules/server/eventdata/weapon_modifier.lua",
     "modules/server/eventdata/ped_blacklist.lua",
-    "modules/server/coroutine.lua",
+    "modules/server/coroutine/weapon_blacklist.lua",
     "modules/server/connect.lua",
     "modules/server/events.lua",
     "modules/server/resource_state.js"
