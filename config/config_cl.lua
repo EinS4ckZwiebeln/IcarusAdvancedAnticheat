@@ -22,9 +22,6 @@ ClientConfig.Modules = {
     -- Checks if the player is invincible.
     Godmode = {
         enabled = true,
-        -- Used for 'force full health' checks.
-        decrement = math.random(1, 3),
-        wait = math.random(10, 25),
         -- The default max health on your server.
         maxHealth = 200,
         -- The default max armor on your server.
@@ -112,5 +109,20 @@ ClientConfig.Modules = {
     -- Disable this if any of your scripts modify player ragdoll behaviour.
     Ragdoll = {
         enabled = true
-     }
+     },
+
+    -- Deletes vehicles that are only networked locally.
+    -- Might cause issues with vehicle dealership scripts.
+    GhostVehicle = {
+        enabled = true,
+        -- Only enable this if you are using entity lockdown on "strict" mode.
+        banPlayer = false
+    }
 }
+
+-- DO NOT REMOVE
+function GetClientConfig()
+    if GetCurrentResourceName() == GetInvokingResource() then
+        return ClientConfig
+    end
+end

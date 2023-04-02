@@ -9,7 +9,7 @@ ServerConfig.BypassAcePerm = "icarus.bypass"
 ServerConfig.DiscordWebhook = ""
 
 -- Add your own ban logic here.
-function issueBan(source, reason)
+function ServerConfig.BanPlayer(source, reason)
     TriggerEvent("EasyAdmin:banPlayer", source, "Cheating (" .. reason .. ")", 1044463300) -- EasyAdmin for the sake of simplicity.
 end
 
@@ -440,3 +440,10 @@ ServerConfig.IllegalModels = {
     "prop_dt1_13_walllightsource",
     "prop_dt1_20_mp_gar"
  }
+
+-- DO NOT REMOVE
+function GetServerConfig()
+    if GetCurrentResourceName() == GetInvokingResource() then
+        return ServerConfig
+    end
+end
