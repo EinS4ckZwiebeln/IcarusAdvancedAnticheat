@@ -3,7 +3,7 @@ const serverConfig = exports[curName].GetServerConfig();
 function banCheater(source, reason, kick, optional) {
     if (!optional) {
         optional = "No optional data received";
-    } else if (serverConfig.debug) {
+    } else if (serverConfig.Debug) {
         console.log(JSON.stringify(optional));
         return;
     }
