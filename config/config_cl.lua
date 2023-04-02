@@ -109,15 +109,7 @@ ClientConfig.Modules = {
     -- Disable this if any of your scripts modify player ragdoll behaviour.
     Ragdoll = {
         enabled = true
-     },
-
-    -- Deletes vehicles that are only networked locally.
-    -- Might cause issues with vehicle dealership scripts.
-    GhostVehicle = {
-        enabled = true,
-        -- Only enable this if you are using entity lockdown on "strict" mode.
-        banPlayer = false
-    }
+     }
 }
 
 -- DO NOT REMOVE
