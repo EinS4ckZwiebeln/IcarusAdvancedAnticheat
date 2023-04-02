@@ -150,68 +150,6 @@ function Util.GetResourceEvents()
     return events
 end
 
-function Util.GetIdentifier(source, type)
-    local identifier = GetPlayerIdentifiers(source)
-    for k, v in pairs(identifier) do
-        if string.sub(v, 1, string.len(type)) == type then
-            return tostring(v)
-        end
-    end
-    return (type .. "unknownlicense")
-end
-
-function Util.ConstructEmbed(source, reason, data, fileName)
-    return {
-        {
-            ["color"] = "8421631",
-            ["title"] = "Icarus Anticheat v" .. Util.GetVersion(),
-            ["fields"] = {
-                {
-                    ["name"] = "Violation",
-                    ["value"] = reason,
-                    ["inline"] = false
-                 },
-                {
-                    ["name"] = "Optional Data",
-                    ["value"] = data,
-                    ["inline"] = false
-                 },
-                {
-                    ["name"] = "Name",
-                    ["value"] = GetPlayerName(source),
-                    ["inline"] = false
-                 },
-                {
-                    ["name"] = "IP",
-                    ["value"] = Util.GetIdentifier(source, "ip:"),
-                    ["inline"] = false
-                 },
-                {
-                    ["name"] = "Steam",
-                    ["value"] = Util.GetIdentifier(source, "steam:"),
-                    ["inline"] = false
-                 },
-                {
-                    ["name"] = "Discord",
-                    ["value"] = Util.GetIdentifier(source, "discord:"),
-                    ["inline"] = false
-                 },
-                {
-                    ["name"] = "FiveM",
-                    ["value"] = Util.GetIdentifier(source, "license:"),
-                    ["inline"] = false
-                 }
-            },
-            ["image"] = {
-                ["url"] = "attachment://" .. fileName
-             },
-            ["footer"] = {
-                ["text"] = "Icarus Data Collector"
-             }
-        }
-    }
-end
-
 function Util.GetDistance(x1, y1, x2, y2)
     local dx = x1 - x2
     local dy = y1 - y2
