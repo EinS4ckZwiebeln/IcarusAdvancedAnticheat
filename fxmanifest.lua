@@ -22,7 +22,7 @@ server_script {
     "util/discord.js",
     "config/config_sv.lua",
     "core/server/update.js",
-    "core/server/main.lua",
+    "core/server/main.js",
     "core/server/event_handler.lua",
     "core/server/heartbeat.js",
     "core/server/scrambler.lua",
@@ -42,7 +42,7 @@ server_script {
     "modules/server/eventdata/weapon_modifier.lua",
     "modules/server/eventdata/ped_blacklist.lua",
     "modules/server/coroutine/weapon_blacklist.lua",
-    "modules/server/connect.lua",
+    "modules/server/connect.js",
     "modules/server/events.lua",
     "modules/server/resource_state.js"
  }
@@ -52,8 +52,14 @@ shared_script {
     "util/util.js"
  }
 
+export {
+    "GetClientConfig"
+ }
+
 server_export {
+    "GetServerConfig",
     "AddExcuseForPlayer",
+    "GetExcusedPlayers",
     "RemoveExcuseFromPlayer"
  }
 
