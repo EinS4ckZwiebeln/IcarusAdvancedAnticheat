@@ -20,3 +20,7 @@ end
 function RemoveExcuseFromPlayer(source)
     Util.RemoveFromTable(API.excusedPlayers, source)
 end
+
+function GetExcusedPlayers()
+    return API.excusedPlayers
+end
