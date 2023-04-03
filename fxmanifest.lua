@@ -25,7 +25,7 @@ server_script {
     "core/server/main.js",
     "core/server/event_handler.lua",
     "core/server/heartbeat.js",
-    "core/server/scrambler.lua",
+    "core/server/scrambler.js",
     "core/server/injection.js",
     "modules/server/eventdata/clear_tasks.lua",
     "modules/server/eventdata/chat_filter.lua",
