@@ -121,51 +121,10 @@ function Util.IsHarmlessWeapon(hash)
     return false
 end
 
-function Util.GetRandomVariable(length)
-    local res = ""
-    for i = 1, length do
-        local chance = math.random(0, 1)
-        if chance == 0 then
-            res = res .. string.char(math.random(97, 122))
-        elseif chance == 1 then
-            res = res .. tostring(math.random(0, 9))
-        end
-    end
-    return res
-end
-
-function Util.GetResourceEvents()
-    local events, files = {}, Util.GetFiles({
-        "client_script",
-        "server_script"
-     })
-    for i = 1, #files do
-        local file = LoadResourceFile(Util.GetResourceName(), files[i])
-        for key, value in string.gmatch(file, "icarus:(%w*)\",") do
-            if key and events[key] == nil then
-                events[key] = key
-            end
-        end
-    end
-    return events
-end
-
 function Util.GetDistance(x1, y1, x2, y2)
     local dx = x1 - x2
     local dy = y1 - y2
     return math.sqrt(dx * dx + dy * dy)
-end
-
-function Util.GetFiles(options)
-    local files = {}
-    for k = 1, #options do
-        local occurences = GetNumResourceMetadata(Util.GetResourceName(), options[k])
-        for i = 1, occurences do
-            local metaVal = GetResourceMetadata(Util.GetResourceName(), options[k], i)
-            table.insert(files, metaVal)
-        end
-    end
-    return files
 end
 
 function Util.HashifyList(list)
