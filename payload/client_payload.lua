@@ -129,20 +129,30 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+    local timeout = false
     while ClientConfig.Modules.Ragdoll.enabled do
-        Citizen.Wait(10000)
+        Citizen.Wait(10000 + (timeout and 10000 or 0))
+        timeout = false
         local function PerformsVehicleAction()
-            if IsPedInAnyVehicle(_G.PLAYER_PED, true) or GetVehiclePedIsEntering(_G.PLAYER_PED) > 0 or IsPedJumpingOutOfVehicle(_G.PLAYER_PED) or IsPedJacking(_G.PLAYER_PED) then return true end
-            return false
+            return IsPedInAnyVehicle(_G.PLAYER_PED, true) or GetVehiclePedIsEntering(_G.PLAYER_PED) > 0 or IsPedJumpingOutOfVehicle(_G.PLAYER_PED) or IsPedJacking(_G.PLAYER_PED)
         end
         local function CanPlayerRagdoll()
-            if CanPedRagdoll(_G.PLAYER_PED) == 1 and IsPedRunningRagdollTask(_G.PLAYER_PED) then return true end
-            return false
+            return CanPedRagdoll(_G.PLAYER_PED) == 1 and IsPedRunningRagdollTask(_G.PLAYER_PED) and IsPedRagdoll(_G.PLAYER_PED)
         end
-        if CanPlayerRagdoll() and not PerformsVehicleAction() and not IsPedDeadOrDying(_G.PLAYER_PED, 1) then
+        local function InInvalidScenario()
+            return IsPedDeadOrDying(_G.PLAYER_PED, 1) or IsPedGettingUp(_G.PLAYER_PED) or IsEntityPositionFrozen(_G.PLAYER_PED) or HasEntityCollidedWithAnything(_G.PLAYER_PED) == 1
+        end
+
+        if PerformsVehicleAction() or InInvalidScenario() then
+            timeout = true
+            goto continue
+        end
+
+        if CanPlayerRagdoll() then
             TriggerServerEvent("icarus:417szjzm1goy", "Ragdoll [C1]", false)
             return
         end
+        ::continue::
     end
 end)
 
@@ -222,7 +232,7 @@ Citizen.CreateThread(function()
             end
         end
 
-        if not IsPlayerCamControlDisabled() and not IsEntityPositionFrozen(_G.PLAYER_PED) then
+        if not IsPlayerCamControlDisabled() and not IsEntityPositionFrozen(_G.PLAYER_PED) and not IsPedDeadOrDying(_G.PLAYER_PED) then
             if NetworkIsLocalPlayerInvincible(_G.PLAYER_PED) then TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false) end
             if not GetEntityCanBeDamaged(_G.PLAYER_PED) then TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C4]", false) end
         end
