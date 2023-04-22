@@ -1,8 +1,6 @@
 _G.PLAYER_PED = PlayerPedId()
 
-while not Util.IsPlayerSpawned() do
-    Citizen.Wait(500)
-end
+while not Util.IsPlayerSpawned() do Citizen.Wait(500) end
 
 Citizen.CreateThread(function()
     while true do
@@ -29,11 +27,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(2000)
         local function IsIllegalDamage(type)
             local hashes = ClientConfig.Modules.ExplosiveBullet.blacklistedTypes
-            for i = 1, #hashes do
-                if hashes[i] == type then
-                    return true
-                end
-            end
+            for i = 1, #hashes do if hashes[i] == type then return true end end
             return false
         end
 
@@ -67,16 +61,12 @@ Citizen.CreateThread(function()
         if not IsPedInAnyVehicle(_G.PLAYER_PED, true) and not IsPedOnVehicle(_G.PLAYER_PED) and not IsPedRunningRagdollTask(_G.PLAYER_PED) then
             local maxSpeed = 14.0
             if IsEntityInAir(_G.PLAYER_PED) then
-                if IsPedFalling(_G.PLAYER_PED) or IsPedInParachuteFreeFall(_G.PLAYER_PED) or GetPedParachuteState(_G.PLAYER_PED) > 0 then
-                    maxSpeed = 90.0
-                end
+                if IsPedFalling(_G.PLAYER_PED) or IsPedInParachuteFreeFall(_G.PLAYER_PED) or GetPedParachuteState(_G.PLAYER_PED) > 0 then maxSpeed = 90.0 end
             else
                 if IsPedSwimmingUnderWater(_G.PLAYER_PED) or IsPedSwimming(_G.PLAYER_PED) then
                     maxSpeed = 18.0
                 else
-                    if IsPedSprinting(_G.PLAYER_PED) or IsPedWalking(_G.PLAYER_PED) then
-                        maxSpeed = 10.0
-                    end
+                    if IsPedSprinting(_G.PLAYER_PED) or IsPedWalking(_G.PLAYER_PED) then maxSpeed = 10.0 end
                 end
             end
 
@@ -115,9 +105,7 @@ Citizen.CreateThread(function()
     while ClientConfig.Modules.FreeCam.enabled do
         Citizen.Wait(10000)
         local function IsValidSituation()
-            if IsPlayerCamControlDisabled() or (not IsGameplayCamRendering() and not ClientConfig.Modules.FreeCam.ignoreCamera) then
-                return false
-            end
+            if IsPlayerCamControlDisabled() or (not IsGameplayCamRendering() and not ClientConfig.Modules.FreeCam.ignoreCamera) then return false end
             return true
         end
 
@@ -144,15 +132,11 @@ Citizen.CreateThread(function()
     while ClientConfig.Modules.Ragdoll.enabled do
         Citizen.Wait(10000)
         local function PerformsVehicleAction()
-            if IsPedInAnyVehicle(_G.PLAYER_PED, true) or GetVehiclePedIsEntering(_G.PLAYER_PED) > 0 or IsPedJumpingOutOfVehicle(_G.PLAYER_PED) or IsPedJacking(_G.PLAYER_PED) then
-                return true
-            end
+            if IsPedInAnyVehicle(_G.PLAYER_PED, true) or GetVehiclePedIsEntering(_G.PLAYER_PED) > 0 or IsPedJumpingOutOfVehicle(_G.PLAYER_PED) or IsPedJacking(_G.PLAYER_PED) then return true end
             return false
         end
         local function CanPlayerRagdoll()
-            if CanPedRagdoll(_G.PLAYER_PED) == 1 and IsPedRunningRagdollTask(_G.PLAYER_PED) then
-                return true
-            end
+            if CanPedRagdoll(_G.PLAYER_PED) == 1 and IsPedRunningRagdollTask(_G.PLAYER_PED) then return true end
             return false
         end
         if CanPlayerRagdoll() and not PerformsVehicleAction() and not IsPedDeadOrDying(_G.PLAYER_PED, 1) then
@@ -166,11 +150,7 @@ Citizen.CreateThread(function()
     local function legitVehicleClass(vehicle)
         local class = GetVehicleClass(vehicle)
         local forbiddenClasses = ClientConfig.Modules.NoClip.vehicleClasses
-        for i = 1, #forbiddenClasses do
-            if class == forbiddenClasses[i] then
-                return true
-            end
-        end
+        for i = 1, #forbiddenClasses do if class == forbiddenClasses[i] then return true end end
         return false
     end
 
@@ -243,12 +223,8 @@ Citizen.CreateThread(function()
         end
 
         if not IsPlayerCamControlDisabled() and not IsEntityPositionFrozen(_G.PLAYER_PED) then
-            if NetworkIsLocalPlayerInvincible(_G.PLAYER_PED) then
-                TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false)
-            end
-            if not GetEntityCanBeDamaged(_G.PLAYER_PED) then
-                TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C4]", false)
-            end
+            if NetworkIsLocalPlayerInvincible(_G.PLAYER_PED) then TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C3]", false) end
+            if not GetEntityCanBeDamaged(_G.PLAYER_PED) then TriggerServerEvent("icarus:417szjzm1goy", "Godmode [C4]", false) end
         end
     end
 end)
@@ -453,9 +429,7 @@ Citizen.CreateThread(function()
             local startPos = GetEntityCoords(_G.PLAYER_PED)
             while IsPedJumping(_G.PLAYER_PED) do
                 Citizen.Wait(0)
-                if IsPedJumpingOutOfVehicle(_G.PLAYER_PED) or IsPedRagdoll(_G.PLAYER_PED) or IsPedInParachuteFreeFall(_G.PLAYER_PED) or GetPedParachuteState(_G.PLAYER_PED) > 0 then
-                    break
-                end
+                if IsPedJumpingOutOfVehicle(_G.PLAYER_PED) or IsPedRagdoll(_G.PLAYER_PED) or IsPedInParachuteFreeFall(_G.PLAYER_PED) or GetPedParachuteState(_G.PLAYER_PED) > 0 then break end
             end
 
             local endPos = GetEntityCoords(_G.PLAYER_PED)
@@ -467,16 +441,5 @@ Citizen.CreateThread(function()
                 return
             end
         end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(15000)
-        local resourceList = {}
-        for i = 0, GetNumResources() - 1 do
-            resourceList[i + 1] = GetResourceByFindIndex(i)
-        end
-        TriggerServerEvent("icarus:t98b173hbp66", resourceList)
     end
 end)

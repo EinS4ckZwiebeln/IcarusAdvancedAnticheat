@@ -20,11 +20,6 @@ ServerConfig.Scrambler = false
 -- Beware that some values are very sensitive and could break everything.
 ServerConfig.Modules = {
 
-    -- Checks if the player runs any unknown resources.
-    Injection = {
-        enabled = true
-     },
-
     -- Everything connection related.
     Connect = {
         -- Prevents players using a VPN client from connecting.
