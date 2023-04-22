@@ -1,5 +1,3 @@
-const currentVersion = GetResourceMetadata(curName, "version", 0);
-
 const config = {
     method: "get",
     headers: {
