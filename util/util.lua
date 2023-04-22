@@ -44,83 +44,6 @@ function Util.IsPlayerSpawned()
     end
 end
 
-local meleeWeapons = {
-    -1569615261,
-    -1716189206,
-    1737195953,
-    1317494643,
-    -1786099057,
-    -2067956739,
-    1141786504,
-    -102323637,
-    -1834847097,
-    -102973651,
-    -656458692,
-    -581044007,
-    -1951375401,
-    -538741184,
-    -1810795771,
-    419712736,
-    -853065399
- }
-function Util.IsMeleeWeapon(hash)
-    for i = 1, #meleeWeapons do
-        if meleeWeapons[i] == hash then
-            return true
-        end
-    end
-    return false
-end
-
-local aoeWeapons = {
-    911657153,
-    1198879012,
-    -1568386805,
-    -1312131151,
-    2138347493,
-    1834241177,
-    1672152130,
-    1305664598,
-    125959754,
-    -1813897027,
-    741814745,
-    -1420407917,
-    -1600701090,
-    615608432,
-    101631238,
-    883325847,
-    1233104067,
-    -37975472,
-    -1169823560
- }
-function Util.IsAOEWeapon(hash)
-    for i = 1, #aoeWeapons do
-        if aoeWeapons[i] == hash then
-            return true
-        end
-    end
-    return false
-end
-
-local damagelessWeapons = {
-    911657153,
-    1198879012,
-    1233104067,
-    600439132,
-    126349499,
-    -37975472,
-    101631238
- }
-
-function Util.IsHarmlessWeapon(hash)
-    for i = 1, #damagelessWeapons do
-        if damagelessWeapons[i] == hash then
-            return true
-        end
-    end
-    return false
-end
-
 function Util.GetDistance(x1, y1, x2, y2)
     local dx = x1 - x2
     local dy = y1 - y2
@@ -164,19 +87,11 @@ function Util.IsAlphaNumeric(string, additional)
 end
 
 function Util.TableContains(list, value)
-    for i = 1, #list do
-        if list[i] == value then
-            return true
-        end
-    end
+    for i = 1, #list do if list[i] == value then return true end end
     return false
 end
 
 function Util.RemoveFromTable(list, value)
-    for index, v in pairs(list) do
-        if v == value then
-            table.remove(list, index)
-        end
-    end
+    for index, v in pairs(list) do if v == value then table.remove(list, index) end end
 end
 
