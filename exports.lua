@@ -2,10 +2,8 @@ API = {}
 
 API.excusedPlayers = {}
 
-function AddExcuseForPlayer(source, time)
-    if Util.TableContains(API.excusedPlayers, source) then
-        return
-    end
+exports("AddExcuseForPlayer", function(source, time)
+    if Util.TableContains(API.excusedPlayers, source) then return end
     if time == -1 then
         table.insert(API.excusedPlayers, source)
     else
@@ -15,12 +13,12 @@ function AddExcuseForPlayer(source, time)
             Util.RemoveFromTable(API.excusedPlayers, source)
         end)
     end
-end
+end)
 
-function RemoveExcuseFromPlayer(source)
+exports("RemoveExcuseFromPlayer", function(source)
     Util.RemoveFromTable(API.excusedPlayers, source)
-end
+end)
 
-function GetExcusedPlayers()
+exports("GetExcusedPlayers", function()
     return API.excusedPlayers
-end
+end)
