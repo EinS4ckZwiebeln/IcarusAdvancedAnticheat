@@ -112,9 +112,6 @@ ClientConfig.Modules = {
      }
 }
 
--- DO NOT REMOVE
-function GetClientConfig()
-    if GetCurrentResourceName() == GetInvokingResource() then
-        return ClientConfig
-    end
-end
+exports("GetClientConfig", function()
+    if GetCurrentResourceName() == GetInvokingResource() then return ClientConfig end
+end)

@@ -187,9 +187,7 @@ ServerConfig.Modules = {
                         ESX = obj
                     end)
                     local xPlayer = ESX.GetPlayerFromId(source)
-                    if xPlayer.getJob().name ~= "police" then
-                        return true
-                    end
+                    if xPlayer.getJob().name ~= "police" then return true end
                     return false
                 end
             }
@@ -441,9 +439,7 @@ ServerConfig.IllegalModels = {
     "prop_dt1_20_mp_gar"
  }
 
--- DO NOT REMOVE
-function GetServerConfig()
-    if GetCurrentResourceName() == GetInvokingResource() then
-        return ServerConfig
-    end
-end
+exports("GetServerConfig", function()
+    if GetCurrentResourceName() == GetInvokingResource() then return ServerConfig end
+end)
+
