@@ -9,29 +9,31 @@ version "1.3.2"
 lua54 "yes"
 
 client_script {
+    -- Misc
     "config/config_cl.lua",
-    "core/client/transmitter.lua",
-    "core/client/event_handler.lua",
-    "modules/client/eventdata/pickup.lua",
-    "modules/client/eventdata/resource_stopper.lua",
-    "modules/client/eventdata/vehicle_teleport.lua"
- }
+    -- Core
+    "core/client/*.lua",
+    -- Modules
+    "modules/client/eventdata/*.lua"
+}
 
 server_script {
+    -- Misc
     "exports.lua",
     "util/discord.js",
     "config/config_sv.lua",
+    -- Core
     "core/server/update.js",
     "core/server/main.js",
     "core/server/event_handler.js",
     "core/server/heartbeat.js",
     "core/server/scrambler.js",
     "core/server/injection.js",
-    "modules/server/coroutine/*.lua",
-    "modules/server/connect.js",
-    "modules/server/events.lua",
-    "modules/server/resource_state.js"
- }
+    -- Modules
+    "modules/server/*.js",
+    "modules/server/*.lua",
+    "modules/server/coroutine/*.lua"
+}
 
 shared_script {
     "util/util.lua",
