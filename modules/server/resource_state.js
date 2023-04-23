@@ -21,7 +21,7 @@ onNet("onResourceStart", (rName) => {
 
 onNet("onResourceListRefresh", () => {
     DeleteResourceKvp("resource_states");
-    alteredStates = [];
+    alteredStates.length = 0;
 });
 
 onNet("icarus:9045go7a03c5", (rName) => {
