@@ -12,16 +12,6 @@ else
     math.random()
 end
 
-local rName = GetCurrentResourceName()
-function Util.GetResourceName()
-    return rName
-end
-
-local version = GetResourceMetadata(Util.GetResourceName(), "version", 0)
-function Util.GetVersion()
-    return version
-end
-
 local isSpawned = false
 AddEventHandler("playerSpawned", function()
     isSpawned = true
@@ -57,33 +47,6 @@ function Util.HashifyList(list)
         table.insert(hashified, hashVal)
     end
     return hashified
-end
-
-function Util.GetAngleDiff(x, y, max)
-    if x > y then
-        local long = (x - y) > (max / 2)
-        if long then
-            return max - (x - y)
-        else
-            return (x - y)
-        end
-    else
-        local long = (y - x) > (max / 2)
-        if long then
-            return max - (y - x)
-        else
-            return (y - x)
-        end
-    end
-end
-
-function Util.IsAlphaNumeric(string, additional)
-    local escape = "%[%]%(%)%{%}"
-    if string.match(string, "^[%w" .. additional .. escape .. "]+$") then
-        return true
-    else
-        return false
-    end
 end
 
 function Util.TableContains(list, value)
