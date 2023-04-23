@@ -10,7 +10,7 @@ function getForwardVector2D(pitch, yaw) {
     const cosYaw = Math.cos(yaw);
     const sinPitch = Math.sin(pitch);
     const sinYaw = Math.sin(yaw);
-    return vec2(-sinYaw, (sinPitch * cosYaw));
+    return [-sinYaw, (sinPitch * cosYaw)];
 }
 
 module.exports = (sender, data) => {
@@ -28,10 +28,10 @@ module.exports = (sender, data) => {
     const pCoords = GetEntityCoords(ped);
     const tCoords = GetEntityCoords(target);
 
-    const distance = Math.sqrt((pCoords.x - tCoords.x) ** 2 + (pCoords.y - tCoords.y) ** 2);
-    const expandedForward = [pCoords.x + forwardVector.x * distance, pCoords.y + forwardVector.y * distance, tCoords.z];
+    const distance = Math.sqrt((pCoords[0] - tCoords[0]) ** 2 + (pCoords[1] - tCoords[1]) ** 2);
+    const expandedForward = [pCoords[0] + forwardVector[0] * distance, pCoords[1] + forwardVector[1] * distance, tCoords[3]];
     const ans = Math.acos(pow2Vector(expandedForward, tCoords) / (sqrtPowVector(expandedForward) * sqrtPowVector(tCoords)));
-    const degrees = ans * (180 / Math.PI());
+    const degrees = ans * (180 / Math.PI);
 
     if (degrees > serverConfig.Modules.Aimbot.maxAngle) {
         emitNet("icarus:my602oxd71pv", sender, "Aimbot [C1]", false, { dregrees: degrees });
