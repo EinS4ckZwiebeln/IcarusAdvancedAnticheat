@@ -1,4 +1,4 @@
-const hashedModels = hashify(serverConfig.Modules.PedBlacklist.playerModels);
+const hashedModels = new Set(hashify(serverConfig.Modules.PedBlacklist.playerModels));
 
 module.exports = (data) => {
     const source = data.player;
@@ -7,7 +7,7 @@ module.exports = (data) => {
     const ped = GetPlayerPed(source);
     const model = GetEntityModel(ped);
 
-    if (hashedModels.includes(model) && model != 0) {
+    if (hashedModels.has(model) && model != 0) {
         emit("icarus:my602oxd71pv", source, "Illegal Player Ped [C1]", false, { pedHash: model });
     }
 };
