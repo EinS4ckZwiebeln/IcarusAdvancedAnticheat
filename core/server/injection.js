@@ -13,7 +13,8 @@ onNet("onResourceStart", async (rName) => {
     await Delay(3000); // Wait for the clients eventhandler to be registered.
     if (rName === curName) {
         const players = getPlayers();
-        for (let i = 0; i < players.length; i++) {
+        const length = players.length;
+        for (let i = 0; i < length; i++) {
             emitNet("icarus:p728i449icr3", players[i], payload);
         }
     }
