@@ -42,5 +42,6 @@ shared_script {
 
 dependencies {
     "/server:5181",
-    "/onesync"
+    "/onesync",
+    "yarn"
  }
