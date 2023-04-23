@@ -9,7 +9,7 @@ Icarus is a brand-new work in progress anticheat solution for your FiveM role-pl
 | Anti FreeCam | Anti EntityCreate | No VPN |
 | Anti PickUp | Anti Explosions | Honeypots |
 | Anti Godmode | Anti Godmode | Event Scrambler |
-| Anti Injection | Anti WeaponRange |  |
+| Anti Ragdoll | Anti WeaponRange |  |
 | Anti Speed | Anti GiveWeapon |  |
 | Anti SuperJump | Anti RemoveWeapon |  |
 | Anti VehicleTP | Anti IllegalPeds |  |
@@ -18,7 +18,6 @@ Icarus is a brand-new work in progress anticheat solution for your FiveM role-pl
 | Anti ResourceStopper | Anti IllegalDamage |  |
 | Anti Spectate | Anti WeaponModifier |  |
 | Anti TinyPed |  |  |
-| Anti Ragdoll |  |  |
 
 ### Installation
 1. Clone or download this repository.
@@ -52,9 +51,9 @@ end
 ```
 
 ### Dependencies
-| Onesync | FXServer | Screenshot-basic |
-|---------|----------|------------------|
-| Required | 5181+ | Optional |
+| FXServer | OneSync | Yarn | Screenshot-basic |
+|---------|----------|------|------------------|
+| 5181+ | Required | Required | Optional |
 
 ### Exports
 These exports can be used in order to create a temporary soft-bypass for a given player. Let's say some script of yours modifies the player in such a way that it causes severe false-positives. To avoid this behavior, you can ignore the player by adding an excuse right before the problematic code via following exports.
