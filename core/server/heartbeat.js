@@ -5,19 +5,21 @@ var token = crypto.randomBytes(16).toString("hex");
 
 setInterval(() => {
     const players = getPlayers(); // Why native not capitalized?
-    for (let i = 0; i < players.length; i++) {
+    let length = players.length;
+    for (let i = 0; i < length; i++) {
         if (GetPlayerLastMsg(players[i]) < 65535 && GetPlayerPed(players[i]) != 0) { // Make sure player is connected and has loaded.
             emitNet("icarus:sxgt19l7681o", players[i], token);
             awaitedPlayers.push(players[i]);
         }
     }
     setTimeout(() => {
-        for (let i = 0; i < awaitedPlayers.length; i++) {
+        length = awaitedPlayers.length;
+        for (let i = 0; i < length; i++) {
             if (GetPlayerLastMsg(awaitedPlayers[i]) < 65535 && GetPlayerPing(awaitedPlayers[i]) < 1000) {
                 emit("icarus:my602oxd71pv", awaitedPlayers[i], "Client failed to send heartbeat to the server", true);
             }
         }
-        awaitedPlayers = [];
+        awaitedPlayers.length = 0;
         token = crypto.randomBytes(16).toString("hex");
     }, 5000);
 }, 25000);
