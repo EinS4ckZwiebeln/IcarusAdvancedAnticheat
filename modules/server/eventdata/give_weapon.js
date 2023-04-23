@@ -3,7 +3,7 @@ module.exports = (source, data) => {
     if (DoesEntityExist(entity)) {
         const owner = NetworkGetEntityOwner(entity);
         if (source != owner) {
-            emitNet("icarus:my602oxd71pv", sender, "Give Weapon [C1]", false);
+            emit("icarus:my602oxd71pv", sender, "Give Weapon [C1]", false);
             CancelEvent();
         }
     }

@@ -8,7 +8,7 @@ module.exports = (handle) => {
         DeleteEntity(handle);
         const owner = NetworkGetFirstEntityOwner(handle);
         if (owner != 0 && serverConfig.Modules.EntityCreate.banNetworkOwner) {
-            emitNet("icarus:my602oxd71pv", owner, "Illegal Entity Model [C1]", false, {
+            emit("icarus:my602oxd71pv", owner, "Illegal Entity Model [C1]", false, {
                 owner: owner,
                 model: model
             });

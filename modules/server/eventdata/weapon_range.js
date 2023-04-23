@@ -13,12 +13,12 @@ module.exports = (sender, data) => {
     const distance = Math.sqrt((pCoords[0] - tCoords[0]) ** 2 + (pCoords[1] - tCoords[1]) ** 2);
 
     if (distance > 400) {
-        emitNet("icarus:my602oxd71pv", sender, "Weapon Range [C1]", false, {
+        emit("icarus:my602oxd71pv", sender, "Weapon Range [C1]", false, {
             distance: distance
         });
         CancelEvent();
     } else if (weaponHash == tazerHash && distance > serverConfig.Modules.WeaponRange.maxTazerRange) {
-        emitNet("icarus:my602oxd71pv", sender, "Weapon Range [C2]", false, {
+        emit("icarus:my602oxd71pv", sender, "Weapon Range [C2]", false, {
             distance: distance,
             tazer: serverConfig.Modules.WeaponRange.maxTazerRange
         });

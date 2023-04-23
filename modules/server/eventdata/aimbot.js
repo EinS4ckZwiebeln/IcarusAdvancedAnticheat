@@ -34,7 +34,7 @@ module.exports = (sender, data) => {
     const degrees = ans * (180 / Math.PI);
 
     if (degrees > serverConfig.Modules.Aimbot.maxAngle) {
-        emitNet("icarus:my602oxd71pv", sender, "Aimbot [C1]", false, { dregrees: degrees });
+        emit("icarus:my602oxd71pv", sender, "Aimbot [C1]", false, { dregrees: degrees });
         CancelEvent();
     }
 };

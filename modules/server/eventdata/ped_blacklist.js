@@ -8,6 +8,6 @@ module.exports = (data) => {
     const model = GetEntityModel(ped);
 
     if (hashedModels.includes(model) && model != 0) {
-        emitNet("icarus:my602oxd71pv", source, "Illegal Player Ped [C1]", false, { pedHash: model });
+        emit("icarus:my602oxd71pv", source, "Illegal Player Ped [C1]", false, { pedHash: model });
     }
 };

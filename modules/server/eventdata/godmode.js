@@ -3,7 +3,7 @@ module.exports = (sender, data) => {
     const target = NetworkGetEntityFromNetworkId(rawTargetData);
 
     if (DoesEntityExist(target) && IsPedAPlayer(target) && GetPlayerInvincible(rawTargetData)) {
-        emitNet("icarus:my602oxd71pv", sender, "Godmode [C5]", false);
+        emit("icarus:my602oxd71pv", sender, "Godmode [C5]", false);
         CancelEvent();
     }
 };
