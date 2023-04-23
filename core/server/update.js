@@ -17,8 +17,8 @@ async function fetchLatestRelease() {
 async function checkForUpdates() {
     const latestRelease = await fetchLatestRelease();
     if (currentVersion != latestRelease) {
-        console.log(`^1This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${latestRelease} | Current Version: ${currentVersion}`);
+        console.log(`^1This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${latestRelease} | Current Version: ${currentVersion}^0`);
     }
 }
 
-checkForUpdates();
+setImmediate(() => { checkForUpdates(); });
