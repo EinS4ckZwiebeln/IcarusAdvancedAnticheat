@@ -1,5 +1,4 @@
 module.exports = (source, data) => {
-    console.log(source, data);
     if (data.scale > 0 && data.scale > serverConfig.Modules.Particles.maxScale) {
         CancelEvent();
     }
