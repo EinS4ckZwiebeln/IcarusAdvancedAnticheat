@@ -19,10 +19,10 @@ module.exports = (sender, data) => {
 
     const netId = data.hitGlobalId || data.hitGlobalIds[0];
     const target = NetworkGetEntityFromNetworkId(netId);
-    const ped = GetPlayerPed(sender);
 
     if (!DoesEntityExist(target) || !IsPedAPlayer(target)) { return; }
 
+    const ped = GetPlayerPed(sender);
     const radians = GetPlayerCameraRotation(sender);
     const forwardVector = getForwardVector2D(radians[0], radians[2]);
     const pCoords = GetEntityCoords(ped);
