@@ -1,9 +1,10 @@
-const hashedEntities = hashify(serverConfig.IllegalModels);
+const hashedEntities = new Set(hashify(serverConfig.IllegalModels));
 
 module.exports = (handle) => {
     if (!DoesEntityExist(handle)) { return; }
     const model = GetEntityModel(handle);
-    if (hashedEntities.includes(model)) {
+
+    if (hashedEntities.has(model)) {
         DeleteEntity(handle);
         const owner = NetworkGetFirstEntityOwner(handle);
         if (owner != 0 && serverConfig.Modules.EntityCreate.banNetworkOwner) {
