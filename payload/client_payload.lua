@@ -140,7 +140,7 @@ Citizen.CreateThread(function()
             return CanPedRagdoll(_G.PLAYER_PED) == 1 and IsPedRunningRagdollTask(_G.PLAYER_PED) and IsPedRagdoll(_G.PLAYER_PED)
         end
         local function InInvalidScenario()
-            return IsPedDeadOrDying(_G.PLAYER_PED, 1) or IsPedGettingUp(_G.PLAYER_PED) or IsEntityPositionFrozen(_G.PLAYER_PED) or HasEntityCollidedWithAnything(_G.PLAYER_PED) == 1
+            return IsPedDeadOrDying(_G.PLAYER_PED, 1) or IsPedGettingUp(_G.PLAYER_PED) or IsPedFalling(_G.PLAYER_PED) or IsEntityPositionFrozen(_G.PLAYER_PED) or HasEntityCollidedWithAnything(_G.PLAYER_PED) == 1
         end
 
         if PerformsVehicleAction() or InInvalidScenario() then
