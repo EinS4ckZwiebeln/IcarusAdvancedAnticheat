@@ -77,12 +77,12 @@ function enabled(name) {
 
 function listen() {
     for (let i in events) {
-        onNet(events[i].name, (...args) => {
-            const modules = events[i].modules
-            for (let j in modules) {
-                if (modules[j][0]) { modules[j][1](args[0], args[1], args[2]); }
+        const modules = events[i].modules
+        for (let j in modules) {
+            if (modules[j][0]) {
+                onNet(events[i].name, (...args) => { modules[j][1](args[0], args[1], args[2]); });
             }
-        });
+        }
     }
 }
 
