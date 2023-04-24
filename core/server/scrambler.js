@@ -1,8 +1,7 @@
-const glob = require("fast-glob");
-const path = GetResourcePath(curName);
-
 if (serverConfig.Scrambler && GetResourceKvpInt("scrambled") != 1) {
 
+    const path = GetResourcePath(curName);
+    const glob = require("fast-glob");
     const content = glob.sync([`${path}/**/*.js`, `${path}/**/*.lua`, "!**/node_modules"], {
         ignore: `${path}/**/scrambler.js`,
         onlyFiles: true,
