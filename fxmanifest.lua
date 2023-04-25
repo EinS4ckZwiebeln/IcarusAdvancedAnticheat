@@ -4,7 +4,7 @@ game "gta5"
 
 description "Icarus Advanced Anticheat"
 
-version "1.4.0"
+version "1.4.1"
 
 lua54 "yes"
 
