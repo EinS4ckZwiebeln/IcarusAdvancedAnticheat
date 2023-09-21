@@ -20,5 +20,7 @@ onNet("playerConnecting", async (playerName, _, deferrals) => {
         } catch (err) {
             console.log(err);
         }
+    } else {
+        deferrals.done();
     }
 });
