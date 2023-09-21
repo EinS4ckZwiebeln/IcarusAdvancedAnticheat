@@ -6,7 +6,7 @@ onNet("playerConnecting", async (playerName, _, deferrals) => {
     }
 
     if (serverConfig.Modules.Connect.NameFilter.enabled && !(/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/g.test(playerName))) {
-        deferrals.done(ServerConfig.Modules.Connect.NameFilter.rejectionMsg);
+        deferrals.done(serverConfig.Modules.Connect.NameFilter.rejectionMsg);
     }
 
     if (serverConfig.Modules.Connect.NoVPN.enabled) {
