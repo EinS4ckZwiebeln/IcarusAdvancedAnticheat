@@ -10,6 +10,7 @@ ServerConfig.DiscordWebhook = ""
 
 -- Add your own ban logic here.
 function ServerConfig.BanPlayer(source, reason)
+    if GetPlayerPed(source) == 0 then return end   -- Player does not exist anymore, abort...
     TriggerEvent("EasyAdmin:banPlayer", source, "Cheating (" .. reason .. ")", 1044463300) -- EasyAdmin for the sake of simplicity.
 end
 
