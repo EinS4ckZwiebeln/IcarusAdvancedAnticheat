@@ -1,7 +1,26 @@
 {
-    "dependencies": {
-        "axios": "1.2.0",
-        "form-data": "^4.0.0",
-        "fast-glob": "^3.2.12"
-    }
+	"name": "icarus",
+	"version": "1.0.0",
+	"description": "Open Source FiveM Anti-Cheat",
+	"main": "index.js",
+	"scripts": {
+		"watch": "esbuild --watch --bundle --sourcemap --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js",
+		"build": "esbuild --bundle --minify --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js"
+	},
+	"author": "EinS4ckZwiebeln",
+	"license": "MIT",
+	"dependencies": {
+		"@citizenfx/server": "^2.0.6736-1",
+		"@types/bad-words": "^3.0.2",
+		"@types/node": "7.0.7",
+		"@types/node-fetch": "^2.6.6",
+		"bad-words": "^3.0.4",
+		"esbuild": "^0.19.4",
+		"form-data": "^4.0.0",
+		"node-fetch": "^1.7.3",
+		"ts-loader": "^5.3.3",
+		"typescript": "3.2.2",
+		"winston": "^3.10.0",
+		"winston-daily-rotate-file": "^4.7.1"
+	}
 }
