@@ -24,15 +24,18 @@ export class ExplosionFilterModule extends Module {
 	 */
 	private onExplosion(source: number, data: any): void {
 		if (!this._whitelistedExplosionTypes.has(data.explosionType)) {
-			new Violation(source, "Explosion [C1]");
+			const violation = new Violation(source, "Explosion [C1]", this.name);
+			violation.banPlayer();
 			return;
 		}
 		if (data.damageScale > 1.0) {
-			new Violation(source, "Explosion [C2]");
+			const violation = new Violation(source, "Explosion [C2]", this.name);
+			violation.banPlayer();
 			return;
 		}
 		if (data.isInvisible) {
-			new Violation(source, "Explosion [C3]");
+			const violation = new Violation(source, "Explosion [C3]", this.name);
+			violation.banPlayer();
 			return;
 		}
 	}

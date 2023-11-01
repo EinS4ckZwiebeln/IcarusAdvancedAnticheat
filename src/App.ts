@@ -23,6 +23,7 @@ import { WeaponModifierModule } from "./modules/WeaponModifierModule";
 import { ParticlesModule } from "./modules/ParticlesModule";
 import { ChatProfanityModule } from "./modules/ChatProfanityModule";
 import { PermissionHandler } from "./core/handler/PermissionHandler";
+import { ExcuseHandler } from "./core/handler/ExcuseHandler";
 
 /**
  * Represents the main application class.
@@ -34,6 +35,8 @@ class App {
 		// Initialize the logger
 		Logger.init();
 		Logger.debug(`Starting Icarus v${Utility.CURRENT_VERSION} ...`);
+		// Initialize the excuse handler
+		ExcuseHandler.init();
 		// Initialize the permission handler
 		PermissionHandler.init();
 

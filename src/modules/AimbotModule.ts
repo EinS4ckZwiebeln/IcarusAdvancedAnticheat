@@ -40,7 +40,8 @@ export class AimbotModule extends Module {
 		const ans: number = Math.acos(this.pow2Vector(expandedForward, victimCoords) / (this.sqrtPowVector(expandedForward) * this.sqrtPowVector(victimCoords)));
 
 		if (ans * Utility.RADIANS > this._angleThreshold) {
-			new Violation(parseInt(source), "Aimbot [C1]");
+			const violation = new Violation(parseInt(source), "Aimbot [C1]", this.name);
+			violation.banPlayer();
 			CancelEvent();
 		}
 	}

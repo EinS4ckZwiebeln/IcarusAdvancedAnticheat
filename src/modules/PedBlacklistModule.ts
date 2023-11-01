@@ -23,12 +23,13 @@ export class PedBlacklistModule extends Module {
 	 * Checks if a player's ped is blacklisted and bans them if it is.
 	 * @param source - The player's source ID.
 	 */
-	private onEnteredScope(source: string): void {
-		const ped: number = GetPlayerPed(source);
+	private onEnteredScope(source: number): void {
+		const ped: number = GetPlayerPed(source.toString());
 		const model: number = GetEntityModel(ped);
 
 		if (!this._whitelistedPedModels.has(model)) {
-			new Violation(parseInt(source), "Blacklisted Ped [C1]");
+			const violation = new Violation(source, "Blacklisted Ped [C1]", this.name);
+			violation.banPlayer();
 			CancelEvent();
 		}
 	}

@@ -5,15 +5,18 @@ import { BanEmbed } from "../web/BanEmbed";
 import { Logger } from "../logger/Logger";
 import { Screenshot } from "../web/Screenshot";
 import { PermissionHandler } from "./handler/PermissionHandler";
-import { config } from "../config/ConfigType";
+import { ExcuseHandler } from "./handler/ExcuseHandler";
 
 export class Violation {
-	private readonly _webhook: string;
+	private readonly _webhook: string = Config.getConfig().DiscordWebhook;
+	private readonly _source: number;
+	private readonly _reason: string;
+	private readonly _module: string;
 
-	constructor(source: number, reason: string) {
-		const config: config = Config.getConfig();
-		this._webhook = config.DiscordWebhook;
-		this.banPlayer(source, reason);
+	constructor(source: number, reason: string, module: string) {
+		this._source = source;
+		this._reason = reason;
+		this._module = module;
 	}
 
 	/**
@@ -22,14 +25,14 @@ export class Violation {
 	 * @param reason - The reason for the ban.
 	 * @returns A Promise that resolves when the player is banned.
 	 */
-	private async banPlayer(source: number, reason: string): Promise<void> {
-		if (!PermissionHandler.hasPermission(source)) return;
+	public async banPlayer(): Promise<void> {
+		if (!PermissionHandler.hasPermission(source) || ExcuseHandler.isExcused(this._source, this._module)) return;
 
-		this.takeScreenshot(source, reason);
+		this.takeScreenshot(source, this._reason);
 		// Wait 500ms to allow screenshot to be taken
 		setTimeout(() => {
-			Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(source, reason);
-			Logger.debug(`Banned player ${source} for reason: ${reason}`);
+			Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(source, this._reason);
+			Logger.debug(`Banned player ${source} for reason: ${this._reason}`);
 		}, 500);
 	}
 

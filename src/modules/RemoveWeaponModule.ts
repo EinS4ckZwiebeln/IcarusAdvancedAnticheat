@@ -22,7 +22,8 @@ export class RemoveWeaponModule extends Module {
 		if (DoesEntityExist(entity)) {
 			const owner = NetworkGetEntityOwner(entity);
 			if (source != owner) {
-				new Violation(source, "RemoveWeapon [C1]");
+				const violation = new Violation(source, "Remove Weapon [C1]", this.name);
+				violation.banPlayer();
 				CancelEvent();
 			}
 		}

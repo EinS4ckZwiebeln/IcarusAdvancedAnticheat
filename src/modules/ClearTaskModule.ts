@@ -15,7 +15,8 @@ export class ClearTaskModule extends Module {
 	 * @param source The player's source.
 	 */
 	private onClearTask(source: number): void {
-		new Violation(source, "ClearPedTask [C1]");
+		const violation = new Violation(source, "ClearPedTask [C1]", this.name);
+		violation.banPlayer();
 		CancelEvent();
 	}
 }

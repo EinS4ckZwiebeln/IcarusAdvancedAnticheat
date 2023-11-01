@@ -4,8 +4,8 @@ import { Violation } from "../core/Violation";
 import { Config } from "../config/Config";
 
 export class WeaponModifierModule extends Module {
-	// Add 0.01 to the value to account for floating point errors.
-	private _damageModifier: number = Config.getValue(this.config, "damageModifier") + 0.01;
+	// Add 0.001 to the value to account for floating point errors.
+	private _damageModifier: number = Config.getValue(this.config, "damageModifier") + 0.001;
 
 	public onLoad(): void {
 		EventHandler.subscribe("weaponDamageEvent", (source: string) => this.onDamage(source));
@@ -22,7 +22,8 @@ export class WeaponModifierModule extends Module {
 	 */
 	private onDamage(source: string): void {
 		if (GetPlayerMeleeWeaponDamageModifier(source) || GetPlayerWeaponDamageModifier(source) || GetPlayerWeaponDefenseModifier(source) > this._damageModifier) {
-			new Violation(parseInt(source), "Weapon Modifier [C1]");
+			const violation = new Violation(parseInt(source), "Weapon Modifier [C1]", this.name);
+			violation.banPlayer();
 			CancelEvent();
 			return;
 		}

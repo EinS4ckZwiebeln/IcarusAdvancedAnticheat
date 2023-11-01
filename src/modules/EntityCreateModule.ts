@@ -29,7 +29,8 @@ export class EntityCreateModule extends Module {
 
 			if (this._illegalEntities.has(GetEntityModel(entity))) {
 				if (this._banNetworkOwner) {
-					new Violation(owner, "Illegal Entity [C1]");
+					const violation = new Violation(owner, "Illegal Entity [C1]", this.name);
+					violation.banPlayer();
 				}
 				violation = true;
 			}
@@ -37,7 +38,8 @@ export class EntityCreateModule extends Module {
 			const rootEntity: number = GetEntityAttachedTo(entity);
 			if (rootEntity > 0 && NetworkGetFirstEntityOwner(rootEntity) != owner) {
 				if (this._banNetworkOwner) {
-					new Violation(owner, "Illegal Entity [C2]");
+					const violation = new Violation(owner, "Illegal Entity [C2]", this.name);
+					violation.banPlayer();
 				}
 				violation = true;
 			}

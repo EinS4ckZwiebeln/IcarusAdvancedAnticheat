@@ -24,7 +24,8 @@ export class WeaponBlacklistModule extends Module {
 	 */
 	private onWeaponDamage(source: number, weaponType: number): void {
 		if (this._blacklistedWeapons.has(weaponType)) {
-			new Violation(source, "Blacklisted Weapon [C1]");
+			const violation = new Violation(source, "Blacklisted Weapon [C1]", this.name);
+			violation.banPlayer();
 			CancelEvent();
 		}
 	}

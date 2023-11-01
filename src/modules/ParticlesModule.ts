@@ -19,12 +19,14 @@ export class ParticlesModule extends Module {
 		if (isOnEntity && entityNetId > 0) {
 			const owner: number = NetworkGetEntityOwner(NetworkGetEntityFromNetworkId(entityNetId));
 			if (owner != source) {
-				new Violation(source, "PtFx [C1]");
+				const violation = new Violation(source, "Ptfx [C1]", this.name);
+				violation.banPlayer();
 				CancelEvent();
 			}
 		}
 		if (scale > this._maxScale) {
-			new Violation(source, "PtFx [C2]");
+			const violation = new Violation(source, "Ptfx [C2]", this.name);
+			violation.banPlayer();
 			CancelEvent();
 		}
 	}

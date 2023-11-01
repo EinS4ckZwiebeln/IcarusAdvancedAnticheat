@@ -21,7 +21,8 @@ export class GiveWeaponModule extends Module {
 		if (DoesEntityExist(entity)) {
 			const owner = NetworkGetEntityOwner(entity);
 			if (source != owner) {
-				new Violation(source, "GiveWeapon [C1]");
+				const violation = new Violation(source, "GiveWeapon [C1]", this.name);
+				violation.banPlayer();
 				CancelEvent();
 			}
 		}

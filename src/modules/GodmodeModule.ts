@@ -22,7 +22,8 @@ export class GodmodeModule extends Module {
 		const target: number = NetworkGetEntityFromNetworkId(netId);
 		if (IsPedAPlayer(target)) {
 			if (GetPlayerInvincible(target.toString())) {
-				new Violation(netId, "Godmode [C1]");
+				const violation = new Violation(source, "Godmode [C1]", this.name);
+				violation.banPlayer();
 				CancelEvent();
 			}
 		}

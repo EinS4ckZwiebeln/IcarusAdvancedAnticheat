@@ -15,7 +15,8 @@ export class SuperJumpModule extends Module {
 		const players: string[] = getPlayers();
 		players.forEach((player) => {
 			if (IsPlayerUsingSuperJump(player)) {
-				new Violation(parseInt(player), "Super Jump [C1]");
+				const violation = new Violation(parseInt(player), "Super Jump [C1]", this.name);
+				violation.banPlayer();
 			}
 		});
 		await this.Delay(3000);

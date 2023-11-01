@@ -36,7 +36,8 @@ export class TazerModule extends Module {
 				const killer: number = GetPlayerPed(source.toString());
 				const victim: number = GetPlayerPed(NetworkGetEntityFromNetworkId(target).toString());
 				if (Utility.getDistance(GetEntityCoords(killer), GetEntityCoords(victim)) > this._tazerRange) {
-					new Violation(source, "Tazer Reach [C1]");
+					const violation = new Violation(source, "Tazer Reach [C1]", this.name);
+					violation.banPlayer();
 					CancelEvent();
 				}
 				break;
@@ -50,7 +51,8 @@ export class TazerModule extends Module {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:
 				if (this._onCooldown.has(source)) {
-					new Violation(source, "Tazer Cooldown [C1]");
+					const violation = new Violation(source, "Tazer Cooldown [C2]", this.name);
+					violation.banPlayer();
 					CancelEvent();
 				} else {
 					this._onCooldown.add(source);
