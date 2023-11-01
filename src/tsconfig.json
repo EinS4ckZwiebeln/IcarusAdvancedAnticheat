@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "module": "ESNext",
+        "target": "ESNext",
+        "allowJs": false,
+        "lib": ["ESNext", "DOM"],
+        "types": ["@citizenfx/server", "@types/node"],
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "esModuleInterop": true
+    },
+    "include": ["./**/*"],
+    "exclude": ["node_modules/@types/node"]
+}
