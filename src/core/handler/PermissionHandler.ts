@@ -16,6 +16,10 @@ export class PermissionHandler {
 	 */
 	private static readonly _bypassPermission: string = Config.getValue(Config.getConfig(), "bypassPermission");
 
+	constructor() {
+		throw new Error("PermissionHandler is a static class and cannot be instantiated.");
+	}
+
 	public static init(): void {
 		EventHandler.subscribe("txAdmin:events:adminAuth", (data: any) => this.onTxAuth(data));
 	}
