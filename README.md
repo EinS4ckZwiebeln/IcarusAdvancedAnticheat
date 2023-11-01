@@ -4,28 +4,27 @@ Icarus is a brand-new work in progress anticheat solution for your FiveM role-pl
 
 ### Features
 
-| Client               | Server              | Other           |
-| -------------------- | ------------------- | --------------- |
-| Anti NoClip          | Anti Aimbot         | Heartbeat       |
-| Anti DUI             | Anti ClearTasks     | Regex Filters   |
-| Anti FreeCam         | Anti EntityCreate   | No VPN          |
-| Anti PickUp          | Anti Explosions     | Honeypots       |
-| Anti Godmode         | Anti Godmode        | Event Scrambler |
-| Anti Ragdoll         | Anti WeaponRange    |                 |
-| Anti Speed           | Anti GiveWeapon     |                 |
-| Anti SuperJump       | Anti RemoveWeapon   |                 |
-| Anti VehicleTP       | Anti IllegalPeds    |                 |
-| Anti Vision          | Anti Particles      |                 |
-| Anti Explosives      | Anti Weapons        |                 |
-| Anti ResourceStopper | Anti IllegalDamage  |                 |
-| Anti Spectate        | Anti WeaponModifier |                 |
-| Anti TinyPed         |                     |                 |
+| Detections           | Other              |
+| -------------------- | ------------------ |
+| Anti Aimbot          | Anti VPN           |
+| Anti Clear Tasks     | Anti Illegal Names |
+| Anti Entity Creation | Anti Bad Words     |
+| Anti Explosions      |                    |
+| Anti GiveWeapon      |                    |
+| Anti RemoveWeapon    |                    |
+| Anti Godmode         |                    |
+| Anti Particles       |                    |
+| Anti Illegal Peds    |                    |
+| Anti Super Jump      |                    |
+| Anti Tazer Mods      |                    |
+| Anti Illegal Weapons |                    |
+| Anti Damage Modifier |                    |
 
 ### Installation
 
-1. Clone or download this repository.
+1. Download the latest release for this repository.
 
-2. Extract contents into your `/resources/` directory and ensure dependencies.
+2. Extract contents into your `/resources/` directory and ensure dependencies are installed.
 
 3. Read and adjust all configuration files carefully.
 
@@ -46,13 +45,14 @@ Following ace permission allows selected players to bypass the anticheat detecti
 
 ### Banning
 
-Many anticheats come with custom ban-systems or databases. Icarus avoids such systems to improve compatibility and to steer clear of bloated code. To use Icarus properly it is necessary to add your own ban logic to the script. This can be done in the server confuguration file.
+Many anticheats come with custom ban-systems or databases. Icarus avoids such systems to improve compatibility and to steer clear of bloated code. To use Icarus properly it is necessary to add your own ban logic to the script. This can be done in the confuguration file.
 
 ```lua
-function ServerConfig.BanPlayer(source, reason)
-  -- Your own ban logic goes here.
-  -- EXAMPLE: TriggerEvent("EasyAdmin:banPlayer", source, reason, 1044463300)
-end
+-- << config.lua >>
+-- This export gets called when a cheater has been caught.
+exports("BanPlayer", function (source, reason)
+    -- Your own banning logic goes here!
+end)
 ```
 
 ### Dependencies
@@ -69,18 +69,25 @@ These exports can be used in order to create a temporary soft-bypass for a given
 exports[<resource_name>]:<function>(param1, param2, ...)
 ```
 
-| Function               | Parameters                | Type   |
-| ---------------------- | ------------------------- | ------ |
-| AddExcuseForPlayer     | source: int; timeout: int | Server |
-| RemoveExcuseFromPlayer | source: int               | Server |
+| Function               | Parameters                                  | Retval  | Type   |
+| ---------------------- | ------------------------------------------- | ------- | ------ |
+| AddExcuseForPlayer     | source: int; timeout: int, module?: string; | void    | Server |
+| RemoveExcuseFromPlayer | source: int; module?: string;               | void    | Server |
+| IsPlayerExcused        | source: int; module?: string;               | boolean | Server |
 
 ```lua
 -- Player won't be able to trigger any detections for 1000ms.
 exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000)
+exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000, "TestModule") -- Excuse individual module
 
--- Player won't be able to trigger any detections until his excuse is removed.
+-- Player won't be able to trigger any detections until his excuse is manually removed.
 exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, -1)
 
--- Player can now trigger various detections again.
+-- Player can now trigger all detections again.
 exports["IcarusAdvancedAnticheat"]:RemoveExcuseFromPlayer(source)
+exports["IcarusAdvancedAnticheat"]:RemoveExcuseFromPlayer(source, "TestModule") -- Remove excuse for individual module
+
+-- Verify if player is excused for everything or indivual module.
+exports["IcarusAdvancedAnticheat"]:IsPlayerExcused(source)
+exports["IcarusAdvancedAnticheat"]:IsPlayerExcused(source, "TestModule")
 ```
