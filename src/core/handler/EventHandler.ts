@@ -6,6 +6,10 @@ export class EventHandler {
 	private static readonly _events: Map<string, Function[]> = new Map();
 	private static readonly _netEvents: Set<string> = new Set();
 
+	constructor() {
+		throw new Error("EventHandler is a static class and cannot be instantiated.");
+	}
+
 	/**
 	 * Subscribes to an event with the given name and callback function.
 	 * @param eventName The name of the event to subscribe to.
