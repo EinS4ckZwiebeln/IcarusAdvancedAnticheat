@@ -1,13 +1,14 @@
 import { Utility } from "../util/Utility";
+import { config } from "./ConfigType";
 
 export class Config {
-	private static _config: any = JSON.parse(JSON.stringify((<any>global).exports[Utility.RESOURCE_NAME].GetConfig()));
+	private static _config: any = JSON.parse(JSON.stringify(Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig()));
 
 	constructor() {
 		throw new Error("Config is a static class and cannot be instantiated.");
 	}
 
-	public static getConfig(): any {
+	public static getConfig(): config {
 		return this._config;
 	}
 
