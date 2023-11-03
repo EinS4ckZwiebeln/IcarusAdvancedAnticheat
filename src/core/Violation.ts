@@ -26,13 +26,13 @@ export class Violation {
 	 * @returns A Promise that resolves when the player is banned.
 	 */
 	public async banPlayer(): Promise<void> {
-		if (!PermissionHandler.hasPermission(source) || ExcuseHandler.isExcused(this._source, this._module)) return;
+		if (PermissionHandler.hasPermission(this._source) || ExcuseHandler.isExcused(this._source, this._module)) return;
 
-		this.takeScreenshot(source, this._reason);
+		this.takeScreenshot();
 		// Wait 500ms to allow screenshot to be taken
 		setTimeout(() => {
-			Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(source, this._reason);
-			Logger.debug(`Banned player ${source} for reason: ${this._reason}`);
+			Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
+			Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
 		}, 500);
 	}
 
@@ -41,14 +41,14 @@ export class Violation {
 	 * @param source - The player ID to take a screenshot of.
 	 * @param reason - The reason for the ban.
 	 */
-	private takeScreenshot(source: number, reason: string): void {
+	private takeScreenshot(): void {
 		if (GetResourceState("screenshot-basic") !== "started" || !this._webhook) {
 			Logger.debug("Failed to send webhook request. Screenshot-basic resource is not started or no webhook is configured.");
 			return;
 		}
 
-		new Screenshot(source, (name: string, path: string) => {
-			const banEmbed: BanEmbed = new BanEmbed(source, reason, `${name}.jpg`);
+		new Screenshot(this._source, (name: string, path: string) => {
+			const banEmbed: BanEmbed = new BanEmbed(this._source, this._reason, `${name}.jpg`);
 			const request: WebhookRequest = new WebhookRequest(
 				{
 					username: "Icarus",
