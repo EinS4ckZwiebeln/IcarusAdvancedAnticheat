@@ -12,7 +12,7 @@ export class TazerModule extends Module {
 
 	public onLoad(): void {
 		this._tazerRange = Config.getValue(this.config, "maxDistance");
-		this._tazerCooldown = Config.getValue(this.config, "cooldown");
+		this._tazerCooldown = Config.getValue(this.config, "tazerCooldown");
 		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerReach(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
 		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerCooldown(source, data.weaponType));
 	}
@@ -46,6 +46,11 @@ export class TazerModule extends Module {
 		}
 	}
 
+	/**
+	 * Handles the tazer cooldown for a player.
+	 * @param source - The player ID.
+	 * @param weaponType - The type of weapon used.
+	 */
 	private onTazerCooldown(source: number, weaponType: number): void {
 		switch (weaponType) {
 			case Weapons.WEAPON_STUNGUN:
