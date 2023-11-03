@@ -1,6 +1,5 @@
 import { Config } from "../config/Config";
 import { config } from "../config/ConfigType";
-import { EventHandler } from "./handler/EventHandler";
 
 export abstract class Module {
 	private _tick: number = 0;
@@ -22,7 +21,7 @@ export abstract class Module {
 		return this._tick;
 	}
 
-	protected get config(): EventHandler {
+	protected get config(): config {
 		return Module._config;
 	}
 
