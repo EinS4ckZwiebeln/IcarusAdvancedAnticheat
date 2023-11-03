@@ -80,7 +80,7 @@ Config.Modules = {
         -- The maximum distance a player can be tazed from.
         maxDistance = 12.0,
         -- How long it takes for the tazer to recharge.
-        cooldown = 14000 -- 14 seconds
+        tazerCooldown = 14000 -- 14 seconds
     },
     -- Detects if a player has a non whitelisted playermodel (eg. monkey).
     PedBlacklistModule = {
@@ -143,7 +143,12 @@ Config.Modules = {
         enabled = true,
         -- The maximum scale a particle effect can have.
         maxParticleScale = 5.0
-    }
+    },
+    StartProjectileModule = {
+        enabled = true,
+        -- The maximum interval in which a player can shoot projectiles.
+        projectileCooldown = 50, --ms
+    },
 }
 
 -- Possesion of these weapons will get a player instantly banned.
@@ -184,6 +189,7 @@ Config.BlacklistedWeapons = {
 -- Objects that get instantly deleted (including vehicles).
 -- Please make sure non of these are spawned by any of your scripts or in npc traffic.
 Config.IllegalModels = {
+    "apc",
     "tug",
     "jet",
     "pyro",
@@ -218,6 +224,7 @@ Config.IllegalModels = {
     "brutus",
     "blimp2",
     "blimp3",
+    "barrage",
     "buzzard",
     "skylift",
     "shotaro",

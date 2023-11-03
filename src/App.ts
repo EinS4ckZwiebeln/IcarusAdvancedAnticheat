@@ -24,6 +24,7 @@ import { ParticlesModule } from "./modules/ParticlesModule";
 import { ChatProfanityModule } from "./modules/ChatProfanityModule";
 import { PermissionHandler } from "./core/handler/PermissionHandler";
 import { ExcuseHandler } from "./core/handler/ExcuseHandler";
+import { StartProjectileModule } from "./modules/StartProjectileModule";
 
 /**
  * Represents the main application class.
@@ -66,6 +67,7 @@ class App {
 		this._moduleLoader.loadModule(new WeaponModifierModule());
 		this._moduleLoader.loadModule(new ParticlesModule());
 		this._moduleLoader.loadModule(new ChatProfanityModule());
+		this._moduleLoader.loadModule(new StartProjectileModule());
 
 		Logger.debug("Finished loading modules");
 	}
