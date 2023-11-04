@@ -22,20 +22,15 @@ export class ModuleLoader {
 				return;
 			}
 		} catch (err: any) {
-			const errorMessage = `${err.message} (does ${name} have a config?)`;
-			Logger.error(errorMessage);
-			throw new Error(errorMessage);
+			throw new Error(`${err.message} (does ${name} have a config?)`);
 		}
+		//
+		if (this._modules.has(name)) throw new Error(`Module ${name} is already loaded`);
 
-		if (!this._modules.has(name)) {
-			module.onLoad();
-			module.setTick();
-			this._modules.set(name, module);
-			Logger.debug(`Module ${name} loaded successfully`);
-		} else {
-			Logger.error(`Module ${name} is already loaded`);
-			throw new Error(`Module ${name} is already loaded`);
-		}
+		module.onLoad();
+		module.setTick();
+		this._modules.set(name, module);
+		Logger.debug(`Module ${name} loaded successfully`);
 	}
 
 	/**
