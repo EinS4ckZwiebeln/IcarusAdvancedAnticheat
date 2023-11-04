@@ -34,7 +34,7 @@ export class NoClipModule extends Module {
 			const destination = GetEntityCoords(ped);
 
 			// Calculate the distance in meters
-			const speed = Utility.getDistance(origin, destination) * 3.6; // Convert to km/h
+			const speed = Utility.getDistance(origin, destination, true) * 3.6; // Convert to km/h
 			if (speed > this._speedThreshold && this.hasNoClip(ped)) {
 				const violation = new Violation(parseInt(player), "NoClip [C1]", this.name);
 				violation.banPlayer();
