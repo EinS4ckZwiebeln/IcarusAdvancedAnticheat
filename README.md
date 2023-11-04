@@ -45,7 +45,7 @@ Following ace permission allows selected players to bypass the anticheat detecti
 
 ### Banning
 
-Many anticheats come with custom ban-systems or databases. Icarus avoids such systems to improve compatibility and to steer clear of bloated code. To use Icarus properly it is necessary to add your own ban logic to the script. This can be done in the confuguration file.
+Many anticheats come with custom ban-systems or databases. Icarus avoids such systems to improve compatibility and to steer clear of bloated code. To use Icarus properly it is necessary to add your own ban logic to the script. This can be done in the configuration file.
 
 ```lua
 -- << config.lua >>
