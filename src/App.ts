@@ -26,13 +26,14 @@ import { PermissionHandler } from "./core/handler/PermissionHandler";
 import { ExcuseHandler } from "./core/handler/ExcuseHandler";
 import { StartProjectileModule } from "./modules/StartProjectileModule";
 import { NoClipModule } from "./modules/NoClipModule";
+import { CommandLoader } from "./core/CommandLoader";
+import { ScreenshotCommand } from "./commands/ScreenshotCommand";
+import { WipeEntitiesCommand } from "./commands/WipeEntitiesCommand";
 
 /**
  * Represents the main application class.
  */
 class App {
-	private readonly _moduleLoader: ModuleLoader;
-
 	constructor() {
 		// Initialize the logger
 		Logger.init();
@@ -42,9 +43,8 @@ class App {
 		// Initialize the permission handler
 		PermissionHandler.init();
 
-		this._moduleLoader = new ModuleLoader();
-		// Register modules
 		this.registerModules();
+		this.registerCommands();
 		this.checkForUpdates();
 	}
 
@@ -52,26 +52,34 @@ class App {
 	 * Registers the modules.
 	 */
 	private registerModules(): void {
+		const moduleLoader = new ModuleLoader();
 		// Register modules here
-		this._moduleLoader.loadModule(new DeferralsModule());
-		this._moduleLoader.loadModule(new EntityCreateModule());
-		this._moduleLoader.loadModule(new ClearTaskModule());
-		this._moduleLoader.loadModule(new GiveWeaponModule());
-		this._moduleLoader.loadModule(new RemoveWeaponModule());
-		this._moduleLoader.loadModule(new ExplosionFilterModule());
-		this._moduleLoader.loadModule(new TazerModule());
-		this._moduleLoader.loadModule(new WeaponBlacklistModule());
-		this._moduleLoader.loadModule(new PedBlacklistModule());
-		this._moduleLoader.loadModule(new AimbotModule());
-		this._moduleLoader.loadModule(new GodmodeModule());
-		this._moduleLoader.loadModule(new SuperJumpModule());
-		this._moduleLoader.loadModule(new WeaponModifierModule());
-		this._moduleLoader.loadModule(new ParticlesModule());
-		this._moduleLoader.loadModule(new ChatProfanityModule());
-		this._moduleLoader.loadModule(new StartProjectileModule());
-		this._moduleLoader.loadModule(new NoClipModule());
-
+		moduleLoader.loadModule(new DeferralsModule());
+		moduleLoader.loadModule(new EntityCreateModule());
+		moduleLoader.loadModule(new ClearTaskModule());
+		moduleLoader.loadModule(new GiveWeaponModule());
+		moduleLoader.loadModule(new RemoveWeaponModule());
+		moduleLoader.loadModule(new ExplosionFilterModule());
+		moduleLoader.loadModule(new TazerModule());
+		moduleLoader.loadModule(new WeaponBlacklistModule());
+		moduleLoader.loadModule(new PedBlacklistModule());
+		moduleLoader.loadModule(new AimbotModule());
+		moduleLoader.loadModule(new GodmodeModule());
+		moduleLoader.loadModule(new SuperJumpModule());
+		moduleLoader.loadModule(new WeaponModifierModule());
+		moduleLoader.loadModule(new ParticlesModule());
+		moduleLoader.loadModule(new ChatProfanityModule());
+		moduleLoader.loadModule(new StartProjectileModule());
+		moduleLoader.loadModule(new NoClipModule());
 		Logger.debug("Finished loading modules");
+	}
+
+	private registerCommands(): void {
+		const commandLoader = new CommandLoader("icarus");
+		// Register commands here
+		commandLoader.registerCommand(new ScreenshotCommand());
+		commandLoader.registerCommand(new WipeEntitiesCommand());
+		Logger.debug("Finished registering commands");
 	}
 
 	/**
