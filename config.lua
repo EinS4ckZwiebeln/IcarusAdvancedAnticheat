@@ -149,6 +149,14 @@ Config.Modules = {
         -- The maximum interval in which a player can shoot projectiles.
         projectileCooldown = 50, --ms
     },
+    -- Detects NoClip esque player movement.
+    -- Beware that this might cause false positives with other client scripts that modify ped movement.
+    NoClipModule = {
+        enabled = true,
+        -- Miscellaneous player speed limit.
+        -- Don't touch this unless you know what you are doing.
+        speedThreshold = 20.0,
+    },
 }
 
 -- Possesion of these weapons will get a player instantly banned.
