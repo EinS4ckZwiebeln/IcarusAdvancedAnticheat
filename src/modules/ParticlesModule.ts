@@ -15,6 +15,13 @@ export class ParticlesModule extends Module {
 		EventHandler.unsubscribe("ptFxEvent", (source: number, data: any) => this.onParticle(source, data.isOnEntity, data.entityNetId, data.scale));
 	}
 
+	/**
+	 * Handles the particle event.
+	 * @param source - The source of the particle event.
+	 * @param isOnEntity - Whether the particle is on an entity.
+	 * @param entityNetId - The network ID of the entity the particle is on.
+	 * @param scale - The scale of the particle.
+	 */
 	private onParticle(source: number, isOnEntity: boolean, entityNetId: number, scale: number): void {
 		if (isOnEntity && entityNetId > 0) {
 			const owner: number = NetworkGetEntityOwner(NetworkGetEntityFromNetworkId(entityNetId));
