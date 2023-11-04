@@ -35,7 +35,7 @@ export class UpdateEmbed {
 					icon_url: "https://github.com/EinS4ckZwiebeln/assets/raw/main/icarus_icon.png",
 				},
 				title: "New Update Available",
-				description: `This version of Icarus is outdated. Please update to the latest version!\n\n**Latest Version:** v${Utility.CURRENT_VERSION} | **Current Version:** v${remoteVersion}`,
+				description: `This version of Icarus is outdated. Please update to the latest version!\n\n**Latest Version:** v${remoteVersion} | **Current Version:** v${Utility.CURRENT_VERSION}`,
 				url: "https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases",
 				footer: {
 					text: "Icarus Update Checker",
