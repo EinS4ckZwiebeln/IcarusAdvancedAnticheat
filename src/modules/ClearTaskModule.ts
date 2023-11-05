@@ -4,10 +4,10 @@ import { Violation } from "../core/Violation";
 
 export class ClearTaskModule extends Module {
 	public onLoad(): void {
-		EventHandler.subscribe("clearPedTasksEvent", () => this.onClearTask(source));
+		EventHandler.subscribe("clearPedTasksEvent", (source: number) => this.onClearTask(source));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("clearPedTasksEvent", () => this.onClearTask(source));
+		EventHandler.unsubscribe("clearPedTasksEvent", (source: number) => this.onClearTask(source));
 	}
 
 	/**
