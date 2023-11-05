@@ -29,6 +29,7 @@ import { NoClipModule } from "./modules/NoClipModule";
 import { CommandLoader } from "./core/CommandLoader";
 import { ScreenshotCommand } from "./commands/ScreenshotCommand";
 import { WipeEntitiesCommand } from "./commands/WipeEntitiesCommand";
+import { EventBlacklistModule } from "./modules/EventBlacklistModule";
 
 /**
  * Represents the main application class.
@@ -71,6 +72,7 @@ class App {
 		moduleLoader.loadModule(new ChatProfanityModule());
 		moduleLoader.loadModule(new StartProjectileModule());
 		moduleLoader.loadModule(new NoClipModule());
+		moduleLoader.loadModule(new EventBlacklistModule());
 		Logger.debug("Finished loading modules");
 	}
 

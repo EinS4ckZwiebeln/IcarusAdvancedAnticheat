@@ -157,6 +157,10 @@ Config.Modules = {
         -- Don't touch this unless you know what you are doing.
         speedThreshold = 20.0,
     },
+    -- Take a look at 'Config.BlacklistedEvents'.
+    EventBlacklistModule = {
+        enabled = true
+    }
 }
 
 -- Possesion of these weapons will get a player instantly banned.
@@ -192,6 +196,125 @@ Config.BlacklistedWeapons = {
     "WEAPON_GRENADELAUNCHER",
     "WEAPON_COMPACTLAUNCHER",
     "WEAPON_GRENADELAUNCHER_SMOKE"
+}
+
+-- Events that will get a player instantly banned when triggered.
+-- Feel free to add resources you don't use and their events to this list.
+Config.BlacklistedEvents = {
+    ["esx_jail"] = {
+        "esx_jail:sendToJail",
+        "esx_jail:unjailQuest",
+    },
+    ["esx_jailer"] = {
+        "esx_jailer:sendToJail",
+        "esx_jailer:unjailTime",
+        "esx_jailer:unjailTiDFWMme",
+    },
+    ["esx-qalle-jail"] = {
+        "esx-qalle-jail:jailPlayer",
+        "esx-qalle-jail:jailPlayerNew",
+        "esx-qalle-jail:jailPDFWMlayer",
+    },
+    ["esx-qalle-hunting"] = {
+        "esx-qalle-hunting:reward",
+        "esx-qalle-hunting:sell",
+        "esx-qalle-hunting:DFWMreward",
+        "esx-qalle-hunting:seDFWMll",
+    },
+    ["esx_pizza"] = {
+        "esx_pizza:pay",
+        "esx_pizza:pDFWMay",
+    },
+    ["esx_drugs"] = {
+        "esx_drugs:startHarvestWDFWMeed",
+        "esx_drugs:startTransfoDFWMrmWeed",
+        "esx_drugs:startSellWeDFWMed",
+        "esx_drugs:startHarvestDFWMCoke",
+        "esx_drugs:startTransDFWMformCoke",
+        "esx_drugs:startSellCDFWMoke",
+        "esx_drugs:startHarDFWMvestMeth",
+        "esx_drugs:startTDFWMransformMeth",
+        "esx_drugs:startSellMDFWMeth",
+        "esx_drugs:startHDFWMarvestOpium",
+        "esx_drugs:startSellDFWMOpium",
+        "esx_drugs:starDFWMtTransformOpium",
+        "esx_drugs:stopHarvDFWMestCoke",
+        "esx_drugs:stopTranDFWMsformCoke",
+        "esx_drugs:stopSellDFWMCoke",
+        "esx_drugs:stopHarvesDFWMtMeth",
+        "esx_drugs:stopTranDFWMsformMeth",
+        "esx_drugs:stopSellMDFWMeth",
+        "esx_drugs:stopHarDFWMvestWeed",
+        "esx_drugs:stopTDFWMransformWeed",
+        "esx_drugs:stopSellWDFWMeed",
+        "esx_drugs:stopHarvestDFWMOpium",
+        "esx_drugs:stopTransDFWMformOpium",
+        "esx_drugs:stopSellOpiuDFWMm",
+        "esx_drugs:pickedUpCDFWMannabis",
+        "esx_drugs:processCDFWMannabis",
+    },
+    ["esx_garbagejob"] = {
+        "esx_garbagejob:pay",
+        "esx_garbageDFWMjob:pay",
+    },
+    ["esx_ambulancejob"] = {
+        "esx_ambulancejob:revive",
+        "esx_ambulancejob:setDeathStatus",
+    },
+    ["esx_billing"] = {
+        "esx_billing:sendBill",
+    },
+    ["esx_carthief"] = {
+        "esx_carthief:alertcops",
+        "esx_carthief:pay",
+    },
+    ["esx_dmvschool"] = {
+        "esx_dmvschool:addLicense",
+        "esx_dmvschool:pay",
+        "esx_dmvschool:pDFWMay",
+        "esx_dmvschool:addLiceDFWMnse",
+        "dmv:succeDFWMss",
+        "dmv:success",
+    },
+    ["esx_policejob"] = {
+        "esx_policejob:handcuff",
+        "esx_policejob:haDFWMndcuff",
+        "esx_policejob:requestarrest",
+        "esx:enterpolicecar",
+        "police:cuffGDFWMranted",
+        "police:cuffGranted",
+    },
+    ["mellotrainer"] = {
+        "mellotrainer:adminTempBan",
+        "mellotrainer:adminKick",
+        "mellotrainer:s_adminKill",
+    },
+    ["LegacyFuel"] = {
+        "LegacyFuel:PayFuel",
+        "LegacyFuel:PayFuDFWMel",
+    },
+    ["DFWM"] = {
+        "DFWM:adminmenuenable",
+        "DFWM:askAwake",
+        "DFWM:checkup",
+        "DFWM:cleanareaentity",
+        "DFWM:cleanareapeds",
+        "DFWM:cleanareaveh",
+        "DFWM:enable",
+        "DFWM:invalid",
+        "DFWM:log",
+        "DFWM:openmenu",
+        "DFWM:spectate",
+        "DFWM:ViolationDetected",
+    }
+    ["LegacyFuel"] = {
+        "LegacyFuel:PayFuel",
+        "LegacyFuel:PayFuDFWMel",
+    },
+    ["gcphone"] = {
+        "gcPhone:_internalAddMessageDFWM",
+        "gcPhone:tchat_channelDFWM",
+    },
 }
 
 -- Objects that get instantly deleted (including vehicles).

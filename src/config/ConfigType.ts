@@ -19,6 +19,10 @@ export type config = {
 	 */
 	BlacklistedWeapons: string[];
 	/**
+	 * An array of blacklisted event names.
+	 */
+	BlacklistedEvents: any;
+	/**
 	 * An array of illegal model names.
 	 */
 	IllegalModels: string[];
