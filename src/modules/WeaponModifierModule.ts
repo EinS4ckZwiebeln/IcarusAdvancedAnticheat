@@ -21,7 +21,7 @@ export class WeaponModifierModule extends Module {
 	 * @param source - The source of the damage event.
 	 */
 	private onDamage(source: string): void {
-		if (GetPlayerMeleeWeaponDamageModifier(source) || GetPlayerWeaponDamageModifier(source) || GetPlayerWeaponDefenseModifier(source) > this._damageModifier) {
+		if ((GetPlayerMeleeWeaponDamageModifier(source) || GetPlayerWeaponDamageModifier(source) || GetPlayerWeaponDefenseModifier(source)) > this._damageModifier) {
 			const violation = new Violation(parseInt(source), "Weapon Modifier [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
