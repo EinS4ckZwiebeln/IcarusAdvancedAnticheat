@@ -306,7 +306,7 @@ Config.BlacklistedEvents = {
         "DFWM:openmenu",
         "DFWM:spectate",
         "DFWM:ViolationDetected",
-    }
+    },
     ["LegacyFuel"] = {
         "LegacyFuel:PayFuel",
         "LegacyFuel:PayFuDFWMel",
@@ -427,6 +427,7 @@ Config.IllegalModels = {
     "seasparrow3",
     "wastelander",
     "p_cablecar_s",
+    "prop_beach_fire",
     "p_ferris_car_01",
     "prop_carcreeper",
     "prop_cj_big_boat",
@@ -440,6 +441,7 @@ Config.IllegalModels = {
     "p_spinning_anus_s",
     "apa_mp_h_bed_wide_05",
     "prop_cs_documents_01",
+    "prop_fnclink_05crnr1",
     "stt_prop_stunt_tube_l",
     "prop_dt1_20_mp_door_l",
     "prop_dt1_20_mp_door_r",
