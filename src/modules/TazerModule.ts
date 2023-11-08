@@ -15,11 +15,13 @@ export class TazerModule extends Module {
 		this._tazerCooldown = Config.getValue(this.config, "tazerCooldown");
 		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerReach(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
 		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerCooldown(source, data.weaponType));
+		EventHandler.subscribe("weaponDamageEvent", (_: number, data: any) => this.onTazerRagdoll(data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
 	}
 
 	public onUnload(): void {
 		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerReach(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
 		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerCooldown(source, data.weaponType));
+		EventHandler.unsubscribe("weaponDamageEvent", (_: number, data: any) => this.onTazerRagdoll(data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
 	}
 
 	/**
@@ -34,8 +36,10 @@ export class TazerModule extends Module {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:
 				const killer: number = GetPlayerPed(source.toString());
-				const victim: number = GetPlayerPed(NetworkGetEntityFromNetworkId(target).toString());
-				if (Utility.getDistance(GetEntityCoords(killer), GetEntityCoords(victim)) > this._tazerRange) {
+				const victim: number = NetworkGetEntityFromNetworkId(target);
+				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim)) return;
+
+				if (Utility.getDistance(GetEntityCoords(killer), GetEntityCoords(victim), true) > this._tazerRange) {
 					const violation = new Violation(source, "Tazer Reach [C1]", this.name);
 					violation.banPlayer();
 					CancelEvent();
@@ -64,6 +68,37 @@ export class TazerModule extends Module {
 					setTimeout(() => {
 						this._onCooldown.delete(source);
 					}, this._tazerCooldown);
+				}
+				break;
+			default:
+				return;
+		}
+	}
+
+	/**
+	 * Handles the ragdoll effect when a player is tazed.
+	 * @param target The network ID of the player being tazed.
+	 * @param weaponType The type of weapon being used to taze the player.
+	 */
+	private async onTazerRagdoll(target: number, weaponType: number): Promise<void> {
+		switch (weaponType) {
+			case Weapons.WEAPON_STUNGUN:
+			case Weapons.WEAPON_STUNGUN_MP:
+				const victim: number = NetworkGetEntityFromNetworkId(target);
+				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim)) return;
+				SetPedCanRagdoll(victim, true); // Is this a good idea?
+
+				let hasRagdolled = false;
+				const start = GetGameTimer();
+				const threshold = 3000 + GetPlayerPing(target.toString());
+
+				while (!hasRagdolled && GetGameTimer() - start < threshold) {
+					if (IsPedRagdoll(victim)) hasRagdolled = true;
+					await this.Delay(100);
+				}
+				if (!hasRagdolled) {
+					const violation = new Violation(target, "Tazer Ragdoll [C3]", this.name);
+					violation.banPlayer();
 				}
 				break;
 			default:
