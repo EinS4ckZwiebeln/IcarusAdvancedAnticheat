@@ -80,7 +80,7 @@ Config.Modules = {
         -- The maximum distance a player can be tazed from.
         maxDistance = 12.0,
         -- How long it takes for the tazer to recharge.
-        tazerCooldown = 14000 -- 14 seconds
+        tazerCooldown = 12000 -- 12 seconds
     },
     -- Detects if a player has a non whitelisted playermodel (eg. monkey).
     PedBlacklistModule = {
