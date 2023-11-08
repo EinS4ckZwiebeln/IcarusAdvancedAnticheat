@@ -14,8 +14,8 @@ export class NoClipModule extends Module {
 	 * @param ped The ped to check.
 	 * @returns True if the ped has noclip, false otherwise.
 	 */
-	private hasNoClip(ped: number): boolean {
-		return IsEntityPositionFrozen(ped) && !IsEntityVisible(ped) && GetVehiclePedIsIn(ped, false) === 0;
+	private hasNoClip(ped: number, source: string): boolean {
+		return (IsEntityPositionFrozen(ped) || GetPlayerInvincible(source)) && (!IsEntityVisible(ped) || GetEntityCollisionDisabled(ped)) && GetVehiclePedIsIn(ped, false) === 0;
 	}
 
 	/**
@@ -27,7 +27,7 @@ export class NoClipModule extends Module {
 		const players = getPlayers();
 		players.forEach(async (player: string) => {
 			const ped = GetPlayerPed(player);
-			if (!this.hasNoClip(ped)) return;
+			if (!this.hasNoClip(ped, player)) return;
 
 			const origin = GetEntityCoords(ped);
 			await this.Delay(1000);
@@ -35,11 +35,11 @@ export class NoClipModule extends Module {
 
 			// Calculate the distance in meters
 			const speed = Utility.getDistance(origin, destination, true) * 3.6; // Convert to km/h
-			if (speed > this._speedThreshold && this.hasNoClip(ped)) {
+			if (speed > this._speedThreshold && this.hasNoClip(ped, player)) {
 				const violation = new Violation(parseInt(player), "NoClip [C1]", this.name);
 				violation.banPlayer();
 			}
 		});
-		await this.Delay(5000);
+		await this.Delay(4000);
 	}
 }
