@@ -1,14 +1,14 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
-import { Violation } from "../core/Violation";
 import { Config } from "../config/Config";
 import { Utility } from "../util/Utility";
+import { Violation } from "../core/Violation";
 
 export class AimbotModule extends Module {
-	private _angleThreshold: number = 0.0;
+	private _offsetDist: number = 4.5;
 
 	public onLoad(): void {
-		this._angleThreshold = Config.getValue(this.config, "maxAngle");
+		this._offsetDist = Config.getValue(this.config, "offsetDist");
 		EventHandler.subscribe("weaponDamageEvent", (source: string, data: any) => this.onAimbot(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
 	}
 
@@ -27,19 +27,27 @@ export class AimbotModule extends Module {
 		if (Utility.WEAPONS_MELEE.has(weaponType) || Utility.WEAPONS_AOE.has(weaponType)) return;
 
 		const victim: number = NetworkGetEntityFromNetworkId(parseInt(target));
-		if (!DoesEntityExist(victim) || !IsPedAPlayer(victim)) return;
+		// Account for networking issues and desync
+		if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || GetEntityHealth(victim) === 0 || IsPedRagdoll(victim)) return;
 
-		const radians: number[] = GetPlayerCameraRotation(source);
-		const forwardVector: number[] = this.getForwardVector2D(radians[0], radians[2]);
+		const killer = GetPlayerPed(source);
+		// Not exactly sure why, but vehicles make this detection method inaccurate
+		if (GetVehiclePedIsIn(killer, false) !== 0) return;
 
-		const killerCoords: number[] = GetEntityCoords(GetPlayerPed(source));
+		const killerCoords: number[] = GetEntityCoords(killer);
 		const victimCoords: number[] = GetEntityCoords(victim);
 
-		const distance: number = Utility.getDistance(killerCoords, victimCoords);
-		const expandedForward: number[] = [killerCoords[0] + forwardVector[0] * distance, killerCoords[1] + forwardVector[1] * distance, victimCoords[2]];
-		const ans: number = Math.acos(this.pow2Vector(expandedForward, victimCoords) / (this.sqrtPowVector(expandedForward) * this.sqrtPowVector(victimCoords)));
+		const yaw: number = GetPlayerCameraRotation(source)[2]; // In radians
+		const forwardVector: number[] = this.getForwardVector(yaw);
+		const distanceToVictim: number = Utility.getDistance(killerCoords, victimCoords, false);
 
-		if (ans * Utility.RADIANS > this._angleThreshold) {
+		const extendedForward: number[] = [
+			// Calculate x and y components of the extended forward vector
+			killerCoords[0] + forwardVector[0] * distanceToVictim,
+			killerCoords[1] + forwardVector[1] * distanceToVictim,
+		];
+
+		if (Utility.getDistance(extendedForward, victimCoords, false) > this._offsetDist) {
 			const violation = new Violation(parseInt(source), "Aimbot [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
@@ -47,31 +55,14 @@ export class AimbotModule extends Module {
 	}
 
 	/**
-	 * Calculates the power of two vectors.
-	 * @param a - The first vector.
-	 * @param b - The second vector.
-	 * @returns The power of two vectors.
+	 * Returns the forward vector in 2D space based on the given yaw angle.
+	 * @param yaw The yaw angle in degrees.
+	 * @returns An array containing the x, y, and z components of the forward vector.
 	 */
-	private pow2Vector(a: number[], b: number[]): number {
-		return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-	}
-
-	/**
-	 * Calculates the square root of the sum of the squares of the elements in a 3D vector.
-	 * @param a - The 3D vector to calculate the square root of the sum of squares for.
-	 * @returns The square root of the sum of the squares of the elements in the vector.
-	 */
-	private sqrtPowVector(a: number[]): number {
-		return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
-	}
-
-	/**
-	 * Returns the forward vector in 2D space based on the given pitch and yaw angles.
-	 * @param pitch The pitch angle in radians.
-	 * @param yaw The yaw angle in radians.
-	 * @returns An array containing the x and y components of the forward vector.
-	 */
-	private getForwardVector2D(pitch: number, yaw: number): number[] {
-		return [-Math.sin(yaw), Math.sin(pitch) * Math.cos(yaw)];
+	private getForwardVector(yaw: number): number[] {
+		// Why does that work? I have no idea, but it does
+		const yawRad = (yaw * Utility.RADIANS * Math.PI) / 180;
+		// Calculate the components of the forward vector
+		return [-Math.sin(yawRad), Math.cos(yawRad)];
 	}
 }

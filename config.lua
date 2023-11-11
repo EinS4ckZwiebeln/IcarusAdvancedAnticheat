@@ -102,8 +102,8 @@ Config.Modules = {
     AimbotModule = {
         enabled = true,
         -- Increment this if Aimbot false positives occur.
-        -- In case you use any 'drug effects' or 'drunk' resources increase this to at least 12.0.
-        maxAngle = 8.0
+        -- In case you use any 'drug effects' or 'drunk' resources increase this to at least 6.0.
+        offsetDist = 4.5
     },
     -- Detects if a cheater gives weapons to others.
     GiveWeaponModule = {
