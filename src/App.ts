@@ -76,6 +76,9 @@ class App {
 		Logger.debug("Finished loading modules");
 	}
 
+	/**
+	 * Registers the commands.
+	 */
 	private registerCommands(): void {
 		const commandLoader = new CommandLoader("icarus");
 		// Register commands here
@@ -103,12 +106,12 @@ class App {
 			}
 
 			const request: any = await response.json();
-			const remoteVersion: string = request[0].name.toString().slice(1);
+			const remoteVersion: string = request[0]?.name?.toString().slice(1);
 
 			if (Utility.CURRENT_VERSION !== remoteVersion) {
 				console.log(`^3This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${remoteVersion} | Current Version: ${Utility.CURRENT_VERSION}^0`);
 
-				const webhook: string = Config.getValue(Config.getConfig(), "DiscordWebhook");
+				const webhook: string = Config.getConfig().DiscordWebhook;
 				if (webhook && webhook.length > 0) {
 					const request = new WebhookRequest({
 						username: "Icarus",
