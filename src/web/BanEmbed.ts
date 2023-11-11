@@ -4,7 +4,7 @@ import { Utility } from "../util/Utility";
  * Represents a ban embed for Discord.
  */
 export class BanEmbed {
-	private _embed: object[];
+	private readonly _embed: object[];
 
 	/**
 	 * Initializes a new instance of the BanEmbed class.

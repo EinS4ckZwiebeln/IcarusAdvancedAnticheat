@@ -4,7 +4,7 @@ import { Utility } from "../util/Utility";
  * Represents an update embed for Icarus Advanced Anticheat.
  */
 export class UpdateEmbed {
-	private _embed: object[];
+	private readonly _embed: object[];
 
 	/**
 	 * Creates a new instance of UpdateEmbed.
