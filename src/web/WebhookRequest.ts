@@ -6,8 +6,8 @@ import { Logger } from "../logger/Logger";
  * Represents a webhook request.
  */
 export class WebhookRequest {
-	private _form: FormData = new FormData();
-	private _filePath: string = "";
+	private readonly _form: FormData = new FormData();
+	private readonly _filePath: string = "";
 
 	/**
 	 * Initializes a new instance of the WebhookRequest class.
