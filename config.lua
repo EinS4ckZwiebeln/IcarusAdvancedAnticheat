@@ -43,7 +43,9 @@ Config.Modules = {
     EntityCreateModule = {
         enabled = true,
         -- Wether or not the player should be banned.
-        banNetworkOwner = true
+        banNetworkOwner = true,
+        -- Checks peds if they carry blacklisted weapons.
+        checkPedsForWeapons = true,
     },
     ExplosionFilterModule = {
         enabled = true,
