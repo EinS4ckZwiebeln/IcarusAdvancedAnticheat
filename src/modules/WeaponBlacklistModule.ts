@@ -1,14 +1,13 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { Config } from "../config/Config";
 import { Utility } from "../util/Utility";
 
 export class WeaponBlacklistModule extends Module {
 	private _blacklistedWeapons: Set<number> = new Set<number>();
 
 	public onLoad(): void {
-		const weapons: string[] = Array.from(Config.getValue(this.config, "BlacklistedWeapons"));
+		const weapons: string[] = Array.from(this.config.BlacklistedWeapons);
 		this._blacklistedWeapons = new Set<number>(Utility.hashify(weapons));
 		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onWeaponDamage(source, data.weaponType));
 	}
