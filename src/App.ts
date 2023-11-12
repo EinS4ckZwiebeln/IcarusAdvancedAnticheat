@@ -100,29 +100,22 @@ class App {
 				},
 			});
 
-			if (!response.ok) {
-				Logger.error(`Update HTTP error! Status: ${response.status}`);
-				throw new Error(`Update HTTP error! Status: ${response.status}`);
-			}
+			if (!response.ok) Logger.error(`Update HTTP error! Status: ${response.status}`);
 
-			const request: any = await response.json();
-			const remoteVersion: string = request[0]?.name?.toString().slice(1);
+			const latestRelease = (await response.json())[0];
+			const remoteVersion: string = latestRelease?.name?.toString().slice(1);
+			const isOutdated: boolean = remoteVersion.localeCompare(Utility.CURRENT_VERSION, undefined, { numeric: true, sensitivity: "base" }) > 0;
 
-			if (Utility.CURRENT_VERSION !== remoteVersion) {
-				console.log(`^3This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${remoteVersion} | Current Version: ${Utility.CURRENT_VERSION}^0`);
-
+			if (isOutdated && !latestRelease.prerelease) {
+				const request = new WebhookRequest({ username: "Icarus", embeds: new UpdateEmbed(remoteVersion).embed });
 				const webhook: string = Config.getConfig().DiscordWebhook;
-				if (webhook && webhook.length > 0) {
-					const request = new WebhookRequest({
-						username: "Icarus",
-						embeds: new UpdateEmbed(remoteVersion).embed,
-					});
-					request.post(webhook);
-				}
+				if (webhook && webhook.length > 0) request.post(webhook);
+
+				console.log(`^3This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${remoteVersion} | Current Version: ${Utility.CURRENT_VERSION}^0`);
 				Logger.debug("Version is outdated!");
 			}
 		} catch (err: any) {
-			Logger.error(err.message);
+			Logger.error(err);
 		}
 	}
 }
