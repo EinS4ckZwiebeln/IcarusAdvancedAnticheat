@@ -476,7 +476,7 @@ Config.IllegalModels = {
     "dt1_lod_f1b_slod3",
     "dt1_lod_f2b_slod3",
     "hei_dt1_tcmods_ce",
-    "prop_dt1_20_mp_gar"
+    "prop_dt1_20_mp_gar",
     "dt1_01_props_l_002",
     "prop_container_01a",
     "dt1_05_damage_slod",
