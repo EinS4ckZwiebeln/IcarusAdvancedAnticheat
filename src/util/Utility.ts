@@ -105,6 +105,7 @@ export class Utility {
 		Weapons.WEAPON_STUNGUN,
 		Weapons.WEAPON_STUNGUN_MP,
 		Weapons.WEAPON_SMOKEGRENADE,
+		Weapons.WEAPON_NIGHTVISION,
 	]);
 
 	/**
