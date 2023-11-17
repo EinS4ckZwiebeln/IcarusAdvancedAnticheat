@@ -154,6 +154,8 @@ Config.Modules = {
         enabled = true,
         -- The maximum interval in which a player can shoot projectiles.
         projectileCooldown = 50, --ms
+        -- Wether or not players should be banned for firing missiles or turrets from vehicles.
+        blockVehicleWeapons = true
     },
     -- Detects NoClip esque player movement.
     -- Beware that this might cause false positives with other client scripts that modify ped movement.
