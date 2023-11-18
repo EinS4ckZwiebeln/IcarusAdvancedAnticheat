@@ -1,6 +1,6 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { Violation } from "../core/Violation";
 

@@ -1,4 +1,4 @@
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 import { Screenshot } from "../web/Screenshot";
 import { WebhookRequest } from "../web/WebhookRequest";
 import { SubCommand } from "../core/SubCommand";

@@ -1,4 +1,4 @@
-import { Logger } from "../../logger/Logger";
+import { Logger } from "../logger/Logger";
 /**
  * The EventHandler class provides a way to subscribe to and handle events.
  */

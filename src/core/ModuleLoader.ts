@@ -1,6 +1,6 @@
-import { Config } from "../config/Config";
-import { config } from "../config/ConfigType";
-import { Logger } from "../logger/Logger";
+import { Config } from "./config/Config";
+import { config } from "./config/ConfigType";
+import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 
 export class ModuleLoader {

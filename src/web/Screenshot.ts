@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { Logger } from "../logger/Logger";
+import { Logger } from "../core/logger/Logger";
 import { Utility } from "../util/Utility";
 
 /**

@@ -1,6 +1,6 @@
 import * as winston from "winston";
 import "winston-daily-rotate-file";
-import { Utility } from "../util/Utility";
+import { Utility } from "../../util/Utility";
 
 /**
  * A static class for logging messages to files.

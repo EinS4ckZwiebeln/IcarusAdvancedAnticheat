@@ -1,6 +1,6 @@
 import Filter from "bad-words";
 import { Module } from "../core/Module";
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 
 export class ChatProfanityModule extends Module {

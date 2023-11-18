@@ -3,8 +3,8 @@ import fetch from "node-fetch";
 import { ModuleLoader } from "./core/ModuleLoader";
 import { WebhookRequest } from "./web/WebhookRequest";
 import { UpdateEmbed } from "./web/UpdateEmbed";
-import { Config } from "./config/Config";
-import { Logger } from "./logger/Logger";
+import { Config } from "./core/config/Config";
+import { Logger } from "./core/logger/Logger";
 import { Utility } from "./util/Utility";
 
 import { ClearTaskModule } from "./modules/ClearTaskModule";

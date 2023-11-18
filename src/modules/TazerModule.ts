@@ -1,7 +1,7 @@
 import { Module } from "../core/Module";
 import { Weapons } from "../util/enum/Weapons";
 import { Violation } from "../core/Violation";
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { EventHandler } from "../core/handler/EventHandler";
 

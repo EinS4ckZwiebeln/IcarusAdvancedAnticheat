@@ -1,4 +1,4 @@
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Utility } from "../util/Utility";

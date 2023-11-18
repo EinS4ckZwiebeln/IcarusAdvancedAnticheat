@@ -1,4 +1,4 @@
-import { Utility } from "../util/Utility";
+import { Utility } from "../../util/Utility";
 import { config } from "./ConfigType";
 
 export class Config {

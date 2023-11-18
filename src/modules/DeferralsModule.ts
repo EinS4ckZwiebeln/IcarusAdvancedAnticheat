@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
-import { Logger } from "../logger/Logger";
+import { Logger } from "../core/logger/Logger";
 import { Module } from "../core/Module";
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 
 export class DeferralsModule extends Module {

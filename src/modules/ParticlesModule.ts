@@ -1,6 +1,6 @@
 import { Violation } from "../core/Violation";
 import { Module } from "../core/Module";
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 
 export class ParticlesModule extends Module {

@@ -1,5 +1,5 @@
-import { Config } from "../config/Config";
-import { config } from "../config/ConfigType";
+import { Config } from "./config/Config";
+import { config } from "./config/ConfigType";
 
 export abstract class Module {
 	private _tick: number = 0;

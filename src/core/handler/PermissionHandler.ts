@@ -1,5 +1,5 @@
-import { Config } from "../../config/Config";
-import { Logger } from "../../logger/Logger";
+import { Config } from "../config/Config";
+import { Logger } from "../logger/Logger";
 import { EventHandler } from "./EventHandler";
 
 /**

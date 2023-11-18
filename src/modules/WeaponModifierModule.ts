@@ -1,7 +1,7 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { Config } from "../config/Config";
+import { Config } from "../core/config/Config";
 
 export class WeaponModifierModule extends Module {
 	// Add 0.001 to the value to account for floating point errors.

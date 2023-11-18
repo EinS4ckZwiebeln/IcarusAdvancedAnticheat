@@ -1,8 +1,8 @@
-import { Config } from "../config/Config";
+import { Config } from "./config/Config";
 import { Utility } from "../util/Utility";
 import { WebhookRequest } from "../web/WebhookRequest";
 import { BanEmbed } from "../web/BanEmbed";
-import { Logger } from "../logger/Logger";
+import { Logger } from "./logger/Logger";
 import { Screenshot } from "../web/Screenshot";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { ExcuseHandler } from "./handler/ExcuseHandler";

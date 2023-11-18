@@ -1,5 +1,5 @@
 import { PermissionHandler } from "./handler/PermissionHandler";
-import { Logger } from "../logger/Logger";
+import { Logger } from "./logger/Logger";
 import { SubCommand } from "./SubCommand";
 
 /**
