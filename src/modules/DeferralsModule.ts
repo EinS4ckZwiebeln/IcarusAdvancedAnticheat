@@ -3,16 +3,17 @@ import { Logger } from "../core/logger/Logger";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
+import { Deferrals } from "../types/DeferralsType";
 
 export class DeferralsModule extends Module {
 	private readonly _nameFilter: any = Config.getValue(this.config, "NameFilter");
 	private readonly _noVPN: any = Config.getValue(this.config, "NoVPN");
 
 	public onLoad(): void {
-		EventHandler.subscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: any) => this.onDefer(name, deferrals, source));
+		EventHandler.subscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: any) => this.onDefer(name, deferrals, source));
+		EventHandler.unsubscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source));
 	}
 
 	/**
@@ -51,7 +52,7 @@ export class DeferralsModule extends Module {
 	 * @param source - The player's source ID.
 	 * @returns A Promise that resolves when the deferral is complete.
 	 */
-	private async onDefer(name: string, deferrals: any, source: number): Promise<void> {
+	private async onDefer(name: string, deferrals: Deferrals, source: number): Promise<void> {
 		const ipv4: string = GetPlayerIdentifierByType(source.toString(), "ip").slice(3);
 		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 != "127.0.0.1";
 

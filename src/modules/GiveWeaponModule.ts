@@ -1,13 +1,14 @@
+import { GiveWeaponEvent } from "../types/EventType";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 
 export class GiveWeaponModule extends Module {
 	public onLoad(): void {
-		EventHandler.subscribe("giveWeaponEvent", (source: number, data: any) => this.onGiveWeapon(source, data));
+		EventHandler.subscribe("giveWeaponEvent", (source: number, data: GiveWeaponEvent) => this.onGiveWeapon(source, data));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("giveWeaponEvent", (source: number, data: any) => this.onGiveWeapon(source, data));
+		EventHandler.unsubscribe("giveWeaponEvent", (source: number, data: GiveWeaponEvent) => this.onGiveWeapon(source, data));
 	}
 
 	/**
@@ -16,7 +17,7 @@ export class GiveWeaponModule extends Module {
 	 * @param source The player ID who triggered the event.
 	 * @param data The data associated with the event.
 	 */
-	private onGiveWeapon(source: number, data: any): void {
+	private onGiveWeapon(source: number, data: GiveWeaponEvent): void {
 		const entity: number = NetworkGetEntityFromNetworkId(data.pedId);
 		if (DoesEntityExist(entity)) {
 			const owner = NetworkGetEntityOwner(entity);

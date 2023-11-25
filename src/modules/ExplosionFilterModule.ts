@@ -3,6 +3,7 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
+import { ExplosionEvent } from "../types/EventType";
 
 export class ExplosionFilterModule extends Module {
 	private _whitelistedExplosionTypes: Set<number> = new Set();
@@ -10,11 +11,11 @@ export class ExplosionFilterModule extends Module {
 	public onLoad(): void {
 		const types: string[] = Array.from(Config.getValue(this.config, "whitelistedExplosionTypes"));
 		this._whitelistedExplosionTypes = new Set(Utility.hashify(types));
-		EventHandler.subscribe("explosionEvent", (source: number, data: any) => this.onExplosion(source, data));
+		EventHandler.subscribe("explosionEvent", (source: number, data: ExplosionEvent) => this.onExplosion(source, data));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("explosionEvent", (source: number, data: any) => this.onExplosion(source, data));
+		EventHandler.unsubscribe("explosionEvent", (source: number, data: ExplosionEvent) => this.onExplosion(source, data));
 	}
 
 	/**
@@ -22,7 +23,7 @@ export class ExplosionFilterModule extends Module {
 	 * @param source - The source of the explosion event.
 	 * @param data - The data associated with the explosion event.
 	 */
-	private onExplosion(source: number, data: any): void {
+	private onExplosion(source: number, data: ExplosionEvent): void {
 		if (!this._whitelistedExplosionTypes.has(data.explosionType)) {
 			const violation = new Violation(source, "Explosion [C1]", this.name);
 			violation.banPlayer();

@@ -1,6 +1,7 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { WeaponDamageEvent } from "../types/EventType";
 import { Utility } from "../util/Utility";
 
 export class WeaponBlacklistModule extends Module {
@@ -9,11 +10,11 @@ export class WeaponBlacklistModule extends Module {
 	public onLoad(): void {
 		const weapons: string[] = Array.from(this.config.BlacklistedWeapons);
 		this._blacklistedWeapons = new Set<number>(Utility.hashify(weapons));
-		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onWeaponDamage(source, data.weaponType));
+		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onWeaponDamage(source, data));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: any) => this.onWeaponDamage(source, data.weaponType));
+		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onWeaponDamage(source, data));
 	}
 
 	/**
@@ -21,8 +22,8 @@ export class WeaponBlacklistModule extends Module {
 	 * @param source - The player who used the weapon.
 	 * @param weaponType - The type of weapon used.
 	 */
-	private onWeaponDamage(source: number, weaponType: number): void {
-		if (this._blacklistedWeapons.has(weaponType)) {
+	private onWeaponDamage(source: number, data: WeaponDamageEvent): void {
+		if (this._blacklistedWeapons.has(data.weaponType)) {
 			const violation = new Violation(source, "Blacklisted Weapon [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();

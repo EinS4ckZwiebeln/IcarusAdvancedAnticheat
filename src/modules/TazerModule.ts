@@ -4,6 +4,7 @@ import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { EventHandler } from "../core/handler/EventHandler";
+import { WeaponDamageEvent } from "../types/EventType";
 
 export class TazerModule extends Module {
 	private _onCooldown: Set<number> = new Set<number>();
@@ -13,15 +14,15 @@ export class TazerModule extends Module {
 	public onLoad(): void {
 		this._tazerRange = Config.getValue(this.config, "maxDistance");
 		this._tazerCooldown = Config.getValue(this.config, "tazerCooldown");
-		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerReach(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
-		EventHandler.subscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerCooldown(source, data.weaponType));
-		EventHandler.subscribe("weaponDamageEvent", (_: number, data: any) => this.onTazerRagdoll(data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
+		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerReach(source, data));
+		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerCooldown(source, data));
+		EventHandler.subscribe("weaponDamageEvent", (_: number, data: WeaponDamageEvent) => this.onTazerRagdoll(data));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerReach(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
-		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: any) => this.onTazerCooldown(source, data.weaponType));
-		EventHandler.unsubscribe("weaponDamageEvent", (_: number, data: any) => this.onTazerRagdoll(data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
+		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerReach(source, data));
+		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerCooldown(source, data));
+		EventHandler.unsubscribe("weaponDamageEvent", (_: number, data: WeaponDamageEvent) => this.onTazerRagdoll(data));
 	}
 
 	/**
@@ -31,12 +32,12 @@ export class TazerModule extends Module {
 	 * @param target - The player who was targeted by the tazer.
 	 * @param weaponType - The type of weapon used (should be a tazer).
 	 */
-	private onTazerReach(source: number, target: number, weaponType: number): void {
-		switch (weaponType) {
+	private onTazerReach(source: number, data: WeaponDamageEvent): void {
+		switch (data.weaponType) {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:
 				const killer: number = GetPlayerPed(source.toString());
-				const victim: number = NetworkGetEntityFromNetworkId(target);
+				const victim: number = NetworkGetEntityFromNetworkId(data.hitGlobalId || data.hitGlobalIds[0]);
 				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim)) return;
 
 				if (Utility.getDistance(GetEntityCoords(killer), GetEntityCoords(victim), true) > this._tazerRange) {
@@ -55,8 +56,8 @@ export class TazerModule extends Module {
 	 * @param source - The player ID.
 	 * @param weaponType - The type of weapon used.
 	 */
-	private onTazerCooldown(source: number, weaponType: number): void {
-		switch (weaponType) {
+	private onTazerCooldown(source: number, data: WeaponDamageEvent): void {
+		switch (data.weaponType) {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:
 				if (this._onCooldown.has(source)) {
@@ -80,10 +81,11 @@ export class TazerModule extends Module {
 	 * @param target The network ID of the player being tazed.
 	 * @param weaponType The type of weapon being used to taze the player.
 	 */
-	private async onTazerRagdoll(target: number, weaponType: number): Promise<void> {
-		switch (weaponType) {
+	private async onTazerRagdoll(data: WeaponDamageEvent): Promise<void> {
+		switch (data.weaponType) {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:
+				const target = data.hitGlobalId || data.hitGlobalIds[0];
 				const victim: number = NetworkGetEntityFromNetworkId(target);
 				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim)) return;
 				SetPedCanRagdoll(victim, true); // Is this a good idea?
