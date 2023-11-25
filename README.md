@@ -15,7 +15,7 @@ If you wish to financially supports this project, don't forget to check out: [nc
 
 # Icarus Advanced Anticheat
 
-Icarus is a brand-new work in progress anticheat solution for your FiveM role-playing server. It offers many unique detections and a great variety of checks to catch cheaters. Currently, Icarus is still in an alpha state, so don't expect a silver bullet from this. False positives or bugs may occur, but giving this a shot might be worth it to you. Issues and pull requests are always appreciated!
+Icarus is a robust anti-cheat solution designed for FiveM role-playing servers. With unique detections and a diverse range of checks, it's a comprehensive tool to catch cheaters. While occasional bugs or false positives may occur, your feedback through issues and pull requests is crucial to its refinement. Dive into Icarus, recognizing its evolving state, as it strives to be a powerful and reliable anti-cheat solution for your server.
 
 ### Features
 
@@ -62,14 +62,14 @@ Following ace permission allows selected players to bypass the anticheat detecti
 
 ### Banning
 
-Many anticheats come with custom ban-systems or databases. Icarus avoids such systems to improve compatibility and to steer clear of bloated code. To use Icarus properly it is necessary to add your own ban logic to the script. This can be done in the configuration file.
+Numerous anticheat solutions are burdened by extensive ban systems and databases. Icarus, however, sidesteps these complexities to enhance compatibility and eliminate redundant code. To maximize the effectiveness of Icarus, it is imperative to integrate your own ban logic into the script, a process conveniently accomplished through the configuration file.
 
 ```lua
 -- << config.lua >>
--- This export gets called when a cheater has been caught.
-exports("BanPlayer", function (source, reason)
+-- This function gets called when a cheater has been caught.
+function Config.BanPlayer(source, reason)
     -- Your own banning logic goes here!
-end)
+end
 ```
 
 ### Dependencies
@@ -80,11 +80,7 @@ end)
 
 ### Exports
 
-These exports can be used in order to create a temporary soft-bypass for a given player. Let's say some script of yours modifies the player in such a way that it causes severe false-positives. To avoid this behavior, you can ignore the player by adding an excuse right before the problematic code via following exports.
-
-```lua
-exports[<resource_name>]:<function>(param1, param2, ...)
-```
+These exports can be employed to establish a temporary soft-bypass for a specific player. Suppose a script of yours alters the player in a manner that triggers significant false-positives. To mitigate this issue, you can exempt the player by incorporating an excuse just before the problematic code using the provided exports.
 
 | Function               | Parameters                                  | Retval  | Type   |
 | ---------------------- | ------------------------------------------- | ------- | ------ |
