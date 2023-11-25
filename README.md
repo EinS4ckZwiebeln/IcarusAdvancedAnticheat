@@ -1,28 +1,45 @@
+## Sponsors
+
+### 💖 FiveGuard
+
+For a better paid anticheat check out: [store.fiveguard.ac](https://store.fiveguard.ac/).
+Fiveguard is the best FiveM anticheat.
+
+_We are able to provide this free product because of help from [**fiveguard.net**](https://fiveguard.net/)._
+
+### 💖 NCRP Scripts
+
+If you wish to financially supports this project, don't forget to check out: [ncrp-scripts.tebex.io](https://ncrp-scripts.tebex.io).
+
+**NCRP Scripts** offers are a variety of unique and exciting scripts to spice up your server's immersions and role-play aspects.
+
 # Icarus Advanced Anticheat
 
 Icarus is a brand-new work in progress anticheat solution for your FiveM role-playing server. It offers many unique detections and a great variety of checks to catch cheaters. Currently, Icarus is still in an alpha state, so don't expect a silver bullet from this. False positives or bugs may occur, but giving this a shot might be worth it to you. Issues and pull requests are always appreciated!
 
 ### Features
 
-| Detections           | Other              |
-| -------------------- | ------------------ |
-| Anti Aimbot          | Anti VPN           |
-| Anti Clear Tasks     | Anti Illegal Names |
-| Anti Entity Creation | Anti Bad Words     |
-| Anti Explosions      |                    |
-| Anti GiveWeapon      |                    |
-| Anti RemoveWeapon    |                    |
-| Anti Godmode         |                    |
-| Anti Particles       |                    |
-| Anti Illegal Peds    |                    |
-| Anti Super Jump      |                    |
-| Anti Tazer Mods      |                    |
-| Anti Illegal Weapons |                    |
-| Anti Damage Modifier |                    |
+| Detections           | Other           |
+| -------------------- | --------------- |
+| Anti Aimbot          | No VPN          |
+| Anti Clear Tasks     | No Bad Words    |
+| Anti Entity Creation | Forbidden Names |
+| Anti Explosions      | Event Blacklist |
+| Anti GiveWeapon      |                 |
+| Anti RemoveWeapon    |                 |
+| Anti Godmode         |                 |
+| Anti Particles       |                 |
+| Anti Illegal Peds    |                 |
+| Anti Super Jump      |                 |
+| Anti Tazer Mods      |                 |
+| Anti Illegal Weapons |                 |
+| Anti Damage Modifier |                 |
+| Anti NoClip          |                 |
+| Anti Projectiles     |                 |
 
 ### Installation
 
-1. Download the latest release for this repository.
+1. Download the [latest release](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases) for this repository.
 
 2. Extract contents into your `/resources/` directory and ensure dependencies are installed.
 
@@ -57,9 +74,9 @@ end)
 
 ### Dependencies
 
-| FXServer | OneSync  | Yarn     | Screenshot-basic |
-| -------- | -------- | -------- | ---------------- |
-| 5181+    | Required | Required | Optional         |
+| FXServer | OneSync  | Yarn     | Screenshot-basic                                          |
+| -------- | -------- | -------- | --------------------------------------------------------- |
+| 5181+    | Required | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
 
 ### Exports
 
