@@ -46,6 +46,7 @@ class App {
 
 		this.registerModules();
 		this.registerCommands();
+		this.checkCriticalConvars();
 		this.checkForUpdates();
 	}
 
@@ -85,6 +86,24 @@ class App {
 		commandLoader.registerCommand(new ScreenshotCommand());
 		commandLoader.registerCommand(new WipeEntitiesCommand());
 		Logger.debug("Finished registering commands");
+	}
+
+	/**
+	 * Checks the critical convars and logs a warning if they are not set to the recommended values.
+	 */
+	private async checkCriticalConvars(): Promise<void> {
+		const convars = [
+			{ name: "onesync", recommendedValue: "on" },
+			{ name: "sv_scriptHookAllowed", recommendedValue: "false" },
+			{ name: "sv_enableNetworkedPhoneExplosions", recommendedValue: "false" },
+			{ name: "sv_enableNetworkedSounds", recommendedValue: "false" },
+		];
+
+		convars.forEach((convar) => {
+			if (GetConvar(convar.name, "NaN") != convar.recommendedValue) {
+				console.log(`^3[WARNING] Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`);
+			}
+		});
 	}
 
 	/**
