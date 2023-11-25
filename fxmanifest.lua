@@ -10,7 +10,8 @@ lua54 "yes"
 server_only "yes"
 
 server_script {
-    "config.lua", 
+    "config.lua",
+    "wrapper.lua",
     "dist/app.js"
 }
 

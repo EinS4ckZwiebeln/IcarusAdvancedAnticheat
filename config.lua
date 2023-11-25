@@ -11,9 +11,9 @@ Config.Permission = {
 Config.DiscordWebhook = ""
 
 -- Implement your custom banning function here.
-exports("BanPlayer", function (source, reason)
+function Config.BanPlayer (source, reason)
     -- TriggerEvent("EasyAdmin:banPlayer", source, "You have been banned for cheating", 1044463300) -- EasyAdmin for the sake of simplicity.
-end)
+end
 
 Config.Modules = {
     -- Filter for bad words in chat messages.
@@ -561,7 +561,3 @@ Config.IllegalModels = {
     "stt_prop_stunt_track_dwslope30",
     "stt_prop_stunt_track_dwslope45",
 }
-
-exports("GetConfig", function ()
-    return Config
-end)
