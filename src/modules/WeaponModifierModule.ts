@@ -5,7 +5,7 @@ import { Config } from "../core/config/Config";
 
 export class WeaponModifierModule extends Module {
 	// Add 0.001 to the value to account for floating point errors.
-	private _damageModifier: number = Config.getValue(this.config, "damageModifier") + 0.001;
+	private readonly _damageModifier: number = Config.getValue(this.config, "damageModifier") + 0.001;
 
 	public onLoad(): void {
 		EventHandler.subscribe("weaponDamageEvent", (source: string) => this.onDamage(source));
