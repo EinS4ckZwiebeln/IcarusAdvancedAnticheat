@@ -1,3 +1,4 @@
+import { AdminAuthEvent } from "../../types/EventType";
 import { Config } from "../config/Config";
 import { Logger } from "../logger/Logger";
 import { EventHandler } from "./EventHandler";
@@ -21,7 +22,7 @@ export class PermissionHandler {
 	}
 
 	public static init(): void {
-		EventHandler.subscribe("txAdmin:events:adminAuth", (data: any) => this.onTxAuth(data));
+		EventHandler.subscribe("txAdmin:events:adminAuth", (data: AdminAuthEvent) => this.onTxAuth(data));
 	}
 
 	/**
@@ -37,7 +38,7 @@ export class PermissionHandler {
 	 * Event handler for when a player's admin status changes.
 	 * @param data The data object containing the player's net ID and admin status.
 	 */
-	private static onTxAuth(data: any): void {
+	private static onTxAuth(data: AdminAuthEvent): void {
 		const source = data.netid;
 		if (source === -1) {
 			this._permissions.clear();

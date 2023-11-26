@@ -204,3 +204,12 @@ export type PtFxEvent = {
 	rotZ: number;
 	scale: number;
 };
+
+/**
+ * Represents an event for txAdmin authentication.
+ */
+export type AdminAuthEvent = {
+	netid: number;
+	isAdmin: boolean;
+	username: string;
+};
