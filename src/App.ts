@@ -102,6 +102,7 @@ class App {
 		convars.forEach((convar) => {
 			if (GetConvar(convar.name, "NaN") != convar.recommendedValue) {
 				console.log(`^3[WARNING] Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`);
+				Logger.debug(`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`);
 			}
 		});
 	}
