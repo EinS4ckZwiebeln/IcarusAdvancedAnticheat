@@ -42,8 +42,12 @@ export class Violation {
 	 * @param reason - The reason for the ban.
 	 */
 	private takeScreenshot(): void {
-		if (GetResourceState("screenshot-basic") !== "started" || !this._webhook) {
-			Logger.debug("Failed to send webhook request. Screenshot-basic resource is not started or no webhook is configured.");
+		if (!this._webhook || this._webhook.length < 1) {
+			Logger.debug("Failed to send webhook request. No webhook is configured.");
+			return;
+		}
+		if (GetResourceState("screenshot-basic") !== "started") {
+			Logger.debug("Failed to send webhook request. Screenshot-basic is not started or missing.");
 			return;
 		}
 
