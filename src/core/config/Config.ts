@@ -2,7 +2,7 @@ import { Utility } from "../../util/Utility";
 import { config } from "../../types/ConfigType";
 
 export class Config {
-	private static _config: any = JSON.parse(JSON.stringify(Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig()));
+	private static readonly _config: config = JSON.parse(JSON.stringify(Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig()));
 
 	constructor() {
 		throw new Error("Config is a static class and cannot be instantiated.");
