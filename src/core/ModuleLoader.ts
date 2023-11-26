@@ -4,8 +4,8 @@ import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 
 export class ModuleLoader {
-	private _modules: Map<string, Module> = new Map<string, Module>();
-	private _config: config = Config.getConfig();
+	private readonly _modules: Map<string, Module> = new Map<string, Module>();
+	private readonly _config: config = Config.getConfig();
 
 	/**
 	 * Loads a module into the module loader.
@@ -14,18 +14,17 @@ export class ModuleLoader {
 	 * @throws Error if the module is already loaded or if config is missing.
 	 */
 	public loadModule(module: Module): void {
-		const name: string = module.name;
-		try {
-			// Ensure module has configuration set up
-			if (!this._config.Modules[name].enabled) {
-				Logger.debug(`Module ${name} is disabled in the config`);
-				return;
-			}
-		} catch (err: any) {
-			throw new Error(`${err.message} (does ${name} have a config?)`);
+		const name = module.name;
+		// Prevent loading the same module twice
+		if (this._modules.has(name)) {
+			throw new Error(`Module ${name} is already loaded`);
 		}
-		//
-		if (this._modules.has(name)) throw new Error(`Module ${name} is already loaded`);
+		// Ensure there is at least minimal configuration for this module
+		try {
+			this.validateModuleConfig(name);
+		} catch (err: any) {
+			throw new Error(`${err.message} (does ${name} exist in the config?)`);
+		}
 
 		module.onLoad();
 		module.setTick();
@@ -42,6 +41,17 @@ export class ModuleLoader {
 		module.removeTick();
 		this._modules.delete(module.name);
 		Logger.debug(`Module ${module.name} unloaded successfully`);
+	}
+
+	/**
+	 * Validates the module configuration.
+	 * @param name - The name of the module.
+	 */
+	private validateModuleConfig(name: string): void {
+		// Ensure module has configuration set up
+		if (!this._config.Modules[name].enabled) {
+			Logger.debug(`Module ${name} is disabled in the config`);
+		}
 	}
 
 	/**
