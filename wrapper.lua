@@ -3,8 +3,9 @@ local config = Config
 local BanPlayer = config.BanPlayer
 
 exports("GetConfig", function()
-    return Config
+    return config
 end)
-exports("BanPlayer", function()
+
+exports("BanPlayer", function(source, reason)
     BanPlayer(source, reason)
 end)
