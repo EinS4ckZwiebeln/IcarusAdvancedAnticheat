@@ -34,6 +34,13 @@ export class BanEmbed {
 		return typeof id != "string" ? `${type}:unknownlicense` : id;
 	}
 
+	/**
+	 * Constructs a ban embed object.
+	 * @param source - The source of the ban.
+	 * @param reason - The reason for the ban.
+	 * @param fileName - The name of the file to be attached to the embed.
+	 * @returns An array containing the ban embed object.
+	 */
 	private constructBanEmbed(source: number, reason: string, fileName: string): object[] {
 		return [
 			{
