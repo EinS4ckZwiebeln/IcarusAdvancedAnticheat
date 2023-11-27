@@ -7,7 +7,7 @@ import { Utility } from "../util/Utility";
 
 export class StartProjectileModule extends Module {
 	private readonly _projectileCooldown: Map<number, number> = new Map();
-	private _projectileCooldownTime: number = 250000;
+	private _projectileCooldownTime: number = 0;
 	private _blockVehicleWeapons: boolean = true;
 
 	public onLoad(): void {
