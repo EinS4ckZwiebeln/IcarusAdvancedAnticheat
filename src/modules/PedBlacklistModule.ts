@@ -8,8 +8,7 @@ export class PedBlacklistModule extends Module {
 	private _whitelistedPedModels: Set<number> = new Set();
 
 	public onLoad(): void {
-		const models: string[] = Array.from(Config.getValue(this.config, "playerModels"));
-		this._whitelistedPedModels = new Set(Utility.hashify(models));
+		this._whitelistedPedModels = new Set(Utility.hashify(Config.getValue(this.config, "playerModels")));
 
 		EventHandler.subscribe("playerEnteredScope", (data: any) => this.onEnteredScope(data.player));
 		EventHandler.subscribe("playerLeftScope", (data: any) => this.onEnteredScope(data.player));
