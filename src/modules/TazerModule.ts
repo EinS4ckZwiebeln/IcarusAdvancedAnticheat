@@ -7,13 +7,14 @@ import { EventHandler } from "../core/handler/EventHandler";
 import { WeaponDamageEvent } from "../types/EventType";
 
 export class TazerModule extends Module {
-	private _onCooldown: Set<number> = new Set<number>();
+	private readonly _onCooldown: Set<number> = new Set<number>();
 	private _tazerCooldown: number = 14000;
 	private _tazerRange: number = 12;
 
 	public onLoad(): void {
 		this._tazerRange = Config.getValue(this.config, "maxDistance");
 		this._tazerCooldown = Config.getValue(this.config, "tazerCooldown");
+
 		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerReach(source, data));
 		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerCooldown(source, data));
 		EventHandler.subscribe("weaponDamageEvent", (_: number, data: WeaponDamageEvent) => this.onTazerRagdoll(data));
