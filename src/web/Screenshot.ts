@@ -19,7 +19,7 @@ export class Screenshot {
 			{
 				fileName: path,
 			},
-			(err: any, _: string) => {
+			(err: any) => {
 				if (err) Logger.error(err.message);
 				callback(name, path);
 			}
