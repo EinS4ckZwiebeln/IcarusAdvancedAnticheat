@@ -7,10 +7,12 @@ import { Utility } from "../util/Utility";
 
 export class StartProjectileModule extends Module {
 	private readonly _projectileCooldown: Map<number, number> = new Map();
-	private readonly _projectileCooldownTime: number = Config.getValue(this.config, "projectileCooldown");
-	private readonly _blockVehicleWeapons: boolean = Config.getValue(this.config, "blockVehicleWeapons");
+	private _projectileCooldownTime: number = 250000;
+	private _blockVehicleWeapons: boolean = true;
 
 	public onLoad(): void {
+		this._projectileCooldownTime = Config.getValue(this.config, "projectileCooldown");
+		this._blockVehicleWeapons = Config.getValue(this.config, "blockVehicleWeapons");
 		EventHandler.subscribe("startProjectileEvent", (source: number, data: StartProjectileEvent) => this.onProjectileSpam(source, data));
 	}
 
