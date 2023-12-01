@@ -76,7 +76,7 @@ end
 
 | FXServer | OneSync  | Yarn     | Screenshot-basic                                          |
 | -------- | -------- | -------- | --------------------------------------------------------- |
-| 5181+    | Required | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
+| 6497+    | Required | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
 
 ### Exports
 
