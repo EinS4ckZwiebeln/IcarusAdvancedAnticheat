@@ -3,6 +3,7 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
+import { Weapons } from "../util/enum/Weapons";
 
 export class EntityCreateModule extends Module {
 	private _illegalEntities: Set<number> = new Set();
@@ -47,7 +48,15 @@ export class EntityCreateModule extends Module {
 		// If the entity is a ped and the owner is not a player and the selected weapon is blacklisted, ban the player.
 		if (this._checkPedsForWeapons) {
 			const weapon: number = GetSelectedPedWeapon(entity);
-			if (weapon > 0 && GetEntityType(entity) === 1 && this._blacklistedWeapons.has(weapon)) {
+			// Return early if unarmed or no weapons.
+			switch (weapon) {
+				case 0:
+				case Weapons.WEAPON_UNARMED:
+					return;
+				default:
+					break;
+			}
+			if (GetEntityType(entity) === 1 && this._blacklistedWeapons.has(weapon)) {
 				this.handleViolation("Illegal Entity [C3]", owner, entity);
 				return;
 			}
