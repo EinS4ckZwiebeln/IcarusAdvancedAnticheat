@@ -29,7 +29,7 @@ export class BanEmbed {
 	 * @param type The identifier type.
 	 * @returns The clean player identifier.
 	 */
-	private getCleanPlayerIdentifier(source: number, type: string): string {
+	private formatAndGetPlayerIdentifier(source: number, type: string): string {
 		const id = GetPlayerIdentifierByType(source.toString(), type);
 		return typeof id != "string" ? `${type}:unknownlicense` : id;
 	}
@@ -63,12 +63,12 @@ export class BanEmbed {
 					},
 					{
 						name: "Discord",
-						value: `<@${this.getCleanPlayerIdentifier(source, "discord").slice(8)}>`,
+						value: `<@${this.formatAndGetPlayerIdentifier(source, "discord").slice(8)}>`,
 						inline: true,
 					},
 					{
 						name: "FiveM",
-						value: this.getCleanPlayerIdentifier(source, "license"),
+						value: this.formatAndGetPlayerIdentifier(source, "license"),
 						inline: false,
 					},
 				],
