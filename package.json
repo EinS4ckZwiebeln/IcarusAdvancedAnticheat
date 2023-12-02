@@ -20,7 +20,7 @@
 		"@types/node-fetch": "^2.6.9",
 		"bad-words": "^3.0.4",
 		"form-data": "^4.0.0",
-		"node-fetch": "^1.7.3",
+		"node-fetch": "^3.3.2",
 		"winston": "^3.11.0",
 		"winston-daily-rotate-file": "^4.7.1"
 	}
