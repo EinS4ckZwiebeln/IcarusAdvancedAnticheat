@@ -1,83 +1,106 @@
-# fiveguard.net
-For better **paid anticheat** check out **https://store.fiveguard.ac/**.
+## Sponsors
 
-We are **able to provide** this **free product** because of help of **https://fiveguard.net/**.
+### 💖 FiveGuard
 
-**Fiveguard is the best fivem anticheat**
+For a better paid anticheat check out: [store.fiveguard.ac](https://store.fiveguard.ac/).
+Fiveguard is the best FiveM anticheat.
+
+_We are able to provide this free product because of help from [**fiveguard.net**](https://fiveguard.net/)._
+
+### 💖 NCRP Scripts
+
+If you wish to financially supports this project, don't forget to check out: [ncrp-scripts.tebex.io](https://ncrp-scripts.tebex.io).
+
+**NCRP Scripts** offers are a variety of unique and exciting scripts to spice up your server's immersions and role-play aspects.
 
 # Icarus Advanced Anticheat
-Icarus is a brand-new work in progress anticheat solution for your FiveM role-playing server. It offers many unique detections and a great variety of checks to catch cheaters. Currently, Icarus is still in an alpha state, so don't expect a silver bullet from this. False positives or bugs may occur, but giving this a shot might be worth it to you. Issues and pull requests are always appreciated!
+
+Icarus is a robust anti-cheat solution designed for FiveM role-playing servers. With unique detections and a diverse range of checks, it's a comprehensive tool to catch cheaters. While occasional bugs or false positives may occur, your feedback through issues and pull requests is crucial to its refinement. Dive into Icarus, recognizing its evolving state, as it strives to be a powerful and reliable anti-cheat solution for your server.
 
 ### Features
-| Client | Server | Other |
-|--------|--------|---------|
-| Anti NoClip | Anti Aimbot | Heartbeat |
-| Anti DUI | Anti ClearTasks | Regex Filters |
-| Anti FreeCam | Anti EntityCreate | No VPN |
-| Anti PickUp | Anti Explosions | Honeypots |
-| Anti Godmode | Anti Godmode | Event Scrambler |
-| Anti Ragdoll | Anti WeaponRange |  |
-| Anti Speed | Anti GiveWeapon |  |
-| Anti SuperJump | Anti RemoveWeapon |  |
-| Anti VehicleTP | Anti IllegalPeds |  |
-| Anti Vision | Anti Particles |  |
-| Anti Explosives | Anti Weapons |  |
-| Anti ResourceStopper | Anti IllegalDamage |  |
-| Anti Spectate | Anti WeaponModifier |  |
-| Anti TinyPed |  |  |
+
+| Detections           | Other           |
+| -------------------- | --------------- |
+| Anti Aimbot          | No VPN          |
+| Anti Clear Tasks     | No Bad Words    |
+| Anti Entity Creation | Forbidden Names |
+| Anti Explosions      | Event Blacklist |
+| Anti GiveWeapon      |                 |
+| Anti RemoveWeapon    |                 |
+| Anti Godmode         |                 |
+| Anti Particles       |                 |
+| Anti Illegal Peds    |                 |
+| Anti Super Jump      |                 |
+| Anti Tazer Mods      |                 |
+| Anti Illegal Weapons |                 |
+| Anti Damage Modifier |                 |
+| Anti NoClip          |                 |
+| Anti Projectiles     |                 |
 
 ### Installation
-1. Clone or download this repository.
 
-2. Extract contents into your `/resources/` directory and ensure dependencies.
+1. Download the [latest release](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases) for this repository.
 
-3. Read and adjust all configuration files carefully. 
+2. Extract contents into your `/resources/` directory and ensure dependencies are installed.
+
+3. Read and adjust all configuration files carefully.
 
 ### Permission Setup
+
 Following ace permission allows selected players to bypass the anticheat detections and checks.
 
 | icarus.bypass |
-|---------------|
+| ------------- |
 
 1. Add the permission to the group you want to have bypass perms.
 
-``` add_ace group.<yourgroup> icarus.bypass allow  ```
+`add_ace group.<yourgroup> icarus.bypass allow `
 
 2. Add the according player license to previous chosen group.
 
-``` add_principal identifier.license:<yourlicense> group.<yourgroup>  ```
+`add_principal identifier.license:<yourlicense> group.<yourgroup> `
 
 ### Banning
-Many anticheats come with custom ban-systems or databases. Icarus avoids such systems to improve compatibility and to steer clear of bloated code. To use Icarus properly it is necessary to add your own ban logic to the script. This can be done in the server configuration file.
 
-```lua 
-function ServerConfig.BanPlayer(source, reason)
-  -- Your own ban logic goes here.
-  -- EXAMPLE: TriggerEvent("EasyAdmin:banPlayer", source, reason, 1044463300)
+Numerous anticheat solutions are burdened by extensive ban systems and databases. Icarus, however, sidesteps these complexities to enhance compatibility and eliminate redundant code. To maximize the effectiveness of Icarus, it is imperative to integrate your own ban logic into the script, a process conveniently accomplished through the configuration file.
+
+```lua
+-- << config.lua >>
+-- This function gets called when a cheater has been caught.
+function Config.BanPlayer(source, reason)
+    -- Your own banning logic goes here!
 end
 ```
 
 ### Dependencies
-| FXServer | OneSync | Yarn | Screenshot-basic |
-|---------|----------|------|------------------|
-| 5181+ | Required | Required | Optional |
+
+| FXServer | OneSync  | Yarn     | Screenshot-basic                                          |
+| -------- | -------- | -------- | --------------------------------------------------------- |
+| 6497+    | Required | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
 
 ### Exports
-These exports can be used in order to create a temporary soft-bypass for a given player. Let's say some script of yours modifies the player in such a way that it causes severe false-positives. To avoid this behavior, you can ignore the player by adding an excuse right before the problematic code via following exports.
-```lua 
-exports[<resource_name>]:<function>(param1, param2, ...)
-```
-| Function | Parameters | Type |
-|---------|----------|------------------|
-| AddExcuseForPlayer | source: int; timeout: int | Server |
-| RemoveExcuseFromPlayer | source: int | Server |
+
+These exports can be employed to establish a temporary soft-bypass for a specific player. Suppose a script of yours alters the player in a manner that triggers significant false-positives. To mitigate this issue, you can exempt the player by incorporating an excuse just before the problematic code using the provided exports.
+
+| Function               | Parameters                                  | Retval  | Type   |
+| ---------------------- | ------------------------------------------- | ------- | ------ |
+| AddExcuseForPlayer     | source: int; timeout: int, module?: string; | void    | Server |
+| RemoveExcuseFromPlayer | source: int; module?: string;               | void    | Server |
+| IsPlayerExcused        | source: int; module?: string;               | boolean | Server |
+
 ```lua
 -- Player won't be able to trigger any detections for 1000ms.
 exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000)
+exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000, "TestModule") -- Excuse individual module
 
--- Player won't be able to trigger any detections until his excuse is removed.
+-- Player won't be able to trigger any detections until his excuse is manually removed.
 exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, -1)
 
--- Player can now trigger various detections again.
+-- Player can now trigger all detections again.
 exports["IcarusAdvancedAnticheat"]:RemoveExcuseFromPlayer(source)
+exports["IcarusAdvancedAnticheat"]:RemoveExcuseFromPlayer(source, "TestModule") -- Remove excuse for individual module
+
+-- Verify if player is excused for everything or indivual module.
+exports["IcarusAdvancedAnticheat"]:IsPlayerExcused(source)
+exports["IcarusAdvancedAnticheat"]:IsPlayerExcused(source, "TestModule")
 ```

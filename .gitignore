@@ -1,7 +1,15 @@
+# Editor & IDE
+.vs
+.vscode
+
 # Extensions
-*.gitignore
 *.installed
 *.lock
 
+# Files
+package-lock.json
+
 # Directories
 node_modules/
+dist/
+logs/
