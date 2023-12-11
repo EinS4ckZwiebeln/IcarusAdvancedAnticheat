@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@citizenfx/server": "^2.0.6736-1",
 		"@types/bad-words": "^3.0.3",
-		"@types/node": "20.10.3",
+		"@types/node": "20.10.4",
 		"@types/node-fetch": "^2.6.9",
 		"bad-words": "^3.0.4",
 		"form-data": "^4.0.0",
