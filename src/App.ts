@@ -123,7 +123,7 @@ class App {
 
 			if (!response.ok) Logger.error(`Update HTTP error! Status: ${response.status}`);
 
-			const latestRelease = (await response.json())[0];
+			const latestRelease = ((await response.json()) as any)[0];
 			const remoteVersion: string = latestRelease?.name?.toString().slice(1);
 			const isOutdated: boolean = remoteVersion.localeCompare(Utility.CURRENT_VERSION, undefined, { numeric: true, sensitivity: "base" }) > 0;
 
