@@ -46,7 +46,7 @@ class App {
 
 		this.registerModules();
 		this.registerCommands();
-		this.checkCriticalConvars();
+		this.checkForUnsafeConvars();
 		this.checkForUpdates();
 	}
 
@@ -91,7 +91,7 @@ class App {
 	/**
 	 * Checks the critical convars and logs a warning if they are not set to the recommended values.
 	 */
-	private async checkCriticalConvars(): Promise<void> {
+	private async checkForUnsafeConvars(): Promise<void> {
 		const convars = [
 			{ name: "onesync", recommendedValue: "on" },
 			{ name: "sv_scriptHookAllowed", recommendedValue: "false" },
