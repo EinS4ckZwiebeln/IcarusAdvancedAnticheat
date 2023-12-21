@@ -9,7 +9,7 @@ export class EventHandler {
 	private static readonly _events: Map<string, Function[]> = new Map();
 	private static readonly _netEvents: Set<string> = new Set();
 
-	private constructor() {
+	constructor() {
 		throw new Error("EventHandler is a static class and cannot be instantiated.");
 	}
 
