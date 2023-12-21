@@ -4,8 +4,8 @@ import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 
 export class ModuleLoader {
-	private readonly _modules: Map<string, Module> = new Map<string, Module>();
-	private readonly _config: config = Config.getConfig();
+	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
+	private static readonly _config: config = Config.getConfig();
 
 	/**
 	 * Loads a module into the module loader.
@@ -13,7 +13,7 @@ export class ModuleLoader {
 	 * @returns void
 	 * @throws Error if the module is already loaded or if config is missing.
 	 */
-	public loadModule(module: Module): void {
+	public static loadModule(module: Module): void {
 		const name = module.name;
 		// Prevent loading the same module twice
 		if (this._modules.has(name)) {
@@ -36,7 +36,7 @@ export class ModuleLoader {
 	 * Unloads a module from the module loader.
 	 * @param module - The module to unload.
 	 */
-	public unloadModule(module: Module): void {
+	public static unloadModule(module: Module): void {
 		module.onUnload();
 		module.removeTick();
 		this._modules.delete(module.name);
@@ -47,7 +47,7 @@ export class ModuleLoader {
 	 * Validates the module configuration.
 	 * @param name - The name of the module.
 	 */
-	private validateModuleConfig(name: string): void {
+	private static validateModuleConfig(name: string): void {
 		// Ensure module has configuration set up
 		if (!this._config.Modules[name].enabled) {
 			Logger.debug(`Module ${name} is disabled in the config`);
@@ -59,7 +59,7 @@ export class ModuleLoader {
 	 * @param moduleName The name of the module to retrieve.
 	 * @returns The module with the specified name, or undefined if it does not exist.
 	 */
-	public getModule(moduleName: string): Module | undefined {
+	public static getModule(moduleName: string): Module | undefined {
 		return this._modules.get(moduleName);
 	}
 
@@ -67,7 +67,7 @@ export class ModuleLoader {
 	 * Returns an array of all loaded modules.
 	 * @returns {Module[]} An array of all loaded modules.
 	 */
-	public getModules(): Module[] {
+	public static getModules(): Module[] {
 		return Array.from(this._modules.values());
 	}
 }

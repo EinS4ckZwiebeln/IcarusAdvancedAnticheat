@@ -1,9 +1,9 @@
-import { SubCommand } from "../core/SubCommand";
+import { Command } from "../core/Command";
 
 /**
  * Represents a command that wipes all entities from the game world.
  */
-export class WipeEntitiesCommand extends SubCommand {
+export class WipeEntitiesCommand extends Command {
 	/**
 	 * Creates a new instance of the WipeEntitiesCommand class.
 	 */

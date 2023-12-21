@@ -1,12 +1,12 @@
 import { Config } from "../core/config/Config";
 import { Screenshot } from "../web/Screenshot";
 import { WebhookRequest } from "../web/WebhookRequest";
-import { SubCommand } from "../core/SubCommand";
+import { Command } from "../core/Command";
 
 /**
  * Subcommand class for taking a screenshot and posting it to a Discord webhook.
  */
-export class ScreenshotCommand extends SubCommand {
+export class ScreenshotCommand extends Command {
 	private readonly _webhook: string;
 
 	/**

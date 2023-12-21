@@ -1,7 +1,7 @@
 /**
  * Represents a subcommand that can be executed by a command.
  */
-export abstract class SubCommand {
+export abstract class Command {
 	private _name: string;
 	private _callback: Function;
 
