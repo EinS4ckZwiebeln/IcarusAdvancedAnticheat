@@ -1,51 +1,41 @@
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
-import { SubCommand } from "./SubCommand";
+import { Command } from "./Command";
+import { EventHandler } from "./handler/EventHandler";
+import { ChatSuggestion } from "./ChatSuggestion";
 
-/**
- * CommandLoader class that registers and loads sub-commands for a main command.
- */
 export class CommandLoader {
-	private readonly _commandName: string;
-	private readonly _subCommands: Map<string, Function> = new Map();
-
-	constructor(commandName: string) {
-		this._commandName = commandName;
-		this.registerMainCommand();
-	}
-
+	private static readonly _chatSuggestions: ChatSuggestion[] = [];
 	/**
-	 * Initializes the main command and registers its sub-commands.
-	 * @param {string} commandName - The name of the main command.
+	 * Registers a command into the command loader.
+	 * @param command The Command to be registered.
 	 */
-	private registerMainCommand(): void {
+	public static registerCommand(command: Command): void {
 		RegisterCommand(
-			this._commandName,
+			command.name,
 			(source: number, args: string[]) => {
 				// Ensure player has correct permission for the command
 				if (!PermissionHandler.hasPermission(source)) return;
 
 				try {
-					const subCommand: string = args[0];
-					if (!subCommand) return;
-
-					const callback = this._subCommands.get(subCommand);
-					// Remove the first argument since it's the main-command
-					if (callback) callback(source, args.slice(1));
+					if (command.callback) command.callback(source, args);
 				} catch (err: any) {
 					Logger.error(err.message);
 				}
 			},
 			false
 		);
+		this._chatSuggestions.push(new ChatSuggestion(command.name, command.description, command.parameters));
+		Logger.debug(`Registered command ${command.name}`);
 	}
 
-	/**
-	 * Registers a sub-command for the main command.
-	 * @param {SubCommand} command - The sub-command to register.
-	 */
-	public registerCommand(command: SubCommand): void {
-		this._subCommands.set(command.name, command.callback);
-		Logger.debug(`Registered sub-command ${command.name}`);
+	public static registerChatSuggestions(): void {
+		setImmediate(() => {
+			EventHandler.subscribe("respawnPlayerPedEvent", (source: number) => {
+				this._chatSuggestions.forEach((suggestion: ChatSuggestion) => {
+					emitNet("chat:addSuggestion", source, `/${suggestion.command}`, suggestion.description, suggestion.parameters);
+				});
+			});
+		});
 	}
 }

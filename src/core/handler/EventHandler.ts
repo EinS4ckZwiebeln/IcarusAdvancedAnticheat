@@ -9,7 +9,7 @@ export class EventHandler {
 	private static readonly _events: Map<string, Function[]> = new Map();
 	private static readonly _netEvents: Set<string> = new Set();
 
-	private constructor() {
+	constructor() {
 		throw new Error("EventHandler is a static class and cannot be instantiated.");
 	}
 
@@ -32,7 +32,9 @@ export class EventHandler {
 	 */
 	public static unsubscribe(eventName: string, callback: Function): void {
 		Logger.debug(`Unsubscribing from ${eventName}`);
-		const eventCallbacks = this.getEventCallbacks(eventName).filter((cb: Function) => cb !== callback);
+		// Shitty workaround for callback equality check, needs refactoring later.
+		const callbackToString = callback.toString();
+		const eventCallbacks = this.getEventCallbacks(eventName).filter((cb: Function) => cb.toString() !== callbackToString);
 		this._events.set(eventName, eventCallbacks);
 	}
 

@@ -30,6 +30,10 @@ import { CommandLoader } from "./core/CommandLoader";
 import { ScreenshotCommand } from "./commands/ScreenshotCommand";
 import { WipeEntitiesCommand } from "./commands/WipeEntitiesCommand";
 import { EventBlacklistModule } from "./modules/EventBlacklistModule";
+import { LoadModuleCommand } from "./commands/LoadModuleCommand";
+import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
+import { FireModule } from "./modules/FireModule";
+import { Release } from "./types/ReleaseType";
 
 /**
  * Represents the main application class.
@@ -46,7 +50,7 @@ class App {
 
 		this.registerModules();
 		this.registerCommands();
-		this.checkCriticalConvars();
+		this.checkForUnsafeConvars();
 		this.checkForUpdates();
 	}
 
@@ -54,26 +58,26 @@ class App {
 	 * Registers the modules.
 	 */
 	private registerModules(): void {
-		const moduleLoader = new ModuleLoader();
 		// Register modules here
-		moduleLoader.loadModule(new DeferralsModule());
-		moduleLoader.loadModule(new EntityCreateModule());
-		moduleLoader.loadModule(new ClearTaskModule());
-		moduleLoader.loadModule(new GiveWeaponModule());
-		moduleLoader.loadModule(new RemoveWeaponModule());
-		moduleLoader.loadModule(new ExplosionFilterModule());
-		moduleLoader.loadModule(new TazerModule());
-		moduleLoader.loadModule(new WeaponBlacklistModule());
-		moduleLoader.loadModule(new PedBlacklistModule());
-		moduleLoader.loadModule(new AimbotModule());
-		moduleLoader.loadModule(new GodmodeModule());
-		moduleLoader.loadModule(new SuperJumpModule());
-		moduleLoader.loadModule(new WeaponModifierModule());
-		moduleLoader.loadModule(new ParticlesModule());
-		moduleLoader.loadModule(new ChatProfanityModule());
-		moduleLoader.loadModule(new StartProjectileModule());
-		moduleLoader.loadModule(new NoClipModule());
-		moduleLoader.loadModule(new EventBlacklistModule());
+		ModuleLoader.loadModule(new DeferralsModule());
+		ModuleLoader.loadModule(new EntityCreateModule());
+		ModuleLoader.loadModule(new ClearTaskModule());
+		ModuleLoader.loadModule(new GiveWeaponModule());
+		ModuleLoader.loadModule(new RemoveWeaponModule());
+		ModuleLoader.loadModule(new ExplosionFilterModule());
+		ModuleLoader.loadModule(new TazerModule());
+		ModuleLoader.loadModule(new WeaponBlacklistModule());
+		ModuleLoader.loadModule(new PedBlacklistModule());
+		ModuleLoader.loadModule(new AimbotModule());
+		ModuleLoader.loadModule(new GodmodeModule());
+		ModuleLoader.loadModule(new SuperJumpModule());
+		ModuleLoader.loadModule(new WeaponModifierModule());
+		ModuleLoader.loadModule(new ParticlesModule());
+		ModuleLoader.loadModule(new ChatProfanityModule());
+		ModuleLoader.loadModule(new StartProjectileModule());
+		ModuleLoader.loadModule(new NoClipModule());
+		ModuleLoader.loadModule(new EventBlacklistModule());
+		ModuleLoader.loadModule(new FireModule());
 		Logger.debug("Finished loading modules");
 	}
 
@@ -81,17 +85,20 @@ class App {
 	 * Registers the commands.
 	 */
 	private registerCommands(): void {
-		const commandLoader = new CommandLoader("icarus");
 		// Register commands here
-		commandLoader.registerCommand(new ScreenshotCommand());
-		commandLoader.registerCommand(new WipeEntitiesCommand());
+		CommandLoader.registerCommand(new LoadModuleCommand());
+		CommandLoader.registerCommand(new UnloadModuleCommand());
+		CommandLoader.registerCommand(new ScreenshotCommand());
+		CommandLoader.registerCommand(new WipeEntitiesCommand());
+		// Register corresponding chat suggestions
+		CommandLoader.registerChatSuggestions();
 		Logger.debug("Finished registering commands");
 	}
 
 	/**
 	 * Checks the critical convars and logs a warning if they are not set to the recommended values.
 	 */
-	private async checkCriticalConvars(): Promise<void> {
+	private async checkForUnsafeConvars(): Promise<void> {
 		const convars = [
 			{ name: "onesync", recommendedValue: "on" },
 			{ name: "sv_scriptHookAllowed", recommendedValue: "false" },
@@ -123,7 +130,7 @@ class App {
 
 			if (!response.ok) Logger.error(`Update HTTP error! Status: ${response.status}`);
 
-			const latestRelease = ((await response.json()) as any)[0];
+			const latestRelease: Release = ((await response.json()) as any)[0];
 			const remoteVersion: string = latestRelease?.name?.toString().slice(1);
 			const isOutdated: boolean = remoteVersion.localeCompare(Utility.CURRENT_VERSION, undefined, { numeric: true, sensitivity: "base" }) > 0;
 
@@ -133,7 +140,9 @@ class App {
 				if (webhook && webhook.length > 0) request.post(webhook);
 
 				console.log(`^3This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${remoteVersion} | Current Version: ${Utility.CURRENT_VERSION}^0`);
-				Logger.debug("Version is outdated!");
+				Logger.debug("This version is outdated, please consider updating!");
+			} else {
+				Logger.debug("No Updates found. Version is up to date!");
 			}
 		} catch (err: any) {
 			Logger.error(err);

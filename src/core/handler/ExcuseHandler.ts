@@ -21,6 +21,10 @@ export class ExcuseHandler {
 	 */
 	private static readonly _excusedPlayers: Map<number, Excuse[]> = new Map();
 
+	constructor() {
+		throw new Error("ExcuseHandler is a static class and cannot be instantiated.");
+	}
+
 	/**
 	 * Initializes the ExcuseHandler by exporting its methods to the global scope.
 	 */
