@@ -35,6 +35,7 @@ export class FireModule extends Module {
 		if (dist > this._maxFireDistance) {
 			const violation = new Violation(source, "Fire Event [C1]", this.name);
 			violation.banPlayer();
+			CancelEvent();
 		}
 	}
 }
