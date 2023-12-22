@@ -32,6 +32,7 @@ import { WipeEntitiesCommand } from "./commands/WipeEntitiesCommand";
 import { EventBlacklistModule } from "./modules/EventBlacklistModule";
 import { LoadModuleCommand } from "./commands/LoadModuleCommand";
 import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
+import { FireModule } from "./modules/FireModule";
 
 /**
  * Represents the main application class.
@@ -75,6 +76,7 @@ class App {
 		ModuleLoader.loadModule(new StartProjectileModule());
 		ModuleLoader.loadModule(new NoClipModule());
 		ModuleLoader.loadModule(new EventBlacklistModule());
+		ModuleLoader.loadModule(new FireModule());
 		Logger.debug("Finished loading modules");
 	}
 

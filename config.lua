@@ -168,6 +168,12 @@ Config.Modules = {
     -- Take a look at 'Config.BlacklistedEvents'.
     EventBlacklistModule = {
         enabled = true
+    },
+    -- Detects suspicious fire events.
+    FireModule = {
+        enabled = true,
+        -- The hypothetical max. distance between players where they could set each other on fire.
+        maxFireDistance = 128.0
     }
 }
 
