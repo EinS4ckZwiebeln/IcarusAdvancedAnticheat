@@ -30,8 +30,15 @@ export class ScreenshotCommand extends Command {
 		if (isNaN(target)) return;
 
 		if (GetResourceState("screenshot-basic") !== "started") {
-			emitNet("chat:addMessage", source, { args: [`^1Error: screenshot-basic is required for this action.^0`] });
+			emitNet("chat:addMessage", source, { args: [`^Failed: Screenshot-basic is required for this action.^0`] });
 			Logger.debug("Failed to execute screenshot command. Screenshot-basic is not started or missing.");
+			return;
+		}
+
+		const webhook = Config.getConfig().DiscordWebhook;
+		if (!webhook || webhook.length < 1) {
+			emitNet("chat:addMessage", source, { args: [`^1Failed: No discord webhook was found.^0`] });
+			Logger.debug("Failed to execute screenshot command. No discord webhook was found.");
 			return;
 		}
 
