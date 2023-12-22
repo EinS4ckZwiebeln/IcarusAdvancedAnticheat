@@ -33,6 +33,7 @@ import { EventBlacklistModule } from "./modules/EventBlacklistModule";
 import { LoadModuleCommand } from "./commands/LoadModuleCommand";
 import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
+import { Release } from "./types/ReleaseType";
 
 /**
  * Represents the main application class.
@@ -129,7 +130,7 @@ class App {
 
 			if (!response.ok) Logger.error(`Update HTTP error! Status: ${response.status}`);
 
-			const latestRelease = ((await response.json()) as any)[0];
+			const latestRelease: Release = ((await response.json()) as any)[0];
 			const remoteVersion: string = latestRelease?.name?.toString().slice(1);
 			const isOutdated: boolean = remoteVersion.localeCompare(Utility.CURRENT_VERSION, undefined, { numeric: true, sensitivity: "base" }) > 0;
 
