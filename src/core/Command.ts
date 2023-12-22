@@ -1,3 +1,5 @@
+import { Parameter } from "../types/ParameterType";
+
 /**
  * Represents a command that can be executed.
  */

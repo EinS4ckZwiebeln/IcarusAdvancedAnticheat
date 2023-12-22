@@ -1,3 +1,5 @@
+import { Parameter } from "../types/ParameterType";
+
 export class ChatSuggestion {
 	private readonly _command: string;
 	private readonly _description: string;
