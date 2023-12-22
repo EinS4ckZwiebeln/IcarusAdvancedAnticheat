@@ -3,6 +3,7 @@ import { Screenshot } from "../web/Screenshot";
 import { WebhookRequest } from "../web/WebhookRequest";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
+import { Parameter } from "../types/ParameterType";
 
 /**
  * Subcommand class for taking a screenshot and posting it to a Discord webhook.

@@ -1,6 +1,7 @@
 import { ModuleLoader } from "../core/ModuleLoader";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
+import { Parameter } from "../types/ParameterType";
 
 export class UnloadModuleCommand extends Command {
 	/**
