@@ -7,7 +7,8 @@ export class UnloadModuleCommand extends Command {
 	 * Creates a new instance of the UnloadModuleCommand class.
 	 */
 	constructor() {
-		super("unload", (source: number, args: string[]) => this.onExecute(source, args));
+		const parameters: Parameter[] = [{ name: "moduleName", help: "The name of the module to unload" }];
+		super("unload", "Manually unloads a module", parameters, (source: number, args: string[]) => this.onExecute(source, args));
 	}
 
 	/**

@@ -7,7 +7,8 @@ export class LoadModuleCommand extends Command {
 	 * Creates a new instance of the LoadModuleCommand class.
 	 */
 	constructor() {
-		super("load", (source: number, args: string[]) => this.onExecute(source, args));
+		const parameters: Parameter[] = [{ name: "moduleName", help: "The name of the module to load" }];
+		super("load", "Manually loads a module", parameters, (source: number, args: string[]) => this.onExecute(source, args));
 	}
 
 	/**
