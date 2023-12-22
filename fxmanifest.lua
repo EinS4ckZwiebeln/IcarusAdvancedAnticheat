@@ -3,7 +3,7 @@ fx_version "cerulean"
 game "gta5"
 
 author "NCRP Scripts"
-description "Server sided anti-cheat script that aims for modularity and efficiency."
+description "Efficient, modular server-side anticheat script."
 version "2.0.1"
 
 lua54 "yes"
