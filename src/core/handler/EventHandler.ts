@@ -33,7 +33,8 @@ export class EventHandler {
 	public static unsubscribe(eventName: string, callback: Function): void {
 		Logger.debug(`Unsubscribing from ${eventName}`);
 		// Shitty workaround for callback equality check, needs refactoring later.
-		const eventCallbacks = this.getEventCallbacks(eventName).filter((cb: Function) => cb.toString() !== callback.toString());
+		const callbackToString = callback.toString();
+		const eventCallbacks = this.getEventCallbacks(eventName).filter((cb: Function) => cb.toString() !== callbackToString);
 		this._events.set(eventName, eventCallbacks);
 	}
 
