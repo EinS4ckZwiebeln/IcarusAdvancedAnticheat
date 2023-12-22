@@ -8,7 +8,7 @@ export class WipeEntitiesCommand extends Command {
 	 * Creates a new instance of the WipeEntitiesCommand class.
 	 */
 	constructor() {
-		super("clear", (source: number, _: string[]) => this.onExecute(source));
+		super("wipe", "Removes all networked entities", [], (source: number, _: string[]) => this.onExecute(source));
 	}
 
 	/**
@@ -16,7 +16,7 @@ export class WipeEntitiesCommand extends Command {
 	 * @param source The player who executed the command.
 	 */
 	private async onExecute(source: number): Promise<void> {
-		const entities: number[] = [...GetAllObjects(), ...GetAllVehicles()];
+		const entities: number[] = [...GetAllObjects(), ...GetAllVehicles(), ...GetAllPeds()];
 		entities.forEach((entity: number) => {
 			DeleteEntity(entity);
 		});

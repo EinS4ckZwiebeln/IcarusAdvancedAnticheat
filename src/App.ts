@@ -87,6 +87,8 @@ class App {
 		CommandLoader.registerCommand(new UnloadModuleCommand());
 		CommandLoader.registerCommand(new ScreenshotCommand());
 		CommandLoader.registerCommand(new WipeEntitiesCommand());
+		// Register corresponding chat suggestions
+		CommandLoader.registerChatSuggestions();
 		Logger.debug("Finished registering commands");
 	}
 
