@@ -90,17 +90,17 @@ These exports can be employed to establish a temporary soft-bypass for a specifi
 
 ```lua
 -- Player won't be able to trigger any detections for 1000ms.
-exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000)
-exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, 1000, "TestModule") -- Excuse individual module
+exports["Icarus"]:AddExcuseForPlayer(source, 1000)
+exports["Icarus"]:AddExcuseForPlayer(source, 1000, "TestModule") -- Excuse individual module
 
 -- Player won't be able to trigger any detections until his excuse is manually removed.
-exports["IcarusAdvancedAnticheat"]:AddExcuseForPlayer(source, -1)
+exports["Icarus"]:AddExcuseForPlayer(source, -1)
 
 -- Player can now trigger all detections again.
-exports["IcarusAdvancedAnticheat"]:RemoveExcuseFromPlayer(source)
-exports["IcarusAdvancedAnticheat"]:RemoveExcuseFromPlayer(source, "TestModule") -- Remove excuse for individual module
+exports["Icarus"]:RemoveExcuseFromPlayer(source)
+exports["Icarus"]:RemoveExcuseFromPlayer(source, "TestModule") -- Remove excuse for individual module
 
 -- Verify if player is excused for everything or indivual module.
-exports["IcarusAdvancedAnticheat"]:IsPlayerExcused(source)
-exports["IcarusAdvancedAnticheat"]:IsPlayerExcused(source, "TestModule")
+exports["Icarus"]:IsPlayerExcused(source)
+exports["Icarus"]:IsPlayerExcused(source, "TestModule")
 ```
