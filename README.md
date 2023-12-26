@@ -36,6 +36,7 @@ Icarus is a robust anti-cheat solution designed for FiveM role-playing servers. 
 | Anti Damage Modifier |                 |
 | Anti NoClip          |                 |
 | Anti Projectiles     |                 |
+| Anti Fire            |                 |
 
 ### Installation
 
