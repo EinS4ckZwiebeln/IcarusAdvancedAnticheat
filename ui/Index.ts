@@ -96,7 +96,6 @@ class Index {
 					$row.append(`<th class="card-text-color" scope="row">${index + 1}</th>`);
 					$row.append(`<td class="card-text-color">${module.name}</td>`);
 					$row.append(`<td class="card-text-color">${module.type}</td>`);
-					console.log(module.status);
 
 					const statusStr = module.status === "LOADED" ? "Loaded" : "Unloaded";
 					$row.append(`<td class="card-text-color">${statusStr}</td>`);
@@ -104,13 +103,17 @@ class Index {
 					// Add LOAD button and eventhandler
 					const $btnCell = $('<td class="card-text-color"></td>');
 					const $loadBtn = $(`<button href="#" class="btn btn-primary"><i class="fa fa-link" aria-hidden="true"></i> Load</button>`);
-					$loadBtn.on("click", () => {
+					$loadBtn.on("click", async () => {
 						$.post(`https://${Utility.RESOURCE_NAME}/loadModule`, JSON.stringify({ module: module.name }));
+						await Utility.Delay(100);
+						$.post(`https://${Utility.RESOURCE_NAME}/updatePage`, JSON.stringify({ updatePage: "MODULES" }));
 					});
 					// Add UNLAOD button and eventhandler
 					const $unloadBtn = $(`<button href="#" class="btn btn-primary"><i class="fa fa-chain-broken" aria-hidden="true"></i> Unload</button>`);
-					$unloadBtn.on("click", () => {
+					$unloadBtn.on("click", async () => {
 						$.post(`https://${Utility.RESOURCE_NAME}/unloadModule`, JSON.stringify({ module: module.name }));
+						await Utility.Delay(100);
+						$.post(`https://${Utility.RESOURCE_NAME}/updatePage`, JSON.stringify({ updatePage: "MODULES" }));
 					});
 
 					$btnCell.append($loadBtn);
