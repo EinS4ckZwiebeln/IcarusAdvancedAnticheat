@@ -84,6 +84,16 @@ class NuiCallbackLayer {
 		on("__cfx_nui:reloadModules", () => {
 			emitNet("icarus:reloadModules");
 		});
+
+		RegisterNuiCallbackType("loadModule");
+		on("__cfx_nui:loadModule", (data: any) => {
+			emitNet("icarus:loadModule", data.module);
+		});
+
+		RegisterNuiCallbackType("unloadModule");
+		on("__cfx_nui:unloadModule", (data: any) => {
+			emitNet("icarus:unloadModule", data.module);
+		});
 	}
 }
 
