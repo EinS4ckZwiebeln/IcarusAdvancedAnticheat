@@ -1,5 +1,6 @@
 import { ModuleData } from "../types/ModuleDataType";
 import { Utility } from "../util/Utility";
+import { ModuleStatus } from "../util/enum/ModuleStatus";
 import { ModuleType } from "../util/enum/ModuleType";
 import { Module } from "./Module";
 import { ModuleLoader } from "./ModuleLoader";
@@ -11,10 +12,8 @@ import os from "os";
 export class NuiEndpoint {
 	private static readonly _cpuModel = os.cpus()[0]?.model;
 	private static readonly _platform = os.platform();
-	private static _initModuleAmount: number = 0;
 
 	public static init(): void {
-		this._initModuleAmount = ModuleLoader.getModules().length;
 		this.addNuiComEvents();
 	}
 
@@ -49,7 +48,7 @@ export class NuiEndpoint {
 					const disabledAmount = ModuleLoader.getDisabledAmount();
 					dataRetval.disabledModules = disabledAmount;
 
-					const unloadedModulesAmount = Math.abs(this._initModuleAmount - currentModulesAmount);
+					const unloadedModulesAmount = modules.filter((module: Module) => module.getStatus() === ModuleStatus.STATUS_UNLOADED).length;
 					dataRetval.unloadedModules = unloadedModulesAmount;
 
 					const activeModulesAmount = currentModulesAmount - unloadedModulesAmount;
@@ -59,7 +58,7 @@ export class NuiEndpoint {
 					modules.forEach((module: Module) => {
 						moduleData.push({
 							name: module.name,
-							type: module.isTicking ? ModuleType.TYPE_TICK : ModuleType.TYPE_EVENT,
+							type: module.isTicking() ? ModuleType.TYPE_TICK : ModuleType.TYPE_EVENT,
 							status: module.getStatus(),
 						});
 					});
@@ -111,10 +110,8 @@ export class NuiEndpoint {
 
 		onNet("icarus:unloadModule", (moduleName: string) => {
 			if (!PermissionHandler.hasPermission(source)) return;
-			console.log("unload");
 			try {
 				const module = ModuleLoader.getModule(moduleName);
-				console.log("mod: " + module);
 				if (module) ModuleLoader.unloadModule(module);
 			} catch (err: any) {
 				Logger.error(err);
