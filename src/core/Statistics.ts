@@ -34,10 +34,17 @@ export class Statistics {
 	}
 
 	public static incrementWeeklyViolations(): void {
-		const localDate = new Date().getDate();
-		this._weekViolations[localDate] = (this._weekViolations[localDate] || 0) + 1;
-		// Save the updated violations to storage
-		SetResourceKvpNoSync(KvpStorage.VIOLATIONS_WEEK, JSON.stringify(this._weekViolations));
+		const currentDate = new Date();
+		const todaysDate = currentDate.getDate();
+		this._weekViolations[todaysDate] = (this._weekViolations[todaysDate] || 0) + 1;
+		// Ensure that the kvp storage won't grow on forever
+		const saveWorthy = [];
+		for (let i = 6; i >= 0; i--) {
+			const localDate = new Date(currentDate);
+			localDate.setDate(currentDate.getDate() - i);
+			saveWorthy.push(this._weekViolations[localDate.getDate()] || 0);
+		}
+		SetResourceKvpNoSync(KvpStorage.VIOLATIONS_WEEK, JSON.stringify(saveWorthy));
 		FlushResourceKvp();
 	}
 }
