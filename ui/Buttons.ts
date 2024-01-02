@@ -72,5 +72,10 @@ export class Buttons {
 			});
 			$(event.target).addClass("active");
 		});
+
+		const githubBtn = $("#github");
+		githubBtn.on("click", () => {
+			(window as any).invokeNative("openUrl", "https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat");
+		});
 	}
 }
