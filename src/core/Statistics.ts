@@ -33,7 +33,7 @@ export class Statistics {
 		return { days, violations };
 	}
 
-	public static incrementWeeklyViolations(): void {
+	public static async incrementWeeklyViolations(): Promise<void> {
 		const currentDate = new Date();
 		const todaysDate = currentDate.getDate();
 		this._weekViolations[todaysDate] = (this._weekViolations[todaysDate] || 0) + 1;
