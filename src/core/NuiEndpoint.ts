@@ -19,7 +19,7 @@ export class NuiEndpoint {
 	}
 
 	private static addNuiComEvents(): void {
-		onNet("icarus:requestData", (pageName: string) => {
+		onNet("icarus:requestData", async (pageName: string) => {
 			if (!PermissionHandler.hasPermission(source)) return;
 			const modules = ModuleLoader.getModules();
 			const currentModulesAmount = modules.length;
@@ -97,6 +97,28 @@ export class NuiEndpoint {
 					Logger.error(err);
 				}
 			});
+		});
+
+		onNet("icarus:loadModule", (moduleName: string) => {
+			if (!PermissionHandler.hasPermission(source)) return;
+			try {
+				const module = ModuleLoader.getModule(moduleName);
+				if (module) ModuleLoader.loadModule(module);
+			} catch (err: any) {
+				Logger.error(err);
+			}
+		});
+
+		onNet("icarus:unloadModule", (moduleName: string) => {
+			if (!PermissionHandler.hasPermission(source)) return;
+			console.log("unload");
+			try {
+				const module = ModuleLoader.getModule(moduleName);
+				console.log("mod: " + module);
+				if (module) ModuleLoader.unloadModule(module);
+			} catch (err: any) {
+				Logger.error(err);
+			}
 		});
 	}
 }
