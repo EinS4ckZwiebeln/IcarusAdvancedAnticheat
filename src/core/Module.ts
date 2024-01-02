@@ -19,10 +19,6 @@ export abstract class Module {
 		return this.constructor.name.split("_")[0];
 	}
 
-	public get isTicking(): boolean {
-		return this._isTicking;
-	}
-
 	protected get config(): config {
 		return Module._config;
 	}
@@ -58,6 +54,10 @@ export abstract class Module {
 	protected async onTick(): Promise<void> {
 		clearTick(this._tick); // Clear the tick if the module doesn't implement it
 		this._isTicking = false;
+	}
+
+	public isTicking(): boolean {
+		return this._isTicking && this._status === ModuleStatus.STATUS_LOADED;
 	}
 
 	public getStatus(): ModuleStatus {
