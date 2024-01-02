@@ -88,24 +88,38 @@ class Index {
 				$("#disabled-modules").html(`<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ${data.disabledModules}`);
 				$("#unloaded-modules").html(`<i class="fa fa-clock-o" aria-hidden="true"></i> ${data.unloadedModules}`);
 
-				const modulesTable = $("#modules-table");
-				modulesTable.empty();
+				const $modulesTable = $("#modules-table");
+				$modulesTable.empty(); // Remove old entries
+				// Insert rows into modules table
+				data.moduleData.forEach((module: any, index: number) => {
+					const $row = $("<tr></tr>");
+					$row.append(`<th class="card-text-color" scope="row">${index + 1}</th>`);
+					$row.append(`<td class="card-text-color">${module.name}</td>`);
+					$row.append(`<td class="card-text-color">${module.type}</td>`);
+					console.log(module.status);
 
-				for (let i = 0; i < data.moduleData.length; i++) {
-					const module = data.moduleData[i];
-					modulesTable.append(`
-						<tr>
-							<th class="card-text-color" scope="row">${i + 1}</th>
-							<td class="card-text-color">${module.name}</td>
-							<td class="card-text-color">${module.type}</td>
-							<td class="card-text-color">${module.status ? "Loaded" : "Unloaded"}</td>
-							<td class="card-text-color">
-								<a href="#" class="btn btn-primary" module="${module.name}"><i class="fa fa-link" aria-hidden="true"></i> Load</a>
-								<a href="#" class="btn btn-primary" module="${module.name}"><i class="fa fa-chain-broken" aria-hidden="true"></i> Unload</a>
-							</td>
-						</tr>
-					`);
-				}
+					const statusStr = module.status === "LOADED" ? "Loaded" : "Unloaded";
+					$row.append(`<td class="card-text-color">${statusStr}</td>`);
+
+					// Add LOAD button and eventhandler
+					const $btnCell = $('<td class="card-text-color"></td>');
+					const $loadBtn = $(`<button href="#" class="btn btn-primary"><i class="fa fa-link" aria-hidden="true"></i> Load</button>`);
+					$loadBtn.on("click", () => {
+						$.post(`https://${Utility.RESOURCE_NAME}/loadModule`, JSON.stringify({ module: module.name }));
+					});
+					// Add UNLAOD button and eventhandler
+					const $unloadBtn = $(`<button href="#" class="btn btn-primary"><i class="fa fa-chain-broken" aria-hidden="true"></i> Unload</button>`);
+					$unloadBtn.on("click", () => {
+						$.post(`https://${Utility.RESOURCE_NAME}/unloadModule`, JSON.stringify({ module: module.name }));
+					});
+
+					$btnCell.append($loadBtn);
+					$btnCell.append($unloadBtn);
+					$row.append($btnCell);
+					// Append final row to table element
+					$modulesTable.append($row);
+				});
+
 				break;
 			case "VIOLATIONS":
 				break;
