@@ -18,9 +18,7 @@ export class ModuleLoader {
 	public static loadModule(module: Module): void {
 		const name = module.name;
 		// Prevent loading the same module twice
-		if (this._modules.has(name)) {
-			throw new Error(`Module ${name} is already loaded`);
-		}
+		if (module.getStatus() === ModuleStatus.STATUS_LOADED) return;
 		// Ensure there is at least minimal configuration for this module
 		try {
 			const result = this.validateModuleConfig(name);
@@ -44,7 +42,6 @@ export class ModuleLoader {
 		module.onUnload();
 		module.removeTick();
 		module.setStatus(ModuleStatus.STATUS_UNLOADED);
-		this._modules.delete(module.name);
 		Logger.debug(`Module ${module.name} unloaded successfully`);
 	}
 
