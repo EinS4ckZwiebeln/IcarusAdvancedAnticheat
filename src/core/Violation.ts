@@ -34,7 +34,7 @@ export class Violation {
 		setTimeout(() => {
 			Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
 			Statistics.incrementSessionViolations();
-			Statistics.incrementWeekViolations();
+			Statistics.incrementWeeklyViolations();
 			Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
 		}, 500);
 	}

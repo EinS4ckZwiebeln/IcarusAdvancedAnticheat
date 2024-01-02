@@ -33,9 +33,9 @@ export class NuiEndpoint {
 					dataRetval.modulesAmount = currentModulesAmount;
 					dataRetval.violations = Statistics.getSessionViolations();
 
-					const weeklyViolations = Statistics.getWeekViolations();
+					const weeklyViolations = Statistics.getWeeklyViolations();
 					dataRetval.chartDays = weeklyViolations.days;
-					dataRetval.chartValue = weeklyViolations.counts;
+					dataRetval.chartValue = weeklyViolations.violations;
 
 					const memoryData = process.memoryUsage();
 					const allocatedMemory = Utility.formatMemoryUsage(memoryData.rss);
