@@ -1,0 +1,82 @@
+:root {
+	--icarus-color: #8080ff;
+	--dark: #343a40;
+	--card: #363636;
+	--card-title: #afafaf;
+	--card-text: #6e6e6e;
+	--scrollbar: #242424;
+}
+
+/* Required for bootstrap to work, fixes whitescreen bug */
+.bootstrap-fix {
+	background-color: transparent !important;
+}
+
+.c-height {
+	height: 900px;
+}
+
+.icarus-color {
+	color: var(--icarus-color);
+}
+
+.card-color {
+	background-color: var(--card);
+}
+
+.card-title-color {
+	color: var(--card-title);
+}
+
+.card-text-color {
+	color: var(--card-text);
+}
+
+.nav-bg-color {
+	background-color: var(--card) !important;
+}
+
+/* Override bootstrap navbar active & link color */
+.active,
+.nav-link:hover,
+.nav-link:focus {
+	color: var(--icarus-color) !important;
+}
+
+/* Override bootstrap primary button style */
+.btn-primary {
+	background-color: var(--icarus-color) !important;
+	border-color: var(--icarus-color);
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px var(--scrollbar);
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background-color: var(--card);
+	-webkit-box-shadow: inset 0 0 6px var(--scrollbar);
+}
+
+.m-scrollbar {
+	overflow: scroll;
+	overflow-x: hidden;
+	height: 530px;
+}
+
+.vlabel {
+	font-size: 12px;
+}
+/* Navbar github icon button */
+.github {
+	font-size: 24px;
+	color: white;
+}

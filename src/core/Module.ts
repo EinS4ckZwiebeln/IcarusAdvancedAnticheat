@@ -1,9 +1,11 @@
 import { Config } from "./config/Config";
 import { config } from "../types/ConfigType";
+import { ModuleStatus } from "../util/enum/ModuleStatus";
 
 export abstract class Module {
 	private _tick: number = 0;
 	private _isTicking: boolean = false;
+	private _status: ModuleStatus = ModuleStatus.STATUS_UNKNOWN;
 
 	private static readonly _config: config = Config.getConfig();
 	// Utility for onTick method
@@ -17,8 +19,8 @@ export abstract class Module {
 		return this.constructor.name.split("_")[0];
 	}
 
-	public get tick(): number {
-		return this._tick;
+	public get isTicking(): boolean {
+		return this._isTicking;
 	}
 
 	protected get config(): config {
@@ -55,6 +57,15 @@ export abstract class Module {
 	 */
 	protected async onTick(): Promise<void> {
 		clearTick(this._tick); // Clear the tick if the module doesn't implement it
+		this._isTicking = false;
+	}
+
+	public getStatus(): ModuleStatus {
+		return this._status;
+	}
+
+	public setStatus(status: ModuleStatus): void {
+		this._status = status;
 	}
 
 	// Called when the module is loaded

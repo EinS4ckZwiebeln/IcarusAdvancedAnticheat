@@ -209,6 +209,8 @@ export class Utility {
 	 */
 	public static Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
+	public static formatMemoryUsage = (data: number) => `${Math.round((data / 1024 / 1024) * 100) / 100} MiB`;
+
 	/**
 	 * Converts an array of strings to an array of their corresponding hash keys.
 	 * @param arr The array of strings to convert.

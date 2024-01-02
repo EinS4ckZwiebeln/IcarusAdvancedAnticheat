@@ -6,6 +6,7 @@ import { Logger } from "./logger/Logger";
 import { Screenshot } from "../web/Screenshot";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { ExcuseHandler } from "./handler/ExcuseHandler";
+import { Statistics } from "./Statistics";
 
 export class Violation {
 	private readonly _webhook: string = Config.getConfig().DiscordWebhook;
@@ -32,6 +33,8 @@ export class Violation {
 		// Wait 500ms to allow screenshot to be taken
 		setTimeout(() => {
 			Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
+			Statistics.incrementSessionViolations();
+			Statistics.incrementWeekViolations();
 			Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
 		}, 500);
 	}

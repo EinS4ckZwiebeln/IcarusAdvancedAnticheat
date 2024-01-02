@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Icarus UI</title>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+	</head>
+
+	<body class="bootstrap-fix">
+		<div id="ui">
+			<div class="container c-height bg-dark rounded mt-5 p-0">
+				<!-- Navbar -->
+				<nav class="navbar navbar-expand-lg bg-dark nav-bg-color rounded-top w-auto">
+					<div class="container-fluid">
+						<div class="navbar-brand card-title-color" href="#">
+							<img src="https://github.com/EinS4ckZwiebeln/assets/raw/main/icarus_icon.png" alt="Icarus" width="32" height="32" />
+							<div id="label" class="d-inline">
+								<h6 class="d-inline">Icarus</h6>
+								<div id="version" class="vlabel icarus-color d-inline">v0.0.0</div>
+							</div>
+						</div>
+						<div class="collapse navbar-collapse">
+							<ul class="navbar-nav">
+								<li id="dashboard" class="nav-item">
+									<a class="nav-link card-title-color" href="#">Dashboard</a>
+								</li>
+								<li id="modules" class="nav-item">
+									<a class="nav-link card-title-color" href="#">Modules</a>
+								</li>
+								<li id="violations" class="nav-item">
+									<a class="nav-link card-title-color" href="#">Violations</a>
+								</li>
+								<li id="github" class="nav-item">
+									<i class="nav-link github fa fa-github" href="https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat"></i>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+
+				<!-- Dashboard UI -->
+				<div class="p-4" id="ui-dashboard">
+					<div class="row">
+						<!-- Players Online -->
+						<div class="col-sm-4">
+							<div class="card card-color">
+								<div class="card-body">
+									<h4 id="player-count" class="card-title card-title-color"><i class="fa fa-user" aria-hidden="true"></i> 0</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Player(s) online</h6>
+									<p class="card-text card-text-color">Tracks the realtime player count present on the server, including administrators.</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- Modules Loaded -->
+						<div class="col-sm-4">
+							<div class="card card-color">
+								<div class="card-body">
+									<h4 id="modules-count" class="card-title card-title-color"><i class="fa fa-th" aria-hidden="true"></i> 0</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Module(s) loaded</h6>
+									<p class="card-text card-text-color">Shows the amount of modules that are currently loaded by the script.</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- Violations This Session -->
+						<div class="col-sm-4">
+							<div class="card card-color">
+								<div class="card-body">
+									<h4 id="violations-count" class="card-title card-title-color"><i class="fa fa-flag" aria-hidden="true"></i> 0</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Violation(s) this session</h6>
+									<p class="card-text card-text-color">Realtime counter for how many violations occurred since the script started.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="container mt-4 mb-4"></div>
+
+					<!-- Dashboard Chart -->
+					<div class="card card-color">
+						<div class="card-body">
+							<h5 class="card-title card-title-color">Violations - Last 7 Days</h5>
+							<p class="card-text card-text-color">Displays the amount of violations that occured each day for the last seven days.</p>
+							<div><canvas id="dashboard-chart"></canvas></div>
+						</div>
+					</div>
+
+					<div class="container mt-4 mb-4"></div>
+
+					<div class="row">
+						<!-- Recovery Actions -->
+						<div class="col-sm-6">
+							<div class="card card-color">
+								<div class="card-body">
+									<h5 class="card-title card-title-color">Recovery Actions</h5>
+									<p class="card-text card-text-color">Selection of actions that can be used to combat the consequences of certain cheats.</p>
+									<a id="revive-all" href="#" class="btn btn-primary"><i class="fa fa-heartbeat" aria-hidden="true"></i> Revive All</a>
+									<a id="heal-all" href="#" class="btn btn-primary"><i class="fa fa-medkit" aria-hidden="true"></i> Heal All</a>
+								</div>
+							</div>
+						</div>
+						<!-- Admin Actions -->
+						<div class="col-sm-6">
+							<div class="card card-color">
+								<div class="card-body">
+									<h5 class="card-title card-title-color">Admin Actions</h5>
+									<p class="card-text card-text-color">Selection of actions that quickly give access to script functionality, such as hot-reloading modules and other.</p>
+									<a id="reload-modules" href="#" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Reload Modules</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="container mt-4 mb-4"></div>
+
+					<!-- Technical Details -->
+					<div class="card card-color">
+						<h5 class="card-header card-title-color">Technical Details</h5>
+						<div class="card-body">
+							<h5 class="card-title card-title-color">Node Process Information</h5>
+							<p id="technical-details" class="card-text card-text-color"><b>CPU</b>: Unknown <b>Platform</b>: Unknown <b>Memory</b>: 0 MiB</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modules UI -->
+				<div class="d-none p-4" id="ui-modules">
+					<div class="row">
+						<!-- Active Modules -->
+						<div class="col-sm-4">
+							<div class="card card-color">
+								<div class="card-body">
+									<h4 id="active-modules" class="card-title card-title-color"><i class="fa fa-shield" aria-hidden="true"></i> 0</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Active Module(s)</h6>
+									<p class="card-text card-text-color">With supporting text below as a natural lead-in to additional content.</p>
+								</div>
+							</div>
+						</div>
+						<!-- Disabled Modules -->
+						<div class="col-sm-4">
+							<div class="card card-color">
+								<div class="card-body">
+									<h4 id="disabled-modules" class="card-title card-title-color"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 0</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Disabled Module(s)</h6>
+									<p class="card-text card-text-color">With supporting text below as a natural lead-in to additional content.</p>
+								</div>
+							</div>
+						</div>
+						<!-- Unloaded Modules -->
+						<div class="col-sm-4">
+							<div class="card card-color">
+								<div class="card-body">
+									<h4 id="unloaded-modules" class="card-title card-title-color"><i class="fa fa-clock-o" aria-hidden="true"></i> 0</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Unloaded Module(s)</h6>
+									<p class="card-text card-text-color">With supporting text below as a natural lead-in to additional content.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="container mt-4 mb-4"></div>
+
+					<!-- Module Actions -->
+					<div class="card card-color">
+						<div class="card-body">
+							<div class="row mb-4">
+								<h5 class="card-title card-title-color col-sm-9 mr-auto">Module Actions</h5>
+
+								<form class="d-flex form-inline col-sm-3">
+									<input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search" />
+									<button class="btn btn-primary my-2 my-sm-0" title="Search" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+								</form>
+							</div>
+
+							<div class="m-scrollbar">
+								<table class="table table-dark table-striped">
+									<thead>
+										<tr>
+											<th class="card-text-color" scope="col">#</th>
+											<th class="card-text-color" scope="col">Name</th>
+											<th class="card-text-color" scope="col">Type</th>
+											<th class="card-text-color" scope="col">Status</th>
+											<th class="card-text-color" scope="col">Actions</th>
+										</tr>
+									</thead>
+									<tbody id="modules-table"></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Violations UI -->
+				<div class="d-none p-4" id="ui-violations"></div>
+			</div>
+		</div>
+
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<!-- More robust way of loading scripts/styelsheets that works with renaming resource. -->
+		<script type="text/javascript">
+			// Create script for javascript nui handler.
+			let script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = `nui://${GetParentResourceName()}/dist/ui.js`;
+			document.getElementsByTagName("head")[0].append(script);
+			// Create link for css stylesheet.
+			let link = document.createElement("link");
+			link.rel = "stylesheet";
+			link.href = `nui://${GetParentResourceName()}/ui/css/style.css`;
+			document.getElementsByTagName("head")[0].append(link);
+		</script>
+	</body>
+</html>

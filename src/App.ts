@@ -34,6 +34,8 @@ import { LoadModuleCommand } from "./commands/LoadModuleCommand";
 import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
 import { Release } from "./types/ReleaseType";
+import { OpenUICommand } from "./commands/OpenUICommand";
+import { NuiEndpoint } from "./core/NuiEndpoint";
 
 /**
  * Represents the main application class.
@@ -52,6 +54,9 @@ class App {
 		this.registerCommands();
 		this.checkForUnsafeConvars();
 		this.checkForUpdates();
+
+		// Initialize the nui endpoint for the UI data
+		NuiEndpoint.init();
 	}
 
 	/**
@@ -90,6 +95,7 @@ class App {
 		CommandLoader.registerCommand(new UnloadModuleCommand());
 		CommandLoader.registerCommand(new ScreenshotCommand());
 		CommandLoader.registerCommand(new WipeEntitiesCommand());
+		CommandLoader.registerCommand(new OpenUICommand());
 		// Register corresponding chat suggestions
 		CommandLoader.registerChatSuggestions();
 		Logger.debug("Finished registering commands");

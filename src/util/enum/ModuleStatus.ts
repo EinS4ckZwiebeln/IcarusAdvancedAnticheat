@@ -1,0 +1,5 @@
+export enum ModuleStatus {
+	STATUS_LOADED = "LOADED",
+	STATUS_UNLOADED = "UNLOADED",
+	STATUS_UNKNOWN = "UNKNOWN",
+}

@@ -2,10 +2,12 @@ import { Config } from "./config/Config";
 import { config } from "../types/ConfigType";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
+import { ModuleStatus } from "../util/enum/ModuleStatus";
 
 export class ModuleLoader {
 	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
 	private static readonly _config: config = Config.getConfig();
+	private static _disabledModulesAmount: number = 0;
 
 	/**
 	 * Loads a module into the module loader.
@@ -21,13 +23,15 @@ export class ModuleLoader {
 		}
 		// Ensure there is at least minimal configuration for this module
 		try {
-			this.validateModuleConfig(name);
+			const result = this.validateModuleConfig(name);
+			if (!result) return;
 		} catch (err: any) {
 			throw new Error(`${err.message} (does ${name} exist in the config?)`);
 		}
 
 		module.onLoad();
 		module.setTick();
+		module.setStatus(ModuleStatus.STATUS_LOADED);
 		this._modules.set(name, module);
 		Logger.debug(`Module ${name} loaded successfully`);
 	}
@@ -39,6 +43,7 @@ export class ModuleLoader {
 	public static unloadModule(module: Module): void {
 		module.onUnload();
 		module.removeTick();
+		module.setStatus(ModuleStatus.STATUS_UNLOADED);
 		this._modules.delete(module.name);
 		Logger.debug(`Module ${module.name} unloaded successfully`);
 	}
@@ -47,11 +52,14 @@ export class ModuleLoader {
 	 * Validates the module configuration.
 	 * @param name - The name of the module.
 	 */
-	private static validateModuleConfig(name: string): void {
+	private static validateModuleConfig(name: string): boolean {
 		// Ensure module has configuration set up
-		if (!this._config.Modules[name].enabled) {
+		const isValid = this._config.Modules[name].enabled;
+		if (!isValid) {
+			this._disabledModulesAmount++;
 			Logger.debug(`Module ${name} is disabled in the config`);
 		}
+		return isValid;
 	}
 
 	/**
@@ -69,5 +77,9 @@ export class ModuleLoader {
 	 */
 	public static getModules(): Module[] {
 		return Array.from(this._modules.values());
+	}
+
+	public static getDisabledAmount(): number {
+		return this._disabledModulesAmount;
 	}
 }

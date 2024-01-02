@@ -1,22 +1,28 @@
 {
 	"name": "icarus",
 	"version": "1.0.0",
-	"description": "Open Source FiveM Anti-Cheat",
+	"description": "Open source FiveM anticheat",
 	"main": "index.js",
 	"scripts": {
 		"watch": "esbuild --bundle --watch --sourcemap --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js",
-		"build": "esbuild --bundle --minify --keep-names --packages=external --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js"
+		"server": "esbuild --bundle --minify --keep-names --packages=external --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js",
+		"client": "esbuild --bundle ui/nui/NuiCallbackLayer.ts --outfile=dist/nui.js && esbuild --bundle ui/Index.ts --outfile=dist/ui.js",
+		"build": "npm run server && npm run client"
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
 	"devDependencies": {
+		"@types/chart.js": "^2.9.41",
+		"@types/jquery": "^3.5.29",
+		"@types/node": "^20.10.6",
+		"chart.js": "^4.4.1",
 		"esbuild": "^0.19.8",
 		"typescript": "5.3.3"
 	},
 	"dependencies": {
+		"@citizenfx/client": "^2.0.7257-1",
 		"@citizenfx/server": "^2.0.6736-1",
 		"@types/bad-words": "^3.0.3",
-		"@types/node": "20.10.5",
 		"@types/node-fetch": "^2.6.9",
 		"bad-words": "^3.0.4",
 		"form-data": "^4.0.0",

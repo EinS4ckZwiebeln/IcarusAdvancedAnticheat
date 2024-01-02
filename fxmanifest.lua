@@ -7,7 +7,17 @@ description "Efficient, modular server-side anticheat script."
 version "2.0.1"
 
 lua54 "yes"
-server_only "yes"
+ui_page "ui/html/index.html"
+
+files {
+    "ui/html/index.html",
+    "ui/css/style.css",
+    "dist/ui.js",
+}
+
+client_script {
+    "dist/nui.js"
+}
 
 server_script {
     "config.lua",
