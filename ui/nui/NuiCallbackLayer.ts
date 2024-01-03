@@ -46,7 +46,7 @@ class NuiCallbackLayer {
 		onNet("icarus:reviveMyself", () => {
 			const ped = PlayerPedId();
 			const coords = GetEntityCoords(ped, false);
-			NetworkResurrectLocalPlayer(coords[0], coords[1], coords[2], 0.0, false, false);
+			NetworkResurrectLocalPlayer(coords[0], coords[1], coords[2], GetEntityHeading(ped), false, false);
 		});
 
 		onNet("icarus:healMyself", () => {
