@@ -1,7 +1,6 @@
 import { ModuleData } from "../types/ModuleDataType";
 import { Utility } from "../util/Utility";
 import { ModuleStatus } from "../util/enum/ModuleStatus";
-import { ModuleType } from "../util/enum/ModuleType";
 import { Module } from "./Module";
 import { ModuleLoader } from "./ModuleLoader";
 import { Statistics } from "./Statistics";
@@ -58,7 +57,7 @@ export class NuiEndpoint {
 					modules.forEach((module: Module) => {
 						moduleData.push({
 							name: module.name,
-							type: module.isTicking() ? ModuleType.TYPE_TICK : ModuleType.TYPE_EVENT,
+							type: module.getType(),
 							status: module.getStatus(),
 						});
 					});
