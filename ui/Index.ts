@@ -63,6 +63,8 @@ class Index {
 				case 8:
 				case 27:
 					$.post(`https://${Utility.RESOURCE_NAME}/closeUI`);
+					// Prevent lingering tooltips when UI closes
+					this._tooltipList.forEach((tooltip: Tooltip) => tooltip.dispose());
 					break;
 				default:
 					return;
