@@ -12,23 +12,22 @@ export class ModuleLoader {
 	/**
 	 * Loads a module into the module loader.
 	 * @param module The module to be loaded.
-	 * @returns void
-	 * @throws Error if the module is already loaded or if config is missing.
+	 * @throws Error if the module config is missing.
 	 */
 	public static loadModule(module: Module): void {
 		const name = module.name;
 		// Prevent loading the same module twice
 		if (module.getStatus() === ModuleStatus.STATUS_LOADED) return;
 		// Ensure there is at least minimal configuration for this module
-		try {
-			const result = this.validateModuleConfig(name);
-			if (!result) return;
-		} catch (err: any) {
-			throw new Error(`${err.message} (does ${name} exist in the config?)`);
+		if (!this.hasModuleConfigAndIsEnabled(name)) {
+			this._disabledModulesAmount++;
+			Logger.debug(`Module ${name} is disabled in the config`);
+			return;
 		}
-
+		// Beginn module initialization
 		module.onLoad();
 		module.setTick();
+		// Add necessary meta data to module
 		module.setStatus(ModuleStatus.STATUS_LOADED);
 		this._modules.set(name, module);
 		Logger.debug(`Module ${name} loaded successfully`);
@@ -46,17 +45,15 @@ export class ModuleLoader {
 	}
 
 	/**
-	 * Validates the module configuration.
-	 * @param name - The name of the module.
+	 * Validates the module configuration and checks if the module is enabled.
+	 * @param moduleName - The name of the module.
 	 */
-	private static validateModuleConfig(name: string): boolean {
-		// Ensure module has configuration set up
-		const isValid = this._config.Modules[name].enabled;
-		if (!isValid) {
-			this._disabledModulesAmount++;
-			Logger.debug(`Module ${name} is disabled in the config`);
+	private static hasModuleConfigAndIsEnabled(moduleName: string): boolean {
+		try {
+			return this._config.Modules[moduleName].enabled;
+		} catch (err: any) {
+			throw new Error(`${err.message} (does ${moduleName} exist in the config?)`);
 		}
-		return isValid;
 	}
 
 	/**
