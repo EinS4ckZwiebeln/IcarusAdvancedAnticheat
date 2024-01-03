@@ -4,7 +4,8 @@
 	--card: #363636;
 	--card-title: #afafaf;
 	--card-text: #6e6e6e;
-	--scrollbar: #242424;
+	--scroll-bar-color: #6c757d;
+	--scroll-bar-bg-color: #363636;
 }
 
 /* Required for bootstrap to work, fixes whitescreen bug */
@@ -51,19 +52,23 @@
 }
 
 /* Scrollbar */
-::-webkit-scrollbar {
-	width: 10px;
+*::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
 }
 
-::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px var(--scrollbar);
-	border-radius: 10px;
+::-webkit-scrollbar-corner {
+	background: rgba(0, 0, 0, 0.5);
 }
 
-::-webkit-scrollbar-thumb {
-	border-radius: 10px;
-	background-color: var(--card);
-	-webkit-box-shadow: inset 0 0 6px var(--scrollbar);
+*::-webkit-scrollbar-thumb {
+	background-color: var(--scroll-bar-color);
+	border-radius: 20px;
+	border: 3px solid var(--scroll-bar-bg-color);
+}
+
+*::-webkit-scrollbar-track {
+	background: var(--scroll-bar-bg-color);
 }
 
 .m-scrollbar {
@@ -72,7 +77,8 @@
 	height: 530px;
 }
 
-.vlabel {
+/* Navbar version label */
+.version-label {
 	font-size: 12px;
 }
 /* Navbar github icon button */
