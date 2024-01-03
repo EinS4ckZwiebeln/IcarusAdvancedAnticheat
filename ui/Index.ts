@@ -1,3 +1,4 @@
+import { Tooltip } from "bootstrap";
 import { Buttons } from "./Buttons";
 import { Utility } from "./Utility";
 import { DashboardChart } from "./charts/DashboardChart";
@@ -12,6 +13,7 @@ enum EventDataAction {
 class Index {
 	private readonly _buttons = new Buttons();
 	private readonly _dashboardChart = new DashboardChart();
+	private _tooltipList: Tooltip[] = [];
 
 	constructor() {
 		setTimeout(async () => {
@@ -20,6 +22,9 @@ class Index {
 				Utility.Delay(0);
 			}
 			$("#ui").hide(); // Required for chart.js since d-none will glitch it out
+			const tooltipTriggerList: Element[] = Array.from($('[data-bs-toggle="tooltip"]'));
+			this._tooltipList = tooltipTriggerList.map((tooltip) => new Tooltip(tooltip));
+
 			this.createToggleUIEventListener();
 			this.createControlsEventListener();
 
@@ -33,7 +38,6 @@ class Index {
 			const eventData = (event.originalEvent as any).data;
 			switch (eventData.action) {
 				case EventDataAction.UPDATE_UI:
-					// TODO: Load data from server
 					this.updateUI(eventData.pageName, eventData.data);
 					break;
 				case EventDataAction.OPEN_UI:
@@ -89,7 +93,9 @@ class Index {
 				$("#unloaded-modules").html(`<i class="fa fa-clock-o" aria-hidden="true"></i> ${data.unloadedModules}`);
 
 				const $modulesTable = $("#modules-table");
-				$modulesTable.empty(); // Remove old entries
+				$modulesTable.empty();
+				// Prevent lingering tooltips when table updates
+				this._tooltipList.forEach((tooltip: Tooltip) => tooltip.dispose());
 				// Insert rows into modules table
 				data.moduleData.forEach((module: any, index: number) => {
 					const $row = $("<tr></tr>");
@@ -102,14 +108,14 @@ class Index {
 
 					// Add LOAD button and eventhandler
 					const $btnCell = $('<td class="card-text-color"></td>');
-					const $loadBtn = $(`<button href="#" class="btn btn-primary"><i class="fa fa-link" aria-hidden="true"></i> Load</button>`);
+					const $loadBtn = $(`<button type="button" class="btn btn-primary" data-bs-toggle="tooltip" title="Load module"><i class="fa fa-link" aria-hidden="true"></i></button>`);
 					$loadBtn.on("click", async () => {
 						$.post(`https://${Utility.RESOURCE_NAME}/loadModule`, JSON.stringify({ module: module.name }));
 						await Utility.Delay(100);
 						$.post(`https://${Utility.RESOURCE_NAME}/updatePage`, JSON.stringify({ updatePage: "MODULES" }));
 					});
 					// Add UNLAOD button and eventhandler
-					const $unloadBtn = $(`<button href="#" class="btn btn-primary"><i class="fa fa-chain-broken" aria-hidden="true"></i> Unload</button>`);
+					const $unloadBtn = $(`<button type="button" class="btn btn-primary ms-3" data-bs-toggle="tooltip" title="Unload module"><i class="fa fa-chain-broken" aria-hidden="true"></i></button>`);
 					$unloadBtn.on("click", async () => {
 						$.post(`https://${Utility.RESOURCE_NAME}/unloadModule`, JSON.stringify({ module: module.name }));
 						await Utility.Delay(100);
@@ -121,6 +127,10 @@ class Index {
 					$row.append($btnCell);
 					// Append final row to table element
 					$modulesTable.append($row);
+
+					// Update tooltips for newly created buttons
+					const tooltipTriggerList: Element[] = Array.from($('[data-bs-toggle="tooltip"]')); // Optimize
+					this._tooltipList = tooltipTriggerList.map((tooltip) => new Tooltip(tooltip));
 				});
 
 				break;

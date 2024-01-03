@@ -6,9 +6,6 @@ enum PageName {
 }
 
 class NuiCallbackLayer {
-	private readonly Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-	private _updateTick: number = 0;
 	private _pageName: string = PageName.PAGE_NONE;
 
 	constructor() {
@@ -35,16 +32,15 @@ class NuiCallbackLayer {
 		});
 
 		onNet("icarus:openUI", () => {
+			// Set current page to dashbaord and request UI data for all pages
+			this._pageName = PageName.PAGE_DASHBOARD;
+			for (const pageName of Object.values(PageName)) {
+				emitNet("icarus:requestData", pageName);
+			}
 			SendNUIMessage({
 				action: "OPEN",
 			});
 			SetNuiFocus(true, true);
-			// Set current page to dashbaord and request UI data in loop
-			this._pageName = PageName.PAGE_DASHBOARD;
-			this._updateTick = setTick(async () => {
-				if (this._pageName !== PageName.PAGE_NONE) emitNet("icarus:requestData", this._pageName);
-				await this.Delay(5000);
-			});
 		});
 
 		onNet("icarus:reviveMyself", () => {
@@ -65,7 +61,6 @@ class NuiCallbackLayer {
 			SendNUIMessage({
 				action: "CLOSE",
 			});
-			clearTick(this._updateTick);
 			SetNuiFocus(false, false);
 			this._pageName = PageName.PAGE_NONE;
 		});
