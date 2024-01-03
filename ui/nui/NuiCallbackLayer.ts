@@ -16,7 +16,7 @@ class NuiCallbackLayer {
 
 	private updatePageNameNuiCallback(): void {
 		RegisterNuiCallbackType("updatePage");
-		on("__cfx_nui:updatePage", (data: any) => {
+		on("__cfx_nui:updatePage", (data: { updatePage: string }) => {
 			this._pageName = data.updatePage;
 			emitNet("icarus:requestData", this._pageName);
 		});
@@ -81,12 +81,12 @@ class NuiCallbackLayer {
 		});
 
 		RegisterNuiCallbackType("loadModule");
-		on("__cfx_nui:loadModule", (data: any) => {
+		on("__cfx_nui:loadModule", (data: { module: string }) => {
 			emitNet("icarus:loadModule", data.module);
 		});
 
 		RegisterNuiCallbackType("unloadModule");
-		on("__cfx_nui:unloadModule", (data: any) => {
+		on("__cfx_nui:unloadModule", (data: { module: string }) => {
 			emitNet("icarus:unloadModule", data.module);
 		});
 	}
