@@ -9,7 +9,7 @@ export class DashboardChart {
 	}
 
 	private createDashboardChart(): Chart {
-		const ctx: any = $("dashboard-chart");
+		const ctx: any = $("#dashboard-chart")[0];
 		return new Chart(ctx, {
 			type: "line",
 			data: {
