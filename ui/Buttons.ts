@@ -1,12 +1,6 @@
 import { Utility } from "./Utility";
 
 export class Buttons {
-	private _unloadedModules: number = 0;
-
-	public getUnloadedModules(): number {
-		return this._unloadedModules;
-	}
-
 	public register(): void {
 		this.addReviveAllEventListener();
 		this.addHealAllEventListener();

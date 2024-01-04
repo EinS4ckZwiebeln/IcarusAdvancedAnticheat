@@ -1,7 +1,7 @@
 import { Chart, registerables } from "chart.js";
 
 export class DashboardChart {
-	private readonly _chart;
+	private readonly _chart: Chart;
 
 	constructor() {
 		Chart.register(...registerables);
@@ -9,7 +9,7 @@ export class DashboardChart {
 	}
 
 	private createDashboardChart(): Chart {
-		const ctx: any = document.getElementById("dashboard-chart");
+		const ctx: any = $("dashboard-chart");
 		return new Chart(ctx, {
 			type: "line",
 			data: {
@@ -41,7 +41,6 @@ export class DashboardChart {
 	}
 
 	public updateDashboardChart(labels: string[], data: number[]) {
-		console.log(labels, data);
 		this._chart.data.labels = labels;
 		this._chart.data.datasets[0].data = data;
 		this._chart.update();
