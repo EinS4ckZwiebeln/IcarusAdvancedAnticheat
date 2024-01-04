@@ -7,11 +7,11 @@ description "Efficient, modular server-side anticheat script."
 version "2.0.1"
 
 lua54 "yes"
-ui_page "ui/html/index.html"
+ui_page "dist/index.html"
 
 files {
-    "ui/html/index.html",
-    "ui/css/style.css",
+    "dist/index.html",
+    "dist/style.css",
     "dist/ui.js",
 }
 
@@ -22,7 +22,7 @@ client_script {
 server_script {
     "config.lua",
     "wrapper.lua",
-    "dist/app.js"
+    "dist/server.js"
 }
 
 dependencies {

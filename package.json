@@ -4,10 +4,10 @@
 	"description": "Open source FiveM anticheat",
 	"main": "index.js",
 	"scripts": {
-		"watch": "esbuild --bundle --watch --sourcemap --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js",
-		"server": "esbuild --bundle --minify --keep-names --packages=external --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js",
+		"server": "esbuild --bundle --minify --keep-names --packages=external --platform=node --target=node16.9.1 src/App.ts --outfile=dist/server.js",
 		"client": "esbuild --bundle ui/nui/NuiCallbackLayer.ts --outfile=dist/nui.js && esbuild --bundle ui/Index.ts --outfile=dist/ui.js",
-		"build": "npm run server && npm run client"
+		"setup": "copy ui\\views\\index.html .\\dist\\ && copy ui\\views\\style.css .\\dist\\",
+		"build": "npm run server && npm run client && npm run setup"
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
