@@ -4,7 +4,7 @@
 	--card: #363636;
 	--card-title: #afafaf;
 	--card-text: #6e6e6e;
-	--scroll-bar-color: #6c757d;
+	--scroll-bar-color: #222222;
 	--scroll-bar-bg-color: #363636;
 }
 
@@ -13,8 +13,10 @@
 	background-color: transparent !important;
 }
 
-.c-height {
-	height: 900px;
+.container-height {
+	height: auto;
+	max-height: 900px;
+	overflow-y: hidden;
 }
 
 .icarus-color {
@@ -71,16 +73,17 @@
 	background: var(--scroll-bar-bg-color);
 }
 
-.m-scrollbar {
+.scrollbar-properties {
 	overflow: scroll;
 	overflow-x: hidden;
-	height: 530px;
+	height: 520px;
 }
 
 /* Navbar version label */
 .version-label {
 	font-size: 12px;
 }
+
 /* Navbar github icon button */
 .github {
 	font-size: 24px;
