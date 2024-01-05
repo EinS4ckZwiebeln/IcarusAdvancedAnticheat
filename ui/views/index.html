@@ -172,9 +172,9 @@
 									<thead>
 										<tr>
 											<th class="card-text-color" scope="col">#</th>
-											<th class="card-text-color" scope="col">Name</th>
-											<th class="card-text-color" scope="col">Type</th>
-											<th class="card-text-color" scope="col">Status</th>
+											<th id="sort-name" class="card-text-color" scope="col">Name</th>
+											<th id="sort-type" class="card-text-color" scope="col">Type</th>
+											<th id="sort-status" class="card-text-color" scope="col">Status</th>
 											<th class="card-text-color" scope="col">Actions</th>
 										</tr>
 									</thead>
@@ -201,7 +201,7 @@
 			// Create link for css stylesheet.
 			let link = document.createElement("link");
 			link.rel = "stylesheet";
-			link.href = `nui://${GetParentResourceName()}/ui/css/style.css`;
+			link.href = `nui://${GetParentResourceName()}/dist/style.css`;
 			document.getElementsByTagName("head")[0].append(link);
 		</script>
 	</body>

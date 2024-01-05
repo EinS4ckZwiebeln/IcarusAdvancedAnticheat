@@ -46,11 +46,21 @@
 	color: var(--icarus-color) !important;
 }
 
-/* Override bootstrap primary button style */
+/* Override bootstrap button style */
+.btn:focus,
+.btn:active {
+	outline: none !important;
+}
+
 .btn-primary {
 	background-color: var(--icarus-color) !important;
 	border-color: var(--icarus-color);
 	box-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.btn-primary:focus,
+.btn-primary.disabled {
+	border-color: var(--icarus-color);
 }
 
 /* Scrollbar */
