@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"server": "esbuild --bundle --minify --keep-names --packages=external --platform=node --target=node16.9.1 src/App.ts --outfile=dist/server.js",
-		"client": "esbuild --bundle ui/nui/NuiCallbackLayer.ts --outfile=dist/nui.js && esbuild --bundle ui/Index.ts --outfile=dist/ui.js",
+		"client": "esbuild --bundle ui/nui/NuiCallbackService.ts --outfile=dist/nui.js && esbuild --bundle ui/Index.ts --outfile=dist/ui.js",
 		"setup": "copy ui\\views\\index.html .\\dist\\ && copy ui\\views\\style.css .\\dist\\",
 		"build": "npm run server && npm run client && npm run setup"
 	},

@@ -5,7 +5,7 @@ enum PageName {
 	PAGE_VIOLATIONS = "VIOLATIONS",
 }
 
-class NuiCallbackLayer {
+class NuiCallbackService {
 	private _pageName: string = PageName.PAGE_NONE;
 
 	constructor() {
@@ -98,4 +98,4 @@ class NuiCallbackLayer {
 }
 
 // Program entry point
-new NuiCallbackLayer();
+new NuiCallbackService();
