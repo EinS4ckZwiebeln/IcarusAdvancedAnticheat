@@ -11,6 +11,10 @@ export class ActionButtons extends AbstractButton {
 			$.post(`https://${Utility.RESOURCE_NAME}/healAll`);
 		});
 
+		$("#wipe-entities").on("click", () => {
+			$.post(`https://${Utility.RESOURCE_NAME}/wipeEntities`);
+		});
+
 		$("#reload-modules").on("click", () => {
 			$.post(`https://${Utility.RESOURCE_NAME}/reloadModules`);
 		});

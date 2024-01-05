@@ -75,6 +75,11 @@ class NuiCallbackLayer {
 			emitNet("icarus:healAll");
 		});
 
+		RegisterNuiCallbackType("wipeEntities");
+		on("__cfx_nui:wipeEntities", () => {
+			ExecuteCommand("wipe");
+		});
+
 		RegisterNuiCallbackType("reloadModules");
 		on("__cfx_nui:reloadModules", () => {
 			emitNet("icarus:reloadModules");
