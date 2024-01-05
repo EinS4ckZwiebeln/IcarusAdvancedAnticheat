@@ -52,7 +52,6 @@ export class UpdateService {
 					const $loadBtn = $(`<button type="button" class="btn btn-primary" data-bs-toggle="tooltip" title="Load module"><i class="fa fa-link" aria-hidden="true"></i></button>`);
 					$loadBtn.on("click", async () => {
 						$.post(`https://${Utility.RESOURCE_NAME}/loadModule`, JSON.stringify({ module: module.name }));
-						await Utility.Delay(100);
 						$.post(`https://${Utility.RESOURCE_NAME}/updatePage`, JSON.stringify({ updatePage: "MODULES" }));
 						$loadBtn.toggleClass("disabled");
 					});
@@ -60,7 +59,6 @@ export class UpdateService {
 					const $unloadBtn = $(`<button type="button" class="btn btn-primary ms-3" data-bs-toggle="tooltip" title="Unload module"><i class="fa fa-chain-broken" aria-hidden="true"></i></button>`);
 					$unloadBtn.on("click", async () => {
 						$.post(`https://${Utility.RESOURCE_NAME}/unloadModule`, JSON.stringify({ module: module.name }));
-						await Utility.Delay(100);
 						$.post(`https://${Utility.RESOURCE_NAME}/updatePage`, JSON.stringify({ updatePage: "MODULES" }));
 						$unloadBtn.toggleClass("disabled");
 					});
