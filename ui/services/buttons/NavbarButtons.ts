@@ -37,8 +37,9 @@ export class NavbarButtons extends AbstractButton {
 			$(event.target).addClass("active");
 		});
 
-		$("#github").on("click", () => {
+		$("#github").on("click", (event) => {
 			(window as any).invokeNative("openUrl", "https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat");
+			$(event.target).removeClass("active");
 		});
 	}
 }
