@@ -96,25 +96,5 @@ export class NuiEndpoint {
 				}
 			});
 		});
-
-		onNet("icarus:loadModule", (moduleName: string) => {
-			if (!PermissionHandler.hasPermission(source)) return;
-			try {
-				const module = ModuleLoader.getModule(moduleName);
-				if (module) ModuleLoader.loadModule(module);
-			} catch (err: any) {
-				Logger.error(err);
-			}
-		});
-
-		onNet("icarus:unloadModule", (moduleName: string) => {
-			if (!PermissionHandler.hasPermission(source)) return;
-			try {
-				const module = ModuleLoader.getModule(moduleName);
-				if (module) ModuleLoader.unloadModule(module);
-			} catch (err: any) {
-				Logger.error(err);
-			}
-		});
 	}
 }

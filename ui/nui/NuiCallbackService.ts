@@ -87,12 +87,12 @@ class NuiCallbackService {
 
 		RegisterNuiCallbackType("loadModule");
 		on("__cfx_nui:loadModule", (data: { module: string }) => {
-			emitNet("icarus:loadModule", data.module);
+			ExecuteCommand(`load ${data.module}`);
 		});
 
 		RegisterNuiCallbackType("unloadModule");
 		on("__cfx_nui:unloadModule", (data: { module: string }) => {
-			emitNet("icarus:unloadModule", data.module);
+			ExecuteCommand(`unload ${data.module}`);
 		});
 	}
 }
