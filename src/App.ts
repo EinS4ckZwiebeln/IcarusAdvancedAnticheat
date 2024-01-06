@@ -36,6 +36,8 @@ import { FireModule } from "./modules/FireModule";
 import { Release } from "./types/ReleaseType";
 import { OpenUICommand } from "./commands/OpenUICommand";
 import { NuiEndpoint } from "./core/NuiEndpoint";
+import { ReviveAllCommand } from "./commands/ReviveAllCommand";
+import { HealAllCommand } from "./commands/HealAllCommand";
 
 /**
  * Represents the main application class.
@@ -95,6 +97,8 @@ class App {
 		CommandLoader.registerCommand(new UnloadModuleCommand());
 		CommandLoader.registerCommand(new ScreenshotCommand());
 		CommandLoader.registerCommand(new WipeEntitiesCommand());
+		CommandLoader.registerCommand(new ReviveAllCommand());
+		CommandLoader.registerCommand(new HealAllCommand());
 		CommandLoader.registerCommand(new OpenUICommand());
 		// Register corresponding chat suggestions
 		CommandLoader.registerChatSuggestions();
