@@ -67,12 +67,12 @@ class NuiCallbackService {
 
 		RegisterNuiCallbackType("reviveAll");
 		on("__cfx_nui:reviveAll", () => {
-			emitNet("icarus:reviveAll");
+			ExecuteCommand("reviveAll");
 		});
 
 		RegisterNuiCallbackType("healAll");
 		on("__cfx_nui:healAll", () => {
-			emitNet("icarus:healAll");
+			ExecuteCommand("healAll");
 		});
 
 		RegisterNuiCallbackType("wipeEntities");
