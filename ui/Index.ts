@@ -21,7 +21,7 @@ class Index {
 		setTimeout(async () => {
 			// Wait for jQuery to be ready
 			while (!jQuery) {
-				Utility.Delay(0);
+				await Utility.Delay(0);
 			}
 
 			$("#ui").hide(); // Required for chart.js since d-none will glitch it out
