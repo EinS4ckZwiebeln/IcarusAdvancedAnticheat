@@ -19,7 +19,8 @@ export class UnloadModuleCommand extends Command {
 	private async onExecute(source: number, args: string[]): Promise<void> {
 		const moduleName: string = args[0];
 		try {
-			ModuleLoader.getModule(moduleName)?.onUnload();
+			const module = ModuleLoader.getModule(moduleName);
+			if (module) ModuleLoader.unloadModule(module);
 			emitNet("chat:addMessage", source, { args: [`^3Unloaded ${moduleName} successfully.^0`] });
 		} catch (err: any) {
 			Logger.error(err);
