@@ -35,6 +35,7 @@ class NuiCallbackService {
 			// Set current page to dashbaord and request UI data for all pages
 			this._pageName = PageName.PAGE_DASHBOARD;
 			for (const pageName of Object.values(PageName)) {
+				if (pageName === PageName.PAGE_NONE) continue;
 				emitNet("icarus:requestData", pageName);
 			}
 			SendNUIMessage({
