@@ -4,7 +4,7 @@ game "gta5"
 
 author "NCRP Scripts"
 description "Efficient, modular server-side anticheat script."
-version "2.0.1"
+version "2.1.0"
 
 lua54 "yes"
 server_only "yes"
