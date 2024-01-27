@@ -9,6 +9,7 @@
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
+	"private": true,
 	"devDependencies": {
 		"esbuild": "^0.19.8",
 		"typescript": "5.3.3"
