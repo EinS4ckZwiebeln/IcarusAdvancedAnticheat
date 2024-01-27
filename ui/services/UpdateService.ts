@@ -1,10 +1,12 @@
 import { DashboardData, ModulesData } from "../types/PageType";
 import { DashboardChart } from "../views/charts/DashboardChart";
+import { ViolationsMonthChart } from "../views/charts/ModulesMonthChart";
 import { TooltipService } from "./TooltipService";
 import { Utility } from "./Utility";
 
 export class UpdateService {
 	private readonly _dashboardChart = new DashboardChart();
+	private readonly _violationsMonthChart = new ViolationsMonthChart();
 	private readonly _tooltipService: TooltipService;
 
 	constructor(tooltipService: TooltipService) {
@@ -22,7 +24,17 @@ export class UpdateService {
 				$("#player-count").html(`<i class="fa fa-user" aria-hidden="true"></i> ${data.players}`);
 				$("#modules-count").html(`<i class="fa fa-th" aria-hidden="true"></i> ${data.modulesAmount}`);
 				$("#violations-count").html(`<i class="fa fa-flag" aria-hidden="true"></i> ${data.violations}`);
-				$("#technical-details").html(`<b>CPU</b>: ${data.cpuModel} <b>Platform</b>: ${data.platform} <b>Memory</b>: ${data.nodeMemory}`);
+
+				if (data.screenshot) {
+					$("#report-screenshot").html(`<i class="fa fa-check-circle-o" aria-hidden="true"></i> <b>Screenshot</b>: Ready, awaiting ation.`);
+				} else {
+					$("#report-screenshot").html(`<i class="fa fa-exclamation-circle" aria-hidden="true"></i> <b>Screenshot</b>: Disabled, dependency is missing.`);
+				}
+				if (data.webhook) {
+					$("#report-webhook").html(`<i class="fa fa-check-circle-o" aria-hidden="true"></i> <b>Webhook</b>: Ready, webhook configured.`);
+				} else {
+					$("#report-webhook").html(`<i class="fa fa-exclamation-circle" aria-hidden="true"></i> <b>Webhook</b>: Disabled, webhook url is missing.`);
+				}
 				this._dashboardChart.updateDashboardChart(data.chartDays, data.chartValue);
 				break;
 
@@ -81,6 +93,11 @@ export class UpdateService {
 
 				break;
 			case "VIOLATIONS":
+				const a = [];
+				for (let i = 0; i < 30; i++) {
+					a.push(Math.floor(Math.random() * 10));
+				}
+				this._violationsMonthChart.updateModulesMonthChart(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], a);
 				break;
 			default:
 				return;

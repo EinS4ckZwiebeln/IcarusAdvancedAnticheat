@@ -4,14 +4,11 @@ import { ModuleStatus } from "../util/enum/ModuleStatus";
 import { Module } from "./Module";
 import { ModuleLoader } from "./ModuleLoader";
 import { Statistics } from "./Statistics";
+import { Config } from "./config/Config";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
-import os from "os";
 
 export class NuiEndpoint {
-	private static readonly _cpuModel = os.cpus()[0]?.model;
-	private static readonly _platform = os.platform();
-
 	public static init(): void {
 		this.addNuiComEvents();
 	}
@@ -35,12 +32,8 @@ export class NuiEndpoint {
 					dataRetval.chartDays = weeklyViolations.days;
 					dataRetval.chartValue = weeklyViolations.violations;
 
-					const memoryData = process.memoryUsage();
-					const allocatedMemory = Utility.formatMemoryUsage(memoryData.rss);
-					dataRetval.nodeMemory = allocatedMemory;
-
-					dataRetval.cpuModel = this._cpuModel;
-					dataRetval.platform = this._platform;
+					dataRetval.screenshot = GetResourceState("screenshot-basic") === "started";
+					dataRetval.webhook = Config.getConfig().DiscordWebhook.length > 0;
 					break;
 
 				case "MODULES":

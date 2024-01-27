@@ -96,9 +96,9 @@
 								<div class="card-body">
 									<h5 class="card-title card-title-color">Recovery Actions</h5>
 									<p class="card-text card-text-color">Selection of actions that can be used to combat the consequences of certain cheats.</p>
-									<a id="revive-all" href="#" class="btn btn-primary me-2"><i class="fa fa-heartbeat" aria-hidden="true"></i> Revive All</a>
-									<a id="heal-all" href="#" class="btn btn-primary me-2"><i class="fa fa-medkit" aria-hidden="true"></i> Heal All</a>
-									<a id="wipe-entities" href="#" class="btn btn-primary me-2"><i class="fa fa-trash" aria-hidden="true"></i> Wipe Entities</a>
+									<button id="revive-all" class="btn btn-primary me-2"><i class="fa fa-heartbeat" aria-hidden="true"></i> Revive All</button>
+									<button id="heal-all" class="btn btn-primary me-2"><i class="fa fa-medkit" aria-hidden="true"></i> Heal All</button>
+									<button id="wipe-entities" class="btn btn-primary me-2"><i class="fa fa-trash" aria-hidden="true"></i> Wipe Entities</button>
 								</div>
 							</div>
 						</div>
@@ -108,7 +108,7 @@
 								<div class="card-body">
 									<h5 class="card-title card-title-color">Admin Actions</h5>
 									<p class="card-text card-text-color">Selection of actions that quickly give access to script functionality, such as hot-reloading modules and other.</p>
-									<a id="reload-modules" href="#" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Reload Modules</a>
+									<button id="reload-modules" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Reload Modules</button>
 								</div>
 							</div>
 						</div>
@@ -118,10 +118,11 @@
 
 					<!-- Technical Details -->
 					<div class="card card-color">
-						<h5 class="card-header card-title-color">Technical Details</h5>
+						<h5 class="card-header card-title-color">Script & Dependency Report</h5>
 						<div class="card-body">
-							<h5 class="card-title card-title-color">Node Process Information</h5>
-							<p id="technical-details" class="card-text card-text-color"><b>CPU</b>: Unknown <b>Platform</b>: Unknown <b>Memory</b>: 0 MiB</p>
+							<p id="report-screenshot" class="card-text card-text-color mb-0"><b>Screenshot</b>: Unknown</p>
+							<p id="report-webhook" class="card-text card-text-color mb-0"><b>Webhook</b>: Unknown</p>
+							<p id="report-convars" class="card-text card-text-color mb-2"><b>Covars</b>: Unknown</p>
 						</div>
 					</div>
 				</div>
@@ -187,7 +188,16 @@
 				</div>
 
 				<!-- Violations UI -->
-				<div class="d-none p-4" id="ui-violations"></div>
+				<div class="d-none p-4" id="ui-violations">
+					<!-- Violations Month Chart -->
+					<div class="card card-color">
+						<div class="card-body">
+							<h5 class="card-title card-title-color">Violations - Last 30 Days</h5>
+							<p class="card-text card-text-color">Displays the amount of violations that occured each day for the last thirty days.</p>
+							<div><canvas id="violations-month-chart"></canvas></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
