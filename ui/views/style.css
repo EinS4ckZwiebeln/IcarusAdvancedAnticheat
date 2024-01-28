@@ -51,12 +51,19 @@
 .btn:focus,
 .btn:active {
 	outline: none !important;
+	box-shadow: none !important;
 }
 
 .btn-primary {
 	background-color: var(--brand-color) !important;
 	border-color: var(--brand-color);
 	box-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+	opacity: 1;
+}
+
+.btn-primary:hover {
+	border-color: var(--brand-color);
+	opacity: 0.8;
 }
 
 .btn-primary:focus,
