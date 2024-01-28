@@ -42,9 +42,12 @@
 
 /* Override bootstrap navbar active & link color */
 .active,
-.nav-link:hover,
-.nav-link:focus {
+.nav-link:hover {
 	color: var(--brand-color) !important;
+}
+
+.nav-link:focus {
+	color: var(--secondary-gray-1);
 }
 
 /* Override bootstrap button style */
