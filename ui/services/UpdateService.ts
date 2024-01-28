@@ -25,16 +25,7 @@ export class UpdateService {
 				$("#modules-count").html(`<i class="fa fa-th" aria-hidden="true"></i> ${data.modulesAmount}`);
 				$("#violations-count").html(`<i class="fa fa-flag" aria-hidden="true"></i> ${data.violations}`);
 
-				if (data.screenshot) {
-					$("#report-screenshot").html(`<i class="fa fa-check-circle-o" aria-hidden="true"></i> <b>Screenshot</b>: Ready, awaiting ation.`);
-				} else {
-					$("#report-screenshot").html(`<i class="fa fa-exclamation-circle" aria-hidden="true"></i> <b>Screenshot</b>: Disabled, dependency is missing.`);
-				}
-				if (data.webhook) {
-					$("#report-webhook").html(`<i class="fa fa-check-circle-o" aria-hidden="true"></i> <b>Webhook</b>: Ready, webhook configured.`);
-				} else {
-					$("#report-webhook").html(`<i class="fa fa-exclamation-circle" aria-hidden="true"></i> <b>Webhook</b>: Disabled, webhook url is missing.`);
-				}
+				if (data.webhook && data.webhook.length > 0) $("#webhook").val(data.webhook);
 				this._dashboardChart.updateDashboardChart(data.chartDays, data.chartValue);
 				break;
 

@@ -33,7 +33,7 @@ export class NuiEndpoint {
 					dataRetval.chartValue = weeklyViolations.violations;
 
 					dataRetval.screenshot = GetResourceState("screenshot-basic") === "started";
-					dataRetval.webhook = Config.getConfig().DiscordWebhook.length > 0;
+					dataRetval.webhook = Config.getConfig().DiscordWebhook;
 					break;
 
 				case "MODULES":

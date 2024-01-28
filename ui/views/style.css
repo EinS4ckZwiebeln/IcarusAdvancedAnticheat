@@ -15,7 +15,7 @@
 }
 
 .container-height {
-	height: auto;
+	height: 900px;
 	max-height: 900px;
 	overflow-y: hidden;
 }
@@ -119,4 +119,15 @@
 
 .close-ui:hover {
 	color: var(--brand-color);
+}
+
+/* Webhook Input Form */
+#webhook {
+	border-color: var(--primary-dark-1);
+	transition: text-shadow 0.2s ease-out, color 0.2s ease-out;
+}
+
+#webhook:not(:hover) {
+	color: transparent;
+	text-shadow: 0 0 5px rgba(110, 110, 110, 0.6);
 }

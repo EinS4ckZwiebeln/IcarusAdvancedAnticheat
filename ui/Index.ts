@@ -7,6 +7,7 @@ import { TooltipService } from "./services/TooltipService";
 import { UpdateService } from "./services/UpdateService";
 import { MessageService } from "./services/MessageService";
 import { InputService } from "./services/InputService";
+import { CopyWebhookButton } from "./services/buttons/CopyWebhookButton";
 
 class Index {
 	// Services
@@ -32,6 +33,7 @@ class Index {
 			this._buttonService.registerButton(new NavbarButtons());
 			this._buttonService.registerButton(new ActionButtons());
 			this._buttonService.registerButton(new ModuleSortButtons());
+			this._buttonService.registerButton(new CopyWebhookButton());
 		}, 0);
 	}
 }

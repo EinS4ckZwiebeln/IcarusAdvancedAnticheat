@@ -119,11 +119,13 @@
 
 					<!-- Technical Details -->
 					<div class="card card-color">
-						<h5 class="card-header card-title-color">Script & Dependency Report</h5>
 						<div class="card-body">
-							<p id="report-screenshot" class="card-text card-text-color mb-0"><b>Screenshot</b>: Unknown</p>
-							<p id="report-webhook" class="card-text card-text-color mb-0"><b>Webhook</b>: Unknown</p>
-							<p id="report-convars" class="card-text card-text-color mb-2"><b>Covars</b>: Unknown</p>
+							<h5 class="card-title card-title-color">Webhooks</h5>
+							<p class="card-text card-text-color">Displays the configured Discord webhook URL (read only). Discord webhooks must consist of a valid URL.</p>
+							<div class="input-group">
+								<input type="text" id="webhook" class="form-control bg-dark card-text-color" value="No discord webhook is configured" disabled />
+								<button type="button" id="copy-webhook" class="btn btn-primary" data-bs-toggle="tooltip" title="Copy"><i class="fa fa-clipboard" aria-hidden="true"></i></button>
+							</div>
 						</div>
 					</div>
 				</div>
