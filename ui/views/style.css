@@ -1,9 +1,10 @@
 :root {
-	--icarus-color: #8080ff;
-	--dark: #343a40;
-	--card: #363636;
-	--card-title: #afafaf;
-	--card-text: #6e6e6e;
+	--brand-color: #8080ff;
+	--primary-dark-1: #343a40;
+	--primary-dark-2: #363636;
+	--secondary-gray-1: #afafaf;
+	--secondary-gray-2: #6e6e6e;
+	/* Exclusively used for the scrollbar coloring */
 	--scroll-bar-color: #222222;
 	--scroll-bar-bg-color: #363636;
 }
@@ -20,30 +21,30 @@
 }
 
 .icarus-color {
-	color: var(--icarus-color);
+	color: var(--brand-color);
 }
 
 .card-color {
-	background-color: var(--card);
+	background-color: var(--primary-dark-2);
 }
 
 .card-title-color {
-	color: var(--card-title);
+	color: var(--secondary-gray-1);
 }
 
 .card-text-color {
-	color: var(--card-text);
+	color: var(--secondary-gray-2);
 }
 
 .nav-bg-color {
-	background-color: var(--card) !important;
+	background-color: var(--primary-dark-2) !important;
 }
 
 /* Override bootstrap navbar active & link color */
 .active,
 .nav-link:hover,
 .nav-link:focus {
-	color: var(--icarus-color) !important;
+	color: var(--brand-color) !important;
 }
 
 /* Override bootstrap button style */
@@ -53,14 +54,14 @@
 }
 
 .btn-primary {
-	background-color: var(--icarus-color) !important;
-	border-color: var(--icarus-color);
+	background-color: var(--brand-color) !important;
+	border-color: var(--brand-color);
 	box-shadow: 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .btn-primary:focus,
 .btn-primary.disabled {
-	border-color: var(--icarus-color);
+	border-color: var(--brand-color);
 }
 
 /* Scrollbar */
@@ -103,5 +104,5 @@
 /* Exit UI icon button */
 .close-ui {
 	font-size: 24px;
-	color: var(--card-title);
+	color: var(--secondary-gray-1);
 }
