@@ -21,5 +21,10 @@ export class InputService {
 					return;
 			}
 		});
+
+		$("#close-ui").on("click", () => {
+			$.post(`https://${Utility.RESOURCE_NAME}/closeUI`);
+			this._tooltipService.dispose();
+		});
 	}
 }

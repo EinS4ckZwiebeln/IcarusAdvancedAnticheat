@@ -99,3 +99,9 @@
 	font-size: 24px;
 	color: white;
 }
+
+/* Exit UI icon button */
+.close-ui {
+	font-size: 24px;
+	color: var(--card-title);
+}
