@@ -106,3 +106,7 @@
 	font-size: 24px;
 	color: var(--secondary-gray-1);
 }
+
+.close-ui:hover {
+	color: var(--brand-color);
+}
