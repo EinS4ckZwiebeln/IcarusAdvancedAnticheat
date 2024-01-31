@@ -5,7 +5,10 @@ export type config = {
 	/**
 	 * An object containing permission settings.
 	 */
-	Permission: object;
+	Permission: {
+		bypassPermission: string;
+		useTxAdmin: boolean;
+	};
 	/**
 	 * The Discord webhook URL for logging.
 	 */
