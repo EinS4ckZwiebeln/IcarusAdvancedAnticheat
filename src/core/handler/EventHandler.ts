@@ -44,7 +44,7 @@ export class EventHandler {
 	 */
 	private static registerNetEvent(eventName: string): void {
 		Logger.debug(`Registering net event ${eventName}`);
-		onNet(eventName, async (...args: any[]) => this.triggerEventCallbacks(eventName, args));
+		onNet(eventName, async (...args: unknown[]) => this.triggerEventCallbacks(eventName, args));
 		this._netEvents.add(eventName);
 	}
 
@@ -62,7 +62,7 @@ export class EventHandler {
 	 * @param eventName - The name of the event.
 	 * @param args - The arguments to pass to the event callbacks.
 	 */
-	private static triggerEventCallbacks(eventName: string, args: any[]): void {
+	private static triggerEventCallbacks(eventName: string, args: unknown[]): void {
 		this.getEventCallbacks(eventName).forEach((cb: Function) => cb(...args));
 	}
 }
