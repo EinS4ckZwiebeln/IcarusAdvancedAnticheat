@@ -3,6 +3,7 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
+import { PlayerScopeEvent } from "../types/EventType";
 
 export class PedBlacklistModule extends Module {
 	private _whitelistedPedModels: Set<number> = new Set();
@@ -10,12 +11,12 @@ export class PedBlacklistModule extends Module {
 	public onLoad(): void {
 		this._whitelistedPedModels = new Set(Utility.hashify(Config.getValue(this.config, "playerModels")));
 
-		EventHandler.subscribe("playerEnteredScope", (data: any) => this.onEnteredScope(data.player));
-		EventHandler.subscribe("playerLeftScope", (data: any) => this.onEnteredScope(data.player));
+		EventHandler.subscribe("playerEnteredScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
+		EventHandler.subscribe("playerLeftScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("playerEnteredScope", (data: any) => this.onEnteredScope(data.player));
-		EventHandler.unsubscribe("playerLeftScope", (data: any) => this.onEnteredScope(data.player));
+		EventHandler.unsubscribe("playerEnteredScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
+		EventHandler.unsubscribe("playerLeftScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
 	}
 
 	/**
