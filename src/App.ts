@@ -144,8 +144,9 @@ class App {
 			} else {
 				Logger.debug("No Updates found. Version is up to date!");
 			}
-		} catch (err: any) {
-			Logger.error(err);
+		} catch (err: unknown) {
+			if (!(err instanceof Error)) return;
+			Logger.error(err.message);
 		}
 	}
 }

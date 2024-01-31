@@ -19,8 +19,8 @@ export class Screenshot {
 			{
 				fileName: path,
 			},
-			(err: any) => {
-				if (err) Logger.error(err.message);
+			(err: unknown) => {
+				if (err instanceof Error) Logger.error(err.message);
 				callback(name, path);
 			}
 		);

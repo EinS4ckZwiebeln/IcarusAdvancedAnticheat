@@ -22,7 +22,8 @@ export class ModuleLoader {
 		// Ensure there is at least minimal configuration for this module
 		try {
 			this.validateModuleConfig(name);
-		} catch (err: any) {
+		} catch (err: unknown) {
+			if (!(err instanceof Error)) return;
 			throw new Error(`${err.message} (does ${name} exist in the config?)`);
 		}
 

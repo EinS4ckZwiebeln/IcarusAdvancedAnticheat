@@ -21,8 +21,9 @@ export class UnloadModuleCommand extends Command {
 		try {
 			ModuleLoader.getModule(moduleName)?.onUnload();
 			emitNet("chat:addMessage", source, { args: [`^3Unloaded ${moduleName} successfully.^0`] });
-		} catch (err: any) {
-			Logger.error(err);
+		} catch (err: unknown) {
+			if (!(err instanceof Error)) return;
+			Logger.error(err.message);
 			emitNet("chat:addMessage", source, { args: [`^1Failed to unload ${moduleName}.^0`] });
 		}
 	}

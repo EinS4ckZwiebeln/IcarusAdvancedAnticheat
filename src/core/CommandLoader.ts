@@ -19,7 +19,8 @@ export class CommandLoader {
 
 				try {
 					if (command.callback) command.callback(source, args);
-				} catch (err: any) {
+				} catch (err: unknown) {
+					if (!(err instanceof Error)) return;
 					Logger.error(err.message);
 				}
 			},

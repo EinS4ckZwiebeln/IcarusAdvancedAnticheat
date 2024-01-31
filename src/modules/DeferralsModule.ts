@@ -71,7 +71,8 @@ export class DeferralsModule extends Module {
 			} else {
 				deferrals.done();
 			}
-		} catch (err: any) {
+		} catch (err: unknown) {
+			if (!(err instanceof Error)) return;
 			Logger.error(err.message);
 		}
 	}
