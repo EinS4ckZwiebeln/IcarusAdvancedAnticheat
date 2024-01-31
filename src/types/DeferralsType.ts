@@ -23,3 +23,11 @@ export type Deferrals = {
 	 */
 	done: (failureReason?: string) => void;
 };
+
+/**
+ * Represents a deferrals config object.
+ */
+export type DeferralsObject = {
+	enabled: boolean;
+	rejectionMsg: string;
+};

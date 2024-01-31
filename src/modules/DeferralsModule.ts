@@ -3,11 +3,11 @@ import { Logger } from "../core/logger/Logger";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
-import { Deferrals } from "../types/DeferralsType";
+import { Deferrals, DeferralsObject } from "../types/DeferralsType";
 
 export class DeferralsModule extends Module {
-	private readonly _nameFilter: any = Config.getValue(this.config, "NameFilter");
-	private readonly _noVPN: any = Config.getValue(this.config, "NoVPN");
+	private readonly _nameFilter: DeferralsObject = Config.getValue(this.config, "NameFilter");
+	private readonly _noVPN: DeferralsObject = Config.getValue(this.config, "NoVPN");
 
 	public onLoad(): void {
 		EventHandler.subscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source));
