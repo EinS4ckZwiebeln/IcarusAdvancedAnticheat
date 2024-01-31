@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 import FormData from "form-data";
 import fs from "fs";
 import { Logger } from "../core/logger/Logger";
+import { WebhookPayload } from "../types/WebhookPayloadType";
 /**
  * Represents a webhook request.
  */
@@ -14,7 +15,7 @@ export class WebhookRequest {
 	 * @param payload The payload to send in the request.
 	 * @param filePath The path to a file to include in the request.
 	 */
-	constructor(payload: object, filePath?: string) {
+	constructor(payload: WebhookPayload, filePath?: string) {
 		if (filePath) {
 			this._filePath = filePath;
 			this._form.append("file0", fs.readFileSync(this._filePath), this._filePath);
