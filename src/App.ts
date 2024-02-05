@@ -33,8 +33,7 @@ import { EventBlacklistModule } from "./modules/EventBlacklistModule";
 import { LoadModuleCommand } from "./commands/LoadModuleCommand";
 import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
-import { Release } from "./types/ReleaseType";
-
+import { Release } from "./Types";
 /**
  * Represents the main application class.
  */

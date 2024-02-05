@@ -4,7 +4,7 @@ import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { EventHandler } from "../core/handler/EventHandler";
-import { WeaponDamageEvent } from "../types/EventType";
+import { WeaponDamageEvent } from "../Types";
 
 export class TazerModule extends Module {
 	private readonly _onCooldown: Set<number> = new Set<number>();

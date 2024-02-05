@@ -1,7 +1,7 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { WeaponDamageEvent } from "../types/EventType";
+import { WeaponDamageEvent } from "../Types";
 import { Utility } from "../util/Utility";
 
 export class WeaponBlacklistModule extends Module {

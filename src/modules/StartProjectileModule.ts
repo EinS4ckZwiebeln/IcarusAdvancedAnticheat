@@ -2,7 +2,7 @@ import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { StartProjectileEvent } from "../types/EventType";
+import { StartProjectileEvent } from "../Types";
 import { Utility } from "../util/Utility";
 
 export class StartProjectileModule extends Module {

@@ -1,7 +1,7 @@
-import { GiveWeaponEvent } from "../types/EventType";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { GiveWeaponEvent } from "../Types";
 
 export class GiveWeaponModule extends Module {
 	public onLoad(): void {

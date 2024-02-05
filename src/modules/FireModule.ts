@@ -1,8 +1,8 @@
+import { FireEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
-import { FireEvent } from "../types/EventType";
 import { Utility } from "../util/Utility";
 
 export class FireModule extends Module {

@@ -3,7 +3,7 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
-import { PlayerScopeEvent } from "../types/EventType";
+import { PlayerScopeEvent } from "../Types";
 
 export class PedBlacklistModule extends Module {
 	private _whitelistedPedModels: Set<number> = new Set();

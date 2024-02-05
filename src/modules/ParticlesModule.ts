@@ -2,7 +2,7 @@ import { Violation } from "../core/Violation";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
-import { PtFxEvent } from "../types/EventType";
+import { PtFxEvent } from "../Types";
 
 export class ParticlesModule extends Module {
 	private _maxScale = -1;

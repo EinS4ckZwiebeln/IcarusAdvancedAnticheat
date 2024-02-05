@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import FormData from "form-data";
 import fs from "fs";
 import { Logger } from "../core/logger/Logger";
-import { WebhookPayload } from "../types/WebhookPayloadType";
+import { WebhookPayload } from "../Types";
 /**
  * Represents a webhook request.
  */

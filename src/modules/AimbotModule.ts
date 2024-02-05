@@ -3,7 +3,7 @@ import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { Violation } from "../core/Violation";
-import { WeaponDamageEvent } from "../types/EventType";
+import { WeaponDamageEvent } from "../Types";
 
 export class AimbotModule extends Module {
 	private _offsetDist: number = 4.5;

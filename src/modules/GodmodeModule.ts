@@ -1,7 +1,7 @@
-import { WeaponDamageEvent } from "../types/EventType";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { WeaponDamageEvent } from "../Types";
 
 export class GodmodeModule extends Module {
 	public onLoad(): void {

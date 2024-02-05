@@ -3,7 +3,7 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
-import { ExplosionEvent } from "../types/EventType";
+import { ExplosionEvent } from "../Types";
 
 export class ExplosionFilterModule extends Module {
 	private _whitelistedExplosionTypes: Set<number> = new Set();

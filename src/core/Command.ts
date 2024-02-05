@@ -1,4 +1,4 @@
-import { Parameter } from "../types/ParameterType";
+import { Parameter } from "../Types";
 
 /**
  * Represents a command that can be executed.

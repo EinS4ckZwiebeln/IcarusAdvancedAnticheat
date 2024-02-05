@@ -1,4 +1,4 @@
-import { AdminAuthEvent } from "../../types/EventType";
+import { AdminAuthEvent } from "../../Types";
 import { Config } from "../config/Config";
 import { Logger } from "../logger/Logger";
 import { EventHandler } from "./EventHandler";

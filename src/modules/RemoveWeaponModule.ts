@@ -1,7 +1,7 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { RemoveAllWeaponsEvent, RemoveWeaponEvent } from "../types/EventType";
+import { RemoveAllWeaponsEvent, RemoveWeaponEvent } from "../Types";
 
 export class RemoveWeaponModule extends Module {
 	public onLoad(): void {

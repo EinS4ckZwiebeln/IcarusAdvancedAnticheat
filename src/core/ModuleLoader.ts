@@ -1,5 +1,5 @@
+import { config } from "../Types";
 import { Config } from "./config/Config";
-import { config } from "../types/ConfigType";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 

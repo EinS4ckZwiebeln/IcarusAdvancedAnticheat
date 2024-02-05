@@ -3,7 +3,7 @@ import { Logger } from "../core/logger/Logger";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
-import { Deferrals, DeferralsObject } from "../types/DeferralsType";
+import { Deferrals, DeferralsObject } from "../Types";
 
 export class DeferralsModule extends Module {
 	private readonly _nameFilter: DeferralsObject = Config.getValue(this.config, "NameFilter");

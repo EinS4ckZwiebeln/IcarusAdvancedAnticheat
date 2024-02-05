@@ -1,5 +1,5 @@
+import { config } from "../../Types";
 import { Utility } from "../../util/Utility";
-import { config } from "../../types/ConfigType";
 
 export class Config {
 	private static readonly _config: config = JSON.parse(JSON.stringify(Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig()));
