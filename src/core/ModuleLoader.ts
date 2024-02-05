@@ -1,11 +1,11 @@
-import { config } from "../Types";
+import { Configuration } from "../Types";
 import { Config } from "./config/Config";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 
 export class ModuleLoader {
 	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
-	private static readonly _config: config = Config.getConfig();
+	private static readonly _config: Configuration = Config.getConfig();
 
 	/**
 	 * Loads a module into the module loader.

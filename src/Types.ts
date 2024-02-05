@@ -1,7 +1,7 @@
 /**
  * Represents the configuration object for the application.
  */
-export type config = {
+export type Configuration = {
 	/**
 	 * An object containing permission settings.
 	 */
