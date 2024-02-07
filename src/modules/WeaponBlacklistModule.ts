@@ -9,11 +9,11 @@ export class WeaponBlacklistModule extends Module {
 
 	public onLoad(): void {
 		this._blacklistedWeapons = new Set<number>(Utility.hashify(this.config.BlacklistedWeapons));
-		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onWeaponDamage(source, data));
+		EventHandler.subscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onWeaponDamage(source, data));
+		EventHandler.unsubscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
 	}
 
 	/**

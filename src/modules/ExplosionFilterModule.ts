@@ -9,12 +9,14 @@ export class ExplosionFilterModule extends Module {
 	private _whitelistedExplosionTypes: Set<number> = new Set();
 
 	public onLoad(): void {
-		this._whitelistedExplosionTypes = new Set(Utility.hashify(Config.getValue(this.config, "whitelistedExplosionTypes")));
-		EventHandler.subscribe("explosionEvent", (source: number, data: ExplosionEvent) => this.onExplosion(source, data));
+		this._whitelistedExplosionTypes = new Set(
+			Utility.hashify(Config.getValue(this.config, "whitelistedExplosionTypes"))
+		);
+		EventHandler.subscribe("explosionEvent", this.onExplosion.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("explosionEvent", (source: number, data: ExplosionEvent) => this.onExplosion(source, data));
+		EventHandler.unsubscribe("explosionEvent", this.onExplosion.bind(this));
 	}
 
 	/**

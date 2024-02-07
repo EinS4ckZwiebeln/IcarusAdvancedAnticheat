@@ -13,11 +13,11 @@ export class StartProjectileModule extends Module {
 	public onLoad(): void {
 		this._projectileCooldownTime = Config.getValue(this.config, "projectileCooldown");
 		this._blockVehicleWeapons = Config.getValue(this.config, "blockVehicleWeapons");
-		EventHandler.subscribe("startProjectileEvent", (source: number, data: StartProjectileEvent) => this.onProjectileSpam(source, data));
+		EventHandler.subscribe("startProjectileEvent", this.onProjectileSpam.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("startProjectileEvent", (source: number, data: StartProjectileEvent) => this.onProjectileSpam(source, data));
+		EventHandler.unsubscribe("startProjectileEvent", this.onProjectileSpam.bind(this));
 	}
 
 	/**

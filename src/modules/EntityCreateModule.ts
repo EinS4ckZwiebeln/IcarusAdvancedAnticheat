@@ -14,15 +14,13 @@ export class EntityCreateModule extends Module {
 	public onLoad(): void {
 		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));
 		this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
-
 		this._banNetworkOwner = Config.getValue(this.config, "banNetworkOwner");
 		this._checkPedsForWeapons = Config.getValue(this.config, "checkPedsForWeapons");
-
-		EventHandler.subscribe("entityCreated", (entity: number) => this.onEntityCreated(entity));
+		EventHandler.subscribe("entityCreated", this.onEntityCreated.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("entityCreated", (entity: number) => this.onEntityCreated(entity));
+		EventHandler.unsubscribe("entityCreated", this.onEntityCreated.bind(this));
 	}
 
 	/**

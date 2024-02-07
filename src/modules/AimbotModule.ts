@@ -10,11 +10,11 @@ export class AimbotModule extends Module {
 
 	public onLoad(): void {
 		this._offsetDist = Config.getValue(this.config, "offsetDist");
-		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onAimbot(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
+		EventHandler.subscribe("weaponDamageEvent", this.onAimbot.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onAimbot(source, data.hitGlobalId || data.hitGlobalIds[0], data.weaponType));
+		EventHandler.unsubscribe("weaponDamageEvent", this.onAimbot.bind(this));
 	}
 
 	/**
@@ -24,12 +24,13 @@ export class AimbotModule extends Module {
 	 * @param target - The target of the player who is not using aimbot.
 	 * @param weaponType - The type of weapon the player is using.
 	 */
-	private onAimbot(source: number, target: number, weaponType: number): void {
-		if (Utility.WEAPONS_MELEE.has(weaponType) || Utility.WEAPONS_AOE.has(weaponType)) return;
+	private onAimbot(source: number, data: WeaponDamageEvent): void {
+		if (Utility.WEAPONS_MELEE.has(data.weaponType) || Utility.WEAPONS_AOE.has(data.weaponType)) return;
 
-		const victim: number = NetworkGetEntityFromNetworkId(target);
+		const victim: number = NetworkGetEntityFromNetworkId(data.hitGlobalId || data.hitGlobalIds[0]);
 		// Account for networking issues and desync
-		if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || GetEntityHealth(victim) === 0 || IsPedRagdoll(victim)) return;
+		if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || GetEntityHealth(victim) === 0 || IsPedRagdoll(victim))
+			return;
 
 		const sender = source.toString();
 		const killer = GetPlayerPed(sender);

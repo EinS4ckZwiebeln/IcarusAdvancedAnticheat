@@ -15,15 +15,19 @@ export class TazerModule extends Module {
 		this._tazerRange = Config.getValue(this.config, "maxDistance");
 		this._tazerCooldown = Config.getValue(this.config, "tazerCooldown");
 
-		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerReach(source, data));
-		EventHandler.subscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerCooldown(source, data));
-		EventHandler.subscribe("weaponDamageEvent", (_: number, data: WeaponDamageEvent) => this.onTazerRagdoll(data));
+		EventHandler.subscribe("weaponDamageEvent", [
+			this.onTazerCooldown.bind(this),
+			this.onTazerReach.bind(this),
+			this.onTazerRagdoll.bind(this),
+		]);
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerReach(source, data));
-		EventHandler.unsubscribe("weaponDamageEvent", (source: number, data: WeaponDamageEvent) => this.onTazerCooldown(source, data));
-		EventHandler.unsubscribe("weaponDamageEvent", (_: number, data: WeaponDamageEvent) => this.onTazerRagdoll(data));
+		EventHandler.unsubscribe("weaponDamageEvent", [
+			this.onTazerCooldown.bind(this),
+			this.onTazerReach.bind(this),
+			this.onTazerRagdoll.bind(this),
+		]);
 	}
 
 	/**
@@ -33,7 +37,7 @@ export class TazerModule extends Module {
 	 * @param target - The player who was targeted by the tazer.
 	 * @param weaponType - The type of weapon used (should be a tazer).
 	 */
-	private onTazerReach(source: number, data: WeaponDamageEvent): void {
+	private onTazerReach(data: WeaponDamageEvent): void {
 		switch (data.weaponType) {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:
@@ -82,7 +86,7 @@ export class TazerModule extends Module {
 	 * @param target The network ID of the player being tazed.
 	 * @param weaponType The type of weapon being used to taze the player.
 	 */
-	private async onTazerRagdoll(data: WeaponDamageEvent): Promise<void> {
+	private async onTazerRagdoll(_: number, data: WeaponDamageEvent): Promise<void> {
 		switch (data.weaponType) {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:

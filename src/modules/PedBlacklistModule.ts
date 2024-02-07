@@ -11,19 +11,18 @@ export class PedBlacklistModule extends Module {
 	public onLoad(): void {
 		this._whitelistedPedModels = new Set(Utility.hashify(Config.getValue(this.config, "playerModels")));
 
-		EventHandler.subscribe("playerEnteredScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
-		EventHandler.subscribe("playerLeftScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
+		EventHandler.subscribe(["playerEnteredScope", "playerLeftScope"], this.onEnteredScope.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("playerEnteredScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
-		EventHandler.unsubscribe("playerLeftScope", (data: PlayerScopeEvent) => this.onEnteredScope(data.player));
+		EventHandler.unsubscribe(["playerEnteredScope", "playerLeftScope"], this.onEnteredScope.bind(this));
 	}
 
 	/**
 	 * Checks if a player's ped is blacklisted and bans them if it is.
 	 * @param source - The player's source ID.
 	 */
-	private onEnteredScope(source: number): void {
+	private onEnteredScope(data: PlayerScopeEvent): void {
+		const source = data.player;
 		const ped: number = GetPlayerPed(source.toString());
 		const model: number = GetEntityModel(ped);
 

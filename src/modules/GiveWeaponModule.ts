@@ -5,10 +5,10 @@ import { GiveWeaponEvent } from "../Types";
 
 export class GiveWeaponModule extends Module {
 	public onLoad(): void {
-		EventHandler.subscribe("giveWeaponEvent", (source: number, data: GiveWeaponEvent) => this.onGiveWeapon(source, data));
+		EventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("giveWeaponEvent", (source: number, data: GiveWeaponEvent) => this.onGiveWeapon(source, data));
+		EventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 
 	/**

@@ -18,11 +18,20 @@ export class EventHandler {
 	 * @param eventName The name of the event to subscribe to.
 	 * @param callback The callback function to be called when the event is triggered.
 	 */
-	public static subscribe(eventName: string, callback: Function): void {
-		Logger.debug(`Subscribing to ${eventName}`);
-		if (!this._netEvents.has(eventName)) this.registerNetEvent(eventName);
-		// Push new callback onto the stack
-		this._events.set(eventName, [...this.getEventCallbacks(eventName), callback]);
+	public static subscribe(eventName: string | string[], callback: Function | Function[]): void {
+		if (Array.isArray(eventName) && Array.isArray(callback)) {
+			throw new Error("Unable to bind events to functions");
+		}
+		const events = Array.isArray(eventName) ? eventName : [eventName];
+		events.forEach((event: string) => {
+			Logger.debug(`Subscribing to ${event}`);
+			if (!this._netEvents.has(event)) this.registerNetEvent(event);
+			// Push new callback onto the stack
+			this._events.set(event, [
+				...this.getEventCallbacks(event),
+				...(Array.isArray(callback) ? callback : [callback]),
+			]);
+		});
 	}
 
 	/**
@@ -30,12 +39,30 @@ export class EventHandler {
 	 * @param eventName - The name of the event to unsubscribe from.
 	 * @param callback - The callback function to remove from the list of callbacks for the event.
 	 */
-	public static unsubscribe(eventName: string, callback: Function): void {
-		Logger.debug(`Unsubscribing from ${eventName}`);
-		// Shitty workaround for callback equality check, needs refactoring later.
+	public static unsubscribe(eventName: string | string[], callback: Function | Function[]): void {
+		if (Array.isArray(eventName) && Array.isArray(callback)) {
+			throw new Error("Unable to unbind events from functions");
+		}
+		const events = Array.isArray(eventName) ? eventName : [eventName];
+		events.forEach((event: string) => {
+			Logger.debug(`Unsubscribing from ${event}`);
+			const functions = Array.isArray(callback) ? callback : [callback];
+			functions.forEach((cb: Function) => this.filterCallback(cb, event));
+		});
+	}
+
+	/**
+	 * Removes passed callback from event stack.
+	 * @param callback - The function to be filtered out.
+	 * @param event - The event the callback function is bound to.
+	 */
+	private static filterCallback(callback: Function, event: string): void {
 		const callbackToString = callback.toString();
-		const eventCallbacks = this.getEventCallbacks(eventName).filter((cb: Function) => cb.toString() !== callbackToString);
-		this._events.set(eventName, eventCallbacks);
+		const eventCallbacks = this.getEventCallbacks(event).filter(
+			// Shitty workaround for callback equality check, needs refactoring later.
+			(cb: Function) => cb.toString() !== callbackToString
+		);
+		this._events.set(event, eventCallbacks);
 	}
 
 	/**

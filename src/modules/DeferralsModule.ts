@@ -10,15 +10,10 @@ export class DeferralsModule extends Module {
 	private readonly _noVPN: DeferralsObject = Config.getValue(this.config, "NoVPN");
 
 	public onLoad(): void {
-		EventHandler.subscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) =>
-			this.onDefer(name, deferrals, source)
-		);
+		EventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe(
-			"playerConnecting",
-			(name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source)
-		);
+		EventHandler.unsubscribe("playerConnecting", this.onDefer.bind(this));
 	}
 
 	/**
@@ -57,7 +52,7 @@ export class DeferralsModule extends Module {
 	 * @param source - The player's source ID.
 	 * @returns A Promise that resolves when the deferral is complete.
 	 */
-	private async onDefer(name: string, deferrals: Deferrals, source: number): Promise<void> {
+	private async onDefer(name: string, _: (reason: string) => void, deferrals: Deferrals): Promise<void> {
 		const ipv4: string = GetPlayerIdentifierByType(source.toString(), "ip").slice(3);
 		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 != "127.0.0.1";
 
