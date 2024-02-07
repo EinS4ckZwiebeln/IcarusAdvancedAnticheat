@@ -3,7 +3,7 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
-import { Weapons } from "../util/enum/Weapons";
+import { Weapons } from "../enum/Weapons";
 
 export class EntityCreateModule extends Module {
 	private _illegalEntities: Set<number> = new Set();

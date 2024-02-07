@@ -1,5 +1,5 @@
-import { Projectiles } from "./enum/Projectiles";
-import { Weapons } from "./enum/Weapons";
+import { Projectiles } from "../enum/Projectiles";
+import { Weapons } from "../enum/Weapons";
 /**
  * A utility class containing various static methods and properties.
  */

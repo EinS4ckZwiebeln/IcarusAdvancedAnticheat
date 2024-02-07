@@ -1,5 +1,5 @@
 import { Module } from "../core/Module";
-import { Weapons } from "../util/enum/Weapons";
+import { Weapons } from "../enum/Weapons";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
