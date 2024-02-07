@@ -22,7 +22,7 @@ export class PermissionHandler {
 	}
 
 	public static init(): void {
-		EventHandler.subscribe("txAdmin:events:adminAuth", (data: AdminAuthEvent) => this.onTxAuth(data));
+		EventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
 	}
 
 	/**
