@@ -1,19 +1,24 @@
-import fetch from "node-fetch";
 import { Logger } from "../core/logger/Logger";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Deferrals, DeferralsObject } from "../Types";
+import axios from "axios";
 
 export class DeferralsModule extends Module {
 	private readonly _nameFilter: DeferralsObject = Config.getValue(this.config, "NameFilter");
 	private readonly _noVPN: DeferralsObject = Config.getValue(this.config, "NoVPN");
 
 	public onLoad(): void {
-		EventHandler.subscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source));
+		EventHandler.subscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) =>
+			this.onDefer(name, deferrals, source)
+		);
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source));
+		EventHandler.unsubscribe(
+			"playerConnecting",
+			(name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source)
+		);
 	}
 
 	/**
@@ -32,17 +37,17 @@ export class DeferralsModule extends Module {
 	 * @throws An error if the HTTP request to the VPN lookup service fails.
 	 */
 	private async hasVPN(ipv4: string): Promise<boolean> {
-		const response = await fetch(`https://blackbox.ipinfo.app/lookup/${ipv4}`, {
+		const response = await axios.get(`https://blackbox.ipinfo.app/lookup/${ipv4}`, {
 			method: "GET",
 			headers: {
 				"User-Agent": "request",
 			},
 		});
-		if (!response.ok) {
-			Logger.error(`Defer HTTP error! Status: ${response.status}`);
-			throw new Error(`Defer HTTP error! Status: ${response.status}`);
+		if (response.status !== 200) {
+			Logger.error(`Failed to fetch vpn status for player: ${response.status}`);
+			return false;
 		}
-		return (await response.text())[0] == "Y";
+		return (await response.data)[0] === "Y";
 	}
 
 	/**

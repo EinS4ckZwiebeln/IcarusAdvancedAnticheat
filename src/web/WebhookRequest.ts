@@ -1,8 +1,9 @@
-import fetch from "node-fetch";
 import FormData from "form-data";
+import axios from "axios";
 import fs from "fs";
 import { Logger } from "../core/logger/Logger";
 import { WebhookPayload } from "../Types";
+
 /**
  * Represents a webhook request.
  */
@@ -29,12 +30,12 @@ export class WebhookRequest {
 	 * @returns A Promise that resolves when the request is complete.
 	 */
 	public async post(url: string): Promise<void> {
-		await fetch(url, {
-			method: "POST",
-			body: this._form,
-		});
-		Logger.debug(`Posted webhook request to ${url}`);
-
+		const response = await axios.post(url, this._form);
+		if (response.status !== 200) {
+			Logger.debug(`Failed to post webhook request: ${response.status}`);
+		} else {
+			Logger.debug("Successfully posted webhook request");
+		}
 		if (this._filePath.length > 0) {
 			fs.unlink(this._filePath, (err) => {
 				if (err) Logger.error(err.message);

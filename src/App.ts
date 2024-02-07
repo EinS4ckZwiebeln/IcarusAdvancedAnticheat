@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import axios from "axios";
 
 import { ModuleLoader } from "./core/ModuleLoader";
 import { WebhookRequest } from "./web/WebhookRequest";
@@ -95,7 +95,7 @@ class App {
 	}
 
 	/**
-	 * Checks the critical convars and logs a warning if they are not set to the recommended values.
+	 * Checks for unsafe convars and logs a warning if they are not set to the recommended values.
 	 */
 	private async checkForUnsafeConvars(): Promise<void> {
 		const convars = [
@@ -108,8 +108,12 @@ class App {
 		convars.forEach((convar) => {
 			const convarValue = GetConvar(convar.name, "null");
 			if (convarValue !== "null" && convarValue != convar.recommendedValue) {
-				console.log(`^3[WARNING] Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`);
-				Logger.debug(`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`);
+				console.log(
+					`^3[WARNING] Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
+				);
+				Logger.debug(
+					`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`
+				);
 			}
 		});
 	}
@@ -120,25 +124,41 @@ class App {
 	private async checkForUpdates(): Promise<void> {
 		try {
 			Logger.debug("Checking for updates ...");
-			const response = await fetch("https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases", {
-				method: "GET",
-				headers: {
-					"User-Agent": "request",
-				},
-			});
+			const response = await axios.get(
+				"https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases",
+				{
+					method: "GET",
+					headers: {
+						"User-Agent": "request",
+					},
+				}
+			);
+			if (response.status !== 200) {
+				Logger.error(`Failed to fetch latest release from github: ${response.status}`);
+				return;
+			}
 
-			if (!response.ok) Logger.error(`Update HTTP error! Status: ${response.status}`);
-
-			const latestRelease: Release = ((await response.json()) as any)[0];
-			const remoteVersion: string = latestRelease?.name?.toString().slice(1);
-			const isOutdated: boolean = remoteVersion.localeCompare(Utility.CURRENT_VERSION, undefined, { numeric: true, sensitivity: "base" }) > 0;
+			const latestRelease: Release = ((await response.data) as any)[0];
+			const remoteVersion: string = latestRelease?.name?.toString().slice(1); // Remove the 'v' char in the version string
+			// Does an alpha numeric comparison of version strings
+			const isOutdated: boolean =
+				remoteVersion.localeCompare(Utility.CURRENT_VERSION, undefined, {
+					numeric: true,
+					sensitivity: "base",
+				}) > 0;
 
 			if (isOutdated && !latestRelease.prerelease) {
-				const request = new WebhookRequest({ username: "Icarus", embeds: new UpdateEmbed(remoteVersion).embed });
+				const request = new WebhookRequest({
+					username: "Icarus",
+					embeds: new UpdateEmbed(remoteVersion).embed,
+				});
+				// Ensure webhook is actually configured
 				const webhook: string = Config.getConfig().DiscordWebhook;
 				if (webhook && webhook.length > 0) request.post(webhook);
 
-				console.log(`^3This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${remoteVersion} | Current Version: ${Utility.CURRENT_VERSION}^0`);
+				console.log(
+					`^3This version of Icarus is outdated. Please update to the latest version!\nLatest Version: ${remoteVersion} | Current Version: ${Utility.CURRENT_VERSION}^0`
+				);
 				Logger.debug("This version is outdated, please consider updating!");
 			} else {
 				Logger.debug("No Updates found. Version is up to date!");
