@@ -308,3 +308,9 @@ export type AdminAuthEvent = {
 	isAdmin: boolean;
 	username: string;
 };
+/**
+ * Represents a temporary detection bypass managed by the excuse handler.
+ */
+export type Excuse = {
+	module: string;
+};
