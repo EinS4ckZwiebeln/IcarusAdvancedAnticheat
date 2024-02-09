@@ -1,5 +1,5 @@
 import { Config } from "../core/config/Config";
-import { Screenshot } from "../web/Screenshot";
+import { ScreenshotRequest } from "../web/ScreenshotRequest";
 import { WebhookRequest } from "../web/WebhookRequest";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
@@ -16,7 +16,9 @@ export class ScreenshotCommand extends Command {
 	 */
 	constructor() {
 		const parameters: Parameter[] = [{ name: "id", help: "The id of the player" }];
-		super("screenshot", "Takes a screenshot of the players game", parameters, (source: number, args: string[]) => this.onExecute(source, args));
+		super("screenshot", "Takes a screenshot of the players game", parameters, (source: number, args: string[]) =>
+			this.onExecute(source, args)
+		);
 		this._webhook = Config.getConfig().DiscordWebhook;
 	}
 
@@ -42,15 +44,17 @@ export class ScreenshotCommand extends Command {
 			return;
 		}
 
-		new Screenshot(target, (_: string, path: string) => {
-			const request: WebhookRequest = new WebhookRequest(
-				{
-					username: "Icarus",
-				},
-				`./${path}`
-			);
-			request.post(this._webhook);
-			emitNet("chat:addMessage", source, { args: [`^3Logged screenshot of player ${target} to the discord webhook.^0`] });
+		const screenshotRequest = new ScreenshotRequest(target);
+		const screenshot = await screenshotRequest.request();
+		const request: WebhookRequest = new WebhookRequest(
+			{
+				username: "Icarus",
+			},
+			`./${screenshot.filePath}`
+		);
+		request.post(this._webhook);
+		emitNet("chat:addMessage", source, {
+			args: [`^3Logged screenshot of player ${target} to the discord webhook.^0`],
 		});
 	}
 }

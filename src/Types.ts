@@ -314,3 +314,10 @@ export type AdminAuthEvent = {
 export type Excuse = {
 	module: string;
 };
+/**
+ * Represents a screenshot taken by screenshot-basic.
+ */
+export type Screenshot = {
+	fileName: string;
+	filePath: string;
+};
