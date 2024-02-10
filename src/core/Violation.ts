@@ -6,7 +6,6 @@ import { Logger } from "./logger/Logger";
 import { ScreenshotRequest } from "../web/ScreenshotRequest";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { ExcuseHandler } from "./handler/ExcuseHandler";
-import { runInNewContext } from "vm";
 
 export class Violation {
 	private readonly _webhook: string = Config.getConfig().DiscordWebhook;
