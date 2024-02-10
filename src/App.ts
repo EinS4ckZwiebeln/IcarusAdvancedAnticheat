@@ -138,7 +138,7 @@ class App {
 				return;
 			}
 
-			const latestRelease: Release = ((await response.data) as any)[0];
+			const latestRelease: Release = (await response.data)[0];
 			const remoteVersion: string = latestRelease?.name?.toString().slice(1); // Remove the 'v' char in the version string
 			// Does an alpha numeric comparison of version strings
 			const isOutdated: boolean =
