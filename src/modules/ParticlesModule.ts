@@ -2,18 +2,18 @@ import { Violation } from "../core/Violation";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
-import { PtFxEvent } from "../types/EventType";
+import { PtFxEvent } from "../Types";
 
 export class ParticlesModule extends Module {
 	private _maxScale = -1;
 
 	public onLoad(): void {
 		this._maxScale = Config.getValue(this.config, "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
-		EventHandler.subscribe("ptFxEvent", (source: number, data: PtFxEvent) => this.onParticle(source, data));
+		EventHandler.subscribe("ptFxEvent", this.onParticle.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("ptFxEvent", (source: number, data: PtFxEvent) => this.onParticle(source, data));
+		EventHandler.unsubscribe("ptFxEvent", this.onParticle.bind(this));
 	}
 
 	/**

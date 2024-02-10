@@ -1,19 +1,19 @@
-import fetch from "node-fetch";
 import { Logger } from "../core/logger/Logger";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
-import { Deferrals } from "../types/DeferralsType";
+import { Deferrals, DeferralsObject } from "../Types";
+import axios from "axios";
 
 export class DeferralsModule extends Module {
-	private readonly _nameFilter: any = Config.getValue(this.config, "NameFilter");
-	private readonly _noVPN: any = Config.getValue(this.config, "NoVPN");
+	private readonly _nameFilter: DeferralsObject = Config.getValue(this.config, "NameFilter");
+	private readonly _noVPN: DeferralsObject = Config.getValue(this.config, "NoVPN");
 
 	public onLoad(): void {
-		EventHandler.subscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source));
+		EventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("playerConnecting", (name: string, _: (reason: string) => void, deferrals: Deferrals) => this.onDefer(name, deferrals, source));
+		EventHandler.unsubscribe("playerConnecting", this.onDefer.bind(this));
 	}
 
 	/**
@@ -32,17 +32,17 @@ export class DeferralsModule extends Module {
 	 * @throws An error if the HTTP request to the VPN lookup service fails.
 	 */
 	private async hasVPN(ipv4: string): Promise<boolean> {
-		const response = await fetch(`https://blackbox.ipinfo.app/lookup/${ipv4}`, {
+		const response = await axios.get(`https://blackbox.ipinfo.app/lookup/${ipv4}`, {
 			method: "GET",
 			headers: {
 				"User-Agent": "request",
 			},
 		});
-		if (!response.ok) {
-			Logger.error(`Defer HTTP error! Status: ${response.status}`);
-			throw new Error(`Defer HTTP error! Status: ${response.status}`);
+		if (response.status !== 200) {
+			Logger.error(`Failed to fetch vpn status for player: ${response.status}`);
+			return false;
 		}
-		return (await response.text())[0] == "Y";
+		return (await response.data)[0] === "Y";
 	}
 
 	/**
@@ -52,7 +52,7 @@ export class DeferralsModule extends Module {
 	 * @param source - The player's source ID.
 	 * @returns A Promise that resolves when the deferral is complete.
 	 */
-	private async onDefer(name: string, deferrals: Deferrals, source: number): Promise<void> {
+	private async onDefer(name: string, _: (reason: string) => void, deferrals: Deferrals): Promise<void> {
 		const ipv4: string = GetPlayerIdentifierByType(source.toString(), "ip").slice(3);
 		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 != "127.0.0.1";
 
@@ -71,7 +71,8 @@ export class DeferralsModule extends Module {
 			} else {
 				deferrals.done();
 			}
-		} catch (err: any) {
+		} catch (err: unknown) {
+			if (!(err instanceof Error)) return;
 			Logger.error(err.message);
 		}
 	}

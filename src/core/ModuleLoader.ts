@@ -1,11 +1,11 @@
+import { Configuration } from "../Types";
 import { Config } from "./config/Config";
-import { config } from "../types/ConfigType";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 
 export class ModuleLoader {
 	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
-	private static readonly _config: config = Config.getConfig();
+	private static readonly _config: Configuration = Config.getConfig();
 
 	/**
 	 * Loads a module into the module loader.
@@ -22,7 +22,8 @@ export class ModuleLoader {
 		// Ensure there is at least minimal configuration for this module
 		try {
 			this.validateModuleConfig(name);
-		} catch (err: any) {
+		} catch (err: unknown) {
+			if (!(err instanceof Error)) return;
 			throw new Error(`${err.message} (does ${name} exist in the config?)`);
 		}
 

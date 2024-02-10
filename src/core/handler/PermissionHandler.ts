@@ -1,4 +1,4 @@
-import { AdminAuthEvent } from "../../types/EventType";
+import { AdminAuthEvent } from "../../Types";
 import { Config } from "../config/Config";
 import { Logger } from "../logger/Logger";
 import { EventHandler } from "./EventHandler";
@@ -15,14 +15,14 @@ export class PermissionHandler {
 	/**
 	 * The permission required to bypass the permission check.
 	 */
-	private static readonly _bypassPermission: string = Config.getValue(Config.getConfig(), "bypassPermission");
+	private static readonly _bypassPermission: string = Config.getConfig().Permission.bypassPermission;
 
 	constructor() {
 		throw new Error("PermissionHandler is a static class and cannot be instantiated.");
 	}
 
 	public static init(): void {
-		EventHandler.subscribe("txAdmin:events:adminAuth", (data: AdminAuthEvent) => this.onTxAuth(data));
+		EventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
 	}
 
 	/**

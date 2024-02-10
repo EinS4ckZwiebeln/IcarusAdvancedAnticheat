@@ -45,7 +45,7 @@ Config.Modules = {
         -- Wether or not the player should be banned.
         banNetworkOwner = true,
         -- Checks peds if they carry blacklisted weapons.
-        checkPedsForWeapons = true,
+        checkPedsForWeapons = false,
     },
     -- Bans everyone that causes a non-whitelisted explosion.
     ExplosionFilterModule = {
