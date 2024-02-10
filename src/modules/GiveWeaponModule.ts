@@ -1,14 +1,14 @@
-import { GiveWeaponEvent } from "../types/EventType";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { GiveWeaponEvent } from "../Types";
 
 export class GiveWeaponModule extends Module {
 	public onLoad(): void {
-		EventHandler.subscribe("giveWeaponEvent", (source: number, data: GiveWeaponEvent) => this.onGiveWeapon(source, data));
+		EventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("giveWeaponEvent", (source: number, data: GiveWeaponEvent) => this.onGiveWeapon(source, data));
+		EventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 
 	/**

@@ -1,7 +1,7 @@
+import { Configuration } from "../Types";
 import { Config } from "./config/Config";
-import { config } from "../types/ConfigType";
-import { ModuleStatus } from "../util/enum/ModuleStatus";
-import { ModuleType } from "../util/enum/ModuleType";
+import { ModuleStatus } from "../enum/ModuleStatus";
+import { ModuleType } from "../enum/ModuleType";
 
 export abstract class Module {
 	private _tick: number = 0;
@@ -10,7 +10,7 @@ export abstract class Module {
 	private _status: ModuleStatus = ModuleStatus.STATUS_UNKNOWN;
 	private _type: ModuleType = ModuleType.TYPE_TICK; // All modules are treated as 'tick' until fully initialized
 
-	private static readonly _config: config = Config.getConfig();
+	private static readonly _config: Configuration = Config.getConfig();
 	// Utility for onTick method
 	protected readonly Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -22,7 +22,7 @@ export abstract class Module {
 		return this.constructor.name.split("_")[0];
 	}
 
-	protected get config(): config {
+	protected get config(): Configuration {
 		return Module._config;
 	}
 

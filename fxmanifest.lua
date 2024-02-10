@@ -4,7 +4,7 @@ game "gta5"
 
 author "NCRP Scripts"
 description "Efficient, modular server-side anticheat script."
-version "2.0.1"
+version "2.0.2"
 
 lua54 "yes"
 ui_page "dist/index.html"
@@ -26,7 +26,7 @@ server_script {
 }
 
 dependencies {
-    "/server:6497", 
+    "/server:7290", 
     "/onesync", 
     "yarn"
 }

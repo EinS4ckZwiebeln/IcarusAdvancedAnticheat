@@ -1,16 +1,14 @@
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { RemoveAllWeaponsEvent, RemoveWeaponEvent } from "../types/EventType";
+import { RemoveAllWeaponsEvent, RemoveWeaponEvent } from "../Types";
 
 export class RemoveWeaponModule extends Module {
 	public onLoad(): void {
-		EventHandler.subscribe("removeWeaponEvent", (source: number, data: RemoveWeaponEvent) => this.onRemoveWeapon(source, data));
-		EventHandler.subscribe("removeAllWeaponsEvent", (source: number, data: RemoveAllWeaponsEvent) => this.onRemoveWeapon(source, data));
+		EventHandler.subscribe(["removeWeaponEvent", "removeAllWeaponsEvent"], this.onRemoveWeapon.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("removeWeaponEvent", (source: number, data: RemoveWeaponEvent) => this.onRemoveWeapon(source, data));
-		EventHandler.unsubscribe("removeAllWeaponsEvent", (source: number, data: RemoveAllWeaponsEvent) => this.onRemoveWeapon(source, data));
+		EventHandler.unsubscribe(["removeWeaponEvent", "removeAllWeaponsEvent"], this.onRemoveWeapon.bind(this));
 	}
 
 	/**

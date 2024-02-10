@@ -1,12 +1,12 @@
+import { ModuleStatus } from "../enum/ModuleStatus";
+import { Configuration } from "../Types";
 import { Config } from "./config/Config";
-import { config } from "../types/ConfigType";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
-import { ModuleStatus } from "../util/enum/ModuleStatus";
 
 export class ModuleLoader {
 	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
-	private static readonly _config: config = Config.getConfig();
+	private static readonly _config: Configuration = Config.getConfig();
 	private static _disabledModulesAmount: number = 0;
 
 	/**
@@ -19,10 +19,10 @@ export class ModuleLoader {
 		// Prevent loading the same module twice
 		if (module.getStatus() === ModuleStatus.STATUS_LOADED) return;
 		// Ensure there is at least minimal configuration for this module
-		if (!this.hasModuleConfigAndIsEnabled(name)) {
-			this._disabledModulesAmount++;
-			Logger.debug(`Module ${name} is disabled in the config`);
-			return;
+		try {
+			this.hasModuleConfigAndIsEnabled(name);
+		} catch (err: any) {
+			throw new Error(`${err.message} (does ${name} exist in the config?)`);
 		}
 		// Beginn module initialization
 		module.onLoad();

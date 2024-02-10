@@ -1,8 +1,8 @@
+import { FireEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
-import { FireEvent } from "../types/EventType";
 import { Utility } from "../util/Utility";
 
 export class FireModule extends Module {
@@ -10,11 +10,10 @@ export class FireModule extends Module {
 
 	public onLoad(): void {
 		this._maxFireDistance = Config.getValue(this.config, "maxFireDistance");
-		// Why is the event data object in an nested array here?
-		EventHandler.subscribe("fireEvent", (source: number, data: any) => this.onFire(source, data[0][0] as FireEvent));
+		EventHandler.subscribe("fireEvent", this.onFire.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("fireEvent", (source: number, data: any) => this.onFire(source, data[0][0] as FireEvent));
+		EventHandler.unsubscribe("fireEvent", this.onFire.bind(this));
 	}
 
 	/**
@@ -22,7 +21,8 @@ export class FireModule extends Module {
 	 * @param source The player ID who triggered the event.
 	 * @param data The data associated with the event.
 	 */
-	private onFire(source: number, data: FireEvent): void {
+	private onFire(source: number, rawData: [[FireEvent]]): void {
+		const data: FireEvent = rawData[0][0]; // Why is the event data object in an nested array here?
 		// Return if not on entity or same source as victim
 		if (!data.isEntity || source == data.entityGlobalId) return;
 

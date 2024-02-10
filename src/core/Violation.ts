@@ -3,13 +3,14 @@ import { Utility } from "../util/Utility";
 import { WebhookRequest } from "../web/WebhookRequest";
 import { BanEmbed } from "../web/BanEmbed";
 import { Logger } from "./logger/Logger";
-import { Screenshot } from "../web/Screenshot";
+import { ScreenshotRequest } from "../web/ScreenshotRequest";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { ExcuseHandler } from "./handler/ExcuseHandler";
 import { Statistics } from "./Statistics";
 
 export class Violation {
 	private readonly _webhook: string = Config.getConfig().DiscordWebhook;
+	// Required data to issue a ban
 	private readonly _source: number;
 	private readonly _reason: string;
 	private readonly _module: string;
@@ -27,7 +28,8 @@ export class Violation {
 	 * @returns A Promise that resolves when the player is banned.
 	 */
 	public async banPlayer(): Promise<void> {
-		if (PermissionHandler.hasPermission(this._source) || ExcuseHandler.isExcused(this._source, this._module)) return;
+		if (PermissionHandler.hasPermission(this._source) || ExcuseHandler.isExcused(this._source, this._module))
+			return;
 
 		this.takeScreenshot();
 		// Wait 500ms to allow screenshot to be taken
@@ -44,7 +46,7 @@ export class Violation {
 	 * @param source - The player ID to take a screenshot of.
 	 * @param reason - The reason for the ban.
 	 */
-	private takeScreenshot(): void {
+	private async takeScreenshot(): Promise<void> {
 		if (!this._webhook || this._webhook.length < 1) {
 			Logger.debug("Failed to send webhook request. No webhook is configured.");
 			return;
@@ -53,17 +55,17 @@ export class Violation {
 			Logger.debug("Failed to send webhook request. Screenshot-basic is not started or missing.");
 			return;
 		}
+		const screenshotRequest = new ScreenshotRequest(this._source);
+		const screenshot = await screenshotRequest.request();
 
-		new Screenshot(this._source, (name: string, path: string) => {
-			const banEmbed: BanEmbed = new BanEmbed(this._source, this._reason, `${name}.jpg`);
-			const request: WebhookRequest = new WebhookRequest(
-				{
-					username: "Icarus",
-					embeds: banEmbed.embed,
-				},
-				`./${path}`
-			);
-			request.post(this._webhook);
-		});
+		const banEmbed: BanEmbed = new BanEmbed(this._source, this._reason, `${screenshot.fileName}.jpg`);
+		const request: WebhookRequest = new WebhookRequest(
+			{
+				username: "Icarus",
+				embeds: banEmbed.embed,
+			},
+			`./${screenshot.filePath}`
+		);
+		request.post(this._webhook);
 	}
 }

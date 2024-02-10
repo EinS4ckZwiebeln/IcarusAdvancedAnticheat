@@ -1,7 +1,7 @@
 import { ModuleLoader } from "../core/ModuleLoader";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
-import { Parameter } from "../types/ParameterType";
+import { Parameter } from "../Types";
 
 export class LoadModuleCommand extends Command {
 	/**
@@ -22,8 +22,9 @@ export class LoadModuleCommand extends Command {
 			const module = ModuleLoader.getModule(moduleName);
 			if (module) ModuleLoader.loadModule(module);
 			emitNet("chat:addMessage", source, { args: [`^3Loaded ${moduleName} successfully.^0`] });
-		} catch (err: any) {
-			Logger.error(err);
+		} catch (err: unknown) {
+			if (!(err instanceof Error)) return;
+			Logger.error(err.message);
 			emitNet("chat:addMessage", source, { args: [`^1Failed to load ${moduleName}.^0`] });
 		}
 	}

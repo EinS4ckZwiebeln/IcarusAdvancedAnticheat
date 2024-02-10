@@ -1,16 +1,5 @@
+import { Excuse } from "../../Types";
 import { Utility } from "../../util/Utility";
-
-class Excuse {
-	private readonly _module: string;
-
-	constructor(module: string) {
-		this._module = module;
-	}
-
-	public get module(): string {
-		return this._module;
-	}
-}
 
 /**
  * Represents a handler for player excuses.
@@ -36,7 +25,7 @@ export class ExcuseHandler {
 		 * @param module The module to excuse the player from. Defaults to "*".
 		 */
 		Utility.EXPORTS("AddExcuseForPlayer", (source: number, timeout: number, module?: string) => {
-			const newExcuse = new Excuse(module || "*");
+			const newExcuse = { module: module || "*" };
 			this.addExcuse(source, timeout, newExcuse);
 		});
 
@@ -45,7 +34,9 @@ export class ExcuseHandler {
 		 * @param source The player ID.
 		 * @param module The module to remove the excuse from. If not specified, removes all excuses for the player.
 		 */
-		Utility.EXPORTS("RemoveExcuseFromPlayer", (source: number, module?: string) => this.removeExcuse(source, module));
+		Utility.EXPORTS("RemoveExcuseFromPlayer", (source: number, module?: string) =>
+			this.removeExcuse(source, module)
+		);
 
 		/**
 		 * Checks if a player is excused from a module.
@@ -66,7 +57,7 @@ export class ExcuseHandler {
 	 */
 	private static addExcuse(source: number, timeout: number, module?: Excuse): void {
 		const excuses = this._excusedPlayers.get(source) || [];
-		excuses.push(module || new Excuse("*"));
+		excuses.push(module || { module: "*" });
 
 		this._excusedPlayers.set(source, excuses);
 		if (timeout > 0) setTimeout(() => this._excusedPlayers.delete(source), timeout);
