@@ -3,7 +3,6 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
-import { Weapons } from "../util/enum/Weapons";
 
 export class EntityCreateModule extends Module {
 	private _illegalEntities: Set<number> = new Set();
@@ -14,15 +13,13 @@ export class EntityCreateModule extends Module {
 	public onLoad(): void {
 		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));
 		this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
-
 		this._banNetworkOwner = Config.getValue(this.config, "banNetworkOwner");
 		this._checkPedsForWeapons = Config.getValue(this.config, "checkPedsForWeapons");
-
-		EventHandler.subscribe("entityCreated", (entity: number) => this.onEntityCreated(entity));
+		EventHandler.subscribe("entityCreated", this.onEntityCreated.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("entityCreated", (entity: number) => this.onEntityCreated(entity));
+		EventHandler.unsubscribe("entityCreated", this.onEntityCreated.bind(this));
 	}
 
 	/**
@@ -30,33 +27,17 @@ export class EntityCreateModule extends Module {
 	 * @param entity The entity that was created.
 	 */
 	private onEntityCreated(entity: number): void {
-		if (!DoesEntityExist(entity)) return;
-		const owner: number = NetworkGetFirstEntityOwner(entity);
 		// If the entity is illegal, ban the player.
 		if (this._illegalEntities.has(GetEntityModel(entity))) {
+			const owner: number = NetworkGetFirstEntityOwner(entity);
 			this.handleViolation("Illegal Entity [C1]", owner, entity);
-			return;
-		}
-
-		// If the entity is attached to another entity and the owner of the attached entity is not the same as the owner of the entity, ban the player.
-		const rootEntity: number = GetEntityAttachedTo(entity);
-		if (rootEntity > 0 && NetworkGetFirstEntityOwner(rootEntity) !== owner) {
-			this.handleViolation("Illegal Entity [C2]", owner, entity);
 			return;
 		}
 
 		// If the entity is a ped and the owner is not a player and the selected weapon is blacklisted, ban the player.
 		if (this._checkPedsForWeapons) {
-			const weapon: number = GetSelectedPedWeapon(entity);
-			// Return early if unarmed or no weapons.
-			switch (weapon) {
-				case 0:
-				case Weapons.WEAPON_UNARMED:
-					return;
-				default:
-					break;
-			}
-			if (GetEntityType(entity) === 1 && this._blacklistedWeapons.has(weapon)) {
+			if (GetEntityType(entity) === 1 && this._blacklistedWeapons.has(GetSelectedPedWeapon(entity))) {
+				const owner: number = NetworkGetFirstEntityOwner(entity);
 				this.handleViolation("Illegal Entity [C3]", owner, entity);
 				return;
 			}

@@ -9,11 +9,11 @@ export class WeaponModifierModule extends Module {
 	public onLoad(): void {
 		// Add 0.001 to the value to account for floating point errors.
 		this._damageModifier = Config.getValue(this.config, "damageModifier") + 0.001;
-		EventHandler.subscribe("weaponDamageEvent", (source: string) => this.onDamage(source));
+		EventHandler.subscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", (source: string) => this.onDamage(source));
+		EventHandler.unsubscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 
 	/**
@@ -22,7 +22,11 @@ export class WeaponModifierModule extends Module {
 	 * @param source - The source of the damage event.
 	 */
 	private onDamage(source: string): void {
-		if ((GetPlayerMeleeWeaponDamageModifier(source) || GetPlayerWeaponDamageModifier(source) || GetPlayerWeaponDefenseModifier(source)) > this._damageModifier) {
+		if (
+			(GetPlayerMeleeWeaponDamageModifier(source) ||
+				GetPlayerWeaponDamageModifier(source) ||
+				GetPlayerWeaponDefenseModifier(source)) > this._damageModifier
+		) {
 			const violation = new Violation(parseInt(source), "Weapon Modifier [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();

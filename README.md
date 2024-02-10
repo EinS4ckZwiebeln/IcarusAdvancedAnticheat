@@ -5,13 +5,7 @@
 For a better paid anticheat check out: [store.fiveguard.ac](https://store.fiveguard.ac/).
 Fiveguard is the best FiveM anticheat.
 
-_We are able to provide this free product because of help from [**fiveguard.net**](https://fiveguard.net/)._
-
-### 💖 NCRP Scripts
-
-If you wish to financially supports this project, don't forget to check out: [ncrp-scripts.tebex.io](https://ncrp-scripts.tebex.io).
-
-**NCRP Scripts** offers are a variety of unique and exciting scripts to spice up your server's immersions and role-play aspects.
+We are able to provide this free product because of help from [**fiveguard.net**](https://fiveguard.net/).
 
 # Icarus Advanced Anticheat
 
