@@ -1,6 +1,6 @@
-import { ModuleData } from "../types/ModuleDataType";
+import { ModuleData } from "../ModuleDataType";
+import { ModuleStatus } from "../enum/ModuleStatus";
 import { Utility } from "../util/Utility";
-import { ModuleStatus } from "../util/enum/ModuleStatus";
 import { Module } from "./Module";
 import { ModuleLoader } from "./ModuleLoader";
 import { Statistics } from "./Statistics";
@@ -40,7 +40,9 @@ export class NuiEndpoint {
 					const disabledAmount = ModuleLoader.getDisabledAmount();
 					dataRetval.disabledModules = disabledAmount;
 
-					const unloadedModulesAmount = modules.filter((module: Module) => module.getStatus() === ModuleStatus.STATUS_UNLOADED).length;
+					const unloadedModulesAmount = modules.filter(
+						(module: Module) => module.getStatus() === ModuleStatus.STATUS_UNLOADED
+					).length;
 					dataRetval.unloadedModules = unloadedModulesAmount;
 
 					const activeModulesAmount = currentModulesAmount - unloadedModulesAmount;

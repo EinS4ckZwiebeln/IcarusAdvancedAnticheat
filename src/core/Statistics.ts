@@ -1,7 +1,15 @@
-import { KvpStorage } from "../util/enum/KvpStorage";
+import { KvpStorage } from "../enum/KvpStorage";
 
 export class Statistics {
-	private static readonly _daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	private static readonly _daysOfWeek = [
+		"Sunday",
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday",
+	];
 	private static readonly _currentdate = new Date();
 
 	private static _violations: number[] = JSON.parse(GetResourceKvpString(KvpStorage.VIOLATIONS_TIMESPAN) || "[]");
