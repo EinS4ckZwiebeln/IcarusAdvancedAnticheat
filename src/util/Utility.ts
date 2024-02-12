@@ -238,20 +238,17 @@ export class Utility {
 
 	/**
 	 * Calculates the Euclidean distance between two points in 2D space.
-	 * @param x An array containing the x and y coordinates of the first point.
-	 * @param y An array containing the x and y coordinates of the second point.
+	 * @param coords1 An array containing the x and y coordinates of the first point.
+	 * @param coords2 An array containing the x and y coordinates of the second point.
 	 * @returns The Euclidean distance between the two points.
 	 */
 	public static getDistance(coords1: number[], coords2: number[], includeZ: boolean = false): number {
-		const x1: number = coords1[0];
-		const y1: number = coords1[1];
-		const z1: number = includeZ ? coords1[2] : 0;
-
-		const x2: number = coords2[0];
-		const y2: number = coords2[1];
-		const z2: number = includeZ ? coords2[2] : 0;
-
+		const [x1, y2, z2] = coords1;
+		const [x2, y1, z1] = coords2;
 		// Euclidean distance formula
+		if (!includeZ) {
+			return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+		}
 		return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
 	}
 }
