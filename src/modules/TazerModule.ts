@@ -41,10 +41,10 @@ export class TazerModule extends Module {
 		switch (data.weaponType) {
 			case Weapons.WEAPON_STUNGUN:
 			case Weapons.WEAPON_STUNGUN_MP:
-				const killer: number = GetPlayerPed(source.toString());
 				const victim: number = NetworkGetEntityFromNetworkId(data.hitGlobalId || data.hitGlobalIds[0]);
 				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim)) return;
 
+				const killer: number = GetPlayerPed(source.toString());
 				if (Utility.getDistance(GetEntityCoords(killer), GetEntityCoords(victim), true) > this._tazerRange) {
 					const violation = new Violation(source, "Tazer Reach [C1]", this.name);
 					violation.banPlayer();
