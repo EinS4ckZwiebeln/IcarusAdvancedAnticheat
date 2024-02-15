@@ -27,6 +27,7 @@ export class EntityCreateModule extends Module {
 	 * @param entity The entity that was created.
 	 */
 	private onEntityCreated(entity: number): void {
+		if (!DoesEntityExist(entity)) return;
 		// If the entity is illegal, ban the player.
 		if (this._illegalEntities.has(GetEntityModel(entity))) {
 			const owner: number = NetworkGetFirstEntityOwner(entity);
