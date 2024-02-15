@@ -15,11 +15,11 @@ export class EntityCreateModule extends Module {
 		this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
 		this._banNetworkOwner = Config.getValue(this.config, "banNetworkOwner");
 		this._checkPedsForWeapons = Config.getValue(this.config, "checkPedsForWeapons");
-		EventHandler.subscribe("entityCreated", this.onEntityCreated.bind(this));
+		EventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("entityCreated", this.onEntityCreated.bind(this));
+		EventHandler.unsubscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	/**
@@ -27,11 +27,10 @@ export class EntityCreateModule extends Module {
 	 * @param entity The entity that was created.
 	 */
 	private onEntityCreated(entity: number): void {
-		if (!DoesEntityExist(entity)) return;
 		// If the entity is illegal, ban the player.
 		if (this._illegalEntities.has(GetEntityModel(entity))) {
 			const owner: number = NetworkGetFirstEntityOwner(entity);
-			this.handleViolation("Illegal Entity [C1]", owner, entity);
+			this.handleViolation("Illegal Entity [C1]", owner);
 			return;
 		}
 
@@ -39,7 +38,7 @@ export class EntityCreateModule extends Module {
 		if (this._checkPedsForWeapons) {
 			if (GetEntityType(entity) === 1 && this._blacklistedWeapons.has(GetSelectedPedWeapon(entity))) {
 				const owner: number = NetworkGetFirstEntityOwner(entity);
-				this.handleViolation("Illegal Entity [C3]", owner, entity);
+				this.handleViolation("Illegal Entity [C3]", owner);
 				return;
 			}
 		}
@@ -51,12 +50,11 @@ export class EntityCreateModule extends Module {
 	 * @param owner - The network owner of the entity.
 	 * @param entity - The entity to be deleted.
 	 */
-	private handleViolation(violationType: string, owner: number, entity: number): void {
+	private handleViolation(violationType: string, owner: number): void {
 		if (this._banNetworkOwner) {
 			const violation = new Violation(owner, violationType, this.name);
 			violation.banPlayer();
 		}
-		DeleteEntity(entity);
 		CancelEvent();
 	}
 }
