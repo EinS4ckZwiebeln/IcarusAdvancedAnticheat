@@ -174,7 +174,11 @@ Config.Modules = {
         enabled = true,
         -- The hypothetical max. distance between players where they could set each other on fire.
         maxFireDistance = 128.0
-    }
+    },
+    -- Detects if a player is using some sort of fold cheat.
+    FoldModule = {
+        enabled = true
+    },
 }
 
 -- Possesion of these weapons will get a player instantly banned.
