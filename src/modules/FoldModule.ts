@@ -19,20 +19,28 @@ export class FoldModule extends Module {
 	 * @param data - The weapon damage event data.
 	 */
 	private onWeaponDamage(source: number, data: WeaponDamageEvent): void {
-		const isSilenced = data.silenced;
-		if (isSilenced && data.weaponDamage === 0) {
-			switch (data.weaponType) {
-				case Weapons.WEAPON_FALL_01:
-				case Weapons.WEAPON_FALL_02:
-					const violation = new Violation(source, "Fold [C1]", this.name);
-					violation.banPlayer();
-					break;
-				default:
-					break;
-			}
-		} else if (!isSilenced && data.weaponDamage === 131071 && data.weaponType === Weapons.WEAPON_BIRD_CRAP) {
-			const violation = new Violation(source, "Fold [C2]", this.name);
-			violation.banPlayer();
+		if (this.isSilencedWeaponViolation(data)) {
+			this.handleViolation(source, "Fold [C1]");
+		} else if (this.isBirdCrapWeaponViolation(data)) {
+			this.handleViolation(source, "Fold [C2]");
 		}
+	}
+
+	private isSilencedWeaponViolation(data: WeaponDamageEvent): boolean {
+		return data.silenced && data.weaponDamage === 0 && this.isFallWeapon(data.weaponType);
+	}
+
+	private isBirdCrapWeaponViolation(data: WeaponDamageEvent): boolean {
+		return !data.silenced && data.weaponDamage === 131071 && data.weaponType === Weapons.WEAPON_BIRD_CRAP;
+	}
+
+	private isFallWeapon(weaponType: Weapons): boolean {
+		return weaponType === Weapons.WEAPON_FALL_01 || weaponType === Weapons.WEAPON_FALL_02;
+	}
+
+	private handleViolation(source: number, violationCode: string): void {
+		const violation = new Violation(source, violationCode, this.name);
+		violation.banPlayer();
+		CancelEvent();
 	}
 }
