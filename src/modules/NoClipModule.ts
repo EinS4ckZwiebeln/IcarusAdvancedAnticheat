@@ -32,6 +32,7 @@ export class NoClipModule extends Module {
 		players.forEach(async (player: string) => {
 			const ped = GetPlayerPed(player);
 			const origin = GetEntityCoords(ped);
+			if (!this.hasNoClip(ped, player)) return;
 
 			await this.Delay(1000);
 			if (!DoesEntityExist(ped)) return; // Abort if player has left
