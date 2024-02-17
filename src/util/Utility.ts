@@ -215,6 +215,7 @@ export class Utility {
 	 * @returns The hashed input string.
 	 */
 	public static joaat(input: string): number {
+		input = input.toString().toLowerCase();
 		let hash = 0;
 		for (let i = 0; i < input.length; ++i) {
 			hash += input.charCodeAt(i);
@@ -224,7 +225,7 @@ export class Utility {
 		hash += hash << 3;
 		hash ^= hash >>> 11;
 		hash += hash << 15;
-		return (hash >>> 0) << 0;
+		return hash >>> 0;
 	}
 
 	/**
