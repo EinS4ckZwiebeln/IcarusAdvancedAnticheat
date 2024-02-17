@@ -9,12 +9,14 @@ export class EntityCreateModule extends Module {
 	private _blacklistedWeapons: Set<number> = new Set();
 	private _banNetworkOwner: boolean = false;
 	private _checkPedsForWeapons: boolean = false;
+	private _cleanUpEntities: boolean = false;
 
 	public onLoad(): void {
 		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));
 		this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
 		this._banNetworkOwner = Config.getValue(this.config, "banNetworkOwner");
 		this._checkPedsForWeapons = Config.getValue(this.config, "checkPedsForWeapons");
+		this._cleanUpEntities = Config.getValue(this.config, "cleanUpEntities");
 		EventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
@@ -55,6 +57,22 @@ export class EntityCreateModule extends Module {
 			const violation = new Violation(owner, violationType, this.name);
 			violation.banPlayer();
 		}
+		if (this._cleanUpEntities) {
+			this.cleanUpEntities(owner);
+		}
 		CancelEvent();
+	}
+
+	/**
+	 * Cleans up all entities owned by the specified source.
+	 * @param source - The source to clean up entities for.
+	 */
+	private cleanUpEntities(source: number): void {
+		const entities: number[] = [...GetAllObjects(), ...GetAllVehicles(), ...GetAllPeds()];
+		entities.forEach((entity: number) => {
+			if (NetworkGetFirstEntityOwner(entity) === source || NetworkGetEntityOwner(entity) === source) {
+				DeleteEntity(entity);
+			}
+		});
 	}
 }
