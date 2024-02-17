@@ -297,8 +297,8 @@ export type PtFxEvent = {
  * Represents an player enetered/left scope event.
  */
 export type PlayerScopeEvent = {
-	for: number;
-	player: number;
+	for: string;
+	player: string;
 };
 /**
  * Represents an event for txAdmin authentication.

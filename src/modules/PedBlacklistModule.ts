@@ -22,10 +22,7 @@ export class PedBlacklistModule extends Module {
 	 * @param source - The player's source ID.
 	 */
 	private onEnteredScope(data: PlayerScopeEvent): void {
-		const source = data.player;
-		const ped: number = GetPlayerPed(source.toString());
-		const model: number = GetEntityModel(ped);
-
+		const model: number = GetEntityModel(GetPlayerPed(data.player));
 		if (!this._whitelistedPedModels.has(model)) {
 			const violation = new Violation(source, "Blacklisted Ped [C1]", this.name);
 			violation.banPlayer();
