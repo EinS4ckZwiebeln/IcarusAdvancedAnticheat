@@ -136,7 +136,10 @@ Config.Modules = {
     },
     -- Basic check for invincibility on player damage.
     GodmodeModule = {
-        enabled = true
+        enabled = true,
+        -- Experimental feature to verify player damage.
+        -- Beware that this might cause false positives in some cases.
+        verifyPlayerDamage = false
     },
     -- Detects if a cheater modifies weapon damage.
     -- If you have any scripts that modify weapon damage, adjust this or disable the module.

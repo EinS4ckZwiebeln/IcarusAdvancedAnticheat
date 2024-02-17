@@ -321,3 +321,10 @@ export type Screenshot = {
 	fileName: string;
 	filePath: string;
 };
+/**
+ * Represents a damage record with the amount of damage and the time it occurred.
+ */
+export type DamageRecord = {
+	damage: number;
+	time: number;
+};
