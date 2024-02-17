@@ -9,17 +9,19 @@ export class EntityCreateModule extends Module {
 	private _blacklistedWeapons: Set<number> = new Set();
 	private _banNetworkOwner: boolean = false;
 	private _checkPedsForWeapons: boolean = false;
+	private _cleanUpEntities: boolean = false;
 
 	public onLoad(): void {
 		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));
 		this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
 		this._banNetworkOwner = Config.getValue(this.config, "banNetworkOwner");
 		this._checkPedsForWeapons = Config.getValue(this.config, "checkPedsForWeapons");
-		EventHandler.subscribe("entityCreated", this.onEntityCreated.bind(this));
+		this._cleanUpEntities = Config.getValue(this.config, "cleanUpEntities");
+		EventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("entityCreated", this.onEntityCreated.bind(this));
+		EventHandler.unsubscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	/**
@@ -30,7 +32,7 @@ export class EntityCreateModule extends Module {
 		// If the entity is illegal, ban the player.
 		if (this._illegalEntities.has(GetEntityModel(entity))) {
 			const owner: number = NetworkGetFirstEntityOwner(entity);
-			this.handleViolation("Illegal Entity [C1]", owner, entity);
+			this.handleViolation("Illegal Entity [C1]", owner);
 			return;
 		}
 
@@ -38,7 +40,7 @@ export class EntityCreateModule extends Module {
 		if (this._checkPedsForWeapons) {
 			if (GetEntityType(entity) === 1 && this._blacklistedWeapons.has(GetSelectedPedWeapon(entity))) {
 				const owner: number = NetworkGetFirstEntityOwner(entity);
-				this.handleViolation("Illegal Entity [C3]", owner, entity);
+				this.handleViolation("Illegal Entity [C3]", owner);
 				return;
 			}
 		}
@@ -50,12 +52,27 @@ export class EntityCreateModule extends Module {
 	 * @param owner - The network owner of the entity.
 	 * @param entity - The entity to be deleted.
 	 */
-	private handleViolation(violationType: string, owner: number, entity: number): void {
+	private handleViolation(violationType: string, owner: number): void {
 		if (this._banNetworkOwner) {
 			const violation = new Violation(owner, violationType, this.name);
 			violation.banPlayer();
 		}
-		DeleteEntity(entity);
+		if (this._cleanUpEntities) {
+			this.cleanUpEntities(owner);
+		}
 		CancelEvent();
+	}
+
+	/**
+	 * Cleans up all entities owned by the specified source.
+	 * @param source - The source to clean up entities for.
+	 */
+	private cleanUpEntities(source: number): void {
+		const entities: number[] = [...GetAllObjects(), ...GetAllVehicles(), ...GetAllPeds()];
+		entities.forEach((entity: number) => {
+			if (NetworkGetFirstEntityOwner(entity) === source || NetworkGetEntityOwner(entity) === source) {
+				DeleteEntity(entity);
+			}
+		});
 	}
 }

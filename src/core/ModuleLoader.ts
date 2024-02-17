@@ -7,6 +7,10 @@ export class ModuleLoader {
 	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
 	private static readonly _config: Configuration = Config.getConfig();
 
+	constructor() {
+		throw new Error("ModuleLoader is a static class cannot be instantiated");
+	}
+
 	/**
 	 * Loads a module into the module loader.
 	 * @param module The module to be loaded.

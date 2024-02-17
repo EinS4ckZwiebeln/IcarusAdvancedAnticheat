@@ -297,8 +297,8 @@ export type PtFxEvent = {
  * Represents an player enetered/left scope event.
  */
 export type PlayerScopeEvent = {
-	for: number;
-	player: number;
+	for: string;
+	player: string;
 };
 /**
  * Represents an event for txAdmin authentication.
@@ -320,4 +320,11 @@ export type Excuse = {
 export type Screenshot = {
 	fileName: string;
 	filePath: string;
+};
+/**
+ * Represents a damage record with the amount of damage and the time it occurred.
+ */
+export type DamageRecord = {
+	damage: number;
+	time: number;
 };

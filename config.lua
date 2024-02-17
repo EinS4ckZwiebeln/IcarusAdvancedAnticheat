@@ -19,7 +19,7 @@ Config.Modules = {
     -- Filter for bad words in chat messages.
     ChatProfanityModule = {
         enabled = false,
-        -- Wether or not to use a preconfigured bad words blacklist.
+        -- Whether to use a preconfigured bad words blacklist.
         useDefaultBlacklist = true,
         -- List of all bad words.
         badWords = {"Foo", "Bar", "Foobar"},
@@ -42,10 +42,12 @@ Config.Modules = {
     -- Prevents spawning of every model in the IllegalModels list.
     EntityCreateModule = {
         enabled = true,
-        -- Wether or not the player should be banned.
+        -- Whether the player should be banned.
         banNetworkOwner = true,
         -- Checks peds if they carry blacklisted weapons.
         checkPedsForWeapons = false,
+        -- Whether all entities created or owned by the suspect should be removed upon violation.
+        cleanUpEntities = true,
     },
     -- Bans everyone that causes a non-whitelisted explosion.
     ExplosionFilterModule = {
@@ -134,7 +136,10 @@ Config.Modules = {
     },
     -- Basic check for invincibility on player damage.
     GodmodeModule = {
-        enabled = true
+        enabled = true,
+        -- Experimental feature to verify player damage.
+        -- Beware that this might cause false positives in some cases.
+        verifyPlayerDamage = false
     },
     -- Detects if a cheater modifies weapon damage.
     -- If you have any scripts that modify weapon damage, adjust this or disable the module.
@@ -154,7 +159,7 @@ Config.Modules = {
         enabled = true,
         -- The maximum interval in which a player can shoot projectiles.
         projectileCooldown = 50, --ms
-        -- Wether or not players should be banned for firing missiles or turrets from vehicles.
+        -- Whether players should be banned from firing missiles or turrets from vehicles.
         blockVehicleWeapons = true
     },
     -- Detects NoClip esque player movement.
@@ -174,7 +179,11 @@ Config.Modules = {
         enabled = true,
         -- The hypothetical max. distance between players where they could set each other on fire.
         maxFireDistance = 128.0
-    }
+    },
+    -- Detects if a player is using some sort of fold cheat.
+    FoldModule = {
+        enabled = true
+    },
 }
 
 -- Possesion of these weapons will get a player instantly banned.

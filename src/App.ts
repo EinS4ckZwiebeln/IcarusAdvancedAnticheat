@@ -34,6 +34,7 @@ import { LoadModuleCommand } from "./commands/LoadModuleCommand";
 import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
 import { Release } from "./Types";
+import { FoldModule } from "./modules/FoldModule";
 /**
  * Represents the main application class.
  */
@@ -77,6 +78,7 @@ class App {
 		ModuleLoader.loadModule(new NoClipModule());
 		ModuleLoader.loadModule(new EventBlacklistModule());
 		ModuleLoader.loadModule(new FireModule());
+		ModuleLoader.loadModule(new FoldModule());
 		Logger.debug("Finished loading modules");
 	}
 
@@ -103,6 +105,7 @@ class App {
 			{ name: "sv_scriptHookAllowed", recommendedValue: "false" },
 			{ name: "sv_enableNetworkedPhoneExplosions", recommendedValue: "false" },
 			{ name: "sv_enableNetworkedSounds", recommendedValue: "false" },
+			{ name: "sv_filterRequestControl", recommendedValue: "4" },
 		];
 
 		convars.forEach((convar) => {

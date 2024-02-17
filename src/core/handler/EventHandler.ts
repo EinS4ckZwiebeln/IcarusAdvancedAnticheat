@@ -90,6 +90,7 @@ export class EventHandler {
 	 * @param args - The arguments to pass to the event callbacks.
 	 */
 	private static triggerEventCallbacks(eventName: string, args: unknown[]): void {
-		this.getEventCallbacks(eventName).forEach((cb: Function) => cb(...args));
+		const eventCallbacks = this.getEventCallbacks(eventName);
+		for (const cb of eventCallbacks) cb(...args); // Use traditional for loop to minimize functional overhead.
 	}
 }
