@@ -42,12 +42,12 @@ jobs:
 
             - name: Bundle files
               run: |
-                  mkdir -p ./temp/icarus
+                  mkdir -p ./temp
                   cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp/icarus
-                  cp -r ./dist ./temp/icarus
-                  cp -r ./node_modules ./temp/icarus
+                  cp -r ./dist ./temp
+                  cp -r ./node_modules ./temp
                   cp ./yarn.lock ./temp/icarus
-                  cd ./temp && zip -r ../Icarus.zip ./icarus
+                  cd ./temp && zip -r ../Icarus.zip ./
 
             - name: Create Release
               uses: "marvinpinto/action-automatic-releases@v1.2.1"
