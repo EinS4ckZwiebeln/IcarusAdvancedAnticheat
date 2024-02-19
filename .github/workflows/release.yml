@@ -33,4 +33,4 @@ jobs:
         run: zip -r release.zip dist/
 
       - name: Execute bump-version.js
-        run: node bump-version.js
+        run: node ../actions/bump-version.js
