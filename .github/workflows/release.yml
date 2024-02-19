@@ -30,7 +30,7 @@ jobs:
               run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
             - name: Install dependencies
-              run: yarn install --production=true --ignore-optional
+              run: yarn install --ignore-optional
 
             - name: Build release
               run: yarn run build
