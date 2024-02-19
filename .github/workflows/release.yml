@@ -1,47 +1,61 @@
 name: Build Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to run the workflow on'
-        required: true
-        default: 'gh-actions'
+    workflow_dispatch:
+        inputs:
+            branch:
+                description: "Branch to run the workflow on"
+                required: true
+                default: "gh-actions"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.inputs.branch }}
+        steps:
+            - name: Install archive tools
+              run: sudo apt install zip
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
+            - name: Checkout code
+              uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.event.inputs.branch }}
 
-      - name: Install dependencies
-        run: yarn install
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16.x
 
-      - name: Build release
-        run: yarn run build
+			- name: Set env
+     		  run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Create release zip
-        run: zip -r release.zip dist/
+            - name: Install dependencies
+              run: yarn install
 
-      - name: Execute bump-version.js
-        run: node .github/actions/bump-version.js
-        env:
-          TGT_RELEASE_VERSION: ${{ github.ref_name }}
-      
-      - name: Push manifest change
-        uses: EndBug/add-and-commit@v8
-        with:
-          add: fxmanifest.lua
-          push: true
-          author_name: Manifest Bumper
-          author_email: 41898282+github-actions[bot]@users.noreply.github.com
-          message: "chore: bump manifest version to ${{ github.ref_name }}"
+            - name: Build release
+              run: yarn run build
+
+			- name: Update tag ref
+        	  uses: EndBug/latest-tag@latest
+        	  with:
+          		tag-name: ${{ github.ref_name }}
+
+			- name: Bundle files
+        	  run: |
+          		mkdir -p ./temp/icarus
+          		cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp/icarus
+          		cp -r ./dist ./temp/icarus
+          		cd ./temp && zip -r ../Icarus.zip ./icarus
+
+        	- name: Create Release
+        	  uses: "marvinpinto/action-automatic-releases@v1.2.1"
+              id: auto_release
+        	  with:
+          		repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          		title: ${{ env.RELEASE_VERSION }}
+          		prerelease: false
+          		files: dolu_tool.zip
+
+			env:
+          		CI: false
+          		GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
