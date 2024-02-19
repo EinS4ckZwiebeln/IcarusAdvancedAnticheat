@@ -1,0 +1,36 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to run the workflow on'
+        required: true
+        default: 'gh-actions'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build release
+        run: yarn run build
+
+      - name: Create release zip
+        run: zip -r release.zip dist/
+
+      - name: Execute bump-version.js
+        run: node ../actions/bump-version.js
