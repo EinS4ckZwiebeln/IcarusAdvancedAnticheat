@@ -6,7 +6,7 @@ on:
             branch:
                 description: "Branch to run the workflow on"
                 required: true
-                default: "test"
+                default: "master"
 
 jobs:
     build:
@@ -30,7 +30,7 @@ jobs:
               run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
             - name: Install dependencies
-              run: yarn install --ignore-optional
+              run: yarn install --production=true --ignore-optional
 
             - name: Build release
               run: yarn run build
