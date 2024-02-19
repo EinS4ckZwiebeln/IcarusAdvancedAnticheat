@@ -45,6 +45,8 @@ jobs:
                   mkdir -p ./temp/icarus
                   cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp/icarus
                   cp -r ./dist ./temp/icarus
+                  cp -r ./node_modules ./temp/icarus
+                  cp ./yarn.lock ./temp/icarus
                   cd ./temp && zip -r ../Icarus.zip ./icarus
 
             - name: Create Release
