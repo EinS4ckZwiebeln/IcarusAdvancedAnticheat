@@ -32,13 +32,10 @@ jobs:
             - name: Install esbuild globally
               run: yarn global add esbuild
 
-            - name: Install dependencies
+            - name: Install dependencies and build release
               run: |
                   yarn install --production=true --ignore-optional
                   cp -r ./node_modules ./prod_node_modules
-
-            - name: Build release
-              run: |
                   mv ./prod_node_modules ./node_modules
                   yarn run build
 
@@ -52,7 +49,7 @@ jobs:
                   mkdir -p ./temp
                   cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp
                   cp -r ./dist ./temp
-                  cp -r ./prod_node_modules ./temp/node_modules
+                  cp -r ./node_modules ./temp/node_modules
                   cp ./yarn.lock ./temp
                   cd ./temp && zip -r ../Icarus.zip ./
 
