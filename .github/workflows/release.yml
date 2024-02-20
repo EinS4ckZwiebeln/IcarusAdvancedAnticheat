@@ -48,7 +48,7 @@ jobs:
                   mkdir -p ./temp
                   cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp
                   cp -r ./dist ./temp
-                  rm -rf ./node_modules/@types
+                  rm -rf ./node_modules/@*
                   cp -r ./node_modules ./temp
                   cp ./yarn.lock ./temp
                   cd ./temp && zip -r ../Icarus.zip ./
