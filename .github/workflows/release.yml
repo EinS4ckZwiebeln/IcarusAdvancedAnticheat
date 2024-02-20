@@ -33,10 +33,14 @@ jobs:
               run: yarn global add esbuild
 
             - name: Install dependencies
-              run: yarn install --production=true --ignore-optional
+              run: |
+                  yarn install --production=true --ignore-optional
+                  cp -r ./node_modules ./prod_node_modules
 
             - name: Build release
-              run: yarn run build
+              run: |
+                  mv ./prod_node_modules ./node_modules
+                  yarn run build
 
             - name: Update tag ref
               uses: EndBug/latest-tag@latest
@@ -48,7 +52,7 @@ jobs:
                   mkdir -p ./temp
                   cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp
                   cp -r ./dist ./temp
-                  cp -r ./node_modules ./temp
+                  cp -r ./prod_node_modules ./temp/node_modules
                   cp ./yarn.lock ./temp
                   cd ./temp && zip -r ../Icarus.zip ./
 
