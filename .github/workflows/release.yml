@@ -29,6 +29,9 @@ jobs:
             - name: Set env
               run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
+            - name: Install esbuild globally
+              run: yarn global add esbuild
+
             - name: Install dependencies
               run: yarn install --production=true --ignore-optional
 
