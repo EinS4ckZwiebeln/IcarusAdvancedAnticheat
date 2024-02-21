@@ -60,7 +60,6 @@ jobs:
               id: auto_release
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                  automatic_release_tag: ${{ env.RELEASE_VERSION }}
                   title: ${{ env.RELEASE_VERSION }}
                   prerelease: true # Testing purposes
                   files: Icarus.zip
