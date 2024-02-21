@@ -47,11 +47,6 @@ jobs:
             - name: Build release
               run: yarn run build
 
-            - name: Update tag ref
-              uses: EndBug/latest-tag@latest
-              with:
-                  tag-name: ${{ github.ref_name }}
-
             - name: Bundle files
               run: |
                   mkdir -p ./temp
