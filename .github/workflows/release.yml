@@ -44,6 +44,20 @@ jobs:
             - name: Install dependencies
               run: yarn install --production=true --ignore-optional
 
+            - name: Bump manifest version
+              run: node .github/actions/bump-version.js
+              env:
+                  TGT_RELEASE_VERSION: ${{ github.event.inputs.version }}
+
+            - name: Push manifest change
+              uses: EndBug/add-and-commit@v8
+              with:
+                  add: fxmanifest.lua
+                  push: true
+                  author_name: Manifest Bumper
+                  author_email: 41898282+github-actions[bot]@users.noreply.github.com
+                  message: "chore: bump manifest version to ${{ github.ref_name }}"
+
             - name: Build release
               run: yarn run build
 
@@ -63,7 +77,7 @@ jobs:
               uses: "marvinpinto/action-automatic-releases@latest"
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                  automatic_release_tag: "latest"
+                  automatic_release_tag: "release-${{ github.event.inputs.version }}"
                   prerelease: ${{ github.event.inputs.prerelease }}
                   title: ${{ github.event.inputs.version }}
                   files: Icarus.zip
