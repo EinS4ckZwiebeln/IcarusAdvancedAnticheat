@@ -61,17 +61,17 @@ jobs:
             - name: Build release
               run: yarn run build
 
+              # Bundle script with node_modules to have more control over the dependencies
             - name: Bundle files
               run: |
-                  mkdir -p ./temp
-                  cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp
-                  cp -r ./dist ./temp
-                  # Remove junk files from node_modules
+                  mkdir -p ./temp/Icarus
+                  cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp/Icarus
+                  cp -r ./dist ./temp/Icarus
                   rm -rf ./node_modules/@types
                   rm -rf ./node_modules/@citizenfx
-                  cp -r ./node_modules ./temp
-                  cp ./yarn.lock ./temp
-                  cd ./temp && zip -r ../Icarus.zip ./
+                  cp -r ./node_modules ./temp/Icarus
+                  cp ./yarn.lock ./temp/Icarus
+                  cd ./temp/Icarus && zip -r ../Icarus.zip ./
 
             - name: Create Release
               uses: "marvinpinto/action-automatic-releases@latest"
