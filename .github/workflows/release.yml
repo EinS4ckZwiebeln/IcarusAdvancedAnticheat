@@ -56,12 +56,12 @@ jobs:
                   cd ./temp && zip -r ../Icarus.zip ./
 
             - name: Create Release
-              uses: "marvinpinto/action-automatic-releases@v1.2.1"
-              id: auto_release
+              uses: "marvinpinto/action-automatic-releases@latest"
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                  title: ${{ env.RELEASE_VERSION }}
-                  prerelease: true # Testing purposes
+                  automatic_release_tag: "latest"
+                  prerelease: true
+                  title: "Exp. Development Build"
                   files: Icarus.zip
 
               env:
