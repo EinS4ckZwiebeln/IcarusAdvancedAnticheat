@@ -72,7 +72,7 @@ jobs:
                   cp -r ./dist ./temp/Icarus
                   cp -r ./node_modules ./temp/Icarus
                   cp ./yarn.lock ./temp/Icarus
-                  cd ./temp/Icarus && zip -r ../Icarus.zip ./Icarus
+                  cd ./temp && zip -r ../Icarus.zip ./Icarus
 
             - name: Create Release
               uses: "marvinpinto/action-automatic-releases@latest"
