@@ -59,7 +59,10 @@ jobs:
                   message: "chore: bump manifest version to ${{ github.ref_name }}"
 
             - name: Build release
-              run: yarn run build
+              run: |
+                  yarn run build
+                  rm -rf ./node_modules/@types
+                  rm -rf ./node_modules/@citizenfx
 
               # Bundle script with node_modules to have more control over the dependencies
             - name: Bundle files
@@ -67,8 +70,6 @@ jobs:
                   mkdir -p ./temp/Icarus
                   cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp/Icarus
                   cp -r ./dist ./temp/Icarus
-                  rm -rf ./node_modules/@types
-                  rm -rf ./node_modules/@citizenfx
                   cp -r ./node_modules ./temp/Icarus
                   cp ./yarn.lock ./temp/Icarus
                   cd ./temp/Icarus && zip -r ../Icarus.zip ./
