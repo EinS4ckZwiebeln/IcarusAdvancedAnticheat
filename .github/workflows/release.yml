@@ -6,7 +6,14 @@ on:
             branch:
                 description: "Branch to run the workflow on"
                 required: true
-                default: "gh-actions"
+                default: "master"
+            version:
+                description: "Version to tag the release with"
+                required: true
+            prerelease:
+                description: "Is this a prerelease?"
+                required: true
+                default: "false"
 
 jobs:
     build:
@@ -23,40 +30,57 @@ jobs:
 
             - name: Set up Node.js
               uses: actions/setup-node@v2
+              # FX-Server requires Node.js 16.x
               with:
                   node-version: 16.x
 
             - name: Set env
               run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
+              # Install esbuild separately to exclude it from node_modules
+            - name: Install esbuild globally
+              run: yarn global add esbuild
+
             - name: Install dependencies
-              run: yarn install
+              run: yarn install --production=true --ignore-optional
+
+            - name: Bump manifest version
+              run: node .github/actions/bump-version.js
+              env:
+                  TGT_RELEASE_VERSION: ${{ github.event.inputs.version }}
+
+            - name: Push manifest change
+              uses: EndBug/add-and-commit@v8
+              with:
+                  add: fxmanifest.lua
+                  push: true
+                  author_name: Manifest Bumper
+                  author_email: 41898282+github-actions[bot]@users.noreply.github.com
+                  message: "chore: bump manifest version to ${{ github.ref_name }}"
 
             - name: Build release
-              run: yarn run build
+              run: |
+                  yarn run build
+                  rm -rf ./node_modules/@types
+                  rm -rf ./node_modules/@citizenfx
 
-            - name: Update tag ref
-              uses: EndBug/latest-tag@latest
-              with:
-                  tag-name: ${{ github.ref_name }}
-
+              # Bundle script with node_modules to have more control over the dependencies
             - name: Bundle files
               run: |
-                  mkdir -p ./temp
-                  cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp
-                  cp -r ./dist ./temp
-                  cp -r ./node_modules ./temp
-                  cp ./yarn.lock ./temp
-                  cd ./temp && zip -r ../Icarus.zip ./
+                  mkdir -p ./temp/Icarus
+                  cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp/Icarus
+                  cp -r ./dist ./temp/Icarus
+                  cp -r ./node_modules ./temp/Icarus
+                  cp ./yarn.lock ./temp/Icarus
+                  cd ./temp && zip -r ../Icarus.zip ./Icarus
 
             - name: Create Release
-              uses: "marvinpinto/action-automatic-releases@v1.2.1"
-              id: auto_release
+              uses: "marvinpinto/action-automatic-releases@latest"
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                  automatic_release_tag: ${{ env.RELEASE_VERSION }}
-                  title: ${{ env.RELEASE_VERSION }}
-                  prerelease: true # Testing purposes
+                  automatic_release_tag: "release-${{ github.event.inputs.version }}"
+                  prerelease: ${{ github.event.inputs.prerelease }}
+                  title: ${{ github.event.inputs.version }}
                   files: Icarus.zip
 
               env:

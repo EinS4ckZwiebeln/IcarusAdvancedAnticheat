@@ -1,6 +1,15 @@
 const fs = require("fs");
+
 const version = process.env.TGT_RELEASE_VERSION;
 const newVersion = version.replace("v", "");
-const manifestFile = fs.readFileSync("fxmanifest.lua", { encoding: "utf8" });
-const newFileContent = manifestFile.replace(/\bversion\s+(.*)$/gm, `version "${newVersion}"`);
-fs.writeFileSync("fxmanifest.lua", newFileContent);
+
+const manifestFilePath = "fxmanifest.lua";
+const manifestFileContent = fs.readFileSync(manifestFilePath, { encoding: "utf8" });
+/**
+ * The updated file content with the version replaced.
+ * @type {string}
+ */
+const versionRegex = /\bversion\s+(.*)$/gm;
+const newFileContent = manifestFileContent.replace(versionRegex, `version "${newVersion}"`);
+
+fs.writeFileSync(manifestFilePath, newFileContent);
