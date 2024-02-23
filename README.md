@@ -70,9 +70,9 @@ end
 
 ### Dependencies
 
-| FXServer | OneSync  | Yarn     | Screenshot-basic                                          |
-| -------- | -------- | -------- | --------------------------------------------------------- |
-| 7290+    | Required | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
+| FXServer | OneSync  | Screenshot-basic                                          |
+| -------- | -------- | --------------------------------------------------------- |
+| 7290+    | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
 
 ### Exports
 
