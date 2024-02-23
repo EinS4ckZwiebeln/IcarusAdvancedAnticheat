@@ -50,11 +50,11 @@ Following ace permission allows selected players to bypass the anticheat detecti
 
 1. Add the permission to the group you want to have bypass perms.
 
-`add_ace group.<yourgroup> icarus.bypass allow `
+`add_ace group.<yourgroup> icarus.bypass allow`
 
 2. Add the according player license to previous chosen group.
 
-`add_principal identifier.license:<yourlicense> group.<yourgroup> `
+`add_principal identifier.license:<yourlicense> group.<yourgroup>`
 
 ### Banning
 
@@ -73,30 +73,3 @@ end
 | FXServer | OneSync  | Yarn     | Screenshot-basic                                          |
 | -------- | -------- | -------- | --------------------------------------------------------- |
 | 7290+    | Required | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
-
-### Exports
-
-These exports can be employed to establish a temporary soft-bypass for a specific player. Suppose a script of yours alters the player in a manner that triggers significant false-positives. To mitigate this issue, you can exempt the player by incorporating an excuse just before the problematic code using the provided exports.
-
-| Function               | Parameters                                  | Retval  | Type   |
-| ---------------------- | ------------------------------------------- | ------- | ------ |
-| AddExcuseForPlayer     | source: int; timeout: int, module?: string; | void    | Server |
-| RemoveExcuseFromPlayer | source: int; module?: string;               | void    | Server |
-| IsPlayerExcused        | source: int; module?: string;               | boolean | Server |
-
-```lua
--- Player won't be able to trigger any detections for 1000ms.
-exports["Icarus"]:AddExcuseForPlayer(source, 1000)
-exports["Icarus"]:AddExcuseForPlayer(source, 1000, "TestModule") -- Excuse individual module
-
--- Player won't be able to trigger any detections until his excuse is manually removed.
-exports["Icarus"]:AddExcuseForPlayer(source, -1)
-
--- Player can now trigger all detections again.
-exports["Icarus"]:RemoveExcuseFromPlayer(source)
-exports["Icarus"]:RemoveExcuseFromPlayer(source, "TestModule") -- Remove excuse for individual module
-
--- Verify if player is excused for everything or indivual module.
-exports["Icarus"]:IsPlayerExcused(source)
-exports["Icarus"]:IsPlayerExcused(source, "TestModule")
-```
