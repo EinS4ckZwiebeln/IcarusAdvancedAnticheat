@@ -1,7 +1,7 @@
 {
 	"name": "icarus",
 	"version": "1.0.0",
-	"description": "Open Source FiveM Anti-Cheat",
+	"description": "",
 	"main": "index.js",
 	"scripts": {
 		"watch": "esbuild --bundle --watch --sourcemap --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js",
