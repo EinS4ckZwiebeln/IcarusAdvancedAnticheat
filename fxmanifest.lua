@@ -2,7 +2,7 @@ fx_version "cerulean"
 
 game "gta5"
 
-author "NCRP Scripts"
+author "EinS4ckZwiebeln"
 description "Efficient, modular server-side anticheat script."
 version "2.0.3"
 
@@ -17,6 +17,5 @@ server_script {
 
 dependencies {
     "/server:7290", 
-    "/onesync", 
-    "yarn"
+    "/onesync"
 }
