@@ -15,7 +15,7 @@ To load the module again, simply use this command:
 
 ## Anti Aimbot
 
--   Module Name: `AntiAimbotModule`
+-   Module Name: `AimbotModule`
 -   Type: `EVENT`
 
 ## Anti Clear Tasks
