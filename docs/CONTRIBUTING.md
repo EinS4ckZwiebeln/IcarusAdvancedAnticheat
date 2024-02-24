@@ -17,23 +17,42 @@ Before you start, make sure you have [Node.js](https://nodejs.org/en/download/cu
 To build the project, follow these steps:
 
 1. Clone the repository to your local machine.
+
+```bash
+git clone https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat.git
+```
+
 2. Navigate to the project directory.
+
 3. Install the project dependencies by running `npm install` or `yarn install`.
+
+```bash
+npm install
+```
+
 4. To build the project, you can use either of the following commands:
-    - `npm run build` for a one-time build.
-    - `npm run watch` to continuously watch the project for changes and rebuild as necessary.
 
-## Modifying and Adding Features
+_For a one-time build._
 
-If you want to modify existing features, you should modify the corresponding module. If there isn't a module for the feature already you want to add, you should create an entirely new module.
+```bash
+npm run build
+```
+
+_Continuously watch the project for changes and rebuild as necessary (recommended)._
+
+```bash
+npm run watch
+```
+
+## Adding Modules
+
+To alter existing features, modify the corresponding module. If no module exists for the feature you wish to add, create a new module entirely.
 
 ```typescript
 export class ExampleModule extends Module {
-
     public void onLoad() {
         // Executes when the module is loaded.
     }
-
     public void onUnload() {
         // Executes when the module is unloaded.
     }
@@ -51,4 +70,31 @@ ModuleLoader.loadModule(new ExampleModule());
 ExampleModule = {
     enabled = true
 },
+```
+
+## Subscribing to Events
+
+In the `ExampleModule` class, you can see an example of how to subscribe and unsubscribe to events using the `EventHandler` class. The `subscribe` function allows you to register a callback function to be executed when a specific event occurs. The `unsubscribe` function removes the registered callback function from the event.
+
+| Function    | Parameters                                                       | Retval |
+| ----------- | ---------------------------------------------------------------- | ------ |
+| subscribe   | eventName: string \| string[]; callback: Function \| Function[]; | void   |
+| unsubscribe | eventName: string \| string[]; callback: Function \| Function[]; | void   |
+
+Here is an example of subscribing and unsubscribing to the `entityCreating` event:
+
+```typescript
+export class ExampleModule extends Module {
+    public void onLoad() {
+        EventHandler.subscribe("entityCreating", this.onEvent.bind(this));
+    }
+    public void onUnload() {
+        EventHandler.unsubscribe("entityCreating", this.onEvent.bind(this));
+    }
+    ...
+
+    private void onEvent(entity: number) {
+        console.log(`Creating: ${entity}`);
+    }
+}
 ```
