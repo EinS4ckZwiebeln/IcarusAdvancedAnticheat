@@ -1,4 +1,6 @@
-### Exports
+# Export Documentation
+
+## Available Exports
 
 These exports can be employed to establish a temporary soft-bypass for a specific player. Suppose a script of yours alters the player in a manner that triggers significant false-positives. To mitigate this issue, you can exempt the player by incorporating an excuse just before the problematic code using the provided exports.
 
@@ -8,7 +10,7 @@ These exports can be employed to establish a temporary soft-bypass for a specifi
 | RemoveExcuseFromPlayer | source: int; module?: string;               | void    | Server |
 | IsPlayerExcused        | source: int; module?: string;               | boolean | Server |
 
-#### Examples
+## Examples
 
 By using the `AddExcuseForPlayer` function, you can temporarily exempt a player from triggering any detections for a specified duration. In the code snippet below, the player is excused for 1 second:
 
