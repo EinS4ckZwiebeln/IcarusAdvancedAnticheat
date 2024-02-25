@@ -27,15 +27,11 @@ export class Violation {
 	 * @returns A Promise that resolves when the player is banned.
 	 */
 	public async banPlayer(): Promise<void> {
-		if (PermissionHandler.hasPermission(this._source) || ExcuseHandler.isExcused(this._source, this._module))
-			return;
+		if (PermissionHandler.hasPermission(this._source) || ExcuseHandler.isExcused(this._source, this._module)) return;
 
-		this.takeScreenshot();
-		// Wait 500ms to allow screenshot to be taken
-		setTimeout(() => {
-			Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
-			Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
-		}, 500);
+		await this.takeScreenshot();
+		Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
+		Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
 	}
 
 	/**
