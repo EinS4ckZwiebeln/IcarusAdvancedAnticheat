@@ -52,7 +52,6 @@ export class GodmodeModule extends Module {
 	 * @param source The source of the event.
 	 * @param data The data associated with the event.
 	 * @param target The target player.
-	 * @param netId The network ID of the target player.
 	 */
 	private handlePlayerDamage(source: string, data: WeaponDamageEvent, target: number): void {
 		if (data.overrideDefaultDamage && data.weaponType !== Weapons.WEAPON_UNARMED) {
@@ -78,7 +77,6 @@ export class GodmodeModule extends Module {
 	 * @param target The target player's ID.
 	 * @param damageTime The time when the damage occurred.
 	 * @param totalDamage The total damage taken by the player.
-	 * @param netId The network ID of the player.
 	 */
 	private handleAbsorbedDamage(target: number, damageTime: number, totalDamage: number): void {
 		const hasArmor = GetPedArmour(target) > 0;
