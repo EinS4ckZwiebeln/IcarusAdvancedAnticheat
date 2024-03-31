@@ -27,6 +27,7 @@ jobs:
               uses: actions/checkout@v2
               with:
                   ref: ${{ github.event.inputs.branch }}
+                  token: ${{ secrets.PAT }}
 
             - name: Set up Node.js
               uses: actions/setup-node@v2
@@ -58,7 +59,7 @@ jobs:
               uses: EndBug/add-and-commit@v8
               with:
                   add: fxmanifest.lua
-                  push: "--set-upstream --force"
+                  push: true
                   author_name: Manifest Bumper
                   author_email: 41898282+github-actions[bot]@users.noreply.github.com
                   message: "chore: bump manifest version to ${{ github.ref_name }}"
