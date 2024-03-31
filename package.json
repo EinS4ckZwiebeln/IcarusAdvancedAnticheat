@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "esbuild src/App.ts --bundle --minify --keep-names --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
 		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js"
 	},
 	"author": "EinS4ckZwiebeln",
