@@ -41,11 +41,13 @@ jobs:
             - name: Install esbuild globally
               run: yarn global add esbuild
 
-            - name: Enable autoclean
-              run: yarn autoclean --init
-
             - name: Install dependencies
               run: yarn install --production=true --ignore-optional
+
+            - name: Perform autoclean
+              run: |
+                  yarn autoclean --init
+                  yarn autoclean --force
 
             - name: Bump manifest version
               run: node .github/actions/bump-version.js
