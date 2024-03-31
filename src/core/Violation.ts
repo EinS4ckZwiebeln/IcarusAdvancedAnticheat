@@ -40,7 +40,7 @@ export class Violation {
 	 * @param reason - The reason for the ban.
 	 */
 	private async takeScreenshot(): Promise<void> {
-		if (!this._webhook || this._webhook.length < 1) {
+		if (Utility.isNullOrEmtpy(this._webhook)) {
 			Logger.debug("Failed to send webhook request. No webhook is configured.");
 			return;
 		}

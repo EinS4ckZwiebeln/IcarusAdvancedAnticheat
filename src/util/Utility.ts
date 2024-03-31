@@ -252,4 +252,14 @@ export class Utility {
 		}
 		return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
 	}
+
+	/**
+	 * Checks if a string value is null, undefined, or empty.
+	 *
+	 * @param value - The string value to check.
+	 * @returns `true` if the value is null, undefined, or empty; otherwise, `false`.
+	 */
+	public static isNullOrEmtpy(value: string): boolean {
+		return value === null || value === undefined || value === "";
+	}
 }
