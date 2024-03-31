@@ -3,11 +3,12 @@
 .vscode
 .idea
 
-# Extensions
-*.installed
-*.lock
+# Yarn
+yarn.lock
+.yarn.installed
+.yarnclean
 
-# Files
+# NPM
 package-lock.json
 
 # Directories
