@@ -65,7 +65,7 @@ jobs:
             - name: Bundle files
               run: |
                   mkdir -p ./temp/Icarus
-                  cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua,yarn.lock} ./temp/Icarus
+                  cp ./{LICENSE,README.md,fxmanifest.lua,config.lua,wrapper.lua} ./temp/Icarus
                   cp -r ./dist ./temp/Icarus
                   cd ./temp && zip -r ../Icarus.zip ./Icarus
 
