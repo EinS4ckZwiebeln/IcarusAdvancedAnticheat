@@ -35,6 +35,9 @@ jobs:
               with:
                   node-version: 16.x
 
+            - name: Install esbuild
+              run: yarn global add esbuild
+
             - name: Build release
               run: |
                   yarn install --production=true --ignore-optional
