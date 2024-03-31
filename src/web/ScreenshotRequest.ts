@@ -10,8 +10,6 @@ export class ScreenshotRequest {
 	private readonly _source: number;
 	private readonly _fileName: string;
 	private readonly _filePath: string;
-	// Export call timeout millis
-	private readonly TIME_OUT: number = 5000;
 
 	/**
 	 * Creates a new instance of the Screenshot class.
@@ -27,26 +25,23 @@ export class ScreenshotRequest {
 	/**
 	 * Triggers the screenshot-basic exports and returns screenshot data.
 	 */
-	public async request() {
-		let screenshot: Screenshot | undefined;
-		Utility.EXPORTS["screenshot-basic"].requestClientScreenshot(
-			this._source,
-			{
-				fileName: this._filePath,
-			},
-			(err: unknown) => {
-				if (err instanceof Error) Logger.error(err.message);
-				screenshot = { fileName: this._fileName, filePath: this._filePath };
-			}
-		);
-		// Regular promises don't seem to work with exports
-		const timer = GetGameTimer();
-		while (!screenshot) {
-			if (GetGameTimer() - timer > this.TIME_OUT) {
-				throw Error(`Timeout: Export call to screenshot-basic took longer than ${this.TIME_OUT} milliseconds`);
-			}
-			await Utility.Delay(0);
-		}
-		return screenshot;
+	public async request(): Promise<Screenshot> {
+		return new Promise((resolve, reject) => {
+			Utility.EXPORTS["screenshot-basic"].requestClientScreenshot(
+				this._source,
+				{
+					fileName: this._filePath,
+				},
+				(err: unknown) => {
+					if (err instanceof Error) {
+						Logger.error(err.message);
+						reject(err);
+					} else {
+						const screenshot: Screenshot = { fileName: this._fileName, filePath: this._filePath };
+						resolve(screenshot);
+					}
+				}
+			);
+		});
 	}
 }
