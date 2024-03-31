@@ -1,6 +1,7 @@
 # Editor & IDE
 .vs
 .vscode
+.idea
 
 # Extensions
 *.installed

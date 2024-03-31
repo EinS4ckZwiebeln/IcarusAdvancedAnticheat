@@ -1,32 +1,39 @@
-import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
-import { PlayerScopeEvent } from "../Types";
 
 export class PedBlacklistModule extends Module {
 	private _whitelistedPedModels: Set<number> = new Set();
 
 	public onLoad(): void {
 		this._whitelistedPedModels = new Set(Utility.hashify(Config.getValue(this.config, "playerModels")));
+	}
 
-		EventHandler.subscribe(["playerEnteredScope", "playerLeftScope"], this.onEnteredScope.bind(this));
-	}
-	public onUnload(): void {
-		EventHandler.unsubscribe(["playerEnteredScope", "playerLeftScope"], this.onEnteredScope.bind(this));
-	}
+	public onUnload(): void {}
 
 	/**
-	 * Checks if a player's ped is blacklisted and bans them if it is.
-	 * @param source - The player's source ID.
+	 * Verifies the player's model and takes appropriate action if it is blacklisted.
+	 * @param player The player to verify the model for.
 	 */
-	private onEnteredScope(data: PlayerScopeEvent): void {
-		const model: number = GetEntityModel(GetPlayerPed(data.player));
+	private verifyPlayerModel(player: string): void {
+		const model: number = GetEntityModel(GetPlayerPed(player));
 		if (!this._whitelistedPedModels.has(model)) {
-			const violation = new Violation(source, "Blacklisted Ped [C1]", this.name);
+			const violation = new Violation(parseInt(player), "Blacklisted Ped [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
 		}
+	}
+
+	/**
+	 * Executes the logic on each tick of the game loop.
+	 * This method fetches the list of players and verifies their player models.
+	 * It also adds a delay of 30 seconds before the next tick.
+	 * @returns A promise that resolves when the logic is executed.
+	 */
+	protected async onTick(): Promise<void> {
+		const players = getPlayers();
+		players.forEach(async (player: string) => this.verifyPlayerModel(player));
+		await this.Delay(30000);
 	}
 }
