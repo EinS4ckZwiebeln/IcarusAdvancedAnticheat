@@ -41,6 +41,9 @@ jobs:
             - name: Install esbuild globally
               run: yarn global add esbuild
 
+            - name: Enable autoclean
+              run: yarn autoclean --init
+
             - name: Install dependencies
               run: yarn install --production=true --ignore-optional
 
@@ -63,8 +66,6 @@ jobs:
                   yarn run build
                   rm -rf ./node_modules/@types
                   rm -rf ./node_modules/@citizenfx
-                  find ./node_modules -type f \( -iname \*.MD -o -iname \*.md \) -delete
-                  find ./node_modules -type f -name "LICENSE" -delete
 
               # Bundle script with node_modules to have more control over the dependencies
             - name: Bundle files
