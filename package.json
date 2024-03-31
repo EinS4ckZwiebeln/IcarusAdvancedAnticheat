@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"watch": "esbuild --bundle --watch --sourcemap --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js",
-		"build": "esbuild --bundle --minify --keep-names --packages=external --platform=node --target=node16.9.1 src/App.ts --outfile=dist/app.js"
+		"build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js"
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
