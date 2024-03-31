@@ -63,8 +63,8 @@ jobs:
                   yarn run build
                   rm -rf ./node_modules/@types
                   rm -rf ./node_modules/@citizenfx
-                  rm -rf -d ./node_modules/*.MD
-                  find . -name 'LICENSE' -delete
+                  find ./node_modules -type f \( -iname \*.MD -o -iname \*.md \) -delete
+                  find ./node_modules -type f -name "LICENSE" -delete
 
               # Bundle script with node_modules to have more control over the dependencies
             - name: Bundle files
