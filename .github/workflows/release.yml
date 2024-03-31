@@ -62,7 +62,7 @@ jobs:
                   push: true
                   author_name: Manifest Bumper
                   author_email: 41898282+github-actions[bot]@users.noreply.github.com
-                  message: "chore: bump manifest version to ${{ github.ref_name }}"
+                  message: "chore: bump manifest version to ${{ github.event.inputs.version }}"
 
             - name: Build release
               run: |
