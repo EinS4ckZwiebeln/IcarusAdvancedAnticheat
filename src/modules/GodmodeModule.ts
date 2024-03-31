@@ -26,13 +26,11 @@ export class GodmodeModule extends Module {
 	private onGodmode(source: string, data: WeaponDamageEvent): void {
 		// Check if the event was canceled or if the player will be killed
 		if (WasEventCanceled() || data.willKill) return;
-
-		const netId: number = data.hitGlobalId || data.hitGlobalIds[0];
-		const target: number = NetworkGetEntityFromNetworkId(netId);
+		const target: number = NetworkGetEntityFromNetworkId(data.hitGlobalId || data.hitGlobalIds[0]);
 
 		if (IsPedAPlayer(target)) {
 			this.handlePlayerInvincibility(source, target);
-			if (this._verifyPlayerDamage) this.handlePlayerDamage(source, data, target, netId);
+			if (this._verifyPlayerDamage) this.handlePlayerDamage(source, data, target);
 		}
 	}
 
@@ -54,15 +52,14 @@ export class GodmodeModule extends Module {
 	 * @param source The source of the event.
 	 * @param data The data associated with the event.
 	 * @param target The target player.
-	 * @param netId The network ID of the target player.
 	 */
-	private handlePlayerDamage(source: string, data: WeaponDamageEvent, target: number, netId: number): void {
+	private handlePlayerDamage(source: string, data: WeaponDamageEvent, target: number): void {
 		if (data.overrideDefaultDamage && data.weaponType !== Weapons.WEAPON_UNARMED) {
 			const damage = data.weaponDamage * GetPlayerWeaponDamageModifier(source);
 			const absorbedDamage = this._absorbedDamage.get(target) || { damage: 0, time: data.damageTime };
 
 			if (data.damageTime - absorbedDamage.time < 1000) {
-				this.handleAbsorbedDamage(data.damageTime, target, absorbedDamage.damage + damage, netId);
+				this.handleAbsorbedDamage(target, data.damageTime, absorbedDamage.damage + damage);
 			} else {
 				// Reset absorbed damage if time between damage events is too long
 				this._absorbedDamage.set(target, {
@@ -80,19 +77,19 @@ export class GodmodeModule extends Module {
 	 * @param target The target player's ID.
 	 * @param damageTime The time when the damage occurred.
 	 * @param totalDamage The total damage taken by the player.
-	 * @param netId The network ID of the player.
 	 */
-	private handleAbsorbedDamage(target: number, damageTime: number, totalDamage: number, netId: number): void {
+	private handleAbsorbedDamage(target: number, damageTime: number, totalDamage: number): void {
 		const hasArmor = GetPedArmour(target) > 0;
 		const maxHealth = GetEntityMaxHealth(target);
+		const targetSource = NetworkGetEntityOwner(target);
 
 		// Check if the player took more damage than their max health (and armor if they have any)
 		if (!hasArmor && totalDamage > maxHealth) {
-			const violation = new Violation(target, "Godmode [C2]", this.name);
+			const violation = new Violation(targetSource, "Godmode [C2]", this.name);
 			violation.banPlayer();
 			CancelEvent();
-		} else if (hasArmor && totalDamage > maxHealth + GetPlayerMaxArmour(netId.toString())) {
-			const violation = new Violation(target, "Godmode [C3]", this.name);
+		} else if (hasArmor && totalDamage > maxHealth + GetPlayerMaxArmour(targetSource.toString())) {
+			const violation = new Violation(targetSource, "Godmode [C3]", this.name);
 			violation.banPlayer();
 			CancelEvent();
 		}

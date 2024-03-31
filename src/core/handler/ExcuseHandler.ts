@@ -1,5 +1,6 @@
 import { Excuse } from "../../Types";
 import { Utility } from "../../util/Utility";
+import { Logger } from "../logger/Logger";
 
 /**
  * Represents a handler for player excuses.
@@ -25,8 +26,13 @@ export class ExcuseHandler {
 		 * @param module The module to excuse the player from. Defaults to "*".
 		 */
 		Utility.EXPORTS("AddExcuseForPlayer", (source: number, timeout: number, module?: string) => {
-			const newExcuse = { module: module || "*" };
-			this.addExcuse(source, timeout, newExcuse);
+			try {
+				const newExcuse = { module: module || "*" };
+				this.addExcuse(source, timeout, newExcuse);
+			} catch (err: unknown) {
+				if (!(err instanceof Error)) return;
+				Logger.error(`[Export]: ${err.message}`);
+			}
 		});
 
 		/**
@@ -34,9 +40,14 @@ export class ExcuseHandler {
 		 * @param source The player ID.
 		 * @param module The module to remove the excuse from. If not specified, removes all excuses for the player.
 		 */
-		Utility.EXPORTS("RemoveExcuseFromPlayer", (source: number, module?: string) =>
-			this.removeExcuse(source, module)
-		);
+		Utility.EXPORTS("RemoveExcuseFromPlayer", (source: number, module?: string) => {
+			try {
+				this.removeExcuse(source, module);
+			} catch (err: unknown) {
+				if (!(err instanceof Error)) return;
+				Logger.error(`[Export]: ${err.message}`);
+			}
+		});
 
 		/**
 		 * Checks if a player is excused from a module.
@@ -45,7 +56,12 @@ export class ExcuseHandler {
 		 * @returns Whether the player is excused from the module.
 		 */
 		Utility.EXPORTS("IsPlayerExcused", (source: number, module?: string) => {
-			return this.isExcused(source, module);
+			try {
+				return this.isExcused(source, module);
+			} catch (err: unknown) {
+				if (!(err instanceof Error)) return;
+				Logger.error(`[Export]: ${err.message}`);
+			}
 		});
 	}
 

@@ -54,7 +54,7 @@ export class DeferralsModule extends Module {
 	 */
 	private async onDefer(name: string, _: (reason: string) => void, deferrals: Deferrals): Promise<void> {
 		const ipv4: string = GetPlayerIdentifierByType(source.toString(), "ip").slice(3);
-		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 != "127.0.0.1";
+		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 !== "127.0.0.1";
 
 		if (this._nameFilter.enabled || doVPNCheck) {
 			deferrals.defer();

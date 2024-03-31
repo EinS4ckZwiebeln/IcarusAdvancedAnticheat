@@ -12,11 +12,11 @@ export class EventBlacklistModule extends Module {
 	 * Registers blacklisted events and sets up a violation handler for each event.
 	 */
 	private async registerEvents(): Promise<void> {
-		for (let [resourceName, value] of Object.entries(this.config.BlacklistedEvents)) {
+		for (const [resourceName, value] of Object.entries(this.config.BlacklistedEvents)) {
 			// Skip over resource when it is started
 			if (GetResourceState(resourceName) === "started") continue;
 
-			const events = Array.from(value as string[]);
+			const events = Array.from(value);
 			events.forEach((event: string) => {
 				onNet(event, () => {
 					const violation = new Violation(source, "Event Blacklist [C1]", this.name);

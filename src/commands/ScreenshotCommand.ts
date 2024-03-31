@@ -4,6 +4,7 @@ import { WebhookRequest } from "../web/WebhookRequest";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
 import { Parameter } from "../Types";
+import { Utility } from "../util/Utility";
 
 /**
  * Subcommand class for taking a screenshot and posting it to a Discord webhook.
@@ -38,7 +39,7 @@ export class ScreenshotCommand extends Command {
 		}
 
 		const webhook = Config.getConfig().DiscordWebhook;
-		if (!webhook || webhook.length < 1) {
+		if (Utility.isNullOrEmtpy(webhook)) {
 			emitNet("chat:addMessage", source, { args: [`^1Failed: No discord webhook was found.^0`] });
 			Logger.debug("Failed to execute screenshot command. No discord webhook was found.");
 			return;

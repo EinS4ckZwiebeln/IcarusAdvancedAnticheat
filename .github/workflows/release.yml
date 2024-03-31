@@ -27,6 +27,7 @@ jobs:
               uses: actions/checkout@v2
               with:
                   ref: ${{ github.event.inputs.branch }}
+                  token: ${{ secrets.PAT }}
 
             - name: Set up Node.js
               uses: actions/setup-node@v2
@@ -44,6 +45,11 @@ jobs:
             - name: Install dependencies
               run: yarn install --production=true --ignore-optional
 
+            - name: Perform autoclean
+              run: |
+                  yarn autoclean --init
+                  yarn autoclean --force
+
             - name: Bump manifest version
               run: node .github/actions/bump-version.js
               env:
@@ -56,7 +62,7 @@ jobs:
                   push: true
                   author_name: Manifest Bumper
                   author_email: 41898282+github-actions[bot]@users.noreply.github.com
-                  message: "chore: bump manifest version to ${{ github.ref_name }}"
+                  message: "chore: bump manifest version to ${{ github.event.inputs.version }}"
 
             - name: Build release
               run: |
@@ -82,7 +88,3 @@ jobs:
                   prerelease: ${{ github.event.inputs.prerelease }}
                   title: ${{ github.event.inputs.version }}
                   files: Icarus.zip
-
-              env:
-                  CI: false
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
