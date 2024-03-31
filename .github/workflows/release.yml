@@ -58,7 +58,7 @@ jobs:
               uses: EndBug/add-and-commit@v8
               with:
                   add: fxmanifest.lua
-                  push: true
+                  push: "--set-upstream --force"
                   author_name: Manifest Bumper
                   author_email: 41898282+github-actions[bot]@users.noreply.github.com
                   message: "chore: bump manifest version to ${{ github.ref_name }}"
