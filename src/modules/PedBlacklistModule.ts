@@ -18,7 +18,7 @@ export class PedBlacklistModule extends Module {
 	 */
 	private verifyPlayerModel(player: string): void {
 		const model: number = GetEntityModel(GetPlayerPed(player));
-		if (!this._whitelistedPedModels.has(model)) {
+		if (model !== 0 && !this._whitelistedPedModels.has(model)) {
 			const violation = new Violation(parseInt(player), "Blacklisted Ped [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
