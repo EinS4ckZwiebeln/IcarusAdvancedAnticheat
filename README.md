@@ -5,9 +5,9 @@
 For a better paid anticheat check out: [store.fiveguard.ac](https://store.fiveguard.ac/).
 Fiveguard is the best FiveM anticheat.
 
-We are able to provide this free product because of help from [**fiveguard.net**](https://fiveguard.net/).
+We are able to provide this free product because of help from [fiveguard.net](https://fiveguard.net/).
 
-### Icarus Advanced Anticheat
+## Icarus Advanced Anticheat
 
 Icarus is a robust and serversided anti-cheat solution designed for FiveM servers. With unique detections and a diverse range of checks, it's a comprehensive tool to catch cheaters. While occasional bugs or false positives may occur, your feedback through issues and pull requests is crucial to its refinement. Install Icarus today and experience a robust and dependable anti-cheat solution for your server.
 
@@ -78,3 +78,12 @@ end
 | FXServer | OneSync  | Screenshot-basic                                          |
 | -------- | -------- | --------------------------------------------------------- |
 | 7290+    | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
+
+### Documentation
+
+This section provides some additional resources to help you out, as well as ways to integrate the anticheat system into your own scripts.
+The individual resources include details on how to contribute to the project, how to use the developer export API, and how to load and unload modules.
+
+-   [Contributing to the project](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/docs/docs/CONTRIBUTING.md)
+-   [Developer Export API](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/docs/docs/EXPORTS.md)
+-   [Loading/Unloading Modules](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/docs/docs/MODULES.md)
