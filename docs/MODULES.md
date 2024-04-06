@@ -56,7 +56,7 @@ To load the module again, simply use this command:
 ## Anti Illegal Peds
 
 -   Module Name: `PedBlacklistModule`
--   Type: `EVENT`
+-   Type: `TICK`
 
 ## Anti Super Jump
 
