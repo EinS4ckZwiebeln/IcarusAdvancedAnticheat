@@ -38,7 +38,7 @@ _For a one-time build._
 npm run build
 ```
 
-_Continuously watch the project for changes and rebuild as necessary (recommended)._
+_To continuously watch the project for changes and rebuild as necessary (recommended)._
 
 ```bash
 npm run watch
@@ -59,7 +59,7 @@ export class ExampleModule extends Module {
 }
 ```
 
-When creating a new module, please ensure that the module is registered by the module loader in the `App.ts` file. Also, the new module must have an entry in the `config.lua` file with an `enabled = <boolean>` property. Otherwise the script won't run.
+When creating a new module, please ensure that the module is registered by the module loader in the `App.ts` file. The new module also must have an entry in the `config.lua` file with an `enabled = <boolean>` property. Otherwise, the resource won't run.
 
 ```typescript
 // Add this below the other modules inside the App.ts file.
@@ -91,7 +91,6 @@ export class ExampleModule extends Module {
     public void onUnload() {
         EventHandler.unsubscribe("entityCreating", this.onEvent.bind(this));
     }
-    ...
 
     private void onEvent(entity: number) {
         console.log(`Creating: ${entity}`);
