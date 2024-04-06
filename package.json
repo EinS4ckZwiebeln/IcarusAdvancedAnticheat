@@ -13,7 +13,7 @@
 	"devDependencies": {
 		"@citizenfx/server": "^2.0.6736-1",
 		"@types/bad-words": "^3.0.3",
-		"@types/node": "20.11.20",
+		"@types/node": "20.12.5",
 		"typescript": "5.4.3",
 		"esbuild": "^0.20.0"
 	},
