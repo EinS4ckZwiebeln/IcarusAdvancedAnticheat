@@ -1,7 +1,5 @@
 # Contributing
 
-First off, thank you for considering contributing to Icarus. It's people like you that make this project such a great tool.
-
 ## Where do I go from here?
 
 If you've noticed a bug or have a feature request, make sure to check our [Issues](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/issues) if there's already an open issue addressing your concerns. If not, feel free to [open a new one](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/issues/new).
