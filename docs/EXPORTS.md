@@ -18,7 +18,7 @@ By using the `AddExcuseForPlayer` function, you can temporarily exempt a player 
 exports["Icarus"]:AddExcuseForPlayer(source, 1000)
 ```
 
-If you wish, you can also excuse the player for individual modules, by passing the module name as an optional parameter. For a comprehensive list of all modules, please refer to the [documentation](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/docs/docs/MODULES.md).
+If you wish, you can also excuse the player for individual modules, by passing the module name as an optional parameter. For a comprehensive list of all modules, please refer to the [documentation](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/master/docs/MODULES.md).
 
 ```lua
 exports["Icarus"]:AddExcuseForPlayer(source, 1000, "ExampleModule")

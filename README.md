@@ -84,6 +84,6 @@ end
 This section provides some additional resources to help you out, as well as ways to integrate the anticheat system into your own scripts.
 The individual resources include details on how to contribute to the project, how to use the developer export API, and how to load and unload modules.
 
--   [Contributing to the project](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/docs/docs/CONTRIBUTING.md)
--   [Developer Export API](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/docs/docs/EXPORTS.md)
--   [Loading/Unloading Modules](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/docs/docs/MODULES.md)
+-   [Contributing to the project](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/master/docs/CONTRIBUTING.md)
+-   [Developer Export API](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/master/docs/EXPORTS.md)
+-   [Loading/Unloading Modules](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/master/docs/MODULES.md)
