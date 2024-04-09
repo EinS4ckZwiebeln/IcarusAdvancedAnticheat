@@ -1,2 +1,3 @@
 *.lua
 src/tsconfig.json
+tests/tsconfig.json

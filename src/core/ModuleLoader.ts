@@ -1,11 +1,10 @@
-import { Configuration } from "../Types";
 import { Config } from "./config/Config";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 
 export class ModuleLoader {
 	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
-	private static readonly _config: Configuration = Config.getConfig();
+	private static readonly _config: Config = new Config();
 
 	constructor() {
 		throw new Error("ModuleLoader is a static class cannot be instantiated");
@@ -54,7 +53,7 @@ export class ModuleLoader {
 	 */
 	private static validateModuleConfig(name: string): void {
 		// Ensure module has configuration set up
-		if (!this._config.Modules[name].enabled) {
+		if (!this._config.getConfig().Modules[name].enabled) {
 			Logger.debug(`Module ${name} is disabled in the config`);
 		}
 	}
