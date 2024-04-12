@@ -210,31 +210,12 @@ export class Utility {
 	public static Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 	/**
-	 * Converts a string into its corresponding joaat hash.
-	 * @param input The string to hash.
-	 * @returns The hashed input string.
-	 */
-	public static joaat(input: string): number {
-		input = input.toString().toLowerCase();
-		let hash = 0;
-		for (let i = 0; i < input.length; ++i) {
-			hash += input.charCodeAt(i);
-			hash += hash << 10;
-			hash ^= hash >>> 6;
-		}
-		hash += hash << 3;
-		hash ^= hash >>> 11;
-		hash += hash << 15;
-		return hash >>> 0;
-	}
-
-	/**
 	 * Converts an array of strings to an array of their corresponding hash keys.
 	 * @param arr The array of strings to convert.
 	 * @returns An array of hash keys.
 	 */
 	public static hashify(arr: string[]) {
-		return arr.map((x) => this.joaat(x));
+		return arr.map((x) => GetHashKey(x));
 	}
 
 	/**
