@@ -55,7 +55,7 @@ If wish to have a different permission string, a custom can be set in the config
 add_ace group.<your_group> icarus.bypass allow
 ```
 
-2. Add the according player license to previous chosen group.
+2. Add the according player license to the previously chosen group.
 
 ```bash
 add_principal identifier.license:<your_license> group.<your_group>
@@ -63,7 +63,7 @@ add_principal identifier.license:<your_license> group.<your_group>
 
 ### Banning
 
-Numerous anticheat solutions are burdened by extensive ban systems and databases. Icarus, however, sidesteps these complexities to enhance compatibility and eliminate redundant code. To maximize the effectiveness of Icarus, it is imperative to integrate your own ban logic into the script, a process conveniently accomplished through the configuration file.
+Numerous anticheat solutions are burdened by extensive ban systems and databases. Icarus, however, sidesteps these complexities to enhance compatibility and eliminate redundant code. To maximize the effectiveness of Icarus, it is imperative to integrate your ban logic into the script, a process conveniently accomplished through the configuration file.
 
 ```lua
 -- << config.lua >>
@@ -81,7 +81,7 @@ end
 
 ### Documentation
 
-This section provides some additional resources to help you out, as well as ways to integrate the anticheat system into your own scripts.
+This section provides some additional resources to help you out, as well as ways to integrate the anticheat system into your scripts.
 The individual resources include details on how to contribute to the project, how to use the developer export API, and how to load and unload modules.
 
 -   [Contributing to the project](https://github.com/EinS4ckZwiebeln/IcarusAdvancedAnticheat/blob/master/docs/CONTRIBUTING.md)

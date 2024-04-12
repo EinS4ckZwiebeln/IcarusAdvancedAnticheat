@@ -29,7 +29,8 @@ export class ModuleLoader {
 			if (!enabled) return;
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
-			throw new Error(`${err.message} (does ${name} exist in the config?)`);
+			Logger.error(err.message);
+			throw new Error(`Failed to load module ${name}. Did you forget to add it to the config?`);
 		}
 
 		module.onLoad();

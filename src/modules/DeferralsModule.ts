@@ -4,8 +4,11 @@ import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Deferrals, DeferralsObject } from "../Types";
 import axios from "axios";
+import { Utility } from "../util/Utility";
 
 export class DeferralsModule extends Module {
+	private readonly _steamApiKey: string = GetConvar("steam_webApiKey", "none");
+	private readonly _banChecker: DeferralsObject = Config.getValue(this.config, "BanChecker");
 	private readonly _nameFilter: DeferralsObject = Config.getValue(this.config, "NameFilter");
 	private readonly _noVPN: DeferralsObject = Config.getValue(this.config, "NoVPN");
 
@@ -46,6 +49,22 @@ export class DeferralsModule extends Module {
 	}
 
 	/**
+	 * Checks if a player with the given Steam ID has a VAC ban.
+	 * @param steamId The Steam ID of the player.
+	 * @returns A promise that resolves to a boolean indicating whether the player has a VAC ban.
+	 */
+	private async hasVacBan(steamId: string): Promise<boolean> {
+		const response = await axios.get(
+			`https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=${this._steamApiKey}&steamids=${steamId}`
+		);
+		if (response.status !== 200) {
+			Logger.error(`Failed to fetch vac ban status for player: ${response.status}`);
+			return false;
+		}
+		return (await response.data).players.length > 0;
+	}
+
+	/**
 	 * Handles deferrals for a given player.
 	 * @param name - The name of the player.
 	 * @param deferrals - The deferral object for the player.
@@ -54,23 +73,29 @@ export class DeferralsModule extends Module {
 	 */
 	private async onDefer(name: string, _: (reason: string) => void, deferrals: Deferrals): Promise<void> {
 		const ipv4: string = GetPlayerIdentifierByType(source.toString(), "ip").slice(3);
-		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 !== "127.0.0.1";
+		const steamId: string = GetPlayerIdentifierByType(source.toString(), "steam");
 
-		if (this._nameFilter.enabled || doVPNCheck) {
+		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 !== "127.0.0.1";
+		const doBanCheck: boolean = this._banChecker.enabled && !Utility.isNullOrEmtpy(steamId) && this._steamApiKey !== "none";
+
+		if (this._nameFilter.enabled || doVPNCheck || doBanCheck) {
 			deferrals.defer();
 			await this.Delay(0);
 		}
 
-		if (this._nameFilter.enabled && !this.isAlphaNumeric(name)) {
-			deferrals.done(this._nameFilter.rejectionMsg);
-		}
-
 		try {
+			if (this._nameFilter.enabled && !this.isAlphaNumeric(name)) {
+				deferrals.done(this._nameFilter.rejectionMsg);
+			}
+			// Check if the player is using a VPN
 			if (doVPNCheck && (await this.hasVPN(ipv4))) {
 				deferrals.done(this._noVPN.rejectionMsg);
-			} else {
-				deferrals.done();
 			}
+			// Check if the player has a VAC ban
+			if (doBanCheck && (await this.hasVacBan(steamId.slice(6)))) {
+				deferrals.done(this._banChecker.rejectionMsg);
+			}
+			deferrals.done();
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
 			Logger.error(err.message);
