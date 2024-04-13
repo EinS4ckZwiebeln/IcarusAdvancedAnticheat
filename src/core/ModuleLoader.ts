@@ -25,8 +25,7 @@ export class ModuleLoader {
 		}
 		// Ensure there is at least minimal configuration for this module
 		try {
-			const enabled = this.validateModuleConfig(name);
-			if (!enabled) return;
+			if (!this.isModuleEnabled(name)) return;
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
 			Logger.error(err.message);
@@ -51,10 +50,10 @@ export class ModuleLoader {
 	}
 
 	/**
-	 * Validates the module configuration.
+	 * Returns if module is enabled in the configuration.
 	 * @param name - The name of the module.
 	 */
-	private static validateModuleConfig(name: string): boolean {
+	private static isModuleEnabled(name: string): boolean {
 		const enabled = this._config.Modules[name].enabled;
 		// Ensure module has configuration set up
 		if (!enabled) {
