@@ -36,7 +36,7 @@ Config.Modules = {
         },
         -- Filters non alphanumeric playernames.
         NameFilter = {
-            enabled = true,
+            enabled = false,
             rejectionMsg = "Your name contains non alphanumeric characters (a-Z, 0-9). Please consider changing your name in order to connect."
         },
         -- Prevents players that have been Steam VAC banned from connecting.
