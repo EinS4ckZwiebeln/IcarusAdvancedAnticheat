@@ -4,7 +4,7 @@ game "gta5"
 
 author "EinS4ckZwiebeln"
 description "Efficient, modular server-side anticheat script."
-version "2.0.6"
+version "2.0.6b"
 
 lua54 "yes"
 server_only "yes"
