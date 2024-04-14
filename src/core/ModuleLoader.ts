@@ -56,8 +56,10 @@ export class ModuleLoader {
 	private static isModuleEnabled(name: string): boolean {
 		const enabled = this._config.Modules[name].enabled;
 		// Ensure module has configuration set up
-		if (!enabled) {
+		if (enabled === false) {
 			Logger.debug(`Module ${name} is disabled in the config`);
+		} else if (enabled === undefined) {
+			throw new Error(`Module ${name} is missing 'enabled' property in the config file`);
 		}
 		return enabled;
 	}
