@@ -28,6 +28,7 @@ Config.Modules = {
     },
     -- Everything connection related.
     DeferralsModule = {
+        enabled = true,
         -- Prevents players using a VPN client from connecting.
         NoVPN = {
             enabled = false,
@@ -35,7 +36,7 @@ Config.Modules = {
         },
         -- Filters non alphanumeric playernames.
         NameFilter = {
-            enabled = false,
+            enabled = true,
             rejectionMsg = "Your name contains non alphanumeric characters (a-Z, 0-9). Please consider changing your name in order to connect."
         },
         -- Prevents players that have been Steam VAC banned from connecting.
