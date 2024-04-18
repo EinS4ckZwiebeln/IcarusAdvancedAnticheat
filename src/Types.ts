@@ -80,6 +80,14 @@ export type Parameter = {
 	help: string;
 };
 /**
+ * Represents a command suggestion object.
+ */
+export type ChatSuggestion = {
+	command: string;
+	description: string;
+	parameters: Parameter[];
+};
+/**
  * Represents release version data from github.
  */
 export type Release = {

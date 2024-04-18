@@ -2,7 +2,7 @@ import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
 import { Command } from "./Command";
 import { EventHandler } from "./handler/EventHandler";
-import { ChatSuggestion } from "./ChatSuggestion";
+import { ChatSuggestion } from "../Types";
 
 export class CommandLoader {
 	private static readonly _chatSuggestions: ChatSuggestion[] = [];
@@ -26,7 +26,8 @@ export class CommandLoader {
 			},
 			false
 		);
-		this._chatSuggestions.push(new ChatSuggestion(command.name, command.description, command.parameters));
+		const suggestion: ChatSuggestion = { command: command.name, description: command.description, parameters: command.parameters };
+		this._chatSuggestions.push(suggestion);
 		Logger.debug(`Registered command ${command.name}`);
 	}
 
