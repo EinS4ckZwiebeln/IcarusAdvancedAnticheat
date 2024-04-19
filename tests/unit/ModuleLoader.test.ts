@@ -1,9 +1,9 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Module } from "../../core/Module";
-import { Logger } from "../../core/logger/Logger";
-import { ModuleLoader } from "../../core/ModuleLoader";
+import { Module } from "../../src/core/Module";
+import { Logger } from "../../src/core/logger/Logger";
+import { ModuleLoader } from "../../src/core/ModuleLoader";
 
 Logger.init();
 class TestModule extends Module {

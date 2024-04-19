@@ -1,9 +1,9 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Logger } from "../../core/logger/Logger";
-import { Violation } from "../../core/Violation";
-import { Utility } from "../../util/Utility";
+import { Logger } from "../../src/core/logger/Logger";
+import { Violation } from "../../src/core/Violation";
+import { Utility } from "../../src/util/Utility";
 
 Logger.init();
 describe("Violation", () => {

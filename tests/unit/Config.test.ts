@@ -1,7 +1,7 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
-import { Config } from "../../core/config/Config";
-import { Configuration } from "../../Types";
+import { Config } from "../../src/core/config/Config";
+import { Configuration } from "../../src/Types";
 
 const mockConfig: Configuration = {
 	Permission: {

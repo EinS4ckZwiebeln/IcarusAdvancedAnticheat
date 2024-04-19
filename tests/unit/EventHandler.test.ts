@@ -1,8 +1,8 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { EventHandler } from "../../core/handler/EventHandler";
-import { Logger } from "../../core/logger/Logger";
+import { EventHandler } from "../../src/core/handler/EventHandler";
+import { Logger } from "../../src/core/logger/Logger";
 
 Logger.init();
 describe("EventHandler", () => {

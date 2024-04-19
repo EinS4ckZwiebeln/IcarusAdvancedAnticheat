@@ -1,6 +1,6 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
-import { Module } from "../../core/Module";
+import { Module } from "../../src/core/Module";
 
 class TestModule extends Module {
 	public onLoad(): void {}

@@ -1,8 +1,8 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Logger } from "../../core/logger/Logger";
-import { ExcuseHandler } from "../../core/handler/ExcuseHandler";
+import { Logger } from "../../src/core/logger/Logger";
+import { ExcuseHandler } from "../../src/core/handler/ExcuseHandler";
 
 Logger.init();
 describe("ExcuseHandler", () => {

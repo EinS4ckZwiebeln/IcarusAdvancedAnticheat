@@ -1,8 +1,8 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Logger } from "../../core/logger/Logger";
-import { PermissionHandler } from "../../core/handler/PermissionHandler";
+import { Logger } from "../../src/core/logger/Logger";
+import { PermissionHandler } from "../../src/core/handler/PermissionHandler";
 
 Logger.init();
 describe("PermissionHandler", () => {
@@ -15,13 +15,11 @@ describe("PermissionHandler", () => {
 		const hasPermission = PermissionHandler.hasPermission(source);
 		expect(hasPermission).toBe(true);
 	});
-
 	it("should return false if player does not have permission", () => {
 		const source = 2;
 		const hasPermission = PermissionHandler.hasPermission(source);
 		expect(hasPermission).toBe(false);
 	});
-
 	it("should return true if player has bypass permission", () => {
 		const source = 0; // Zero will always have permission in tests
 		const hasPermission = PermissionHandler.hasPermission(source);
