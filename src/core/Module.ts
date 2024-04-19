@@ -1,10 +1,11 @@
+import { Configuration } from "../Types";
 import { Config } from "./config/Config";
 
 export abstract class Module {
 	private _tick: number = 0;
 	private _isTicking: boolean = false;
 
-	private readonly _config: Config = new Config();
+	private static readonly _config: Configuration = Config.getConfig();
 	// Utility for onTick method
 	protected readonly Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -20,8 +21,8 @@ export abstract class Module {
 		return this._tick;
 	}
 
-	protected get config(): Config {
-		return this._config;
+	protected get config(): Configuration {
+		return Module._config;
 	}
 
 	/**
