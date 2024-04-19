@@ -1,5 +1,5 @@
 import "../helper/CfxGlobals";
-import "../helper/ResourceNatives";
+import "../helper/MockNatives";
 import { Config } from "../../core/config/Config";
 import { Configuration } from "../../Types";
 

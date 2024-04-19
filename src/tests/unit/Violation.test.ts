@@ -1,5 +1,5 @@
 import "../helper/CfxGlobals";
-import "../helper/ResourceNatives";
+import "../helper/MockNatives";
 import "../helper/MockConfig";
 import { Logger } from "../../core/logger/Logger";
 import { Violation } from "../../core/Violation";

@@ -9,6 +9,7 @@ declare global {
 	function GetPlayerName(source: string): string;
 }
 
+// Resource related functions
 global.GetCurrentResourceName = () => "Icarus";
 global.GetResourceMetadata = (resourceName: string, metadataKey: string, index: number): string => {
 	if (resourceName === "Icarus" && metadataKey === "version" && index === 0) {
@@ -18,12 +19,16 @@ global.GetResourceMetadata = (resourceName: string, metadataKey: string, index: 
 	}
 };
 global.GetResourcePath = (_: string): string => "./";
-global.GetHashKey = (_: string): number => 0;
+global.GetResourceState = (_: string) => "stopped";
+
+// Player related functions
 global.IsPlayerAceAllowed = (source: string, permission: string) => {
 	return source === "0" && permission === "test.bypass";
 };
-global.GetResourceState = (_: string) => "stopped";
 global.GetPlayerIdentifierByType = (_: string, __: string) => "unknown";
 global.GetPlayerName = (_: string) => "unknown";
+
+// Other functions
+global.GetHashKey = (_: string): number => 0;
 
 export {};

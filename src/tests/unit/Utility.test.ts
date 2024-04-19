@@ -1,5 +1,5 @@
 import "../helper/CfxGlobals";
-import "../helper/ResourceNatives";
+import "../helper/MockNatives";
 import { Utility } from "../../util/Utility";
 
 describe("Utility", () => {
