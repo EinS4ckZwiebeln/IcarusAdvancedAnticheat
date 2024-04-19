@@ -12,8 +12,8 @@
 	"license": "MIT",
 	"private": true,
 	"peerDependencies": {
-		"pretty-format": "^26.6.2",
-		"expect": "^26.6.2"
+		"expect": "^26.6.2",
+		"pretty-format": "^26.6.2"
 	},
 	"devDependencies": {
 		"@citizenfx/server": "^2.0.6736-1",
