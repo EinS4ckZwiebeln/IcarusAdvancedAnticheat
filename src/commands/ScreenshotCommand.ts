@@ -1,7 +1,7 @@
 import { Config } from "../core/config/Config";
 import { ScreenshotRequest } from "../web/ScreenshotRequest";
 import { WebhookRequest } from "../web/WebhookRequest";
-import { Command } from "../core/Command";
+import { ICommand } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
 import { Parameter } from "../Types";
 import { Utility } from "../util/Utility";
@@ -9,26 +9,19 @@ import { Utility } from "../util/Utility";
 /**
  * Subcommand class for taking a screenshot and posting it to a Discord webhook.
  */
-export class ScreenshotCommand extends Command {
-	private readonly _webhook: string;
-
-	/**
-	 * Creates a new instance of the ScreenshotCommand class.
-	 */
-	constructor() {
-		const parameters: Parameter[] = [{ name: "id", help: "The id of the player" }];
-		super("screenshot", "Takes a screenshot of the players game", parameters, (source: number, args: string[]) =>
-			this.onExecute(source, args)
-		);
-		this._webhook = Config.getConfig().DiscordWebhook;
-	}
+export class ScreenshotCommand implements ICommand {
+	public readonly name: string = "screenshot";
+	public readonly description: string = "Takes a screenshot of the players game";
+	public readonly parameters: Parameter[] = [{ name: "id", help: "The id of the player" }];
+	// The webhook to post the screenshot to.
+	private readonly _webhook: string = Config.getConfig().DiscordWebhook;
 
 	/**
 	 * Executes the screenshot command.
 	 * @param _ The source of the command.
 	 * @param args The arguments passed to the command.
 	 */
-	private async onExecute(source: number, args: string[]): Promise<void> {
+	public async onExecute(source: number, args: string[]): Promise<void> {
 		const target: number = Number(args[0]);
 		if (isNaN(target)) return;
 

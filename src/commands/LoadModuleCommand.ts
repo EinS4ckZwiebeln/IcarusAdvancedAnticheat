@@ -1,22 +1,18 @@
 import { ModuleLoader } from "../core/ModuleLoader";
-import { Command } from "../core/Command";
+import { ICommand } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
 import { Parameter } from "../Types";
 
-export class LoadModuleCommand extends Command {
-	/**
-	 * Creates a new instance of the LoadModuleCommand class.
-	 */
-	constructor() {
-		const parameters: Parameter[] = [{ name: "moduleName", help: "The name of the module to load" }];
-		super("load", "Manually loads a module", parameters, (source: number, args: string[]) => this.onExecute(source, args));
-	}
+export class LoadModuleCommand implements ICommand {
+	public readonly name: string = "load";
+	public readonly description: string = "Manually loads a module";
+	public readonly parameters: Parameter[] = [{ name: "moduleName", help: "The name of the module to load" }];
 
 	/**
 	 * Executes the command logic.
 	 * @param source The player who executed the command.
 	 */
-	private async onExecute(source: number, args: string[]): Promise<void> {
+	public async onExecute(source: number, args: string[]): Promise<void> {
 		const moduleName: string = args[0];
 		try {
 			const module = ModuleLoader.getModule(moduleName);

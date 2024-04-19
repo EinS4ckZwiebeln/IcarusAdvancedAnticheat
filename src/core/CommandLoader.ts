@@ -1,6 +1,6 @@
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
-import { Command } from "./Command";
+import { ICommand } from "./Command";
 import { EventHandler } from "./handler/EventHandler";
 import { ChatSuggestion } from "../Types";
 
@@ -10,15 +10,14 @@ export class CommandLoader {
 	 * Registers a command into the command loader.
 	 * @param command The Command to be registered.
 	 */
-	public static registerCommand(command: Command): void {
+	public static registerCommand(command: ICommand): void {
 		RegisterCommand(
 			command.name,
-			(source: number, args: string[]) => {
+			(source: number, args?: string[]) => {
 				// Ensure player has correct permission for the command
 				if (!PermissionHandler.hasPermission(source)) return;
-
 				try {
-					if (command.callback) command.callback(source, args);
+					command.onExecute(source, args);
 				} catch (err: unknown) {
 					if (!(err instanceof Error)) return;
 					Logger.error(err.message);
