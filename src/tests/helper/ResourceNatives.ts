@@ -1,6 +1,7 @@
 declare global {
 	function GetCurrentResourceName(): string;
 	function GetResourceMetadata(resourceName: string, metadataKey: string, index: number): string;
+	function GetResourcePath(resourceName: string): string;
 	function GetHashKey(model: string): number;
 }
 
@@ -12,6 +13,7 @@ global.GetResourceMetadata = (resourceName: string, metadataKey: string, index: 
 		throw new Error("Invalid metadata key");
 	}
 };
+global.GetResourcePath = (_: string): string => "./";
 global.GetHashKey = (_: string): number => 0;
 
 export {};
