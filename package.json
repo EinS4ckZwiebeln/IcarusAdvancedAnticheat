@@ -1,32 +1,32 @@
 {
-  "name": "icarus",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
-    "watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
-    "test": "jest"
-  },
-  "author": "EinS4ckZwiebeln",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "@citizenfx/server": "^2.0.6736-1",
-    "@types/bad-words": "^3.0.3",
-    "@types/jest": "^29.5.12",
-    "@types/node": "20.11.20",
-    "esbuild": "^0.20.0",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.2",
-    "typescript": "^5.4.3"
-  },
-  "dependencies": {
-    "axios": "^1.6.7",
-    "bad-words": "^3.0.4",
-    "form-data": "^4.0.0",
-    "ts-node": "^10.9.2",
-    "winston": "^3.11.0",
-    "winston-daily-rotate-file": "^5.0.0"
-  }
+	"name": "icarus",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"test": "npx jest --env=node"
+	},
+	"author": "EinS4ckZwiebeln",
+	"license": "MIT",
+	"private": true,
+	"devDependencies": {
+		"@citizenfx/server": "^2.0.6736-1",
+		"@types/bad-words": "^3.0.3",
+		"@types/jest": "^29.5.12",
+		"@types/node": "20.11.20",
+		"esbuild": "^0.20.0",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.1.2",
+		"typescript": "^5.4.3"
+	},
+	"dependencies": {
+		"axios": "^1.6.7",
+		"bad-words": "^3.0.4",
+		"form-data": "^4.0.0",
+		"ts-node": "^10.9.2",
+		"winston": "^3.11.0",
+		"winston-daily-rotate-file": "^5.0.0"
+	}
 }
