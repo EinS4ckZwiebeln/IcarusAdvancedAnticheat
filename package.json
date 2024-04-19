@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
 		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
-		"test": "npx jest --env=node"
+		"test": "jest --env=node"
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
