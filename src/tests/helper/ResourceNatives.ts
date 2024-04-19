@@ -3,6 +3,10 @@ declare global {
 	function GetResourceMetadata(resourceName: string, metadataKey: string, index: number): string;
 	function GetResourcePath(resourceName: string): string;
 	function GetHashKey(model: string): number;
+	function IsPlayerAceAllowed(source: string, permission: string): boolean;
+	function GetResourceState(resourceName: string): string;
+	function GetPlayerIdentifierByType(source: string, type: string): string;
+	function GetPlayerName(source: string): string;
 }
 
 global.GetCurrentResourceName = () => "Icarus";
@@ -15,5 +19,11 @@ global.GetResourceMetadata = (resourceName: string, metadataKey: string, index: 
 };
 global.GetResourcePath = (_: string): string => "./";
 global.GetHashKey = (_: string): number => 0;
+global.IsPlayerAceAllowed = (source: string, permission: string) => {
+	return source === "0" && permission === "test.bypass";
+};
+global.GetResourceState = (_: string) => "stopped";
+global.GetPlayerIdentifierByType = (_: string, __: string) => "unknown";
+global.GetPlayerName = (_: string) => "unknown";
 
 export {};
