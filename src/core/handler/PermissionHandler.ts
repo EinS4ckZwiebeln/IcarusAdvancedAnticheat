@@ -15,7 +15,7 @@ export class PermissionHandler {
 	/**
 	 * The permission required to bypass the permission check.
 	 */
-	private static readonly _bypassPermission: string = new Config().getConfig().Permission.bypassPermission;
+	private static readonly _bypassPermission: string = Config.getConfig().Permission.bypassPermission;
 
 	constructor() {
 		throw new Error("PermissionHandler is a static class and cannot be instantiated.");
