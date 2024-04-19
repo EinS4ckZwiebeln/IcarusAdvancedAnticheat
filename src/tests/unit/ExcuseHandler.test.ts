@@ -6,8 +6,12 @@ import { ExcuseHandler } from "../../core/handler/ExcuseHandler";
 
 Logger.init();
 describe("ExcuseHandler", () => {
+	beforeEach(() => {
+		jest.useFakeTimers();
+	});
 	afterEach(() => {
 		ExcuseHandler["_excusedPlayers"].clear();
+		jest.useRealTimers();
 	});
 	it("should excuse a player", () => {
 		const source = 1;
@@ -19,7 +23,8 @@ describe("ExcuseHandler", () => {
 		const source = 1;
 		const timeout = 500;
 		ExcuseHandler["addExcuse"](source, timeout);
-		setTimeout(() => expect(ExcuseHandler.isExcused(source)).toBeFalsy(), 1000);
+		jest.advanceTimersByTime(1000);
+		expect(ExcuseHandler.isExcused(source)).toBeFalsy();
 	});
 	it("should excuse a player from a module", () => {
 		const source = 1;
