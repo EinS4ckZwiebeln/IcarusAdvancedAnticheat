@@ -45,10 +45,7 @@ jobs:
             - name: Build release
               run: |
                   yarn install --ignore-optional
-                  if: ${{ github.event.inputs.tests }}
-                    yarn run test && yarn run build
-                  if: ${{ !github.event.inputs.tests }}
-                    yarn run build
+                  ${{ github.event.inputs.tests }} && yarn run test && yarn run build || yarn run build
 
             - name: Set env
               run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
