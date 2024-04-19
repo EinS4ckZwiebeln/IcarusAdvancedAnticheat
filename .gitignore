@@ -13,5 +13,6 @@ package-lock.json
 
 # Directories
 node_modules/
+coverage/
 dist/
 logs/
