@@ -28,6 +28,7 @@ Config.Modules = {
     },
     -- Everything connection related.
     DeferralsModule = {
+        enabled = true,
         -- Prevents players using a VPN client from connecting.
         NoVPN = {
             enabled = false,
@@ -36,7 +37,13 @@ Config.Modules = {
         -- Filters non alphanumeric playernames.
         NameFilter = {
             enabled = false,
-            rejectionMsg = "Your name contains non alphanumeric (a-Z, 0-9) characters. Please consider changing your name in order to connect."
+            rejectionMsg = "Your name contains non alphanumeric characters (a-Z, 0-9). Please consider changing your name in order to connect."
+        },
+        -- Prevents players that have been Steam VAC banned from connecting.
+        -- For this to work you need to have your 'steam_webApiKey' set in your server.cfg.
+        BanChecker = {
+            enabled = false,
+            rejectionMsg = "You are banned from this server."
         }
     },
     -- Prevents spawning of every model in the IllegalModels list.

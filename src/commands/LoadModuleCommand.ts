@@ -19,7 +19,9 @@ export class LoadModuleCommand extends Command {
 	private async onExecute(source: number, args: string[]): Promise<void> {
 		const moduleName: string = args[0];
 		try {
-			ModuleLoader.getModule(moduleName)?.onLoad();
+			const module = ModuleLoader.getModule(moduleName);
+			if (!module) return;
+			ModuleLoader.loadModule(module);
 			emitNet("chat:addMessage", source, { args: [`^3Loaded ${moduleName} successfully.^0`] });
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
