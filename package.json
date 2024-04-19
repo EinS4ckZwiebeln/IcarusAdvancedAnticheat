@@ -11,16 +11,20 @@
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
 	"private": true,
+	"peerDependencies": {
+		"pretty-format": "^26.6.2",
+		"expect": "^26.6.2"
+	},
 	"devDependencies": {
 		"@citizenfx/server": "^2.0.6736-1",
 		"@types/bad-words": "^3.0.3",
-		"@types/jest": "^29.5.12",
+		"@types/jest": "^26.0.24",
 		"@types/node": "20.11.20",
 		"esbuild": "^0.20.0",
-		"jest": "^29.7.0",
-		"ts-jest": "^29.1.2",
+		"jest": "^26.6.3",
+		"ts-jest": "^26.5.6",
 		"ts-node": "^10.9.2",
-		"typescript": "^5.4.3"
+		"typescript": "^4.5.4"
 	},
 	"dependencies": {
 		"axios": "^1.6.7",
