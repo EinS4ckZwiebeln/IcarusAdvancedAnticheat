@@ -19,13 +19,13 @@ describe("Module", () => {
 	it("should have a tick", () => {
 		const module = new TestModule();
 		module.setTick();
-		expect(module.tick).toBeGreaterThan(-1);
+		expect(module.tick).toBeGreaterThan(0);
 		module.removeTick();
 	});
 	it("should remove the tick", () => {
 		const module = new TestModule();
 		module.setTick();
-		expect(module.tick).toBeGreaterThan(-1);
+		expect(module.tick).toBeGreaterThan(0);
 		module.removeTick();
 		expect(module.tick).toBe(-1);
 	});
