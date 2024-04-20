@@ -66,6 +66,27 @@ export type Deferrals = {
 	done: (failureReason?: string) => void;
 };
 /**
+ * Represents a Discord embed.
+ */
+export type DiscordEmbed = {
+	color: string;
+	author: {
+		name: string;
+		icon_url: string;
+	};
+	title: string;
+	description?: string;
+	url?: string;
+	fields?: object[];
+	timestamp?: string;
+	image?: {
+		url: string;
+	};
+	footer?: {
+		text: string;
+	};
+};
+/**
  * Represents a deferrals config object.
  */
 export type DeferralsObject = {
