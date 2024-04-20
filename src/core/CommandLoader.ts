@@ -31,11 +31,9 @@ export class CommandLoader {
 	}
 
 	public static registerChatSuggestions(): void {
-		setImmediate(() => {
-			EventHandler.subscribe("respawnPlayerPedEvent", (source: number) => {
-				this._chatSuggestions.forEach((suggestion: ChatSuggestion) => {
-					emitNet("chat:addSuggestion", source, `/${suggestion.command}`, suggestion.description, suggestion.parameters);
-				});
+		EventHandler.subscribe("respawnPlayerPedEvent", (source: number) => {
+			this._chatSuggestions.forEach((suggestion: ChatSuggestion) => {
+				emitNet("chat:addSuggestion", source, `/${suggestion.command}`, suggestion.description, suggestion.parameters);
 			});
 		});
 	}
