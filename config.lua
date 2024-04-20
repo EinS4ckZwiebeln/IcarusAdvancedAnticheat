@@ -28,6 +28,7 @@ Config.Modules = {
     },
     -- Everything connection related.
     DeferralsModule = {
+        enabled = true,
         -- Prevents players using a VPN client from connecting.
         NoVPN = {
             enabled = false,

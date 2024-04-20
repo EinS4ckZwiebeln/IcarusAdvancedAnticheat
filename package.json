@@ -5,17 +5,27 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
-		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js"
+		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"test": "jest --env=node"
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
 	"private": true,
+	"peerDependencies": {
+		"expect": "^26.6.2",
+		"pretty-format": "^26.6.2"
+	},
 	"devDependencies": {
 		"@citizenfx/server": "^2.0.6736-1",
 		"@types/bad-words": "^3.0.3",
+		"@types/jest": "^26.0.24",
 		"@types/node": "20.11.20",
-		"typescript": "5.4.3",
-		"esbuild": "^0.20.0"
+		"esbuild": "^0.20.0",
+		"esbuild-jest": "^0.5.0",
+		"jest": "^26.6.3",
+		"ts-jest": "^26.5.6",
+		"ts-node": "^10.9.2",
+		"typescript": "^4.5.4"
 	},
 	"dependencies": {
 		"axios": "^1.6.7",
