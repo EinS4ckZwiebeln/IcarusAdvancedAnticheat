@@ -7,6 +7,7 @@ declare global {
 	function GetResourceState(resourceName: string): string;
 	function GetPlayerIdentifierByType(source: string, type: string): string;
 	function GetPlayerName(source: string): string;
+	function RegisterCommand(commandName: string, handler: Function, restricted: boolean): void;
 }
 
 // Resource related functions
@@ -30,5 +31,6 @@ global.GetPlayerName = (_: string) => "unknown";
 
 // Other functions
 global.GetHashKey = (_: string): number => 0;
+global.RegisterCommand = (_: string, __: Function, ___: boolean) => {};
 
 export {};
