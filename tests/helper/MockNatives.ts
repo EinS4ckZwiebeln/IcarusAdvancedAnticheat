@@ -8,6 +8,7 @@ declare global {
 	function GetPlayerIdentifierByType(source: string, type: string): string;
 	function GetPlayerName(source: string): string;
 	function RegisterCommand(commandName: string, handler: Function, restricted: boolean): void;
+	function GetPlayerIdentifierByType(source: string, type: string): string;
 }
 
 // Resource related functions
