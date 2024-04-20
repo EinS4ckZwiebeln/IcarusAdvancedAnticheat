@@ -112,7 +112,7 @@ class App {
 			const convarValue = GetConvar(convar.name, "null");
 			if (convarValue !== "null" && convarValue != convar.recommendedValue) {
 				console.log(
-					`^3[WARNING] Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
+					`^3[WARNING] ConVar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
 				);
 				Logger.debug(
 					`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`
