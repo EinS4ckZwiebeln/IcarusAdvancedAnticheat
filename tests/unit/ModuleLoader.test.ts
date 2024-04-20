@@ -71,4 +71,27 @@ describe("ModuleLoader", () => {
 		ModuleLoader.unloadModule(module);
 		expect(ModuleLoader["_modules"].size).toBe(0);
 	});
+	it("should get the correct module by name", () => {
+		const module = new TestModule();
+		ModuleLoader.loadModule(module);
+		expect(ModuleLoader.getModule("TestModule")).toBe(module);
+	});
+	it("should return all modules in an array", () => {
+		const module = new TestModule();
+		ModuleLoader.loadModule(module);
+		const modules = ModuleLoader.getModules();
+		expect(modules).toContain(module);
+		expect(modules.length).toBeDefined();
+	});
+	it("should return true for enabled module", () => {
+		const module = new TestModule();
+		const enabled = ModuleLoader["isModuleEnabled"](module.name);
+		expect(enabled).toBe(true);
+	});
+	it("should return false for disabled module", () => {
+		const module = new TestModule();
+		jest.spyOn(module, "name", "get").mockReturnValue("TestModuleDisabled");
+		const disabled = ModuleLoader["isModuleEnabled"](module.name);
+		expect(disabled).toBe(false);
+	});
 });
