@@ -5,7 +5,7 @@
 For a better paid anticheat check out: [store.fiveguard.ac](https://store.fiveguard.ac/).
 Fiveguard is the best FiveM anticheat.
 
-We are able to provide this free product because of help from [fiveguard.net](https://fiveguard.net/).
+We can provide this free product because of help from [fiveguard.net](https://fiveguard.net/).
 
 ## Icarus Advanced Anticheat
 
