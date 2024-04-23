@@ -4,7 +4,7 @@ This README provides code snippets for banning/kicking players in three popular 
 
 **Important Note:**
 
-- Ensure you have the necessary database connection libraries configured for QBCore.
+-   Ensure you have the necessary database connection libraries configured for QBCore.
 
 ### Kicking
 
@@ -28,7 +28,7 @@ end
 
 ### QBCore
 
-This snippet requires adding `@oxmysql/lib/MySQL.lua` to `server_script` within your `fxmanifest.lua` file. It uses QBCore"s functions to retrieve player information and inserts the data into a `bans` table within a MySQL database.
+This snippet requires adding `@oxmysql/lib/MySQL.lua` to `server_script` within your `fxmanifest.lua` file. It uses QBCore's functions to retrieve player information and inserts the data into a `bans` table within a MySQL database.
 
 ```lua
 local QBCore = exports["qb-core"]:GetCoreObject()
