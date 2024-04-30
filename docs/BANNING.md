@@ -18,7 +18,7 @@ end
 
 ### EasyAdmin
 
-This example utilizes the `TriggerEvent` function to call the `EasyAdmin:banPlayer` event, passing the player"s source and the reason for the ban.
+This example utilizes the `TriggerEvent` function to call the `EasyAdmin:banPlayer` event, passing the player's source and the reason for the ban.
 
 ```lua
 function Config.BanPlayer(source, reason)
