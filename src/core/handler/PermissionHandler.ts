@@ -10,7 +10,7 @@ export class PermissionHandler {
 	/**
 	 * Set of player IDs with permissions.
 	 */
-	private static readonly _permissions: Set<number> = new Set();
+	private static readonly _permitted: Set<number> = new Set();
 
 	/**
 	 * The permission required to bypass the permission check.
@@ -30,8 +30,9 @@ export class PermissionHandler {
 	 * @param source The player ID to check.
 	 * @returns True if the player has permission, false otherwise.
 	 */
-	public static hasPermission(source: number): boolean {
-		return this._permissions.has(source) || IsPlayerAceAllowed(source.toString(), this._bypassPermission);
+	public static hasPermission(source: number, module?: string): boolean {
+		const hasModuleBypass = module !== undefined ? IsPlayerAceAllowed(source.toString(), `icarus.${module.toLowerCase()}`) : false;
+		return this._permitted.has(source) || hasModuleBypass || IsPlayerAceAllowed(source.toString(), this._bypassPermission);
 	}
 
 	/**
@@ -41,14 +42,17 @@ export class PermissionHandler {
 	private static onTxAuth(data: AdminAuthEvent): void {
 		const source = data.netid;
 		if (source === -1) {
-			this._permissions.clear();
+			this._permitted.clear();
 			return;
 		}
 		if (data.isAdmin) {
-			this._permissions.add(source);
+			this._permitted.add(source);
+			emitNet("chat:addMessage", source, {
+				args: ["^3You have been granted anticheat bypass permissions due to your txAdmin role.^0"],
+			});
 			Logger.debug(`Added admin permission for player ${source}`);
 		} else {
-			this._permissions.delete(source);
+			this._permitted.delete(source);
 		}
 	}
 }
