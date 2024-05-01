@@ -19,7 +19,7 @@
 		"@citizenfx/server": "^2.0.6736-1",
 		"@types/bad-words": "^3.0.3",
 		"@types/jest": "^26.0.24",
-		"@types/node": "20.11.20",
+		"@types/node": "20.12.7",
 		"esbuild": "^0.20.0",
 		"esbuild-jest": "^0.5.0",
 		"jest": "^26.6.3",
