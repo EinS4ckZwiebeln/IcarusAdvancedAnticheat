@@ -7,11 +7,11 @@ import { PermissionHandler } from "../../src/core/handler/PermissionHandler";
 Logger.init();
 describe("PermissionHandler", () => {
 	afterEach(() => {
-		PermissionHandler["_permissions"].clear();
+		PermissionHandler["_permitted"].clear();
 	});
 	it("should return true if player has permission", () => {
 		const source = 1;
-		PermissionHandler["_permissions"].add(source);
+		PermissionHandler["_permitted"].add(source);
 		const hasPermission = PermissionHandler.hasPermission(source);
 		expect(hasPermission).toBe(true);
 	});
