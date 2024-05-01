@@ -60,7 +60,10 @@ Config.Modules = {
     ExplosionFilterModule = {
         enabled = true,
         -- Verifies that certain explosion types only occur under legit circumstances.
+        -- Beware that this will cause false positives with non-networked/local vehicles.
         explosionSpoofer = true,
+        -- Prevents cheaters from 'blowing up' players with hydrant fountains.
+        hydrantExplosion = true,
         -- Explosion Types: https://docs.fivem.net/natives/?_0xE3AD2BDBAEE269AC
         whitelistedExplosionTypes = {
             6, -- HI_OCTANE

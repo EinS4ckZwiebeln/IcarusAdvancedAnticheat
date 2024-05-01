@@ -11,15 +11,25 @@ export class ExplosionFilterModule extends Module {
 	);
 	private _whitelistedExplosionTypes: Set<number> = new Set();
 	private _explosionSpoofer: boolean = false;
+	private _hydrantExplosion: boolean = false;
 
 	public onLoad(): void {
 		this._explosionSpoofer = Config.getValue(this.config, "explosionSpoofer");
+		this._hydrantExplosion = Config.getValue(this.config, "hydrantExplosion");
 		this._whitelistedExplosionTypes = new Set(Config.getValue(this.config, "whitelistedExplosionTypes"));
-		EventHandler.subscribe("explosionEvent", [this.onExplosion.bind(this), this.onExplosionSpoof.bind(this)]);
+		EventHandler.subscribe("explosionEvent", [
+			this.onExplosion.bind(this),
+			this.onExplosionSpoof.bind(this),
+			this.onHydrantExplosion.bind(this),
+		]);
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("explosionEvent", [this.onExplosion.bind(this), this.onExplosionSpoof.bind(this)]);
+		EventHandler.unsubscribe("explosionEvent", [
+			this.onExplosion.bind(this),
+			this.onExplosionSpoof.bind(this),
+			this.onHydrantExplosion.bind(this),
+		]);
 	}
 
 	/**
@@ -53,6 +63,18 @@ export class ExplosionFilterModule extends Module {
 	private onExplosionSpoof(source: number, data: ExplosionEvent): void {
 		if (this._explosionSpoofer && this._entityExplosionTypes.has(data.explosionType) && data.f210 === 0) {
 			const violation = new Violation(source, "Explosion [C4]", this.name);
+			violation.banPlayer();
+		}
+	}
+
+	/**
+	 * Handles the event when a hydrant explosion occurs.
+	 * @param source - The source of the explosion.
+	 * @param data - The explosion event data.
+	 */
+	private onHydrantExplosion(source: number, data: ExplosionEvent): void {
+		if (this._hydrantExplosion && data.explosionType === 13 && data.ownerNetId === 0 && !data.f242 && !data.f243) {
+			const violation = new Violation(source, "Explosion [C5]", this.name);
 			violation.banPlayer();
 		}
 	}
