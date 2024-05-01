@@ -85,7 +85,9 @@ Config.Modules = {
             39, -- EXP_TAG_SNOWBALL
             78, -- EXP_TAG_FLASHGRENADE
             79 -- EXP_TAG_STUNGRENADE
-        }
+        },
+        -- Verifies that certain explosion types only occur under legit circumstances.
+        explosionSpoofer = true
     },
     -- Detects various tazer cheats.
     TazerModule = {
