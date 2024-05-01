@@ -23,6 +23,17 @@ export class NoClipModule extends Module {
 	}
 
 	/**
+	 * Checks if the specified ped is attached to a magic carpet.
+	 *
+	 * @param ped - The ped entity to check.
+	 * @returns Returns `true` if the ped is attached to a magic carpet, `false` otherwise.
+	 */
+	private hasMagicCarpet(ped: number): boolean {
+		const attachedEntity = GetEntityAttachedTo(ped);
+		return attachedEntity > 0 && IsEntityPositionFrozen(attachedEntity) && GetEntityType(attachedEntity) === 3;
+	}
+
+	/**
 	 * Executes the module logic on each tick of the game loop.
 	 * Checks the speed of each player with suspicious attributes and bans them if they exceed the speed threshold.
 	 * @returns A Promise that resolves when the tick logic has completed.
@@ -32,18 +43,21 @@ export class NoClipModule extends Module {
 		players.forEach(async (player: string) => {
 			const ped = GetPlayerPed(player);
 			const origin = GetEntityCoords(ped);
-			if (!this.hasNoClip(ped, player)) return;
-
+			if (!this.hasNoClip(ped, player) && !this.hasMagicCarpet(ped)) return;
 			await this.Delay(1000);
 			if (!DoesEntityExist(ped)) return; // Abort if player has left
-
 			// Calculate the distance in meters
 			const speed = Utility.getDistance(origin, GetEntityCoords(ped), true) * 3.6; // Convert to km/h
-			if (speed > this._speedThreshold && this.hasNoClip(ped, player)) {
-				const violation = new Violation(parseInt(player), "NoClip [C1]", this.name);
-				violation.banPlayer();
+			if (speed > this._speedThreshold) {
+				if (this.hasNoClip(ped, player)) {
+					const violation = new Violation(parseInt(player), "NoClip [C1]", this.name);
+					violation.banPlayer();
+				} else if (this.hasMagicCarpet(ped)) {
+					const violation = new Violation(parseInt(player), "NoClip [C2]", this.name);
+					violation.banPlayer();
+				}
 			}
 		});
-		await this.Delay(4000);
+		await this.Delay(5000);
 	}
 }

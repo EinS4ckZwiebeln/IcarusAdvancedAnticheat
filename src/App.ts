@@ -35,7 +35,6 @@ import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
 import { Release } from "./Types";
 import { FoldModule } from "./modules/FoldModule";
-import { MagicCarpetModule } from "./modules/MagicCarpetModule";
 /**
  * Represents the main application class.
  */
@@ -80,7 +79,6 @@ class App {
 		ModuleLoader.loadModule(new EventBlacklistModule());
 		ModuleLoader.loadModule(new FireModule());
 		ModuleLoader.loadModule(new FoldModule());
-		ModuleLoader.loadModule(new MagicCarpetModule());
 		Logger.debug("Finished loading modules");
 	}
 
