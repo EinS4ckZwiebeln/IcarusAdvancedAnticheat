@@ -191,6 +191,9 @@ Config.Modules = {
     FoldModule = {
         enabled = true
     },
+    MagicCarpetModule = {
+        enabled = true
+    },
 }
 
 -- Possesion of these weapons will get a player instantly banned.
