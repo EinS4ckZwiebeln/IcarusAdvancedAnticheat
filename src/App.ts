@@ -35,6 +35,7 @@ import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
 import { Release } from "./Types";
 import { FoldModule } from "./modules/FoldModule";
+import { MagicCarpetModule } from "./modules/MagicCarpetModule";
 /**
  * Represents the main application class.
  */
@@ -79,6 +80,7 @@ class App {
 		ModuleLoader.loadModule(new EventBlacklistModule());
 		ModuleLoader.loadModule(new FireModule());
 		ModuleLoader.loadModule(new FoldModule());
+		ModuleLoader.loadModule(new MagicCarpetModule());
 		Logger.debug("Finished loading modules");
 	}
 
@@ -114,9 +116,7 @@ class App {
 				console.log(
 					`^3[WARNING] ConVar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
 				);
-				Logger.debug(
-					`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`
-				);
+				Logger.debug(`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`);
 			}
 		});
 	}
@@ -127,15 +127,12 @@ class App {
 	private async checkForUpdates(): Promise<void> {
 		try {
 			Logger.debug("Checking for updates ...");
-			const response = await axios.get(
-				"https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases",
-				{
-					method: "GET",
-					headers: {
-						"User-Agent": "request",
-					},
-				}
-			);
+			const response = await axios.get("https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases", {
+				method: "GET",
+				headers: {
+					"User-Agent": "request",
+				},
+			});
 			if (response.status !== 200) {
 				Logger.error(`Failed to fetch latest release from github: ${response.status}`);
 				return;
