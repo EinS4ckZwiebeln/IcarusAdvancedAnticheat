@@ -1,9 +1,10 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ""
+title: ''
 labels: bug
 assignees: EinS4ckZwiebeln
+
 ---
 
 **Describe the bug**
@@ -28,9 +29,9 @@ If applicable, add relevant logs from `/icarus/logs/` to help explain your probl
 
 **Technical Details:**
 
--   OS: [e.g. Windows/Linux]
--   Artifacts [e.g. 6497]
--   Icarus Version [e.g. 2.0.0]
+- OS: [e.g. Windows/Linux]
+- Artifacts [e.g. 6497]
+- Icarus Version [e.g. 2.x.x]
 
 **Additional context**
 Add any other context about the problem here.
