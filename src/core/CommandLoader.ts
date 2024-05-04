@@ -15,9 +15,13 @@ export class CommandLoader {
 			command.name,
 			(source: number, args?: string[]) => {
 				// Ensure player has correct permission for the command
-				if (!PermissionHandler.hasPermission(source)) return;
+				if (!PermissionHandler.hasPermission(source)) {
+					Logger.debug(`Player ${source} attempted to execute command "${command.name}" without permission.`);
+					return;
+				}
 				try {
 					command.onExecute(source, args);
+					Logger.debug(`Executed command ${command.name} with args: ${args?.toString()}`);
 				} catch (err: unknown) {
 					if (!(err instanceof Error)) return;
 					Logger.error(err.message);

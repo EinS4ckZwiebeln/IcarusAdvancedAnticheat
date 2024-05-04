@@ -52,6 +52,19 @@ class App {
 		this.registerCommands();
 		this.checkForUnsafeConvars();
 		this.checkForUpdates();
+		this.dumpConfig();
+	}
+
+	/**
+	 * Dumps the configuration by logging a JSON representation of the config object.
+	 */
+	private async dumpConfig(): Promise<void> {
+		const config = Config.getConfig();
+		const dump = {
+			Modules: config.Modules,
+			Permission: config.Permission,
+		};
+		Logger.debug(`Config: ${JSON.stringify(dump)}`);
 	}
 
 	/**
