@@ -77,7 +77,7 @@ export type DiscordEmbed = {
 	title: string;
 	description?: string;
 	url?: string;
-	fields?: object[];
+	fields?: EmbedField[];
 	timestamp?: string;
 	image?: {
 		url: string;
@@ -85,6 +85,14 @@ export type DiscordEmbed = {
 	footer?: {
 		text: string;
 	};
+};
+/**
+ * Represents a field in an embed.
+ */
+export type EmbedField = {
+	name: string;
+	value: string;
+	inline: boolean;
 };
 /**
  * Represents a deferrals config object.
