@@ -1,4 +1,4 @@
-import { DiscordEmbed } from "../Types";
+import { DiscordEmbed, EmbedField } from "../Types";
 import { Utility } from "../util/Utility";
 
 /**
@@ -6,6 +6,8 @@ import { Utility } from "../util/Utility";
  */
 export class BanEmbed {
 	private readonly _embed: DiscordEmbed[];
+	// List of identifiers to be displayed in the embed
+	private readonly _identifiers = ["license", "steam", "xbl"];
 
 	/**
 	 * Initializes a new instance of the BanEmbed class.
@@ -20,7 +22,7 @@ export class BanEmbed {
 	/**
 	 * Gets the embed object.
 	 */
-	get embed(): DiscordEmbed[] {
+	public get embed(): DiscordEmbed[] {
 		return this._embed;
 	}
 
@@ -30,9 +32,32 @@ export class BanEmbed {
 	 * @param type The identifier type.
 	 * @returns The clean player identifier.
 	 */
-	private formatAndGetPlayerIdentifier(source: number, type: string): string {
+	private getRawPlayerIdentifier(source: number, type: string): string {
 		const id = GetPlayerIdentifierByType(source.toString(), type);
-		return typeof id != "string" ? `${type}:unknownlicense` : id;
+		if (typeof id === "string") {
+			return id.slice(id.indexOf(":") + 1);
+		} else {
+			return "unknown";
+		}
+	}
+
+	/**
+	 * Generates an array of identifier fields for a given source.
+	 * @param source - The source number.
+	 * @returns An array of identifier fields.
+	 */
+	private generateIdentifierFields(source: number): EmbedField[] {
+		return this._identifiers
+			.map((identifier) => ({
+				rawId: this.getRawPlayerIdentifier(source, identifier),
+				identifier,
+			}))
+			.filter(({ rawId }) => rawId !== "unknown")
+			.map(({ rawId, identifier }) => ({
+				name: `${identifier.charAt(0).toUpperCase()}${identifier.slice(1)}`,
+				value: `\`\`\`${rawId}\`\`\``,
+				inline: false,
+			}));
 	}
 
 	/**
@@ -57,20 +82,16 @@ export class BanEmbed {
 					inline: true,
 				},
 				{
-					name: "Name",
+					name: "Player",
 					value: `${GetPlayerName(source.toString())} (${source})`,
 					inline: true,
 				},
 				{
 					name: "Discord",
-					value: `<@${this.formatAndGetPlayerIdentifier(source, "discord").slice(8)}>`,
+					value: `<@${this.getRawPlayerIdentifier(source, "discord")}>`,
 					inline: true,
 				},
-				{
-					name: "FiveM",
-					value: this.formatAndGetPlayerIdentifier(source, "license"),
-					inline: false,
-				},
+				...this.generateIdentifierFields(source),
 			],
 			timestamp: new Date().toISOString(),
 			image: {
