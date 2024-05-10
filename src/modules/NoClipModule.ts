@@ -1,13 +1,31 @@
 import { Config } from "../core/config/Config";
+import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Utility } from "../util/Utility";
 
 export class NoClipModule extends Module {
 	private _speedThreshold: number = Config.getValue(this.config, "speedThreshold");
+	private readonly _newlySpawned: Set<string> = new Set();
 
-	public onLoad(): void {}
-	public onUnload(): void {}
+	public onLoad(): void {
+		EventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+	}
+
+	public onUnload(): void {
+		EventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+	}
+
+	/**
+	 * Handles the logic when a player spawns.
+	 * @param source - The source of the player.
+	 */
+	private onSpawn(source: string) {
+		if (!this._newlySpawned.has(source)) {
+			this._newlySpawned.add(source);
+			setTimeout(() => this._newlySpawned.delete(source), 30000);
+		}
+	}
 
 	/**
 	 * Checks if the specified ped has the ability to "noclip" (move through objects).
@@ -31,12 +49,11 @@ export class NoClipModule extends Module {
 		const players = getPlayers();
 		players.forEach(async (player: string) => {
 			const ped = GetPlayerPed(player);
+			if (this._newlySpawned.has(player) || !this.hasNoClip(ped, player)) return;
 			const origin = GetEntityCoords(ped);
-			if (!this.hasNoClip(ped, player)) return;
 
 			await this.Delay(1000);
 			if (!DoesEntityExist(ped)) return; // Abort if player has left
-
 			// Calculate the distance in meters
 			const speed = Utility.getDistance(origin, GetEntityCoords(ped), true) * 3.6; // Convert to km/h
 			if (speed > this._speedThreshold && this.hasNoClip(ped, player)) {
