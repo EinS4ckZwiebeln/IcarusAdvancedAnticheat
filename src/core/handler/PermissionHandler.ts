@@ -22,6 +22,7 @@ export class PermissionHandler {
 	}
 
 	public static init(): void {
+		if (!Config.getConfig().Permission.useTxAdmin) return;
 		EventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
 	}
 
@@ -31,6 +32,7 @@ export class PermissionHandler {
 	 * @returns True if the player has permission, false otherwise.
 	 */
 	public static hasPermission(source: number): boolean {
+		source = parseInt(source.toString()); // Ensure source is really a number
 		return this._permissions.has(source) || IsPlayerAceAllowed(source.toString(), this._bypassPermission);
 	}
 
