@@ -182,34 +182,37 @@ export type ExplosionEvent = {
 	posX: number;
 	posY: number;
 	posZ: number;
-	f242: number;
+	f242: boolean;
 	f104: number;
 	cameraShake: number;
 	isAudible: boolean;
-	f189: number;
+	f189: boolean;
 	isInvisible: boolean;
-	f126: number;
-	f241: number;
-	f243: number;
+	f126: boolean;
+	f241: boolean;
+	f243: boolean;
 	f210: number;
 	unkX: number;
 	unkY: number;
 	unkZ: number;
-	f190: number;
-	f191: number;
+	f190: boolean;
+	f191: boolean;
 	f164: number;
 	posX224: number;
 	posY224: number;
 	posZ224: number;
 	f168?: number;
-	f240: number;
+	f240: boolean;
 	f218: number;
-	f216: number;
+	f216: boolean;
 };
 /**
  * Represents the data structure for a FireEvent.
  */
 export type FireEvent = {
+	v1: number;
+	v2: boolean;
+	v4: boolean;
 	isEntity: boolean;
 	entityGlobalId: number;
 	v5X: number;
@@ -219,49 +222,30 @@ export type FireEvent = {
 	posY: number;
 	posZ: number;
 	v7: number;
-	v8: number;
+	v8: boolean;
 	maxChildren: number;
 	v10: number;
 	v11: number;
+	v12: boolean;
 	weaponHash: number;
 	fireId: number;
+	v13: number;
 };
 /**
  * Represents an event for giving a weapon to a ped.
  */
 export type GiveWeaponEvent = {
-	/**
-	 * The ID of the ped to give the weapon to.
-	 */
 	pedId: number;
-	/**
-	 * The type of weapon to give.
-	 */
 	weaponType: number;
-	/**
-	 * The amount of ammo to give with the weapon.
-	 */
 	ammo: number;
-	/**
-	 * Indicates whether the weapon is given as an unknown value.
-	 */
 	unk1: boolean;
-	/**
-	 * Indicates whether the weapon is given as a pickup.
-	 */
 	givenAsPickup: boolean;
 };
 /**
  * Represents an event for removing a weapon from a ped.
  */
 export type RemoveWeaponEvent = {
-	/**
-	 * The ID of the ped.
-	 */
 	pedId: number;
-	/**
-	 * The type of weapon to be removed.
-	 */
 	weaponType: number;
 };
 /**

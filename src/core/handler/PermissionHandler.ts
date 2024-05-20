@@ -22,6 +22,7 @@ export class PermissionHandler {
 	}
 
 	public static init(): void {
+		if (!Config.getConfig().Permission.useTxAdmin) return;
 		EventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
 	}
 
@@ -31,6 +32,7 @@ export class PermissionHandler {
 	 * @returns True if the player has permission, false otherwise.
 	 */
 	public static hasPermission(source: number, module?: string): boolean {
+		source = parseInt(source.toString()); // Ensure source is really a number
 		const hasModuleBypass = module !== undefined ? IsPlayerAceAllowed(source.toString(), `icarus.${module.toLowerCase()}`) : false;
 		return this._permitted.has(source) || hasModuleBypass || IsPlayerAceAllowed(source.toString(), this._bypassPermission);
 	}
