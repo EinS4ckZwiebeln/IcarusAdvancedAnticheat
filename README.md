@@ -1,3 +1,7 @@
+[![Github All Releases](https://img.shields.io/github/license/EinS4ckZwiebeln/IcarusAdvancedAnticheat)]()
+[![Github All Releases](https://img.shields.io/github/actions/workflow/status/EinS4ckZwiebeln/IcarusAdvancedAnticheat/release.yml)]()
+[![Github All Releases](https://img.shields.io/github/downloads/EinS4ckZwiebeln/IcarusAdvancedAnticheat/total.svg)]()
+
 ## Sponsors
 
 ### 💖 FiveGuard
