@@ -16,9 +16,12 @@ export class UnloadModuleCommand implements ICommand {
 		const moduleName: string = args[0];
 		try {
 			const module = ModuleLoader.getModule(moduleName);
-			if (!module) return;
-			ModuleLoader.unloadModule(module);
-			emitNet("chat:addMessage", source, { args: [`^3Unloaded ${moduleName} successfully.^0`] });
+			if (module) {
+				ModuleLoader.unloadModule(module);
+				emitNet("chat:addMessage", source, { args: [`^3Unloaded ${moduleName} successfully.^0`] });
+			} else {
+				emitNet("chat:addMessage", source, { args: [`^1Couldn't find module '${moduleName}', are you sure it exists?.^0`] });
+			}
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
 			Logger.error(err.message);

@@ -16,6 +16,7 @@ export class CommandLoader {
 			(source: number, args?: string[]) => {
 				// Ensure player has correct permission for the command
 				if (!PermissionHandler.hasPermission(source)) {
+					emitNet("chat:addMessage", source, { args: [`^1You are lacking permission to execute this command.^0`] });
 					Logger.debug(`Player ${source} attempted to execute command "${command.name}" without permission.`);
 					return;
 				}

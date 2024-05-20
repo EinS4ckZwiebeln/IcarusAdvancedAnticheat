@@ -15,10 +15,13 @@ export class LoadModuleCommand implements ICommand {
 	public async onExecute(source: number, args: string[]): Promise<void> {
 		const moduleName: string = args[0];
 		try {
-			const module = ModuleLoader.getModule(moduleName);
-			if (!module) return;
-			ModuleLoader.loadModule(module);
-			emitNet("chat:addMessage", source, { args: [`^3Loaded ${moduleName} successfully.^0`] });
+			const module = ModuleLoader.getModule(moduleName) || ModuleLoader.getUnloadedModule(moduleName);
+			if (module) {
+				ModuleLoader.loadModule(module);
+				emitNet("chat:addMessage", source, { args: [`^3Loaded ${moduleName} successfully.^0`] });
+			} else {
+				emitNet("chat:addMessage", source, { args: [`^1Couldn't find module '${moduleName}', are you sure it exists?.^0`] });
+			}
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
 			Logger.error(err.message);

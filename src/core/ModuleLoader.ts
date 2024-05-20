@@ -5,6 +5,7 @@ import { Module } from "./Module";
 
 export class ModuleLoader {
 	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
+	private static readonly _unloadedModules: Map<string, Module> = new Map<string, Module>();
 	private static readonly _config: Configuration = Config.getConfig();
 
 	constructor() {
@@ -22,20 +23,15 @@ export class ModuleLoader {
 		// Prevent loading the same module twice
 		if (this._modules.has(name)) {
 			throw new Error(`Module ${name} is already loaded`);
+		} else if (this._unloadedModules.has(name)) {
+			this._unloadedModules.delete(name);
 		}
-		// Ensure there is at least minimal configuration for this module
-		try {
-			if (!this.isModuleEnabled(name)) return;
-		} catch (err: unknown) {
-			if (!(err instanceof Error)) return;
-			Logger.error(err.message);
-			throw new Error(`Failed to load module ${name}. Did you forget to add it to the config?`);
+		if (this.isModuleEnabled(name)) {
+			module.onLoad();
+			module.setTick();
+			this._modules.set(name, module);
+			Logger.debug(`Module ${name} loaded successfully`);
 		}
-
-		module.onLoad();
-		module.setTick();
-		this._modules.set(name, module);
-		Logger.debug(`Module ${name} loaded successfully`);
 	}
 
 	/**
@@ -46,6 +42,7 @@ export class ModuleLoader {
 		module.onUnload();
 		module.removeTick();
 		this._modules.delete(module.name);
+		this._unloadedModules.set(module.name, module);
 		Logger.debug(`Module ${module.name} unloaded successfully`);
 	}
 
@@ -71,6 +68,15 @@ export class ModuleLoader {
 	 */
 	public static getModule(moduleName: string): Module | undefined {
 		return this._modules.get(moduleName);
+	}
+
+	/**
+	 * Returns the unloaded module with the specified name, if it exists.
+	 * @param moduleName The name of the module to retrieve.
+	 * @returns The unloaded module with the specified name, or undefined if it does not exist.
+	 */
+	public static getUnloadedModule(moduleName: string): Module | undefined {
+		return this._unloadedModules.get(moduleName);
 	}
 
 	/**
