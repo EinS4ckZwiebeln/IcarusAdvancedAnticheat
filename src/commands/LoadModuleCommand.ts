@@ -1,12 +1,11 @@
 import { ModuleLoader } from "../core/ModuleLoader";
-import { ICommand } from "../core/Command";
+import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
-import { Parameter } from "../Types";
 
-export class LoadModuleCommand implements ICommand {
-	public readonly name: string = "load";
-	public readonly description: string = "Manually loads a module";
-	public readonly parameters: Parameter[] = [{ name: "moduleName", help: "The name of the module to load" }];
+export class LoadModuleCommand extends Command {
+	constructor() {
+		super("load", "Manually loads a module", [{ name: "moduleName", help: "The name of the module to load" }]);
+	}
 
 	/**
 	 * Executes the command logic.
@@ -18,14 +17,14 @@ export class LoadModuleCommand implements ICommand {
 			const module = ModuleLoader.getModule(moduleName) || ModuleLoader.getUnloadedModule(moduleName);
 			if (module) {
 				ModuleLoader.loadModule(module);
-				emitNet("chat:addMessage", source, { args: [`^3Loaded ${moduleName} successfully.^0`] });
+				this.writeToChat(source, `^3Loaded ${moduleName} successfully.^0`);
 			} else {
-				emitNet("chat:addMessage", source, { args: [`^1Couldn't find module '${moduleName}', are you sure it exists?.^0`] });
+				this.writeToChat(source, `^1Couldn't find module '${moduleName}', are you sure it exists?.^0`);
 			}
 		} catch (err: unknown) {
 			if (!(err instanceof Error)) return;
 			Logger.error(err.message);
-			emitNet("chat:addMessage", source, { args: [`^1Failed to load ${moduleName}.^0`] });
+			this.writeToChat(source, `^1Failed to load ${moduleName}.^0`);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
-import { ICommand } from "./Command";
+import { Command } from "./Command";
 import { EventHandler } from "./handler/EventHandler";
 import { ChatSuggestion } from "../Types";
 
@@ -10,7 +10,7 @@ export class CommandLoader {
 	 * Registers a command into the command loader.
 	 * @param command The Command to be registered.
 	 */
-	public static registerCommand(command: ICommand): void {
+	public static registerCommand(command: Command): void {
 		RegisterCommand(
 			command.name,
 			(source: number, args?: string[]) => {
