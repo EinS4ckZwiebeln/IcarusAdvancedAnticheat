@@ -4,18 +4,20 @@ import "../helper/MockConfig";
 import { CommandLoader } from "../../src/core/CommandLoader";
 import { Parameter } from "../../src/Types";
 import { Logger } from "../../src/core/logger/Logger";
+import { Command } from "../../src/core/Command";
 
 Logger.init();
 const parameters: Parameter[] = [
 	{ name: "param1", help: "help1" },
 	{ name: "param2", help: "help2" },
 ];
-const command = {
-	name: "test-command",
-	description: "This is a test command",
-	parameters: parameters,
-	onExecute: jest.fn(),
-};
+class TestCommand extends Command {
+	constructor() {
+		super("test-command", "This is a test command", parameters);
+	}
+	public onExecute = jest.fn();
+}
+const command = new TestCommand();
 
 describe("CommandLoader", () => {
 	afterAll(() => {
