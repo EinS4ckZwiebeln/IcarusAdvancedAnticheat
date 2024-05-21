@@ -30,4 +30,14 @@ describe("PermissionHandler", () => {
 		const hasPermission = PermissionHandler.hasPermission(source);
 		expect(hasPermission).toBe(false);
 	});
+	it("should return true even if source is wrong type", () => {
+		const source = "0" as unknown as number;
+		const hasPermission = PermissionHandler.hasPermission(source);
+		expect(hasPermission).toBe(true);
+	});
+	it("should return false even if source is wrong type", () => {
+		const source = "1" as unknown as number;
+		const hasPermission = PermissionHandler.hasPermission(source);
+		expect(hasPermission).toBe(false);
+	});
 });
