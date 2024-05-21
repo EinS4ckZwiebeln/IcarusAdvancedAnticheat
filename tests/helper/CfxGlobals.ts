@@ -1,6 +1,15 @@
+const _exports = {
+	Icarus: { GetConfig: () => [], BanPlayer: () => {} },
+	"screenshot-basic": {
+		requestClientScreenshot: () => {
+			return { fileName: "test.png", filePath: "./" };
+		},
+	},
+};
+
 declare global {
 	// @ts-ignore
-	var exports: { Icarus: { GetConfig: () => []; BanPlayer: () => {} } };
+	var exports: _exports;
 	// Ticking
 	function setTick(cb: Function): number;
 	function clearTick(tick: number): void;
@@ -11,8 +20,7 @@ declare global {
 	function emit(eventName: string, ...args: any[]): void;
 	function emitNet(eventName: string, ...args: any[]): void;
 }
-// @ts-ignore
-global.exports = { Icarus: { GetConfig: () => [], BanPlayer: () => {} } };
+global.exports = _exports;
 // Ticking
 global.setTick = (_: Function) => Math.floor(Math.random() * 1000);
 global.clearTick = (_: number) => {};
