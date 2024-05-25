@@ -1,8 +1,8 @@
-import "../../helper/CfxGlobals";
-import "../../helper/MockNatives";
-import "../../helper/MockConfig";
-import { Logger } from "../../../src/core/logger/Logger";
-import { WipeEntitiesCommand } from "../../../src/commands/WipeEntitiesCommand";
+import "../helper/CfxGlobals";
+import "../helper/MockNatives";
+import "../helper/MockConfig";
+import { Logger } from "../../src/core/logger/Logger";
+import { WipeEntitiesCommand } from "../../src/commands/WipeEntitiesCommand";
 
 Logger.init();
 describe("WipeEntitiesCommand", () => {
