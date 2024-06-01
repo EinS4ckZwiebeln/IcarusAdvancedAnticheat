@@ -15,14 +15,14 @@ export class ExplosionFilterModule extends Module {
 	private _hydrantExplosion: boolean = false;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
 		this._explosionSpoofer = this.config.getValue(this.config.getConfig(), "explosionSpoofer");
 		this._hydrantExplosion = this.config.getValue(this.config.getConfig(), "hydrantExplosion");
 		this._whitelistedExplosionTypes = new Set(this.config.getValue(this.config.getConfig(), "whitelistedExplosionTypes"));
-		EventHandler.subscribe("explosionEvent", [
+		this.eventHandler.subscribe("explosionEvent", [
 			this.onExplosion.bind(this),
 			this.onExplosionSpoof.bind(this),
 			this.onHydrantExplosion.bind(this),
@@ -30,7 +30,7 @@ export class ExplosionFilterModule extends Module {
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("explosionEvent", [
+		this.eventHandler.unsubscribe("explosionEvent", [
 			this.onExplosion.bind(this),
 			this.onExplosionSpoof.bind(this),
 			this.onHydrantExplosion.bind(this),

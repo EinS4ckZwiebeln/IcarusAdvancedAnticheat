@@ -13,14 +13,14 @@ export class TazerModule extends Module {
 	private _tazerRange: number = 12;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
 		this._tazerRange = this.config.getValue(this.config.getConfig(), "maxDistance");
 		this._tazerCooldown = this.config.getValue(this.config.getConfig(), "tazerCooldown");
 
-		EventHandler.subscribe("weaponDamageEvent", [
+		this.eventHandler.subscribe("weaponDamageEvent", [
 			this.onTazerCooldown.bind(this),
 			this.onTazerReach.bind(this),
 			this.onTazerRagdoll.bind(this),
@@ -28,7 +28,7 @@ export class TazerModule extends Module {
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", [
+		this.eventHandler.unsubscribe("weaponDamageEvent", [
 			this.onTazerCooldown.bind(this),
 			this.onTazerReach.bind(this),
 			this.onTazerRagdoll.bind(this),

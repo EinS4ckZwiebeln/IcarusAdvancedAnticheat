@@ -14,7 +14,7 @@ export class DeferralsModule extends Module {
 	private _noVPN: DeferralsObject;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
@@ -22,10 +22,10 @@ export class DeferralsModule extends Module {
 		this._banChecker = this.config.getValue(this.config.getConfig(), "BanChecker");
 		this._nameFilter = this.config.getValue(this.config.getConfig(), "NameFilter");
 		this._noVPN = this.config.getValue(this.config.getConfig(), "NoVPN");
-		EventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
+		this.eventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("playerConnecting", this.onDefer.bind(this));
+		this.eventHandler.unsubscribe("playerConnecting", this.onDefer.bind(this));
 	}
 
 	/**

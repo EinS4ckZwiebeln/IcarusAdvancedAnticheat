@@ -8,17 +8,17 @@ export class WeaponModifierModule extends Module {
 	private _damageModifier: number = 1.0;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
 		// Add 0.001 to the value to account for floating point errors.
 		this._damageModifier = this.config.getValue(this.config.getConfig(), "damageModifier") + 0.001;
-		EventHandler.subscribe("weaponDamageEvent", this.onDamage.bind(this));
+		this.eventHandler.subscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", this.onDamage.bind(this));
+		this.eventHandler.unsubscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 
 	/**

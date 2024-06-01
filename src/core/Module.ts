@@ -1,4 +1,5 @@
 import { Config } from "./config/Config";
+import { EventHandler } from "./handler/EventHandler";
 
 export abstract class Module {
 	private _tick: number = 0;
@@ -6,7 +7,7 @@ export abstract class Module {
 	// Utility for onTick method
 	protected readonly Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-	constructor(private readonly _config?: Config) {}
+	constructor(private readonly _config?: Config, private readonly _eventHandler?: EventHandler) {}
 
 	/**
 	 * Returns the name of the module by splitting the constructor name at the first underscore.
@@ -22,9 +23,16 @@ export abstract class Module {
 
 	protected get config(): Config {
 		if (!this._config) {
-			throw new Error("Config is not initialized");
+			throw new Error("Module is missing injection for Config");
 		}
 		return this._config;
+	}
+
+	protected get eventHandler(): EventHandler {
+		if (!this._eventHandler) {
+			throw new Error("Module is missing injection for EventHandler");
+		}
+		return this._eventHandler;
 	}
 
 	/**

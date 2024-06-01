@@ -8,19 +8,15 @@ import { Logger } from "../logger/Logger";
  */
 @singleton()
 export class EventHandler {
-	private static readonly _events: Map<string, Function[]> = new Map();
-	private static readonly _netEvents: Set<string> = new Set();
-
-	constructor() {
-		throw new Error("EventHandler is a static class and cannot be instantiated.");
-	}
+	private readonly _events: Map<string, Function[]> = new Map();
+	private readonly _netEvents: Set<string> = new Set();
 
 	/**
 	 * Subscribes to an event with the given name and callback function.
 	 * @param eventName The name of the event to subscribe to.
 	 * @param callback The callback function to be called when the event is triggered.
 	 */
-	public static subscribe(eventName: string | string[], callback: Function | Function[]): void {
+	public subscribe(eventName: string | string[], callback: Function | Function[]): void {
 		if (Array.isArray(eventName) && Array.isArray(callback)) {
 			throw new Error("Unable to bind events to functions");
 		}
@@ -38,7 +34,7 @@ export class EventHandler {
 	 * @param eventName - The name of the event to unsubscribe from.
 	 * @param callback - The callback function to remove from the list of callbacks for the event.
 	 */
-	public static unsubscribe(eventName: string | string[], callback: Function | Function[]): void {
+	public unsubscribe(eventName: string | string[], callback: Function | Function[]): void {
 		if (Array.isArray(eventName) && Array.isArray(callback)) {
 			throw new Error("Unable to unbind events from functions");
 		}
@@ -55,7 +51,7 @@ export class EventHandler {
 	 * @param callback - The function to be filtered out.
 	 * @param event - The event the callback function is bound to.
 	 */
-	private static filterCallback(callback: Function, event: string): void {
+	private filterCallback(callback: Function, event: string): void {
 		const callbackToString = callback.toString();
 		const eventCallbacks = this.getEventCallbacks(event).filter(
 			// Shitty workaround for callback equality check, needs refactoring later.
@@ -68,7 +64,7 @@ export class EventHandler {
 	 * Registers a network event with the specified event name.
 	 * @param eventName - The name of the network event to register.
 	 */
-	private static registerNetEvent(eventName: string): void {
+	private registerNetEvent(eventName: string): void {
 		Logger.debug(`Registering net event ${eventName}`);
 		onNet(eventName, async (...args: unknown[]) => this.triggerEventCallbacks(eventName, args));
 		this._netEvents.add(eventName);
@@ -79,7 +75,7 @@ export class EventHandler {
 	 * @param eventName The name of the event.
 	 * @returns An array of event callbacks.
 	 */
-	private static getEventCallbacks(eventName: string): Function[] {
+	private getEventCallbacks(eventName: string): Function[] {
 		return this._events.get(eventName) ?? [];
 	}
 
@@ -88,7 +84,7 @@ export class EventHandler {
 	 * @param eventName - The name of the event.
 	 * @param args - The arguments to pass to the event callbacks.
 	 */
-	private static triggerEventCallbacks(eventName: string, args: unknown[]): void {
+	private triggerEventCallbacks(eventName: string, args: unknown[]): void {
 		const eventCallbacks = this.getEventCallbacks(eventName);
 		for (const cb of eventCallbacks) cb(...args); // Use traditional for loop to minimize functional overhead.
 	}

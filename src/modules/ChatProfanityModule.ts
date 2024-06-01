@@ -9,7 +9,7 @@ export class ChatProfanityModule extends Module {
 	private _warningMessage: string;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
@@ -20,11 +20,11 @@ export class ChatProfanityModule extends Module {
 		this._warningMessage = this.config.getValue(this.config.getConfig(), "warningMsg");
 		const words: string[] = Array.from(this.config.getValue(this.config.getConfig(), "badWords"));
 		this._filter.addWords(...words);
-		EventHandler.subscribe("chatMessage", this.onChatMessage.bind(this));
+		this.eventHandler.subscribe("chatMessage", this.onChatMessage.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("chatMessage", this.onChatMessage.bind(this));
+		this.eventHandler.unsubscribe("chatMessage", this.onChatMessage.bind(this));
 	}
 
 	/**

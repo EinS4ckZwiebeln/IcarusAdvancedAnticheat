@@ -12,17 +12,16 @@ export class StartProjectileModule extends Module {
 	private _blockVehicleWeapons: boolean = true;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
-
 	public onLoad(): void {
 		this._projectileCooldownTime = this.config.getValue(this.config.getConfig(), "projectileCooldown");
 		this._blockVehicleWeapons = this.config.getValue(this.config.getConfig(), "blockVehicleWeapons");
-		EventHandler.subscribe("startProjectileEvent", this.onProjectileSpam.bind(this));
+		this.eventHandler.subscribe("startProjectileEvent", this.onProjectileSpam.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("startProjectileEvent", this.onProjectileSpam.bind(this));
+		this.eventHandler.unsubscribe("startProjectileEvent", this.onProjectileSpam.bind(this));
 	}
 
 	/**

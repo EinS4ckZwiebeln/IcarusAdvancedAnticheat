@@ -11,16 +11,16 @@ export class GodmodeModule extends Module {
 	private _verifyPlayerDamage: boolean = false;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
 		this._verifyPlayerDamage = this.config.getValue(this.config.getConfig(), "verifyPlayerDamage");
-		EventHandler.subscribe("weaponDamageEvent", this.onGodmode.bind(this));
+		this.eventHandler.subscribe("weaponDamageEvent", this.onGodmode.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", this.onGodmode.bind(this));
+		this.eventHandler.unsubscribe("weaponDamageEvent", this.onGodmode.bind(this));
 	}
 
 	/**

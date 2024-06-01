@@ -10,16 +10,16 @@ export class WeaponBlacklistModule extends Module {
 	private _blacklistedWeapons: Set<number> = new Set<number>();
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
 		this._blacklistedWeapons = new Set<number>(Utility.hashify(this.config.getConfig().BlacklistedWeapons));
-		EventHandler.subscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
+		this.eventHandler.subscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
+		this.eventHandler.unsubscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
 	}
 
 	/**

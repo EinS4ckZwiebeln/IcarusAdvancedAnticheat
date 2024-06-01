@@ -13,7 +13,7 @@ export class EntityCreateModule extends Module {
 	private _cleanUpEntities: boolean = false;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
@@ -22,11 +22,11 @@ export class EntityCreateModule extends Module {
 		this._banNetworkOwner = this.config.getValue(this.config.getConfig(), "banNetworkOwner");
 		this._checkPedsForWeapons = this.config.getValue(this.config.getConfig(), "checkPedsForWeapons");
 		this._cleanUpEntities = this.config.getValue(this.config.getConfig(), "cleanUpEntities");
-		EventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
+		this.eventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("entityCreating", this.onEntityCreated.bind(this));
+		this.eventHandler.unsubscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	/**

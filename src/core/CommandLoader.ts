@@ -9,7 +9,10 @@ import { inject, singleton } from "tsyringe";
 export class CommandLoader {
 	private readonly _chatSuggestions: ChatSuggestion[] = [];
 
-	constructor(@inject(PermissionHandler) private readonly _permissionHandler: PermissionHandler) {}
+	constructor(
+		@inject(PermissionHandler) private readonly _permissionHandler: PermissionHandler,
+		@inject(EventHandler) private readonly _eventHandler: EventHandler
+	) {}
 
 	/**
 	 * Registers a command into the command loader.
@@ -41,7 +44,7 @@ export class CommandLoader {
 	}
 
 	public registerChatSuggestions(): void {
-		EventHandler.subscribe("respawnPlayerPedEvent", (source: number) => {
+		this._eventHandler.subscribe("respawnPlayerPedEvent", (source: number) => {
 			this._chatSuggestions.forEach((suggestion: ChatSuggestion) => {
 				emitNet("chat:addSuggestion", source, `/${suggestion.command}`, suggestion.description, suggestion.parameters);
 			});

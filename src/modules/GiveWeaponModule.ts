@@ -7,15 +7,15 @@ import { Config } from "../core/config/Config";
 
 export class GiveWeaponModule extends Module {
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
-		EventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
+		this.eventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
+		this.eventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 
 	/**

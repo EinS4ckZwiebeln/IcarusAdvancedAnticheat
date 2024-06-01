@@ -19,10 +19,10 @@ export class PermissionHandler {
 	 */
 	private readonly _bypassPermission: string;
 
-	constructor(@inject(Config) private readonly _config: Config) {
+	constructor(@inject(Config) private readonly _config: Config, @inject(EventHandler) private readonly _eventHandler: EventHandler) {
 		this._bypassPermission = this._config.getConfig().Permission.bypassPermission;
 		if (!this._config.getConfig().Permission.useTxAdmin) return;
-		EventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
+		this._eventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
 	}
 
 	/**

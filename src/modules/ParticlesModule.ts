@@ -9,16 +9,16 @@ export class ParticlesModule extends Module {
 	private _maxScale = -1;
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
 		this._maxScale = this.config.getValue(this.config.getConfig(), "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
-		EventHandler.subscribe("ptFxEvent", this.onParticle.bind(this));
+		this.eventHandler.subscribe("ptFxEvent", this.onParticle.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("ptFxEvent", this.onParticle.bind(this));
+		this.eventHandler.unsubscribe("ptFxEvent", this.onParticle.bind(this));
 	}
 
 	/**

@@ -10,16 +10,16 @@ export class NoClipModule extends Module {
 	private readonly _newlySpawned: Set<string> = new Set();
 
 	constructor() {
-		super(container.resolve(Config));
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
 		this._speedThreshold = this.config.getValue(this.config.getConfig(), "speedThreshold");
-		EventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this.eventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this.eventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 
 	/**
