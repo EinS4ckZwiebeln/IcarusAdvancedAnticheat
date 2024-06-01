@@ -6,7 +6,7 @@ export abstract class Module {
 	// Utility for onTick method
 	protected readonly Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-	constructor(private readonly _config: Config) {}
+	constructor(private readonly _config?: Config) {}
 
 	/**
 	 * Returns the name of the module by splitting the constructor name at the first underscore.
@@ -21,6 +21,9 @@ export abstract class Module {
 	}
 
 	protected get config(): Config {
+		if (!this._config) {
+			throw new Error("Config is not initialized");
+		}
 		return this._config;
 	}
 

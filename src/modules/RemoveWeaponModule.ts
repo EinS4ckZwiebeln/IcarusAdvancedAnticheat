@@ -1,15 +1,9 @@
-import { container } from "tsyringe";
-import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { RemoveAllWeaponsEvent, RemoveWeaponEvent } from "../Types";
 
 export class RemoveWeaponModule extends Module {
-	constructor() {
-		super(container.resolve(Config));
-	}
-
 	public onLoad(): void {
 		EventHandler.subscribe(["removeWeaponEvent", "removeAllWeaponsEvent"], this.onRemoveWeapon.bind(this));
 	}

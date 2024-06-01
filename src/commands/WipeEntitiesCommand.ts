@@ -1,8 +1,5 @@
 import { Command } from "../core/Command";
 
-/**
- * Represents a command that wipes all entities from the game world.
- */
 export class WipeEntitiesCommand extends Command {
 	constructor() {
 		super("wipe", "Removes all networked entities", []);

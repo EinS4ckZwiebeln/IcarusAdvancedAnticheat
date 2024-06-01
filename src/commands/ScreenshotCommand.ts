@@ -6,9 +6,6 @@ import { Logger } from "../core/logger/Logger";
 import { Utility } from "../util/Utility";
 import { container, injectable } from "tsyringe";
 
-/**
- * Subcommand class for taking a screenshot and posting it to a Discord webhook.
- */
 @injectable()
 export class ScreenshotCommand extends Command {
 	private readonly _config: Config;

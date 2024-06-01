@@ -23,8 +23,6 @@ import { WeaponBlacklistModule } from "./modules/WeaponBlacklistModule";
 import { WeaponModifierModule } from "./modules/WeaponModifierModule";
 import { ParticlesModule } from "./modules/ParticlesModule";
 import { ChatProfanityModule } from "./modules/ChatProfanityModule";
-import { PermissionHandler } from "./core/handler/PermissionHandler";
-import { ExcuseHandler } from "./core/handler/ExcuseHandler";
 import { StartProjectileModule } from "./modules/StartProjectileModule";
 import { NoClipModule } from "./modules/NoClipModule";
 import { CommandLoader } from "./core/CommandLoader";

@@ -1,16 +1,10 @@
-import { container } from "tsyringe";
 import { WeaponDamageEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Weapons } from "../enum/Weapons";
-import { Config } from "../core/config/Config";
 
 export class FoldModule extends Module {
-	constructor() {
-		super(container.resolve(Config));
-	}
-
 	public onLoad(): void {
 		EventHandler.subscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
 	}
