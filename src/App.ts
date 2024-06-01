@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import axios from "axios";
 
 import { ModuleLoader } from "./core/ModuleLoader";
@@ -35,18 +36,21 @@ import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
 import { Release } from "./Types";
 import { FoldModule } from "./modules/FoldModule";
+import { container, injectable } from "tsyringe";
+
 /**
  * Represents the main application class.
  */
+@injectable()
 class App {
-	constructor() {
+	constructor(
+		private _excuseHandler: ExcuseHandler,
+		private _permissionHandler: PermissionHandler,
+		private _moduleLoader: ModuleLoader,
+		private _commandLoader: CommandLoader
+	) {
 		// Initialize the logger
-		Logger.init();
 		Logger.debug(`Starting Icarus v${Utility.CURRENT_VERSION} ...`);
-		// Initialize the excuse handler
-		ExcuseHandler.init();
-		// Initialize the permission handler
-		PermissionHandler.init();
 
 		this.registerModules();
 		this.registerCommands();
@@ -72,26 +76,26 @@ class App {
 	 */
 	private registerModules(): void {
 		// Register modules here
-		ModuleLoader.loadModule(new DeferralsModule());
-		ModuleLoader.loadModule(new EntityCreateModule());
-		ModuleLoader.loadModule(new ClearTaskModule());
-		ModuleLoader.loadModule(new GiveWeaponModule());
-		ModuleLoader.loadModule(new RemoveWeaponModule());
-		ModuleLoader.loadModule(new ExplosionFilterModule());
-		ModuleLoader.loadModule(new TazerModule());
-		ModuleLoader.loadModule(new WeaponBlacklistModule());
-		ModuleLoader.loadModule(new PedBlacklistModule());
-		ModuleLoader.loadModule(new AimbotModule());
-		ModuleLoader.loadModule(new GodmodeModule());
-		ModuleLoader.loadModule(new SuperJumpModule());
-		ModuleLoader.loadModule(new WeaponModifierModule());
-		ModuleLoader.loadModule(new ParticlesModule());
-		ModuleLoader.loadModule(new ChatProfanityModule());
-		ModuleLoader.loadModule(new StartProjectileModule());
-		ModuleLoader.loadModule(new NoClipModule());
-		ModuleLoader.loadModule(new EventBlacklistModule());
-		ModuleLoader.loadModule(new FireModule());
-		ModuleLoader.loadModule(new FoldModule());
+		this._moduleLoader.loadModule(new DeferralsModule());
+		this._moduleLoader.loadModule(new EntityCreateModule());
+		this._moduleLoader.loadModule(new ClearTaskModule());
+		this._moduleLoader.loadModule(new GiveWeaponModule());
+		this._moduleLoader.loadModule(new RemoveWeaponModule());
+		this._moduleLoader.loadModule(new ExplosionFilterModule());
+		this._moduleLoader.loadModule(new TazerModule());
+		this._moduleLoader.loadModule(new WeaponBlacklistModule());
+		this._moduleLoader.loadModule(new PedBlacklistModule());
+		this._moduleLoader.loadModule(new AimbotModule());
+		this._moduleLoader.loadModule(new GodmodeModule());
+		this._moduleLoader.loadModule(new SuperJumpModule());
+		this._moduleLoader.loadModule(new WeaponModifierModule());
+		this._moduleLoader.loadModule(new ParticlesModule());
+		this._moduleLoader.loadModule(new ChatProfanityModule());
+		this._moduleLoader.loadModule(new StartProjectileModule());
+		this._moduleLoader.loadModule(new NoClipModule());
+		this._moduleLoader.loadModule(new EventBlacklistModule());
+		this._moduleLoader.loadModule(new FireModule());
+		this._moduleLoader.loadModule(new FoldModule());
 		Logger.debug("Finished loading modules");
 	}
 
@@ -100,12 +104,12 @@ class App {
 	 */
 	private registerCommands(): void {
 		// Register commands here
-		CommandLoader.registerCommand(new LoadModuleCommand());
-		CommandLoader.registerCommand(new UnloadModuleCommand());
-		CommandLoader.registerCommand(new ScreenshotCommand());
-		CommandLoader.registerCommand(new WipeEntitiesCommand());
+		this._commandLoader.registerCommand(new LoadModuleCommand());
+		this._commandLoader.registerCommand(new UnloadModuleCommand());
+		this._commandLoader.registerCommand(new ScreenshotCommand());
+		this._commandLoader.registerCommand(new WipeEntitiesCommand());
 		// Register corresponding chat suggestions
-		CommandLoader.registerChatSuggestions();
+		this._commandLoader.registerChatSuggestions();
 		Logger.debug("Finished registering commands");
 	}
 
@@ -181,5 +185,11 @@ class App {
 	}
 }
 
+Logger.init();
 // Program entry point
-new App();
+new App(
+	container.resolve(ExcuseHandler),
+	container.resolve(PermissionHandler),
+	container.resolve(ModuleLoader),
+	container.resolve(CommandLoader)
+);
