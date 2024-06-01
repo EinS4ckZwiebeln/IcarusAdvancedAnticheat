@@ -1,5 +1,4 @@
-import { singleton } from "tsyringe";
-import { Configuration } from "../Types";
+import { inject, singleton } from "tsyringe";
 import { Config } from "./config/Config";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
@@ -8,9 +7,8 @@ import { Module } from "./Module";
 export class ModuleLoader {
 	private readonly _modules: Map<string, Module> = new Map<string, Module>();
 	private readonly _unloadedModules: Map<string, Module> = new Map<string, Module>();
-	private readonly _config: Configuration = Config.getConfig();
 
-	constructor() {}
+	constructor(@inject(Config) private readonly _config: Config) {}
 
 	/**
 	 * Loads a module into the module loader.
@@ -51,7 +49,7 @@ export class ModuleLoader {
 	 * @param name - The name of the module.
 	 */
 	private isModuleEnabled(name: string): boolean {
-		const enabled = this._config.Modules[name].enabled;
+		const enabled = this._config.getConfig().Modules[name].enabled;
 		// Ensure module has configuration set up
 		if (enabled === false) {
 			Logger.debug(`Module ${name} is disabled in the config`);

@@ -1,8 +1,14 @@
+import { container } from "tsyringe";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { Config } from "../core/config/Config";
 
 export class ClearTaskModule extends Module {
+	constructor() {
+		super(container.resolve(Config));
+	}
+
 	public onLoad(): void {
 		EventHandler.subscribe("clearPedTasksEvent", this.onClearTask.bind(this));
 	}

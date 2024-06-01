@@ -1,4 +1,4 @@
-import { singleton } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import { AdminAuthEvent } from "../../Types";
 import { Config } from "../config/Config";
 import { Logger } from "../logger/Logger";
@@ -17,10 +17,11 @@ export class PermissionHandler {
 	/**
 	 * The permission required to bypass the permission check.
 	 */
-	private readonly _bypassPermission: string = Config.getConfig().Permission.bypassPermission;
+	private readonly _bypassPermission: string;
 
-	constructor() {
-		if (!Config.getConfig().Permission.useTxAdmin) return;
+	constructor(@inject(Config) private readonly _config: Config) {
+		this._bypassPermission = this._config.getConfig().Permission.bypassPermission;
+		if (!this._config.getConfig().Permission.useTxAdmin) return;
 		EventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
 	}
 

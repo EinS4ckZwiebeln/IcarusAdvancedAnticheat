@@ -2,17 +2,24 @@ import Filter from "bad-words";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
+import { container } from "tsyringe";
 
 export class ChatProfanityModule extends Module {
-	private readonly filter = new Filter({
-		replaceRegex: /[A-Za-z0-9가-힣_]/g,
-		emptyList: !Config.getValue(this.config, "useDefaultBlacklist") || false,
-	});
-	private warningMessage: string = Config.getValue(this.config, "warningMsg");
+	private _filter: Filter;
+	private _warningMessage: string;
+
+	constructor() {
+		super(container.resolve(Config));
+	}
 
 	public onLoad(): void {
-		const words: string[] = Array.from(Config.getValue(this.config, "badWords"));
-		this.filter.addWords(...words);
+		this._filter = new Filter({
+			replaceRegex: /[A-Za-z0-9가-힣_]/g,
+			emptyList: !this.config.getValue(this.config.getConfig(), "useDefaultBlacklist") || false,
+		});
+		this._warningMessage = this.config.getValue(this.config.getConfig(), "warningMsg");
+		const words: string[] = Array.from(this.config.getValue(this.config.getConfig(), "badWords"));
+		this._filter.addWords(...words);
 		EventHandler.subscribe("chatMessage", this.onChatMessage.bind(this));
 	}
 
@@ -27,8 +34,8 @@ export class ChatProfanityModule extends Module {
 	 * @param message - The chat message to be checked for profanity.
 	 */
 	private onChatMessage(source: string, _: unknown, message: string): void {
-		if (this.filter.isProfane(message)) {
-			emitNet("chat:addMessage", source, { args: [this.warningMessage] });
+		if (this._filter.isProfane(message)) {
+			emitNet("chat:addMessage", source, { args: [this._warningMessage] });
 			CancelEvent();
 		}
 	}

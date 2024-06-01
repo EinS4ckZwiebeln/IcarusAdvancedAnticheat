@@ -3,12 +3,17 @@ import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 import { PtFxEvent } from "../Types";
+import { container } from "tsyringe";
 
 export class ParticlesModule extends Module {
 	private _maxScale = -1;
 
+	constructor() {
+		super(container.resolve(Config));
+	}
+
 	public onLoad(): void {
-		this._maxScale = Config.getValue(this.config, "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
+		this._maxScale = this.config.getValue(this.config.getConfig(), "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
 		EventHandler.subscribe("ptFxEvent", this.onParticle.bind(this));
 	}
 

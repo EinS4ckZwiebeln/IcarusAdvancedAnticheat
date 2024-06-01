@@ -44,10 +44,9 @@ import { container, injectable } from "tsyringe";
 @injectable()
 class App {
 	constructor(
-		private _excuseHandler: ExcuseHandler,
-		private _permissionHandler: PermissionHandler,
-		private _moduleLoader: ModuleLoader,
-		private _commandLoader: CommandLoader
+		private readonly _config: Config,
+		private readonly _moduleLoader: ModuleLoader,
+		private readonly _commandLoader: CommandLoader
 	) {
 		// Initialize the logger
 		Logger.debug(`Starting Icarus v${Utility.CURRENT_VERSION} ...`);
@@ -63,7 +62,7 @@ class App {
 	 * Dumps the configuration by logging a JSON representation of the config object.
 	 */
 	private async dumpConfig(): Promise<void> {
-		const config = Config.getConfig();
+		const config = this._config.getConfig();
 		const dump = {
 			Modules: config.Modules,
 			Permission: config.Permission,
@@ -168,7 +167,7 @@ class App {
 					embeds: new UpdateEmbed(remoteVersion).embed,
 				});
 				// Ensure webhook is actually configured
-				const webhook: string = Config.getConfig().DiscordWebhook;
+				const webhook: string = this._config.getConfig().DiscordWebhook;
 				if (webhook && webhook.length > 0) request.post(webhook);
 
 				console.log(
@@ -185,11 +184,6 @@ class App {
 	}
 }
 
-Logger.init();
 // Program entry point
-new App(
-	container.resolve(ExcuseHandler),
-	container.resolve(PermissionHandler),
-	container.resolve(ModuleLoader),
-	container.resolve(CommandLoader)
-);
+Logger.init();
+new App(container.resolve(Config), container.resolve(ModuleLoader), container.resolve(CommandLoader));

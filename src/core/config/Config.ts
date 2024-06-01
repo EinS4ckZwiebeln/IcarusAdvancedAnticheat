@@ -1,14 +1,16 @@
+import { singleton } from "tsyringe";
 import { Configuration } from "../../Types";
 import { Utility } from "../../util/Utility";
 
+@singleton()
 export class Config {
-	private static readonly _config: Configuration = JSON.parse(JSON.stringify(Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig()));
+	private readonly _config: Configuration;
 
 	constructor() {
-		throw new Error("Config is a static class and cannot be instantiated.");
+		this._config = JSON.parse(JSON.stringify(Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig()));
 	}
 
-	public static getConfig(): Configuration {
+	public getConfig(): Configuration {
 		return this._config;
 	}
 
@@ -18,7 +20,7 @@ export class Config {
 	 * @param key - The key to search for.
 	 * @returns The value of the key if found, otherwise undefined.
 	 */
-	public static getValue(obj: any, key: string): any {
+	public getValue(obj: any, key: string): any {
 		if (key in obj) return obj[key];
 		for (let n of Object.values(obj)
 			.filter(Boolean)

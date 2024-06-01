@@ -1,12 +1,19 @@
+import { container } from "tsyringe";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { GiveWeaponEvent } from "../Types";
+import { Config } from "../core/config/Config";
 
 export class GiveWeaponModule extends Module {
+	constructor() {
+		super(container.resolve(Config));
+	}
+
 	public onLoad(): void {
 		EventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
+
 	public onUnload(): void {
 		EventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}

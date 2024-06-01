@@ -3,13 +3,13 @@ import { Logger } from "./logger/Logger";
 import { Command } from "./Command";
 import { EventHandler } from "./handler/EventHandler";
 import { ChatSuggestion } from "../Types";
-import { singleton } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 
 @singleton()
 export class CommandLoader {
 	private readonly _chatSuggestions: ChatSuggestion[] = [];
 
-	constructor(private _permissionHandler: PermissionHandler) {}
+	constructor(@inject(PermissionHandler) private readonly _permissionHandler: PermissionHandler) {}
 
 	/**
 	 * Registers a command into the command loader.

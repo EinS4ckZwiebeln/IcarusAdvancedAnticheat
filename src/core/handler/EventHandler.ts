@@ -1,3 +1,4 @@
+import { singleton } from "tsyringe";
 import { Logger } from "../logger/Logger";
 
 /**
@@ -5,6 +6,7 @@ import { Logger } from "../logger/Logger";
  * Events can be subscribed to using the `subscribe` method and unsubscribed from using the `unsubscribe` method.
  * When an event is triggered, all subscribed callback functions are called.
  */
+@singleton()
 export class EventHandler {
 	private static readonly _events: Map<string, Function[]> = new Map();
 	private static readonly _netEvents: Set<string> = new Set();
@@ -27,10 +29,7 @@ export class EventHandler {
 			Logger.debug(`Subscribing to ${event}`);
 			if (!this._netEvents.has(event)) this.registerNetEvent(event);
 			// Push new callback onto the stack
-			this._events.set(event, [
-				...this.getEventCallbacks(event),
-				...(Array.isArray(callback) ? callback : [callback]),
-			]);
+			this._events.set(event, [...this.getEventCallbacks(event), ...(Array.isArray(callback) ? callback : [callback])]);
 		});
 	}
 

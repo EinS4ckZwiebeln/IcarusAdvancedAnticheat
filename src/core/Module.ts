@@ -1,13 +1,12 @@
-import { Configuration } from "../Types";
 import { Config } from "./config/Config";
 
 export abstract class Module {
 	private _tick: number = 0;
 	private _isTicking: boolean = false;
-
-	private static readonly _config: Configuration = Config.getConfig();
 	// Utility for onTick method
 	protected readonly Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+	constructor(private readonly _config: Config) {}
 
 	/**
 	 * Returns the name of the module by splitting the constructor name at the first underscore.
@@ -21,8 +20,8 @@ export abstract class Module {
 		return this._tick;
 	}
 
-	protected get config(): Configuration {
-		return Module._config;
+	protected get config(): Config {
+		return this._config;
 	}
 
 	/**

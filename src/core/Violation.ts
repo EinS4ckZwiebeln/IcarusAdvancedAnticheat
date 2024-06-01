@@ -6,15 +6,22 @@ import { Logger } from "./logger/Logger";
 import { ScreenshotRequest } from "../web/ScreenshotRequest";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { ExcuseHandler } from "./handler/ExcuseHandler";
+import { container } from "tsyringe";
 
 export class Violation {
-	private readonly _webhook: string = Config.getConfig().DiscordWebhook;
+	private readonly _permissionHandler: PermissionHandler;
+	private readonly _excuseHandler: ExcuseHandler;
+	private readonly _config: Config;
 	// Required data to issue a ban
 	private readonly _source: number;
 	private readonly _reason: string;
 	private readonly _module: string;
 
 	constructor(source: number, reason: string, module: string) {
+		this._permissionHandler = container.resolve(PermissionHandler);
+		this._excuseHandler = container.resolve(ExcuseHandler);
+		this._config = container.resolve(Config);
+
 		this._source = source;
 		this._reason = reason;
 		this._module = module;
@@ -27,7 +34,8 @@ export class Violation {
 	 * @returns A Promise that resolves when the player is banned.
 	 */
 	public async banPlayer(): Promise<void> {
-		if (PermissionHandler.hasPermission(this._source, this._module) || ExcuseHandler.isExcused(this._source, this._module)) return;
+		if (this._permissionHandler.hasPermission(this._source, this._module) || this._excuseHandler.isExcused(this._source, this._module))
+			return;
 		await this.takeScreenshot();
 		Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
 		Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
@@ -39,7 +47,8 @@ export class Violation {
 	 * @param reason - The reason for the ban.
 	 */
 	private async takeScreenshot(): Promise<void> {
-		if (Utility.isNullOrEmtpy(this._webhook)) {
+		const webhook = this._config.getConfig().DiscordWebhook;
+		if (Utility.isNullOrEmtpy(webhook)) {
 			Logger.debug("Failed to send webhook request. No webhook is configured.");
 			return;
 		}
@@ -58,6 +67,6 @@ export class Violation {
 			},
 			`./${screenshot.filePath}`
 		);
-		request.post(this._webhook);
+		request.post(webhook);
 	}
 }
