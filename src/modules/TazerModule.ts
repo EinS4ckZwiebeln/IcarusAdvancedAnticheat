@@ -17,8 +17,8 @@ export class TazerModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._tazerRange = this.config.getValue(this.config.getConfig(), "maxDistance");
-		this._tazerCooldown = this.config.getValue(this.config.getConfig(), "tazerCooldown");
+		this._tazerRange = Config.getValue<number>(this.config, "maxDistance");
+		this._tazerCooldown = Config.getValue<number>(this.config, "tazerCooldown");
 
 		this.eventHandler.subscribe("weaponDamageEvent", [
 			this.onTazerCooldown.bind(this),

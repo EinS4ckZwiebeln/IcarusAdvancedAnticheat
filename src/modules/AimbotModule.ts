@@ -14,7 +14,7 @@ export class AimbotModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._offsetDist = this.config.getValue(this.config.getConfig(), "offsetDist");
+		this._offsetDist = Config.getValue<number>(this.config, "offsetDist");
 		this.eventHandler.subscribe("weaponDamageEvent", this.onAimbot.bind(this));
 	}
 

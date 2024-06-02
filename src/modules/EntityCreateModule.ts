@@ -17,11 +17,13 @@ export class EntityCreateModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._illegalEntities = new Set(Utility.hashify(this.config.getConfig().IllegalModels));
-		this._blacklistedWeapons = new Set(Utility.hashify(this.config.getConfig().BlacklistedWeapons));
-		this._banNetworkOwner = this.config.getValue(this.config.getConfig(), "banNetworkOwner");
-		this._checkPedsForWeapons = this.config.getValue(this.config.getConfig(), "checkPedsForWeapons");
-		this._cleanUpEntities = this.config.getValue(this.config.getConfig(), "cleanUpEntities");
+		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));
+		this._banNetworkOwner = Config.getValue<boolean>(this.config, "banNetworkOwner");
+		this._cleanUpEntities = Config.getValue<boolean>(this.config, "cleanUpEntities");
+		this._checkPedsForWeapons = Config.getValue<boolean>(this.config, "checkPedsForWeapons");
+		if (this._checkPedsForWeapons) {
+			this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
+		}
 		this.eventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 

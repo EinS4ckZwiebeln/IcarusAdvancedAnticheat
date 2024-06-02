@@ -12,7 +12,8 @@ export class PedBlacklistModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._whitelistedPedModels = new Set(Utility.hashify(this.config.getValue(this.config.getConfig(), "playerModels")));
+		const models = Config.getValue<string[]>(this.config, "playerModels");
+		this._whitelistedPedModels = new Set(Utility.hashify(models));
 	}
 
 	public onUnload(): void {}

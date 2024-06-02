@@ -7,10 +7,7 @@ import { Utility } from "../../util/Utility";
  */
 export class Logger {
 	private static _logger: winston.Logger;
-
-	constructor() {
-		throw new Error("Logger is a static class and cannot be instantiated.");
-	}
+	private constructor() {}
 
 	/**
 	 * Initializes the logger with two transports: one for debug logs and one for error logs.

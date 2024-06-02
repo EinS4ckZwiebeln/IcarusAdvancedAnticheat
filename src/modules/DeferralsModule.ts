@@ -19,9 +19,9 @@ export class DeferralsModule extends Module {
 
 	public onLoad(): void {
 		this._steamApiKey = GetConvar("steam_webApiKey", "none");
-		this._banChecker = this.config.getValue(this.config.getConfig(), "BanChecker");
-		this._nameFilter = this.config.getValue(this.config.getConfig(), "NameFilter");
-		this._noVPN = this.config.getValue(this.config.getConfig(), "NoVPN");
+		this._banChecker = Config.getValue<DeferralsObject>(this.config, "BanChecker");
+		this._nameFilter = Config.getValue<DeferralsObject>(this.config, "NameFilter");
+		this._noVPN = Config.getValue<DeferralsObject>(this.config, "NoVPN");
 		this.eventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
 	}
 	public onUnload(): void {

@@ -14,7 +14,7 @@ export class NoClipModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._speedThreshold = this.config.getValue(this.config.getConfig(), "speedThreshold");
+		this._speedThreshold = Config.getValue<number>(this.config, "speedThreshold");
 		this.eventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 

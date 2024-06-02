@@ -6,11 +6,14 @@ import { GiveWeaponEvent } from "../Types";
 import { Config } from "../core/config/Config";
 
 export class GiveWeaponModule extends Module {
+	private _allowPickUp: boolean = false;
+
 	constructor() {
 		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 
 	public onLoad(): void {
+		this._allowPickUp = Config.getValue<boolean>(this.config, "allowPickUp");
 		this.eventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 
@@ -25,6 +28,7 @@ export class GiveWeaponModule extends Module {
 	 * @param data The data associated with the event.
 	 */
 	private onGiveWeapon(source: number, data: GiveWeaponEvent): void {
+		if (this._allowPickUp && data.givenAsPickup) return;
 		const entity: number = NetworkGetEntityFromNetworkId(data.pedId);
 		if (DoesEntityExist(entity)) {
 			const owner = NetworkGetEntityOwner(entity);

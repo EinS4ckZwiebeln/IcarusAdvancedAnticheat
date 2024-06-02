@@ -15,8 +15,8 @@ export class StartProjectileModule extends Module {
 		super(container.resolve(Config), container.resolve(EventHandler));
 	}
 	public onLoad(): void {
-		this._projectileCooldownTime = this.config.getValue(this.config.getConfig(), "projectileCooldown");
-		this._blockVehicleWeapons = this.config.getValue(this.config.getConfig(), "blockVehicleWeapons");
+		this._projectileCooldownTime = Config.getValue<number>(this.config, "projectileCooldown");
+		this._blockVehicleWeapons = Config.getValue<boolean>(this.config, "blockVehicleWeapons");
 		this.eventHandler.subscribe("startProjectileEvent", this.onProjectileSpam.bind(this));
 	}
 

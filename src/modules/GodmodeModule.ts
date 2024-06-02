@@ -15,7 +15,7 @@ export class GodmodeModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._verifyPlayerDamage = this.config.getValue(this.config.getConfig(), "verifyPlayerDamage");
+		this._verifyPlayerDamage = Config.getValue<boolean>(this.config, "verifyPlayerDamage");
 		this.eventHandler.subscribe("weaponDamageEvent", this.onGodmode.bind(this));
 	}
 

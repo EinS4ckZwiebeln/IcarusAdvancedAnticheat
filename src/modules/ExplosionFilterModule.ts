@@ -19,9 +19,9 @@ export class ExplosionFilterModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._explosionSpoofer = this.config.getValue(this.config.getConfig(), "explosionSpoofer");
-		this._hydrantExplosion = this.config.getValue(this.config.getConfig(), "hydrantExplosion");
-		this._whitelistedExplosionTypes = new Set(this.config.getValue(this.config.getConfig(), "whitelistedExplosionTypes"));
+		this._explosionSpoofer = Config.getValue<boolean>(this.config, "explosionSpoofer");
+		this._hydrantExplosion = Config.getValue<boolean>(this.config, "hydrantExplosion");
+		this._whitelistedExplosionTypes = new Set(Config.getValue<number[]>(this.config, "whitelistedExplosionTypes"));
 		this.eventHandler.subscribe("explosionEvent", [
 			this.onExplosion.bind(this),
 			this.onExplosionSpoof.bind(this),

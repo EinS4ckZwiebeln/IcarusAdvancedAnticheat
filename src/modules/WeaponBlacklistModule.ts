@@ -14,7 +14,7 @@ export class WeaponBlacklistModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._blacklistedWeapons = new Set<number>(Utility.hashify(this.config.getConfig().BlacklistedWeapons));
+		this._blacklistedWeapons = new Set<number>(Utility.hashify(this.config.BlacklistedWeapons));
 		this.eventHandler.subscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
 	}
 

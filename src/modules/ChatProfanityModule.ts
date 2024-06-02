@@ -15,10 +15,10 @@ export class ChatProfanityModule extends Module {
 	public onLoad(): void {
 		this._filter = new Filter({
 			replaceRegex: /[A-Za-z0-9가-힣_]/g,
-			emptyList: !this.config.getValue(this.config.getConfig(), "useDefaultBlacklist") || false,
+			emptyList: !Config.getValue<boolean>(this.config, "useDefaultBlacklist") || false,
 		});
-		this._warningMessage = this.config.getValue(this.config.getConfig(), "warningMsg");
-		const words: string[] = Array.from(this.config.getValue(this.config.getConfig(), "badWords"));
+		this._warningMessage = Config.getValue<string>(this.config, "warningMsg");
+		const words: string[] = Array.from(Config.getValue<string>(this.config, "badWords"));
 		this._filter.addWords(...words);
 		this.eventHandler.subscribe("chatMessage", this.onChatMessage.bind(this));
 	}

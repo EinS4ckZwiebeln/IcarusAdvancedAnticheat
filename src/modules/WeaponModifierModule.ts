@@ -13,7 +13,7 @@ export class WeaponModifierModule extends Module {
 
 	public onLoad(): void {
 		// Add 0.001 to the value to account for floating point errors.
-		this._damageModifier = this.config.getValue(this.config.getConfig(), "damageModifier") + 0.001;
+		this._damageModifier = Config.getValue<number>(this.config, "damageModifier") + 0.001;
 		this.eventHandler.subscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 

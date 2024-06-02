@@ -18,7 +18,7 @@ export class EventBlacklistModule extends Module {
 	 * Registers blacklisted events and sets up a violation handler for each event.
 	 */
 	private async registerEvents(): Promise<void> {
-		for (const [resourceName, value] of Object.entries(this.config.getConfig().BlacklistedEvents)) {
+		for (const [resourceName, value] of Object.entries(this.config.BlacklistedEvents)) {
 			// Skip over resource when it is started
 			if (GetResourceState(resourceName) === "started") continue;
 

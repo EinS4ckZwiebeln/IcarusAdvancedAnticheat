@@ -46,9 +46,7 @@ class App {
 		private readonly _moduleLoader: ModuleLoader,
 		private readonly _commandLoader: CommandLoader
 	) {
-		// Initialize the logger
 		Logger.debug(`Starting Icarus v${Utility.CURRENT_VERSION} ...`);
-
 		this.registerModules();
 		this.registerCommands();
 		this.checkForUnsafeConvars();

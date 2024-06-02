@@ -86,6 +86,6 @@ export class EventHandler {
 	 */
 	private triggerEventCallbacks(eventName: string, args: unknown[]): void {
 		const eventCallbacks = this.getEventCallbacks(eventName);
-		for (const cb of eventCallbacks) cb(...args); // Use traditional for loop to minimize functional overhead.
+		for (let i = 0; i < eventCallbacks.length; i++) eventCallbacks[i](...args); // Use traditional for loop to minimize functional overhead.
 	}
 }

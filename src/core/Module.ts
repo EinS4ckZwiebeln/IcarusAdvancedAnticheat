@@ -1,3 +1,4 @@
+import { Configuration } from "../Types";
 import { Config } from "./config/Config";
 import { EventHandler } from "./handler/EventHandler";
 
@@ -21,11 +22,11 @@ export abstract class Module {
 		return this._tick;
 	}
 
-	protected get config(): Config {
+	protected get config(): Configuration {
 		if (!this._config) {
 			throw new Error("Module is missing injection for Config");
 		}
-		return this._config;
+		return this._config.getConfig();
 	}
 
 	protected get eventHandler(): EventHandler {

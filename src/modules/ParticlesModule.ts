@@ -13,7 +13,7 @@ export class ParticlesModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._maxScale = this.config.getValue(this.config.getConfig(), "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
+		this._maxScale = Config.getValue<number>(this.config, "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
 		this.eventHandler.subscribe("ptFxEvent", this.onParticle.bind(this));
 	}
 

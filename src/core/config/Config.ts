@@ -7,7 +7,8 @@ export class Config {
 	private readonly _config: Configuration;
 
 	constructor() {
-		this._config = JSON.parse(JSON.stringify(Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig()));
+		const exportedConfig: unknown = Utility.EXPORTS[Utility.RESOURCE_NAME].GetConfig();
+		this._config = JSON.parse(JSON.stringify(exportedConfig));
 	}
 
 	public getConfig(): Configuration {
@@ -20,13 +21,28 @@ export class Config {
 	 * @param key - The key to search for.
 	 * @returns The value of the key if found, otherwise undefined.
 	 */
-	public getValue(obj: any, key: string): any {
-		if (key in obj) return obj[key];
-		for (let n of Object.values(obj)
-			.filter(Boolean)
-			.filter((v) => typeof v === "object")) {
-			let found = this.getValue(n, key);
-			if (found) return found;
+	public static getValue<T>(obj: Record<string, unknown>, key: string): T {
+		const result = this.findKey<T>(obj, key);
+		if (result === undefined) {
+			throw new Error(`Key ${key} not found in Configuration object`);
 		}
+		return result;
+	}
+
+	/**
+	 * Finds a key in an object and returns its value.
+	 * @param obj - The object to search for the key.
+	 * @param key - The key to find in the object.
+	 * @returns The value associated with the key, or undefined if the key is not found.
+	 */
+	private static findKey<T>(obj: Record<string, unknown>, key: string): T | undefined {
+		if (key in obj) return obj[key] as T;
+		for (let n of Object.values(obj)) {
+			if (typeof n === "object" && n !== null) {
+				let result = this.findKey<T>(n as Record<string, unknown>, key);
+				if (result !== undefined) return result;
+			}
+		}
+		return undefined;
 	}
 }

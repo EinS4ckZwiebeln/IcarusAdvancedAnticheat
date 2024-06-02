@@ -14,7 +14,7 @@ export class FireModule extends Module {
 	}
 
 	public onLoad(): void {
-		this._maxFireDistance = this.config.getValue(this.config.getConfig(), "maxFireDistance");
+		this._maxFireDistance = Config.getValue<number>(this.config, "maxFireDistance");
 		this.eventHandler.subscribe("fireEvent", this.onFire.bind(this));
 	}
 	public onUnload(): void {
