@@ -3,49 +3,55 @@ import "../helper/MockNatives";
 import "../helper/MockConfig";
 import { Logger } from "../../src/core/logger/Logger";
 import { ExcuseHandler } from "../../src/core/handler/ExcuseHandler";
+import { container } from "tsyringe";
+import { Utility } from "../../src/util/Utility";
 
 Logger.init();
+// @ts-ignore
+Utility.EXPORTS = jest.fn();
+const excuseHandler = container.resolve(ExcuseHandler);
+
 describe("ExcuseHandler", () => {
 	beforeEach(() => {
 		jest.useFakeTimers();
 	});
 	afterEach(() => {
-		ExcuseHandler["_excusedPlayers"].clear();
+		excuseHandler["_excusedPlayers"].clear();
 		jest.useRealTimers();
 	});
 	it("should excuse a player", () => {
 		const source = 1;
 		const timeout = 1000;
-		ExcuseHandler["addExcuse"](source, timeout);
-		expect(ExcuseHandler.isExcused(source)).toBeTruthy();
+		excuseHandler["addExcuse"](source, timeout);
+		expect(excuseHandler.isExcused(source)).toBeTruthy();
 	});
 	it("should not excuse a player after timeout", () => {
 		const source = 1;
 		const timeout = 500;
-		ExcuseHandler["addExcuse"](source, timeout);
+		excuseHandler["addExcuse"](source, timeout);
 		jest.advanceTimersByTime(1000);
-		expect(ExcuseHandler.isExcused(source)).toBeFalsy();
+		expect(excuseHandler.isExcused(source)).toBeFalsy();
 	});
 	it("should excuse a player from a module", () => {
 		const source = 1;
 		const timeout = 1000;
 		const module = "TestModule";
-		ExcuseHandler["addExcuse"](source, timeout, { module });
-		expect(ExcuseHandler.isExcused(source, module)).toBeTruthy();
+		excuseHandler["addExcuse"](source, timeout, { module });
+		expect(excuseHandler.isExcused(source, module)).toBeTruthy();
 	});
 	it("should remove excuse from a player", () => {
 		const source = 1;
 		const timeout = 1000;
-		ExcuseHandler["addExcuse"](source, timeout);
-		ExcuseHandler["removeExcuse"](source);
-		expect(ExcuseHandler.isExcused(source)).toBeFalsy();
+		excuseHandler["addExcuse"](source, timeout);
+		excuseHandler["removeExcuse"](source);
+		expect(excuseHandler.isExcused(source)).toBeFalsy();
 	});
 	it("should remove excuse from a player for a module", () => {
 		const source = 1;
 		const timeout = 1000;
 		const module = "TestModule";
-		ExcuseHandler["addExcuse"](source, timeout, { module });
-		ExcuseHandler["removeExcuse"](source, module);
-		expect(ExcuseHandler.isExcused(source, module)).toBeFalsy();
+		excuseHandler["addExcuse"](source, timeout, { module });
+		excuseHandler["removeExcuse"](source, module);
+		expect(excuseHandler.isExcused(source, module)).toBeFalsy();
 	});
 });

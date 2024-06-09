@@ -1,15 +1,29 @@
-const _exports = {
-	Icarus: { GetConfig: () => [], BanPlayer: () => {} },
-	"screenshot-basic": {
-		requestClientScreenshot: () => {
-			return { fileName: "test.png", filePath: "./" };
-		},
+import "reflect-metadata";
+
+// @ts-ignore
+const _exports: CitizenExports = {};
+_exports["Icarus"] = {
+	GetConfig: () => [],
+	BanPlayer: () => {},
+};
+_exports["screenshot-basic"] = {
+	requestClientScreenshot: () => {
+		return {
+			fileName: "mock.png",
+			filePath: "./",
+		};
 	},
 };
 
+interface CitizenExports {
+	(exportKey: string | number, exportFunction: Function): void;
+	[resourceName: string]: {
+		[exportKey: string | number]: Function;
+	};
+}
+
 declare global {
-	// @ts-ignore
-	var exports: _exports;
+	var exports: CitizenExports;
 	// Ticking
 	function setTick(cb: Function): number;
 	function clearTick(tick: number): void;

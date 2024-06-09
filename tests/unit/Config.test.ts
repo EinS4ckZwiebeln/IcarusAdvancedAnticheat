@@ -21,8 +21,6 @@ const mockConfig: Configuration = {
 	IllegalModels: ["model"],
 };
 
-jest.spyOn(Config, "getConfig").mockImplementation(() => mockConfig);
-
 describe("Config", () => {
 	it("should return the value of a key in the provided object or any of its nested objects", () => {
 		expect(Config.getValue(mockConfig, "DiscordWebhook")).toBe("https://example.webhook.com");
@@ -30,7 +28,7 @@ describe("Config", () => {
 		expect(Config.getValue(mockConfig, "useTxAdmin")).toBe(true);
 		expect(Config.getValue(mockConfig, "TestModule")).toEqual({ enabled: true });
 	});
-	it("should return undefined if the key is not found", () => {
-		expect(Config.getValue(mockConfig, "nonexistent")).toBeUndefined();
+	it("should throw error if the key is not found", () => {
+		expect(() => Config.getValue(mockConfig, "non-existent")).toThrowError();
 	});
 });

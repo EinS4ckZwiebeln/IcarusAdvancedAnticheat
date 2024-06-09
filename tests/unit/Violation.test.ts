@@ -8,7 +8,11 @@ import { Utility } from "../../src/util/Utility";
 Logger.init();
 describe("Violation", () => {
 	it("should take a screenshot and abort", async () => {
+		// @ts-ignore
+		Utility.EXPORTS = jest.fn();
 		const violation = new Violation(1, "TestViolation", "TestModule");
+		// @ts-ignore
+		Utility.EXPORTS = global.exports;
 		// @ts-ignore
 		const takeScreenshot = jest.spyOn(violation, "takeScreenshot");
 		await violation.banPlayer();
@@ -20,7 +24,11 @@ describe("Violation", () => {
 		const mockBanPlayer = jest.fn();
 		Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer = mockBanPlayer;
 		// Zero will always have permission in tests
+		// @ts-ignore
+		Utility.EXPORTS = jest.fn();
 		const violation = new Violation(0, "TestViolation", "TestModule");
+		// @ts-ignore
+		Utility.EXPORTS = global.exports;
 		violation.banPlayer();
 		expect(mockBanPlayer).toHaveBeenCalledTimes(0);
 	});
@@ -29,7 +37,11 @@ describe("Violation", () => {
 		jest.spyOn(Violation.prototype, "takeScreenshot").mockResolvedValue();
 		const mockBanPlayer = jest.fn();
 		Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer = mockBanPlayer;
+		// @ts-ignore
+		Utility.EXPORTS = jest.fn();
 		const violation = new Violation(1, "TestViolation", "TestModule");
+		// @ts-ignore
+		Utility.EXPORTS = global.exports;
 		await violation.banPlayer();
 		expect(mockBanPlayer).toHaveBeenCalledTimes(1);
 	});
