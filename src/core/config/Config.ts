@@ -16,7 +16,7 @@ export class Config {
 	}
 
 	/**
-	 * Returns the value of the given key in the provided object or any of its nested objects.
+	 * Returns the value of the given key in the provided object.
 	 * @param obj - The object to search for the key.
 	 * @param key - The key to search for.
 	 * @returns The value of the key if found, otherwise undefined.
@@ -24,7 +24,7 @@ export class Config {
 	public static getValue<T>(obj: Record<string, unknown>, key: string): T {
 		const result = this.findKey<T>(obj, key);
 		if (result === undefined) {
-			throw new Error(`Key ${key} not found in Configuration object`);
+			throw new Error(`Key '${key}' not found in configuration object`);
 		}
 		return result;
 	}
