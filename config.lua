@@ -118,7 +118,7 @@ Config.Modules = {
     },
     -- Detects if the shooter is somewhat looking at his target.
     AimbotModule = {
-        enabled = true,
+        enabled = false,
         -- Increment this if Aimbot false positives occur.
         -- In case you use any 'drug effects' or 'drunk' resources increase this to at least 6.0.
         offsetDist = 4.5
@@ -177,7 +177,7 @@ Config.Modules = {
     -- Detects NoClip esque player movement.
     -- Beware that this might cause false positives with other client scripts that modify ped movement.
     NoClipModule = {
-        enabled = true,
+        enabled = false,
         -- Miscellaneous player speed limit.
         -- Don't touch this unless you know what you are doing.
         speedThreshold = 20.0,
