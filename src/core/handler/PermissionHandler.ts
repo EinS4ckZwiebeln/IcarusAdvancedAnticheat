@@ -1,3 +1,4 @@
+import { inject, singleton } from "tsyringe";
 import { AdminAuthEvent } from "../../Types";
 import { Config } from "../config/Config";
 import { Logger } from "../logger/Logger";
@@ -6,24 +7,22 @@ import { EventHandler } from "./EventHandler";
 /**
  * Handles permissions for players.
  */
+@singleton()
 export class PermissionHandler {
 	/**
 	 * Set of player IDs with permissions.
 	 */
-	private static readonly _permitted: Set<number> = new Set();
+	private readonly _permitted: Set<number> = new Set();
 
 	/**
 	 * The permission required to bypass the permission check.
 	 */
-	private static readonly _bypassPermission: string = Config.getConfig().Permission.bypassPermission;
+	private readonly _bypassPermission: string;
 
-	constructor() {
-		throw new Error("PermissionHandler is a static class and cannot be instantiated.");
-	}
-
-	public static init(): void {
-		if (!Config.getConfig().Permission.useTxAdmin) return;
-		EventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
+	constructor(@inject(Config) private readonly _config: Config, @inject(EventHandler) private readonly _eventHandler: EventHandler) {
+		this._bypassPermission = this._config.getConfig().Permission.bypassPermission;
+		if (!this._config.getConfig().Permission.useTxAdmin) return;
+		this._eventHandler.subscribe("txAdmin:events:adminAuth", this.onTxAuth.bind(this));
 	}
 
 	/**
@@ -31,7 +30,7 @@ export class PermissionHandler {
 	 * @param source The player ID to check.
 	 * @returns True if the player has permission, false otherwise.
 	 */
-	public static hasPermission(source: number, module?: string): boolean {
+	public hasPermission(source: number, module?: string): boolean {
 		source = parseInt(source.toString()); // Ensure source is really a number
 		const hasModuleBypass = module !== undefined ? IsPlayerAceAllowed(source.toString(), `icarus.${module.toLowerCase()}`) : false;
 		return this._permitted.has(source) || hasModuleBypass || IsPlayerAceAllowed(source.toString(), this._bypassPermission);
@@ -41,7 +40,7 @@ export class PermissionHandler {
 	 * Event handler for when a player's admin status changes.
 	 * @param data The data object containing the player's net ID and admin status.
 	 */
-	private static onTxAuth(data: AdminAuthEvent): void {
+	private onTxAuth(data: AdminAuthEvent): void {
 		const source = data.netid;
 		if (source === -1) {
 			this._permitted.clear();

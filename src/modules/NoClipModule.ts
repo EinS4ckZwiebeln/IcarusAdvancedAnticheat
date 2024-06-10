@@ -1,3 +1,4 @@
+import { container } from "tsyringe";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
@@ -5,15 +6,20 @@ import { Violation } from "../core/Violation";
 import { Utility } from "../util/Utility";
 
 export class NoClipModule extends Module {
-	private _speedThreshold: number = Config.getValue(this.config, "speedThreshold");
+	private _speedThreshold: number;
 	private readonly _newlySpawned: Set<string> = new Set();
 
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
+
 	public onLoad(): void {
-		EventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this._speedThreshold = Config.getValue<number>(this.config, "speedThreshold");
+		this.eventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this.eventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 
 	/**

@@ -1,14 +1,24 @@
+import { container } from "tsyringe";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { GiveWeaponEvent } from "../Types";
+import { Config } from "../core/config/Config";
 
 export class GiveWeaponModule extends Module {
-	public onLoad(): void {
-		EventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
+	private _allowPickUp: boolean = false;
+
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
 	}
+
+	public onLoad(): void {
+		this._allowPickUp = Config.getValue<boolean>(this.config, "allowPickUp");
+		this.eventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
+	}
+
 	public onUnload(): void {
-		EventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
+		this.eventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
 	}
 
 	/**
@@ -18,6 +28,7 @@ export class GiveWeaponModule extends Module {
 	 * @param data The data associated with the event.
 	 */
 	private onGiveWeapon(source: number, data: GiveWeaponEvent): void {
+		if (this._allowPickUp && data.givenAsPickup) return;
 		const entity: number = NetworkGetEntityFromNetworkId(data.pedId);
 		if (DoesEntityExist(entity)) {
 			const owner = NetworkGetEntityOwner(entity);

@@ -4,16 +4,15 @@ import { WebhookRequest } from "../web/WebhookRequest";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
 import { Utility } from "../util/Utility";
+import { container, injectable } from "tsyringe";
 
-/**
- * Subcommand class for taking a screenshot and posting it to a Discord webhook.
- */
+@injectable()
 export class ScreenshotCommand extends Command {
-	// The webhook to post the screenshot to.
-	private readonly _webhook: string = Config.getConfig().DiscordWebhook;
+	private readonly _config: Config;
 
 	constructor() {
 		super("screenshot", "Takes a screenshot of the players game", [{ name: "id", help: "The id of the player" }]);
+		this._config = container.resolve(Config);
 	}
 
 	/**
@@ -31,7 +30,7 @@ export class ScreenshotCommand extends Command {
 			return;
 		}
 
-		const webhook = Config.getConfig().DiscordWebhook;
+		const webhook = this._config.getConfig().DiscordWebhook;
 		if (Utility.isNullOrEmtpy(webhook)) {
 			this.writeToChat(source, `^1Failed: No discord webhook was found.^0`);
 			Logger.debug("Failed to execute screenshot command. No discord webhook was found.");
@@ -46,7 +45,7 @@ export class ScreenshotCommand extends Command {
 			},
 			`./${screenshot.filePath}`
 		);
-		request.post(this._webhook);
+		request.post(webhook);
 		this.writeToChat(source, `^3Logged screenshot of player ${target} to the discord webhook.^0`);
 	}
 }

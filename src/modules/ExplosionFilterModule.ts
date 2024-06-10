@@ -4,6 +4,7 @@ import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { ExplosionEvent } from "../Types";
 import { EntityExplosionTypes } from "../enum/ExplosionTypes";
+import { container } from "tsyringe";
 
 export class ExplosionFilterModule extends Module {
 	private readonly _entityExplosionTypes: Set<number> = new Set<number>(
@@ -13,11 +14,15 @@ export class ExplosionFilterModule extends Module {
 	private _explosionSpoofer: boolean = false;
 	private _hydrantExplosion: boolean = false;
 
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
+
 	public onLoad(): void {
-		this._explosionSpoofer = Config.getValue(this.config, "explosionSpoofer");
-		this._hydrantExplosion = Config.getValue(this.config, "hydrantExplosion");
-		this._whitelistedExplosionTypes = new Set(Config.getValue(this.config, "whitelistedExplosionTypes"));
-		EventHandler.subscribe("explosionEvent", [
+		this._explosionSpoofer = Config.getValue<boolean>(this.config, "explosionSpoofer");
+		this._hydrantExplosion = Config.getValue<boolean>(this.config, "hydrantExplosion");
+		this._whitelistedExplosionTypes = new Set(Config.getValue<number[]>(this.config, "whitelistedExplosionTypes"));
+		this.eventHandler.subscribe("explosionEvent", [
 			this.onExplosion.bind(this),
 			this.onExplosionSpoof.bind(this),
 			this.onHydrantExplosion.bind(this),
@@ -25,7 +30,7 @@ export class ExplosionFilterModule extends Module {
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("explosionEvent", [
+		this.eventHandler.unsubscribe("explosionEvent", [
 			this.onExplosion.bind(this),
 			this.onExplosionSpoof.bind(this),
 			this.onHydrantExplosion.bind(this),

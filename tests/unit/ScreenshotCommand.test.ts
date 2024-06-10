@@ -5,8 +5,11 @@ import { Logger } from "../../src/core/logger/Logger";
 import { Config } from "../../src/core/config/Config";
 import { ScreenshotCommand } from "../../src/commands/ScreenshotCommand";
 import { Utility } from "../../src/util/Utility";
+import { container } from "tsyringe";
 
 Logger.init();
+const config = container.resolve(Config);
+
 describe("ScreenshotCommand", () => {
 	Utility.EXPORTS["screenshot-basic"].requestClientScreenshot = jest.fn();
 	it("should handle invalid target argument", async () => {
@@ -24,9 +27,9 @@ describe("ScreenshotCommand", () => {
 	it("should handle missing discord webhook", async () => {
 		global.GetResourceState = () => "started";
 		const command = new ScreenshotCommand();
-		const mockConfig = Config.getConfig();
+		const mockConfig = config.getConfig();
 		mockConfig.DiscordWebhook = "";
-		jest.spyOn(Config, "getConfig").mockReturnValue(mockConfig);
+		jest.spyOn(config, "getConfig").mockReturnValue(mockConfig);
 		await command.onExecute(1, ["1"]);
 		expect(Utility.EXPORTS["screenshot-basic"].requestClientScreenshot).not.toHaveBeenCalled();
 	});

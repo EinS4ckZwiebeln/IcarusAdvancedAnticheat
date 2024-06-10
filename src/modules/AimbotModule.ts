@@ -4,17 +4,22 @@ import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { Violation } from "../core/Violation";
 import { WeaponDamageEvent } from "../Types";
+import { container } from "tsyringe";
 
 export class AimbotModule extends Module {
 	private _offsetDist: number = 4.5;
 
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
+
 	public onLoad(): void {
-		this._offsetDist = Config.getValue(this.config, "offsetDist");
-		EventHandler.subscribe("weaponDamageEvent", this.onAimbot.bind(this));
+		this._offsetDist = Config.getValue<number>(this.config, "offsetDist");
+		this.eventHandler.subscribe("weaponDamageEvent", this.onAimbot.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", this.onAimbot.bind(this));
+		this.eventHandler.unsubscribe("weaponDamageEvent", this.onAimbot.bind(this));
 	}
 
 	/**
@@ -29,8 +34,7 @@ export class AimbotModule extends Module {
 
 		const victim: number = NetworkGetEntityFromNetworkId(data.hitGlobalId || data.hitGlobalIds[0]);
 		// Account for networking issues and desync
-		if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || GetEntityHealth(victim) === 0 || IsPedRagdoll(victim))
-			return;
+		if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || GetEntityHealth(victim) === 0 || IsPedRagdoll(victim)) return;
 
 		const sender = source.toString();
 		const killer = GetPlayerPed(sender);

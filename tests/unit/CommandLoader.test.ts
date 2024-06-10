@@ -5,6 +5,7 @@ import { CommandLoader } from "../../src/core/CommandLoader";
 import { Parameter } from "../../src/Types";
 import { Logger } from "../../src/core/logger/Logger";
 import { Command } from "../../src/core/Command";
+import { container } from "tsyringe";
 
 Logger.init();
 const parameters: Parameter[] = [
@@ -18,14 +19,15 @@ class TestCommand extends Command {
 	public onExecute = jest.fn();
 }
 const command = new TestCommand();
+const commandLoader = container.resolve(CommandLoader);
 
 describe("CommandLoader", () => {
 	afterAll(() => {
-		CommandLoader["_chatSuggestions"].length = 0;
+		commandLoader["_chatSuggestions"].length = 0;
 	});
 	it("should add chat suggestion", () => {
-		CommandLoader.registerCommand(command);
-		expect(CommandLoader["_chatSuggestions"]).toEqual([
+		commandLoader.registerCommand(command);
+		expect(commandLoader["_chatSuggestions"]).toEqual([
 			{
 				command: command.name,
 				description: command.description,
@@ -35,12 +37,12 @@ describe("CommandLoader", () => {
 	});
 	it("should register command", () => {
 		global.RegisterCommand = jest.fn();
-		CommandLoader.registerCommand(command);
+		commandLoader.registerCommand(command);
 		expect(RegisterCommand).toBeCalledWith(command.name, expect.any(Function), false);
 	});
 	it("should call onExecute", () => {
 		global.RegisterCommand = jest.fn();
-		CommandLoader.registerCommand(command);
+		commandLoader.registerCommand(command);
 		// @ts-ignore
 		const handler = RegisterCommand.mock.calls[0][1];
 		handler(0, ["arg1", "arg2"]);

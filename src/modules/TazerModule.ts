@@ -5,17 +5,22 @@ import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { EventHandler } from "../core/handler/EventHandler";
 import { WeaponDamageEvent } from "../Types";
+import { container } from "tsyringe";
 
 export class TazerModule extends Module {
 	private readonly _onCooldown: Set<number> = new Set<number>();
 	private _tazerCooldown: number = 14000;
 	private _tazerRange: number = 12;
 
-	public onLoad(): void {
-		this._tazerRange = Config.getValue(this.config, "maxDistance");
-		this._tazerCooldown = Config.getValue(this.config, "tazerCooldown");
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
 
-		EventHandler.subscribe("weaponDamageEvent", [
+	public onLoad(): void {
+		this._tazerRange = Config.getValue<number>(this.config, "maxDistance");
+		this._tazerCooldown = Config.getValue<number>(this.config, "tazerCooldown");
+
+		this.eventHandler.subscribe("weaponDamageEvent", [
 			this.onTazerCooldown.bind(this),
 			this.onTazerReach.bind(this),
 			this.onTazerRagdoll.bind(this),
@@ -23,7 +28,7 @@ export class TazerModule extends Module {
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", [
+		this.eventHandler.unsubscribe("weaponDamageEvent", [
 			this.onTazerCooldown.bind(this),
 			this.onTazerReach.bind(this),
 			this.onTazerRagdoll.bind(this),

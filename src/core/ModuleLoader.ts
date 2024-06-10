@@ -1,16 +1,14 @@
-import { Configuration } from "../Types";
+import { inject, singleton } from "tsyringe";
 import { Config } from "./config/Config";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
 
+@singleton()
 export class ModuleLoader {
-	private static readonly _modules: Map<string, Module> = new Map<string, Module>();
-	private static readonly _unloadedModules: Map<string, Module> = new Map<string, Module>();
-	private static readonly _config: Configuration = Config.getConfig();
+	private readonly _modules: Map<string, Module> = new Map<string, Module>();
+	private readonly _unloadedModules: Map<string, Module> = new Map<string, Module>();
 
-	constructor() {
-		throw new Error("ModuleLoader is a static class cannot be instantiated");
-	}
+	constructor(@inject(Config) private readonly _config: Config) {}
 
 	/**
 	 * Loads a module into the module loader.
@@ -18,7 +16,7 @@ export class ModuleLoader {
 	 * @returns void
 	 * @throws Error if the module is already loaded or if config is missing.
 	 */
-	public static loadModule(module: Module): void {
+	public loadModule(module: Module): void {
 		const name = module.name;
 		// Prevent loading the same module twice
 		if (this._modules.has(name)) {
@@ -38,7 +36,7 @@ export class ModuleLoader {
 	 * Unloads a module from the module loader.
 	 * @param module - The module to unload.
 	 */
-	public static unloadModule(module: Module): void {
+	public unloadModule(module: Module): void {
 		module.onUnload();
 		module.removeTick();
 		this._modules.delete(module.name);
@@ -50,8 +48,8 @@ export class ModuleLoader {
 	 * Returns if module is enabled in the configuration.
 	 * @param name - The name of the module.
 	 */
-	private static isModuleEnabled(name: string): boolean {
-		const enabled = this._config.Modules[name].enabled;
+	private isModuleEnabled(name: string): boolean {
+		const enabled = this._config.getConfig().Modules[name].enabled;
 		// Ensure module has configuration set up
 		if (enabled === false) {
 			Logger.debug(`Module ${name} is disabled in the config`);
@@ -66,7 +64,7 @@ export class ModuleLoader {
 	 * @param moduleName The name of the module to retrieve.
 	 * @returns The module with the specified name, or undefined if it does not exist.
 	 */
-	public static getModule(moduleName: string): Module | undefined {
+	public getModule(moduleName: string): Module | undefined {
 		return this._modules.get(moduleName);
 	}
 
@@ -75,7 +73,7 @@ export class ModuleLoader {
 	 * @param moduleName The name of the module to retrieve.
 	 * @returns The unloaded module with the specified name, or undefined if it does not exist.
 	 */
-	public static getUnloadedModule(moduleName: string): Module | undefined {
+	public getUnloadedModule(moduleName: string): Module | undefined {
 		return this._unloadedModules.get(moduleName);
 	}
 
@@ -83,7 +81,7 @@ export class ModuleLoader {
 	 * Returns an array of all loaded modules.
 	 * @returns {Module[]} An array of all loaded modules.
 	 */
-	public static getModules(): Module[] {
+	public getModules(): Module[] {
 		return Array.from(this._modules.values());
 	}
 }

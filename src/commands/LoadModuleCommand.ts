@@ -1,10 +1,14 @@
 import { ModuleLoader } from "../core/ModuleLoader";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
+import { container } from "tsyringe";
 
 export class LoadModuleCommand extends Command {
+	private readonly _moduleLoader: ModuleLoader;
+
 	constructor() {
 		super("load", "Manually loads a module", [{ name: "moduleName", help: "The name of the module to load" }]);
+		this._moduleLoader = container.resolve(ModuleLoader);
 	}
 
 	/**
@@ -14,9 +18,9 @@ export class LoadModuleCommand extends Command {
 	public async onExecute(source: number, args: string[]): Promise<void> {
 		const moduleName: string = args[0];
 		try {
-			const module = ModuleLoader.getModule(moduleName) || ModuleLoader.getUnloadedModule(moduleName);
+			const module = this._moduleLoader.getModule(moduleName) || this._moduleLoader.getUnloadedModule(moduleName);
 			if (module) {
-				ModuleLoader.loadModule(module);
+				this._moduleLoader.loadModule(module);
 				this.writeToChat(source, `^3Loaded ${moduleName} successfully.^0`);
 			} else {
 				this.writeToChat(source, `^1Couldn't find module '${moduleName}', are you sure it exists?.^0`);
