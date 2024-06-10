@@ -2,13 +2,32 @@ import { inject, singleton } from "tsyringe";
 import { Config } from "./config/Config";
 import { Logger } from "./logger/Logger";
 import { Module } from "./Module";
+import { Utility } from "../util/Utility";
 
 @singleton()
 export class ModuleLoader {
 	private readonly _modules: Map<string, Module> = new Map<string, Module>();
 	private readonly _unloadedModules: Map<string, Module> = new Map<string, Module>();
 
-	constructor(@inject(Config) private readonly _config: Config) {}
+	constructor(@inject(Config) private readonly _config: Config) {
+		Utility.EXPORTS("SetModule", (moduleName: string, state: boolean) => {
+			try {
+				const module = this.getModule(moduleName);
+				if (!module) {
+					console.log(`^1[ERROR] Module ${moduleName} does not exist^0`);
+					return;
+				}
+				if (state) {
+					this.loadModule(module);
+				} else {
+					this.unloadModule(module);
+				}
+			} catch (err: unknown) {
+				if (!(err instanceof Error)) return;
+				Logger.error(`[Export]: ${err.message}`);
+			}
+		});
+	}
 
 	/**
 	 * Loads a module into the module loader.
