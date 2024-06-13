@@ -117,6 +117,7 @@ class App {
 			{ name: "sv_scriptHookAllowed", recommendedValue: "false" },
 			{ name: "sv_enableNetworkedPhoneExplosions", recommendedValue: "false" },
 			{ name: "sv_enableNetworkedSounds", recommendedValue: "false" },
+			{ name: "sv_enableNetworkedScriptEntityStates", recommendedValue: "false" },
 			{ name: "sv_filterRequestControl", recommendedValue: "4" },
 		];
 
