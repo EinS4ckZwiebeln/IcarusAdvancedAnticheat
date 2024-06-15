@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
-		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
-		"test": "jest --env=node"
+		"build": "esbuild src/App.ts --bundle --minify-whitespace --minify-syntax --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"watch": "esbuild src/App.ts --bundle --watch --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"test": "jest --clearCache && jest --env=node"
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
