@@ -10,7 +10,7 @@ export class ModuleLoader {
 	private readonly _unloadedModules: Map<string, Module> = new Map<string, Module>();
 
 	constructor(@inject(Config) private readonly _config: Config) {
-		Utility.EXPORTS("SetModule", (moduleName: string, state: boolean) => {
+		Utility.EXPORTS("SetModuleState", (moduleName: string, state: boolean) => {
 			try {
 				const module = this.getModule(moduleName);
 				if (!module) {
