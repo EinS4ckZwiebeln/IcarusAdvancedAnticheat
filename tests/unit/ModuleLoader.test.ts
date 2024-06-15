@@ -100,4 +100,7 @@ describe("ModuleLoader", () => {
 		const disabled = moduleLoader["isModuleEnabled"](module.name);
 		expect(disabled).toBe(false);
 	});
+	it("should define the SetModuleState export", () => {
+		expect(Utility.EXPORTS).toHaveBeenCalledWith("SetModuleState", expect.any(Function));
+	});
 });
