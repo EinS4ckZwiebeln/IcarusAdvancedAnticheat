@@ -12,7 +12,7 @@ If you simply wish to kick the player, you can accomplish this by using followin
 
 ```lua
 function Config.BanPlayer(source, reason)
-    DropPlayer(source, "You have been banned for cheating")
+    DropPlayer(source, "You have been kicked for cheating")
 end
 ```
 
