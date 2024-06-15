@@ -5,8 +5,11 @@ import { ModuleLoader } from "../../src/core/ModuleLoader";
 import { Logger } from "../../src/core/logger/Logger";
 import { UnloadModuleCommand } from "../../src/commands/UnloadModuleCommand";
 import { container } from "tsyringe";
+import { Utility } from "../../src/util/Utility";
 
 Logger.init();
+// @ts-ignore
+Utility.EXPORTS = jest.fn();
 const moduleLoader = container.resolve(ModuleLoader);
 
 describe("UnloadModuleCommand", () => {

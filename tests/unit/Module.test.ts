@@ -1,6 +1,9 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import { Module } from "../../src/core/Module";
+import { container } from "tsyringe";
+import { Config } from "../../src/core/config/Config";
+import { EventHandler } from "../../src/core/handler/EventHandler";
 
 class TestModule extends Module {
 	public onLoad(): void {}
@@ -34,5 +37,17 @@ describe("Module", () => {
 		module.setTick();
 		expect(() => module.setTick()).toThrow("Module TestModule is already ticking");
 		module.removeTick();
+	});
+	it("should throw an error if Config is missing", () => {
+		const module = new TestModule();
+		expect(() => module["config"]).toThrow();
+		const moduleDI = new TestModule(container.resolve(Config), container.resolve(EventHandler));
+		expect(() => moduleDI["config"]).not.toThrow();
+	});
+	it("should throw an error if EventHandler is missing", () => {
+		const module = new TestModule();
+		expect(() => module["eventHandler"]).toThrow();
+		const moduleDI = new TestModule(container.resolve(Config), container.resolve(EventHandler));
+		expect(() => moduleDI["config"]).not.toThrow();
 	});
 });
