@@ -2,18 +2,23 @@ import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
+import { container } from "tsyringe";
 
 export class WeaponModifierModule extends Module {
 	private _damageModifier: number = 1.0;
 
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
+
 	public onLoad(): void {
 		// Add 0.001 to the value to account for floating point errors.
-		this._damageModifier = Config.getValue(this.config, "damageModifier") + 0.001;
-		EventHandler.subscribe("weaponDamageEvent", this.onDamage.bind(this));
+		this._damageModifier = Config.getValue<number>(this.config, "damageModifier") + 0.001;
+		this.eventHandler.subscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("weaponDamageEvent", this.onDamage.bind(this));
+		this.eventHandler.unsubscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 
 	/**

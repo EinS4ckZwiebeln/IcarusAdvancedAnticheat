@@ -1,3 +1,4 @@
+import { container } from "tsyringe";
 import { Config } from "../core/config/Config";
 import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
@@ -5,15 +6,20 @@ import { Violation } from "../core/Violation";
 import { Utility } from "../util/Utility";
 
 export class NoClipModule extends Module {
-	private _speedThreshold: number = Config.getValue(this.config, "speedThreshold");
+	private _speedThreshold: number;
 	private readonly _newlySpawned: Set<string> = new Set();
 
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
+
 	public onLoad(): void {
-		EventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this._speedThreshold = Config.getValue<number>(this.config, "speedThreshold");
+		this.eventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this.eventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 
 	/**
@@ -51,7 +57,6 @@ export class NoClipModule extends Module {
 			const ped = GetPlayerPed(player);
 			if (this._newlySpawned.has(player) || !this.hasNoClip(ped, player)) return;
 			const origin = GetEntityCoords(ped);
-
 			await this.Delay(1000);
 			if (!DoesEntityExist(ped)) return; // Abort if player has left
 			// Calculate the distance in meters
@@ -61,6 +66,6 @@ export class NoClipModule extends Module {
 				violation.banPlayer();
 			}
 		});
-		await this.Delay(4000);
+		await this.Delay(5000);
 	}
 }

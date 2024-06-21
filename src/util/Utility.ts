@@ -29,7 +29,7 @@ export class Utility {
 	/**
 	 * The exports object from the global scope.
 	 */
-	public static readonly EXPORTS = (<any>global).exports;
+	public static readonly EXPORTS = global.exports;
 
 	/**
 	 * Set of melee weapons.

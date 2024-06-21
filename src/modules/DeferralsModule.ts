@@ -5,18 +5,27 @@ import { EventHandler } from "../core/handler/EventHandler";
 import { Deferrals, DeferralsObject } from "../Types";
 import axios from "axios";
 import { Utility } from "../util/Utility";
+import { container } from "tsyringe";
 
 export class DeferralsModule extends Module {
-	private readonly _steamApiKey: string = GetConvar("steam_webApiKey", "none");
-	private readonly _banChecker: DeferralsObject = Config.getValue(this.config, "BanChecker");
-	private readonly _nameFilter: DeferralsObject = Config.getValue(this.config, "NameFilter");
-	private readonly _noVPN: DeferralsObject = Config.getValue(this.config, "NoVPN");
+	private _steamApiKey: string;
+	private _banChecker: DeferralsObject;
+	private _nameFilter: DeferralsObject;
+	private _noVPN: DeferralsObject;
+
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
 
 	public onLoad(): void {
-		EventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
+		this._steamApiKey = GetConvar("steam_webApiKey", "none");
+		this._banChecker = Config.getValue<DeferralsObject>(this.config, "BanChecker");
+		this._nameFilter = Config.getValue<DeferralsObject>(this.config, "NameFilter");
+		this._noVPN = Config.getValue<DeferralsObject>(this.config, "NoVPN");
+		this.eventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("playerConnecting", this.onDefer.bind(this));
+		this.eventHandler.unsubscribe("playerConnecting", this.onDefer.bind(this));
 	}
 
 	/**

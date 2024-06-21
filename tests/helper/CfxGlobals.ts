@@ -1,6 +1,29 @@
+import "reflect-metadata";
+
+// @ts-ignore
+const _exports: CitizenExports = {};
+_exports["Icarus"] = {
+	GetConfig: () => [],
+	BanPlayer: () => {},
+};
+_exports["screenshot-basic"] = {
+	requestClientScreenshot: () => {
+		return {
+			fileName: "mock.png",
+			filePath: "./",
+		};
+	},
+};
+
+interface CitizenExports {
+	(exportKey: string | number, exportFunction: Function): void;
+	[resourceName: string]: {
+		[exportKey: string | number]: Function;
+	};
+}
+
 declare global {
-	// @ts-ignore
-	var exports: { Icarus: { GetConfig: () => []; BanPlayer: () => {} } };
+	var exports: CitizenExports;
 	// Ticking
 	function setTick(cb: Function): number;
 	function clearTick(tick: number): void;
@@ -11,8 +34,7 @@ declare global {
 	function emit(eventName: string, ...args: any[]): void;
 	function emitNet(eventName: string, ...args: any[]): void;
 }
-// @ts-ignore
-global.exports = { Icarus: { GetConfig: () => [], BanPlayer: () => {} } };
+global.exports = _exports;
 // Ticking
 global.setTick = (_: Function) => Math.floor(Math.random() * 1000);
 global.clearTick = (_: number) => {};

@@ -3,6 +3,7 @@ import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
+import { container } from "tsyringe";
 
 export class EntityCreateModule extends Module {
 	private _illegalEntities: Set<number> = new Set();
@@ -11,17 +12,23 @@ export class EntityCreateModule extends Module {
 	private _checkPedsForWeapons: boolean = false;
 	private _cleanUpEntities: boolean = false;
 
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
+
 	public onLoad(): void {
 		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));
-		this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
-		this._banNetworkOwner = Config.getValue(this.config, "banNetworkOwner");
-		this._checkPedsForWeapons = Config.getValue(this.config, "checkPedsForWeapons");
-		this._cleanUpEntities = Config.getValue(this.config, "cleanUpEntities");
-		EventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
+		this._banNetworkOwner = Config.getValue<boolean>(this.config, "banNetworkOwner");
+		this._cleanUpEntities = Config.getValue<boolean>(this.config, "cleanUpEntities");
+		this._checkPedsForWeapons = Config.getValue<boolean>(this.config, "checkPedsForWeapons");
+		if (this._checkPedsForWeapons) {
+			this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
+		}
+		this.eventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	public onUnload(): void {
-		EventHandler.unsubscribe("entityCreating", this.onEntityCreated.bind(this));
+		this.eventHandler.unsubscribe("entityCreating", this.onEntityCreated.bind(this));
 	}
 
 	/**

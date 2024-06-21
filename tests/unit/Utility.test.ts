@@ -20,4 +20,10 @@ describe("Utility", () => {
 		expect(Utility.getDistance([1, 2, 3], [4, 6, 9], true)).toBeCloseTo(7.810249675906654);
 		expect(Utility.getDistance([0, 0, 0], [-3, -4, -5], true)).toBeCloseTo(7.0710678118654755);
 	});
+	it("should delay execution for the specified time", async () => {
+		const startTime = Date.now();
+		const delayTime = 1000;
+		await Utility.Delay(delayTime);
+		expect(Date.now() - startTime).toBeGreaterThanOrEqual(delayTime);
+	});
 });

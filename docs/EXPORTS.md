@@ -2,13 +2,12 @@
 
 ## Available Exports
 
-These exports can be employed to establish a temporary soft-bypass for a specific player. Suppose a script of yours alters the player in a manner that triggers significant false-positives. To mitigate this issue, you can exempt the player by incorporating an excuse just before the problematic code using the provided exports.
-
-| Function               | Parameters                                  | Retval  | Type   |
-| ---------------------- | ------------------------------------------- | ------- | ------ |
-| AddExcuseForPlayer     | source: int; timeout: int, module?: string; | void    | Server |
-| RemoveExcuseFromPlayer | source: int; module?: string;               | void    | Server |
-| IsPlayerExcused        | source: int; module?: string;               | boolean | Server |
+| Function               | Parameters                                       | Retval  | Type   | Description                              |
+| ---------------------- | ------------------------------------------------ | ------- | ------ | ---------------------------------------- |
+| AddExcuseForPlayer     | source: int; duration: int, moduleName?: string; | void    | Server | Add a temporary bypass for a player      |
+| RemoveExcuseFromPlayer | source: int; moduleName?: string;                | void    | Server | Remove the temporary bypass manually     |
+| IsPlayerExcused        | source: int; moduleName?: string;                | boolean | Server | Check if a player has a temporary bypass |
+| SetModuleState         | moduleName: string; state: boolean;              | void    | Server | Enable or disable a certain module       |
 
 ## Examples
 

@@ -1,3 +1,4 @@
+import { container } from "tsyringe";
 import { FireEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
@@ -8,12 +9,16 @@ import { Utility } from "../util/Utility";
 export class FireModule extends Module {
 	private _maxFireDistance: number = 128.0;
 
+	constructor() {
+		super(container.resolve(Config), container.resolve(EventHandler));
+	}
+
 	public onLoad(): void {
-		this._maxFireDistance = Config.getValue(this.config, "maxFireDistance");
-		EventHandler.subscribe("fireEvent", this.onFire.bind(this));
+		this._maxFireDistance = Config.getValue<number>(this.config, "maxFireDistance");
+		this.eventHandler.subscribe("fireEvent", this.onFire.bind(this));
 	}
 	public onUnload(): void {
-		EventHandler.unsubscribe("fireEvent", this.onFire.bind(this));
+		this.eventHandler.unsubscribe("fireEvent", this.onFire.bind(this));
 	}
 
 	/**

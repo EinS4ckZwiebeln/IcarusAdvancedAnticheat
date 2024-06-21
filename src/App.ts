@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import axios from "axios";
 
 import { ModuleLoader } from "./core/ModuleLoader";
@@ -22,8 +23,6 @@ import { WeaponBlacklistModule } from "./modules/WeaponBlacklistModule";
 import { WeaponModifierModule } from "./modules/WeaponModifierModule";
 import { ParticlesModule } from "./modules/ParticlesModule";
 import { ChatProfanityModule } from "./modules/ChatProfanityModule";
-import { PermissionHandler } from "./core/handler/PermissionHandler";
-import { ExcuseHandler } from "./core/handler/ExcuseHandler";
 import { StartProjectileModule } from "./modules/StartProjectileModule";
 import { NoClipModule } from "./modules/NoClipModule";
 import { CommandLoader } from "./core/CommandLoader";
@@ -35,23 +34,36 @@ import { UnloadModuleCommand } from "./commands/UnloadModuleCommand";
 import { FireModule } from "./modules/FireModule";
 import { Release } from "./Types";
 import { FoldModule } from "./modules/FoldModule";
+import { container, injectable } from "tsyringe";
+
 /**
  * Represents the main application class.
  */
+@injectable()
 class App {
-	constructor() {
-		// Initialize the logger
-		Logger.init();
+	constructor(
+		private readonly _config: Config,
+		private readonly _moduleLoader: ModuleLoader,
+		private readonly _commandLoader: CommandLoader
+	) {
 		Logger.debug(`Starting Icarus v${Utility.CURRENT_VERSION} ...`);
-		// Initialize the excuse handler
-		ExcuseHandler.init();
-		// Initialize the permission handler
-		PermissionHandler.init();
-
 		this.registerModules();
 		this.registerCommands();
 		this.checkForUnsafeConvars();
 		this.checkForUpdates();
+		this.dumpConfig();
+	}
+
+	/**
+	 * Dumps the configuration by logging a JSON representation of the config object.
+	 */
+	private async dumpConfig(): Promise<void> {
+		const config = this._config.getConfig();
+		const dump = {
+			Modules: config.Modules,
+			Permission: config.Permission,
+		};
+		Logger.debug(`Config: ${JSON.stringify(dump)}`);
 	}
 
 	/**
@@ -59,26 +71,26 @@ class App {
 	 */
 	private registerModules(): void {
 		// Register modules here
-		ModuleLoader.loadModule(new DeferralsModule());
-		ModuleLoader.loadModule(new EntityCreateModule());
-		ModuleLoader.loadModule(new ClearTaskModule());
-		ModuleLoader.loadModule(new GiveWeaponModule());
-		ModuleLoader.loadModule(new RemoveWeaponModule());
-		ModuleLoader.loadModule(new ExplosionFilterModule());
-		ModuleLoader.loadModule(new TazerModule());
-		ModuleLoader.loadModule(new WeaponBlacklistModule());
-		ModuleLoader.loadModule(new PedBlacklistModule());
-		ModuleLoader.loadModule(new AimbotModule());
-		ModuleLoader.loadModule(new GodmodeModule());
-		ModuleLoader.loadModule(new SuperJumpModule());
-		ModuleLoader.loadModule(new WeaponModifierModule());
-		ModuleLoader.loadModule(new ParticlesModule());
-		ModuleLoader.loadModule(new ChatProfanityModule());
-		ModuleLoader.loadModule(new StartProjectileModule());
-		ModuleLoader.loadModule(new NoClipModule());
-		ModuleLoader.loadModule(new EventBlacklistModule());
-		ModuleLoader.loadModule(new FireModule());
-		ModuleLoader.loadModule(new FoldModule());
+		this._moduleLoader.loadModule(new DeferralsModule());
+		this._moduleLoader.loadModule(new EntityCreateModule());
+		this._moduleLoader.loadModule(new ClearTaskModule());
+		this._moduleLoader.loadModule(new GiveWeaponModule());
+		this._moduleLoader.loadModule(new RemoveWeaponModule());
+		this._moduleLoader.loadModule(new ExplosionFilterModule());
+		this._moduleLoader.loadModule(new TazerModule());
+		this._moduleLoader.loadModule(new WeaponBlacklistModule());
+		this._moduleLoader.loadModule(new PedBlacklistModule());
+		this._moduleLoader.loadModule(new AimbotModule());
+		this._moduleLoader.loadModule(new GodmodeModule());
+		this._moduleLoader.loadModule(new SuperJumpModule());
+		this._moduleLoader.loadModule(new WeaponModifierModule());
+		this._moduleLoader.loadModule(new ParticlesModule());
+		this._moduleLoader.loadModule(new ChatProfanityModule());
+		this._moduleLoader.loadModule(new StartProjectileModule());
+		this._moduleLoader.loadModule(new NoClipModule());
+		this._moduleLoader.loadModule(new EventBlacklistModule());
+		this._moduleLoader.loadModule(new FireModule());
+		this._moduleLoader.loadModule(new FoldModule());
 		Logger.debug("Finished loading modules");
 	}
 
@@ -87,12 +99,12 @@ class App {
 	 */
 	private registerCommands(): void {
 		// Register commands here
-		CommandLoader.registerCommand(new LoadModuleCommand());
-		CommandLoader.registerCommand(new UnloadModuleCommand());
-		CommandLoader.registerCommand(new ScreenshotCommand());
-		CommandLoader.registerCommand(new WipeEntitiesCommand());
+		this._commandLoader.registerCommand(new LoadModuleCommand());
+		this._commandLoader.registerCommand(new UnloadModuleCommand());
+		this._commandLoader.registerCommand(new ScreenshotCommand());
+		this._commandLoader.registerCommand(new WipeEntitiesCommand());
 		// Register corresponding chat suggestions
-		CommandLoader.registerChatSuggestions();
+		this._commandLoader.registerChatSuggestions();
 		Logger.debug("Finished registering commands");
 	}
 
@@ -105,6 +117,7 @@ class App {
 			{ name: "sv_scriptHookAllowed", recommendedValue: "false" },
 			{ name: "sv_enableNetworkedPhoneExplosions", recommendedValue: "false" },
 			{ name: "sv_enableNetworkedSounds", recommendedValue: "false" },
+			{ name: "sv_enableNetworkedScriptEntityStates", recommendedValue: "false" },
 			{ name: "sv_filterRequestControl", recommendedValue: "4" },
 		];
 
@@ -112,11 +125,9 @@ class App {
 			const convarValue = GetConvar(convar.name, "null");
 			if (convarValue !== "null" && convarValue != convar.recommendedValue) {
 				console.log(
-					`^3[WARNING] Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
+					`^3[WARNING] ConVar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
 				);
-				Logger.debug(
-					`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`
-				);
+				Logger.debug(`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`);
 			}
 		});
 	}
@@ -127,15 +138,12 @@ class App {
 	private async checkForUpdates(): Promise<void> {
 		try {
 			Logger.debug("Checking for updates ...");
-			const response = await axios.get(
-				"https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases",
-				{
-					method: "GET",
-					headers: {
-						"User-Agent": "request",
-					},
-				}
-			);
+			const response = await axios.get("https://api.github.com/repos/EinS4ckZwiebeln/IcarusAdvancedAnticheat/releases", {
+				method: "GET",
+				headers: {
+					"User-Agent": "request",
+				},
+			});
 			if (response.status !== 200) {
 				Logger.error(`Failed to fetch latest release from github: ${response.status}`);
 				return;
@@ -156,7 +164,7 @@ class App {
 					embeds: new UpdateEmbed(remoteVersion).embed,
 				});
 				// Ensure webhook is actually configured
-				const webhook: string = Config.getConfig().DiscordWebhook;
+				const webhook: string = this._config.getConfig().DiscordWebhook;
 				if (webhook && webhook.length > 0) request.post(webhook);
 
 				console.log(
@@ -174,4 +182,5 @@ class App {
 }
 
 // Program entry point
-new App();
+Logger.init();
+new App(container.resolve(Config), container.resolve(ModuleLoader), container.resolve(CommandLoader));

@@ -3,24 +3,16 @@ import { ScreenshotRequest } from "../web/ScreenshotRequest";
 import { WebhookRequest } from "../web/WebhookRequest";
 import { Command } from "../core/Command";
 import { Logger } from "../core/logger/Logger";
-import { Parameter } from "../Types";
 import { Utility } from "../util/Utility";
+import { container, injectable } from "tsyringe";
 
-/**
- * Subcommand class for taking a screenshot and posting it to a Discord webhook.
- */
+@injectable()
 export class ScreenshotCommand extends Command {
-	private readonly _webhook: string;
+	private readonly _config: Config;
 
-	/**
-	 * Creates a new instance of the ScreenshotCommand class.
-	 */
 	constructor() {
-		const parameters: Parameter[] = [{ name: "id", help: "The id of the player" }];
-		super("screenshot", "Takes a screenshot of the players game", parameters, (source: number, args: string[]) =>
-			this.onExecute(source, args)
-		);
-		this._webhook = Config.getConfig().DiscordWebhook;
+		super("screenshot", "Takes a screenshot of the players game", [{ name: "id", help: "The id of the player" }]);
+		this._config = container.resolve(Config);
 	}
 
 	/**
@@ -28,19 +20,19 @@ export class ScreenshotCommand extends Command {
 	 * @param _ The source of the command.
 	 * @param args The arguments passed to the command.
 	 */
-	private async onExecute(source: number, args: string[]): Promise<void> {
+	public async onExecute(source: number, args: string[]): Promise<void> {
 		const target: number = Number(args[0]);
 		if (isNaN(target)) return;
 
 		if (GetResourceState("screenshot-basic") !== "started") {
-			emitNet("chat:addMessage", source, { args: [`^Failed: Screenshot-basic is required for this action.^0`] });
+			this.writeToChat(source, `^1Failed: Screenshot-basic is required for this action.^0`);
 			Logger.debug("Failed to execute screenshot command. Screenshot-basic is not started or missing.");
 			return;
 		}
 
-		const webhook = Config.getConfig().DiscordWebhook;
+		const webhook = this._config.getConfig().DiscordWebhook;
 		if (Utility.isNullOrEmtpy(webhook)) {
-			emitNet("chat:addMessage", source, { args: [`^1Failed: No discord webhook was found.^0`] });
+			this.writeToChat(source, `^1Failed: No discord webhook was found.^0`);
 			Logger.debug("Failed to execute screenshot command. No discord webhook was found.");
 			return;
 		}
@@ -53,9 +45,7 @@ export class ScreenshotCommand extends Command {
 			},
 			`./${screenshot.filePath}`
 		);
-		request.post(this._webhook);
-		emitNet("chat:addMessage", source, {
-			args: [`^3Logged screenshot of player ${target} to the discord webhook.^0`],
-		});
+		request.post(webhook);
+		this.writeToChat(source, `^3Logged screenshot of player ${target} to the discord webhook.^0`);
 	}
 }

@@ -1,9 +1,8 @@
 -- TS/Lua wrapper for the config.lua file
-local config = Config
-local BanPlayer = config.BanPlayer
+local BanPlayer = Config.BanPlayer
 
 exports("GetConfig", function()
-    return config
+    return Config
 end)
 
 exports("BanPlayer", function(source, reason)

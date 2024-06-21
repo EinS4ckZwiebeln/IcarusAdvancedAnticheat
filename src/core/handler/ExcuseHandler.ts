@@ -1,3 +1,4 @@
+import { singleton } from "tsyringe";
 import { Excuse } from "../../Types";
 import { Utility } from "../../util/Utility";
 import { Logger } from "../logger/Logger";
@@ -5,20 +6,17 @@ import { Logger } from "../logger/Logger";
 /**
  * Represents a handler for player excuses.
  */
+@singleton()
 export class ExcuseHandler {
 	/**
 	 * A map of player IDs to their associated excuses.
 	 */
-	private static readonly _excusedPlayers: Map<number, Excuse[]> = new Map();
-
-	constructor() {
-		throw new Error("ExcuseHandler is a static class and cannot be instantiated.");
-	}
+	private readonly _excusedPlayers: Map<number, Excuse[]> = new Map();
 
 	/**
 	 * Initializes the ExcuseHandler by exporting its methods to the global scope.
 	 */
-	public static init(): void {
+	constructor() {
 		/**
 		 * Adds an excuse for a player.
 		 * @param source The player ID.
@@ -71,7 +69,7 @@ export class ExcuseHandler {
 	 * @param timeout The duration of the excuse in milliseconds.
 	 * @param module The module to excuse the player from. Defaults to "*".
 	 */
-	private static addExcuse(source: number, timeout: number, module?: Excuse): void {
+	private addExcuse(source: number, timeout: number, module?: Excuse): void {
 		const excuses = this._excusedPlayers.get(source) || [];
 		excuses.push(module || { module: "*" });
 
@@ -84,7 +82,7 @@ export class ExcuseHandler {
 	 * @param source The player ID.
 	 * @param module The module to remove the excuse from. If not specified, removes all excuses for the player.
 	 */
-	private static removeExcuse(source: number, module?: string): void {
+	private removeExcuse(source: number, module?: string): void {
 		let excuses = this._excusedPlayers.get(source) || [];
 		excuses = excuses.filter((excuse) => excuse.module !== module);
 		if (!module) excuses.length = 0;
@@ -97,7 +95,7 @@ export class ExcuseHandler {
 	 * @param module The module to check. Defaults to "*".
 	 * @returns Whether the player is excused from the module.
 	 */
-	public static isExcused(source: number, module?: string): boolean {
+	public isExcused(source: number, module?: string): boolean {
 		const excuses = this._excusedPlayers.get(source) || [];
 		return excuses.some((excuse) => excuse.module === (module || "*"));
 	}

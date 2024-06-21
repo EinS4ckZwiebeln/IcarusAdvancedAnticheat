@@ -59,6 +59,11 @@ Config.Modules = {
     -- Bans everyone that causes a non-whitelisted explosion.
     ExplosionFilterModule = {
         enabled = true,
+        -- Verifies that certain explosion types only occur under legit circumstances.
+        -- Beware that this will cause false positives with non-networked/local vehicles.
+        explosionSpoofer = true,
+        -- Prevents cheaters from 'blowing up' players with hydrant fountains.
+        hydrantExplosion = true,
         -- Explosion Types: https://docs.fivem.net/natives/?_0xE3AD2BDBAEE269AC
         whitelistedExplosionTypes = {
             6, -- HI_OCTANE
@@ -113,7 +118,7 @@ Config.Modules = {
     },
     -- Detects if the shooter is somewhat looking at his target.
     AimbotModule = {
-        enabled = true,
+        enabled = false,
         -- Increment this if Aimbot false positives occur.
         -- In case you use any 'drug effects' or 'drunk' resources increase this to at least 6.0.
         offsetDist = 4.5
@@ -172,7 +177,7 @@ Config.Modules = {
     -- Detects NoClip esque player movement.
     -- Beware that this might cause false positives with other client scripts that modify ped movement.
     NoClipModule = {
-        enabled = true,
+        enabled = false,
         -- Miscellaneous player speed limit.
         -- Don't touch this unless you know what you are doing.
         speedThreshold = 20.0,

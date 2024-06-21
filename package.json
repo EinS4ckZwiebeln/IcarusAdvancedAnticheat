@@ -4,33 +4,30 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "esbuild src/App.ts --bundle --platform=node --target=node16.9.1 --outfile=dist/app.js",
-		"watch": "esbuild src/App.ts --bundle --watch --sourcemap --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
-		"test": "jest --env=node"
+		"build": "esbuild src/App.ts --bundle --minify-whitespace --minify-syntax --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"watch": "esbuild src/App.ts --bundle --watch --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"test": "jest --clearCache && jest --env=node"
 	},
 	"author": "EinS4ckZwiebeln",
 	"license": "MIT",
 	"private": true,
-	"peerDependencies": {
-		"expect": "^26.6.2",
-		"pretty-format": "^26.6.2"
-	},
 	"devDependencies": {
-		"@citizenfx/server": "^2.0.6736-1",
+		"@citizenfx/server": "^2.0.8461-1",
 		"@types/bad-words": "^3.0.3",
 		"@types/jest": "^26.0.24",
 		"@types/node": "20.11.20",
-		"esbuild": "^0.21.4",
-		"esbuild-jest": "^0.5.0",
-		"jest": "^26.6.3",
-		"ts-jest": "^26.5.6",
+		"esbuild": "^0.21.5",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.1.4",
 		"ts-node": "^10.9.2",
-		"typescript": "^4.5.4"
+		"typescript": "^5.4.5"
 	},
 	"dependencies": {
 		"axios": "^1.6.7",
 		"bad-words": "^3.0.4",
 		"form-data": "^4.0.0",
+		"reflect-metadata": "^0.2.2",
+		"tsyringe": "^4.8.0",
 		"winston": "^3.11.0",
 		"winston-daily-rotate-file": "^5.0.0"
 	}

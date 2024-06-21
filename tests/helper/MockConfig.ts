@@ -2,6 +2,7 @@ import "./CfxGlobals";
 import "./MockNatives";
 import { Configuration } from "../../src/Types";
 import { Config } from "../../src/core/config/Config";
+import { container } from "tsyringe";
 
 const mockConfig: Configuration = {
 	Permission: {
@@ -24,4 +25,4 @@ const mockConfig: Configuration = {
 	IllegalModels: ["model"],
 };
 
-jest.spyOn(Config, "getConfig").mockImplementation(() => mockConfig);
+jest.spyOn(container.resolve(Config), "getConfig").mockImplementation(() => mockConfig);
