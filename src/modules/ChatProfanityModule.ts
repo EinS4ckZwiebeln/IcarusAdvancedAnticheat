@@ -1,16 +1,10 @@
 import Filter from "bad-words";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
-import { EventHandler } from "../core/handler/EventHandler";
-import { container } from "tsyringe";
 
 export class ChatProfanityModule extends Module {
 	private _filter: Filter;
 	private _warningMessage: string;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._filter = new Filter({

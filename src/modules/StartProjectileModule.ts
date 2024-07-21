@@ -1,6 +1,4 @@
-import { container } from "tsyringe";
 import { Config } from "../core/config/Config";
-import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { StartProjectileEvent } from "../Types";
@@ -11,9 +9,6 @@ export class StartProjectileModule extends Module {
 	private _projectileCooldownTime: number = 0;
 	private _blockVehicleWeapons: boolean = true;
 
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 	public onLoad(): void {
 		this._projectileCooldownTime = Config.getValue<number>(this.config, "projectileCooldown");
 		this._blockVehicleWeapons = Config.getValue<boolean>(this.config, "blockVehicleWeapons");

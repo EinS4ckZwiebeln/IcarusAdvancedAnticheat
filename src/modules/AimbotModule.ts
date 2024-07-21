@@ -1,17 +1,11 @@
-import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 import { Violation } from "../core/Violation";
 import { WeaponDamageEvent } from "../Types";
-import { container } from "tsyringe";
 
 export class AimbotModule extends Module {
 	private _offsetDist: number = 4.5;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._offsetDist = Config.getValue<number>(this.config, "offsetDist");

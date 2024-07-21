@@ -1,20 +1,14 @@
-import { Module } from "../core/Module";
-import { Weapons } from "../enum/Weapons";
-import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
-import { Utility } from "../util/Utility";
-import { EventHandler } from "../core/handler/EventHandler";
+import { Module } from "../core/Module";
+import { Violation } from "../core/Violation";
+import { Weapons } from "../enum/Weapons";
 import { WeaponDamageEvent } from "../Types";
-import { container } from "tsyringe";
+import { Utility } from "../util/Utility";
 
 export class TazerModule extends Module {
 	private readonly _onCooldown: Set<number> = new Set<number>();
 	private _tazerCooldown: number = 14000;
 	private _tazerRange: number = 12;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._tazerRange = Config.getValue<number>(this.config, "maxDistance");

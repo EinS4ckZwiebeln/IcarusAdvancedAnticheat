@@ -1,5 +1,3 @@
-import { container } from "tsyringe";
-import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { GiveWeaponEvent } from "../Types";
@@ -7,10 +5,6 @@ import { Config } from "../core/config/Config";
 
 export class GiveWeaponModule extends Module {
 	private _allowPickUp: boolean = false;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._allowPickUp = Config.getValue<boolean>(this.config, "allowPickUp");

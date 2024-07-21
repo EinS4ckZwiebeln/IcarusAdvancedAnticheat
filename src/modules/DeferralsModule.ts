@@ -1,21 +1,15 @@
+import axios from "axios";
 import { Logger } from "../core/logger/Logger";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
-import { EventHandler } from "../core/handler/EventHandler";
 import { Deferrals, DeferralsObject } from "../Types";
-import axios from "axios";
 import { Utility } from "../util/Utility";
-import { container } from "tsyringe";
 
 export class DeferralsModule extends Module {
 	private _steamApiKey: string;
 	private _banChecker: DeferralsObject;
 	private _nameFilter: DeferralsObject;
 	private _noVPN: DeferralsObject;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._steamApiKey = GetConvar("steam_webApiKey", "none");
@@ -24,6 +18,7 @@ export class DeferralsModule extends Module {
 		this._noVPN = Config.getValue<DeferralsObject>(this.config, "NoVPN");
 		this.eventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
 	}
+
 	public onUnload(): void {
 		this.eventHandler.unsubscribe("playerConnecting", this.onDefer.bind(this));
 	}
@@ -77,10 +72,10 @@ export class DeferralsModule extends Module {
 	 * Handles deferrals for a given player.
 	 * @param name - The name of the player.
 	 * @param deferrals - The deferral object for the player.
-	 * @param source - The player's source ID.
 	 * @returns A Promise that resolves when the deferral is complete.
 	 */
 	private async onDefer(name: string, _: (reason: string) => void, deferrals: Deferrals): Promise<void> {
+		if (this.permissionHandler.hasPermission(source, this.name)) return;
 		const ipv4: string = GetPlayerIdentifierByType(source.toString(), "ip").slice(3);
 		const steamId: string = GetPlayerIdentifierByType(source.toString(), "steam");
 

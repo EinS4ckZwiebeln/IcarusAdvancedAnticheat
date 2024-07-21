@@ -1,15 +1,9 @@
-import { EventHandler } from "../core/handler/EventHandler";
+import { Config } from "../core/config/Config";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { Config } from "../core/config/Config";
-import { container } from "tsyringe";
 
 export class WeaponModifierModule extends Module {
 	private _damageModifier: number = 1.0;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		// Add 0.001 to the value to account for floating point errors.

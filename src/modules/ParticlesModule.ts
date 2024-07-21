@@ -1,16 +1,10 @@
-import { Violation } from "../core/Violation";
-import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
-import { EventHandler } from "../core/handler/EventHandler";
+import { Module } from "../core/Module";
+import { Violation } from "../core/Violation";
 import { PtFxEvent } from "../Types";
-import { container } from "tsyringe";
 
 export class ParticlesModule extends Module {
 	private _maxScale = -1;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._maxScale = Config.getValue<number>(this.config, "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.

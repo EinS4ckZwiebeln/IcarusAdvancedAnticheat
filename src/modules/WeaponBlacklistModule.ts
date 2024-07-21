@@ -1,17 +1,10 @@
-import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { WeaponDamageEvent } from "../Types";
 import { Utility } from "../util/Utility";
-import { Config } from "../core/config/Config";
-import { container } from "tsyringe";
 
 export class WeaponBlacklistModule extends Module {
 	private _blacklistedWeapons: Set<number> = new Set<number>();
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._blacklistedWeapons = new Set<number>(Utility.hashify(this.config.BlacklistedWeapons));

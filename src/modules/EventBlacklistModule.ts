@@ -1,13 +1,7 @@
-import { container } from "tsyringe";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { Config } from "../core/config/Config";
 
 export class EventBlacklistModule extends Module {
-	constructor() {
-		super(container.resolve(Config));
-	}
-
 	public onLoad(): void {
 		this.registerEvents();
 	}

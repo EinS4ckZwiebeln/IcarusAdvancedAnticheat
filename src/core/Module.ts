@@ -1,14 +1,17 @@
-import { Configuration } from "../Types";
+import { container } from "tsyringe";
 import { Config } from "./config/Config";
 import { EventHandler } from "./handler/EventHandler";
+import { PermissionHandler } from "./handler/PermissionHandler";
+import { Configuration } from "../Types";
 
 export abstract class Module {
 	private _tick: number = 0;
 	private _isTicking: boolean = false;
 	// Utility for onTick method
 	protected readonly Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-	constructor(private readonly _config?: Config, private readonly _eventHandler?: EventHandler) {}
+	protected readonly config: Configuration = container.resolve(Config).getConfig();
+	protected readonly eventHandler: EventHandler = container.resolve(EventHandler);
+	protected readonly permissionHandler: PermissionHandler = container.resolve(PermissionHandler);
 
 	/**
 	 * Returns the name of the module by splitting the constructor name at the first underscore.
@@ -20,20 +23,6 @@ export abstract class Module {
 
 	public get tick(): number {
 		return this._tick;
-	}
-
-	protected get config(): Configuration {
-		if (!this._config) {
-			throw new Error("Module is missing injection for Config");
-		}
-		return this._config.getConfig();
-	}
-
-	protected get eventHandler(): EventHandler {
-		if (!this._eventHandler) {
-			throw new Error("Module is missing injection for EventHandler");
-		}
-		return this._eventHandler;
 	}
 
 	/**

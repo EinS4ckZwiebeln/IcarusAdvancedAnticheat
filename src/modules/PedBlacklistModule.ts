@@ -1,4 +1,3 @@
-import { container } from "tsyringe";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
@@ -6,10 +5,6 @@ import { Utility } from "../util/Utility";
 
 export class PedBlacklistModule extends Module {
 	private _whitelistedPedModels: Set<number> = new Set();
-
-	constructor() {
-		super(container.resolve(Config));
-	}
 
 	public onLoad(): void {
 		const models = Config.getValue<string[]>(this.config, "playerModels");

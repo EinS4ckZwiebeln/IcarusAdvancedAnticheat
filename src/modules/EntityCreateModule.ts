@@ -1,9 +1,7 @@
-import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
-import { container } from "tsyringe";
 
 export class EntityCreateModule extends Module {
 	private _illegalEntities: Set<number> = new Set();
@@ -11,10 +9,6 @@ export class EntityCreateModule extends Module {
 	private _banNetworkOwner: boolean = false;
 	private _checkPedsForWeapons: boolean = false;
 	private _cleanUpEntities: boolean = false;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));

@@ -1,6 +1,4 @@
-import { container } from "tsyringe";
 import { Config } from "../core/config/Config";
-import { EventHandler } from "../core/handler/EventHandler";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Weapons } from "../enum/Weapons";
@@ -9,10 +7,6 @@ import { DamageRecord, WeaponDamageEvent } from "../Types";
 export class GodmodeModule extends Module {
 	private _absorbedDamage: Map<number, DamageRecord> = new Map();
 	private _verifyPlayerDamage: boolean = false;
-
-	constructor() {
-		super(container.resolve(Config), container.resolve(EventHandler));
-	}
 
 	public onLoad(): void {
 		this._verifyPlayerDamage = Config.getValue<boolean>(this.config, "verifyPlayerDamage");
