@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "esbuild src/App.ts --bundle --minify-whitespace --minify-syntax --platform=node --target=node16.9.1 --outfile=dist/app.js",
+		"build": "esbuild src/App.ts --bundle --packages=bundle --minify-whitespace --minify-syntax --platform=node --target=node16.9.1 --outfile=dist/app.js",
 		"watch": "esbuild src/App.ts --bundle --watch --packages=external --platform=node --target=node16.9.1 --outfile=dist/app.js",
 		"test": "jest --clearCache && jest --env=node"
 	},
@@ -12,7 +12,7 @@
 	"license": "MIT",
 	"private": true,
 	"devDependencies": {
-		"@citizenfx/server": "^2.0.8461-1",
+		"@citizenfx/server": "^2.0.8981-1",
 		"@types/bad-words": "^3.0.3",
 		"@types/jest": "^26.0.24",
 		"@types/node": "20.11.20",
