@@ -1,10 +1,13 @@
 import "../helper/CfxGlobals";
+import "../helper/MockConfig";
 import "../helper/MockNatives";
 import { Module } from "../../src/core/Module";
-import { container } from "tsyringe";
+import { Logger } from "../../src/core/logger/Logger";
 import { Config } from "../../src/core/config/Config";
 import { EventHandler } from "../../src/core/handler/EventHandler";
+import { PermissionHandler } from "../../src/core/handler/PermissionHandler";
 
+Logger.init();
 class TestModule extends Module {
 	public onLoad(): void {}
 	public onUnload(): void {}
@@ -38,16 +41,14 @@ describe("Module", () => {
 		expect(() => module.setTick()).toThrow("Module TestModule is already ticking");
 		module.removeTick();
 	});
-	it("should throw an error if Config is missing", () => {
+	it("should have dependencies defined", () => {
 		const module = new TestModule();
-		expect(() => module["config"]).toThrow();
-		const moduleDI = new TestModule(container.resolve(Config), container.resolve(EventHandler));
-		expect(() => moduleDI["config"]).not.toThrow();
-	});
-	it("should throw an error if EventHandler is missing", () => {
-		const module = new TestModule();
-		expect(() => module["eventHandler"]).toThrow();
-		const moduleDI = new TestModule(container.resolve(Config), container.resolve(EventHandler));
-		expect(() => moduleDI["config"]).not.toThrow();
+		expect(module["config"]).toBeDefined();
+		expect(module["config"]).toBeInstanceOf(Object);
+		expect(module["config"]).not.toBeInstanceOf(Config);
+		expect(module["eventHandler"]).toBeDefined();
+		expect(module["eventHandler"]).toBeInstanceOf(EventHandler);
+		expect(module["permissionHandler"]).toBeDefined();
+		expect(module["permissionHandler"]).toBeInstanceOf(PermissionHandler);
 	});
 });
