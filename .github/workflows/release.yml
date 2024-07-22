@@ -37,7 +37,7 @@ jobs:
               uses: actions/setup-node@v2
               # FX-Server requires Node.js 16.x
               with:
-                  node-version: 16.x
+                  node-version: 18.x
 
             - name: Install esbuild
               run: yarn global add esbuild
