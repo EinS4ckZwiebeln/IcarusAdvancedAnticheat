@@ -2,6 +2,7 @@ const esbuild = require("esbuild");
 
 esbuild
 	.build({
+		logLevel: "info",
 		entryPoints: ["src/server/App.ts", "src/rpc_loader/RPCLoader.ts"],
 		outdir: "dist",
 		bundle: true,
