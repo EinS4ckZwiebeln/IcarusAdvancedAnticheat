@@ -7,12 +7,14 @@ description "Efficient, modular server-side anticheat script."
 version "0.0.0"
 
 lua54 "yes"
-server_only "yes"
+use_experimental_fxv2_oal "yes"
+
+client_script "dist/rpc_loader/RPCLoader.js"
 
 server_script {
     "config.lua",
     "wrapper.lua",
-    "dist/app.js"
+    "dist/server/App.js"
 }
 
 dependencies {

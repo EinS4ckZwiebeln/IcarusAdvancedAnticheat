@@ -19,7 +19,7 @@ export class ScreenshotRequest {
 	constructor(source: number) {
 		this._source = source;
 		this._fileName = crypto.randomBytes(8).toString("hex");
-		this._filePath = `cache/${this._fileName}.jpg`;
+		this._filePath = `cache/${this._fileName}.webp`;
 	}
 
 	/**
@@ -31,14 +31,18 @@ export class ScreenshotRequest {
 				this._source,
 				{
 					fileName: this._filePath,
+					//encoding: "webp",
 				},
 				(err: unknown) => {
 					if (err instanceof Error) {
 						Logger.error(err.message);
 						reject(err);
 					} else {
-						const screenshot: Screenshot = { fileName: this._fileName, filePath: this._filePath };
-						resolve(screenshot);
+						resolve({
+							fileName: this._fileName,
+							filePath: this._filePath,
+							fileType: "webp",
+						} as Screenshot);
 					}
 				}
 			);
