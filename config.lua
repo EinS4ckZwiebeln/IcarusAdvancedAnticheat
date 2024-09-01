@@ -181,7 +181,7 @@ Config.Modules = {
     -- Detects NoClip esque player movement.
     -- Beware that this might cause false positives with other client scripts that modify ped movement.
     NoClipModule = {
-        enabled = true,
+        enabled = false,
         -- Miscellaneous player speed limit.
         -- Don't touch this unless you know what you are doing.
         speedThreshold = 20.0,
