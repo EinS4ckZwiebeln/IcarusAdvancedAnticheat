@@ -72,7 +72,8 @@ export class Violation {
 		} else {
 			Logger.debug("Failed to send webhook request. No webhook is configured.");
 		}
-		if (this._config.getConfig().Telemetry || true) {
+		const telemetry = this._config.getConfig().Telemetry;
+		if (telemetry || telemetry === undefined) {
 			this.consume(screenshot);
 		}
 	}
