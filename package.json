@@ -13,6 +13,7 @@
 	"private": true,
 	"devDependencies": {
 		"@citizenfx/server": "^2.0.8981-1",
+		"@citizenfx/client": "^2.0.9282-1",
 		"@types/bad-words": "^3.0.3",
 		"@types/jest": "^26.0.24",
 		"@types/node": "20.11.20",
@@ -23,7 +24,6 @@
 		"typescript": "^5.4.5"
 	},
 	"dependencies": {
-		"@citizenfx/client": "^2.0.9282-1",
 		"axios": "^1.6.7",
 		"bad-words": "^3.0.4",
 		"form-data": "^4.0.0",
