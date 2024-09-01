@@ -12,10 +12,6 @@ esbuild
 		minifySyntax: true,
 		minifyWhitespace: true,
 	})
-	.then(() => {
-		console.log("Build succeeded");
-	})
-	.catch((error) => {
-		console.error("Build failed:", error);
+	.catch(() => {
 		process.exit(1);
 	});
