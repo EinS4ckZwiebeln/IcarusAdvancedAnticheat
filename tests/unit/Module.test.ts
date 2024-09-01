@@ -1,11 +1,11 @@
 import "../helper/CfxGlobals";
 import "../helper/MockConfig";
 import "../helper/MockNatives";
-import { Module } from "../../src/core/Module";
-import { Logger } from "../../src/core/logger/Logger";
-import { Config } from "../../src/core/config/Config";
-import { EventHandler } from "../../src/core/handler/EventHandler";
-import { PermissionHandler } from "../../src/core/handler/PermissionHandler";
+import { Module } from "../../src/server/core/Module";
+import { Logger } from "../../src/server/core/logger/Logger";
+import { Config } from "../../src/server/core/config/Config";
+import { EventHandler } from "../../src/server/core/handler/EventHandler";
+import { PermissionHandler } from "../../src/server/core/handler/PermissionHandler";
 
 Logger.init();
 class TestModule extends Module {

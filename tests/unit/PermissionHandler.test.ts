@@ -1,10 +1,10 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Logger } from "../../src/core/logger/Logger";
-import { PermissionHandler } from "../../src/core/handler/PermissionHandler";
+import { Logger } from "../../src/server/core/logger/Logger";
+import { PermissionHandler } from "../../src/server/core/handler/PermissionHandler";
 import { container } from "tsyringe";
-import { Module } from "../../src/core/Module";
+import { Module } from "../../src/server/core/Module";
 
 Logger.init();
 const permissionHandler = container.resolve(PermissionHandler);

@@ -1,7 +1,7 @@
 import "./CfxGlobals";
 import "./MockNatives";
-import { Configuration } from "../../src/Types";
-import { Config } from "../../src/core/config/Config";
+import { Configuration } from "../../src/server/Types";
+import { Config } from "../../src/server/core/config/Config";
 import { container } from "tsyringe";
 
 const mockConfig: Configuration = {
@@ -9,6 +9,7 @@ const mockConfig: Configuration = {
 		bypassPermission: "test.bypass",
 		useTxAdmin: true,
 	},
+	Telemetry: true,
 	DiscordWebhook: "https://example.webhook.com",
 	Modules: {
 		TestModule: {

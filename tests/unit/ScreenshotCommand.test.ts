@@ -1,10 +1,10 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Logger } from "../../src/core/logger/Logger";
-import { Config } from "../../src/core/config/Config";
-import { ScreenshotCommand } from "../../src/commands/ScreenshotCommand";
-import { Utility } from "../../src/util/Utility";
+import { Logger } from "../../src/server/core/logger/Logger";
+import { Config } from "../../src/server/core/config/Config";
+import { ScreenshotCommand } from "../../src/server/commands/ScreenshotCommand";
+import { Utility } from "../../src/server/util/Utility";
 import { container } from "tsyringe";
 
 Logger.init();

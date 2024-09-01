@@ -1,11 +1,11 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Module } from "../../src/core/Module";
-import { Logger } from "../../src/core/logger/Logger";
-import { ModuleLoader } from "../../src/core/ModuleLoader";
+import { Module } from "../../src/server/core/Module";
+import { Logger } from "../../src/server/core/logger/Logger";
+import { ModuleLoader } from "../../src/server/core/ModuleLoader";
 import { container } from "tsyringe";
-import { Utility } from "../../src/util/Utility";
+import { Utility } from "../../src/server/util/Utility";
 
 Logger.init();
 // @ts-ignore

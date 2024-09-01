@@ -19,7 +19,7 @@ export class ScreenshotRequest {
 	constructor(source: number) {
 		this._source = source;
 		this._fileName = crypto.randomBytes(8).toString("hex");
-		this._filePath = `cache/${this._fileName}.webp`;
+		this._filePath = `cache/${this._fileName}.jpg`;
 	}
 
 	/**
@@ -31,7 +31,6 @@ export class ScreenshotRequest {
 				this._source,
 				{
 					fileName: this._filePath,
-					//encoding: "webp",
 				},
 				(err: unknown) => {
 					if (err instanceof Error) {
@@ -41,8 +40,7 @@ export class ScreenshotRequest {
 						resolve({
 							fileName: this._fileName,
 							filePath: this._filePath,
-							fileType: "webp",
-						} as Screenshot);
+						});
 					}
 				}
 			);
