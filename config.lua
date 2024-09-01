@@ -7,6 +7,10 @@ Config.Permission = {
     useTxAdmin = true
 }
 
+-- Allows the script to gather anonymized ban data to improve detections of future releases.
+-- You can disable this feature if you don't want to share any data, however it is highly appreciated to keep it enabled.
+Config.Telemetry = true
+
 -- Where ban information and screenshots are send to.
 Config.DiscordWebhook = ""
 
@@ -120,8 +124,8 @@ Config.Modules = {
     AimbotModule = {
         enabled = false,
         -- Increment this if Aimbot false positives occur.
-        -- In case you use any 'drug effects' or 'drunk' resources increase this to at least 6.0.
-        offsetDist = 4.5
+        -- In case you use any 'drug effects' or 'drunk' resources increase this value gradually.
+        offsetDist = 7.0
     },
     -- Detects if a cheater gives weapons to others.
     GiveWeaponModule = {

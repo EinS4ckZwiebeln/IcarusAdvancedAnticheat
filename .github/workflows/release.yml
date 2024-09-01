@@ -35,9 +35,8 @@ jobs:
 
             - name: Set up Node.js
               uses: actions/setup-node@v2
-              # FX-Server requires Node.js 16.x
               with:
-                  node-version: 16.x
+                  node-version: 18.x
 
             - name: Install esbuild
               run: yarn global add esbuild
@@ -71,11 +70,20 @@ jobs:
                   cp -r ./dist ./temp/Icarus
                   cd ./temp && zip -r ../Icarus.zip ./Icarus
 
+            - name: Set release tag
+              id: set_tag
+              run: |
+                  if [ "${{ github.event.inputs.prerelease }}" == "true" ]; then
+                    echo "RELEASE_TAG=pre-release-${{ github.event.inputs.version }}" >> $GITHUB_ENV
+                  else
+                    echo "RELEASE_TAG=release-${{ github.event.inputs.version }}" >> $GITHUB_ENV
+                  fi
+
             - name: Create Release
               uses: "marvinpinto/action-automatic-releases@latest"
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                  automatic_release_tag: "release-${{ github.event.inputs.version }}"
+                  automatic_release_tag: "${{ env.RELEASE_TAG }}"
                   prerelease: ${{ github.event.inputs.prerelease }}
                   title: ${{ github.event.inputs.version }}
                   files: Icarus.zip

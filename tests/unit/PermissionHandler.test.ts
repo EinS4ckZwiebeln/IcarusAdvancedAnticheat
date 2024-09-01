@@ -1,10 +1,10 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Logger } from "../../src/core/logger/Logger";
-import { PermissionHandler } from "../../src/core/handler/PermissionHandler";
+import { Logger } from "../../src/server/core/logger/Logger";
+import { PermissionHandler } from "../../src/server/core/handler/PermissionHandler";
 import { container } from "tsyringe";
-import { Module } from "../../src/core/Module";
+import { Module } from "../../src/server/core/Module";
 
 Logger.init();
 const permissionHandler = container.resolve(PermissionHandler);
@@ -60,19 +60,20 @@ describe("PermissionHandler", () => {
 			}
 			return false;
 		};
-		const hasPermission = permissionHandler.hasPermission(source, module.name);
+		const hasPermission = permissionHandler["hasModuleBypass"](source.toString(), module.name);
 		expect(hasPermission).toBe(true);
 	});
 	it("should return false if player has no bypass ace permission", () => {
 		const source = 1;
-		const module = new TestModule();
-		global.IsPlayerAceAllowed = (_: string, perm: string) => {
-			if (perm === `icarus.${module.name.toLowerCase()}`) {
-				return true;
-			}
-			return false;
-		};
-		const hasPermission = permissionHandler.hasPermission(source, "NonExistentModule");
+		const hasPermission = permissionHandler["hasModuleBypass"](source.toString(), "NonExistentModule");
 		expect(hasPermission).toBe(false);
+	});
+	it("should return true if native returns number 1", () => {
+		const source = 1;
+		global.IsPlayerAceAllowed = () => 1 as unknown as boolean;
+		const allowed = permissionHandler["isPlayerAceAllowedBool"](source.toString(), "test.permission");
+		expect(allowed).toBe(true);
+		expect(allowed).not.toBe(1);
+		expect(typeof allowed).toBe("boolean");
 	});
 });

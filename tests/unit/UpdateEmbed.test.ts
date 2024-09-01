@@ -1,7 +1,7 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { UpdateEmbed } from "../../src/web/UpdateEmbed";
+import { UpdateEmbed } from "../../src/server/web/UpdateEmbed";
 
 describe("UpdateEmbed", () => {
 	it("should construct a update embed object", () => {

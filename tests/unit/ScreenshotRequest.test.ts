@@ -1,7 +1,7 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { ScreenshotRequest } from "../../src/web/ScreenshotRequest";
+import { ScreenshotRequest } from "../../src/server/web/ScreenshotRequest";
 
 describe("ScreenshotRequest", () => {
 	it("should take serialize screenshot parameters correctly", async () => {

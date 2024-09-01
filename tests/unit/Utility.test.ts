@@ -1,6 +1,6 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
-import { Utility } from "../../src/util/Utility";
+import { Utility } from "../../src/server/util/Utility";
 
 describe("Utility", () => {
 	it("should have the correct number of degrees in one radian", () => {

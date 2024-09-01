@@ -1,9 +1,9 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { Parameter } from "../../src/Types";
-import { Logger } from "../../src/core/logger/Logger";
-import { Command } from "../../src/core/Command";
+import { Parameter } from "../../src/server/Types";
+import { Logger } from "../../src/server/core/logger/Logger";
+import { Command } from "../../src/server/core/Command";
 
 Logger.init();
 const parameters: Parameter[] = [

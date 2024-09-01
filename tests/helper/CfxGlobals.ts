@@ -33,6 +33,8 @@ declare global {
 	// Event emitting
 	function emit(eventName: string, ...args: any[]): void;
 	function emitNet(eventName: string, ...args: any[]): void;
+	// Entities
+	function getPlayers(): string[];
 }
 global.exports = _exports;
 // Ticking
@@ -44,5 +46,7 @@ global.onNet = (_: string, __: Function) => {};
 // Event emitting
 global.emit = (_: string, ...__: any[]) => {};
 global.emitNet = (_: string, ...__: any[]) => {};
+// Entities
+global.getPlayers = () => ["1"];
 
 export {};

@@ -1,7 +1,7 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { BanEmbed } from "../../src/web/BanEmbed";
+import { BanEmbed } from "../../src/server/web/BanEmbed";
 
 describe("BanEmbed", () => {
 	it("should construct a ban embed object", () => {

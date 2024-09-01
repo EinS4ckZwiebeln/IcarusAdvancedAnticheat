@@ -10,9 +10,12 @@ declare global {
 	function RegisterCommand(commandName: string, handler: Function, restricted: boolean): void;
 	function GetPlayerIdentifierByType(source: string, type: string): string;
 	function DeleteEntity(entity: number): void;
+	function DropPlayer(source: string): void;
 	function GetAllObjects(): number[];
 	function GetAllVehicles(): number[];
 	function GetAllPeds(): number[];
+	function GetPlayerPing(source: string): number;
+	function GetPlayerPed(source: string): number;
 }
 
 // Resource related functions
@@ -38,8 +41,11 @@ global.GetPlayerName = (_: string) => "unknown";
 global.GetHashKey = (_: string): number => 0;
 global.RegisterCommand = (_: string, __: Function, ___: boolean) => {};
 global.DeleteEntity = (_: number) => {};
+global.DropPlayer = (_: string) => {};
 global.GetAllObjects = () => [];
 global.GetAllVehicles = () => [];
 global.GetAllPeds = () => [];
+global.GetPlayerPing = (_: string) => 0;
+global.GetPlayerPed = (_: string) => 65535;
 
 export {};

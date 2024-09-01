@@ -1,8 +1,8 @@
 import "../helper/CfxGlobals";
 import "../helper/MockNatives";
 import "../helper/MockConfig";
-import { EventHandler } from "../../src/core/handler/EventHandler";
-import { Logger } from "../../src/core/logger/Logger";
+import { EventHandler } from "../../src/server/core/handler/EventHandler";
+import { Logger } from "../../src/server/core/logger/Logger";
 import { container } from "tsyringe";
 
 Logger.init();
