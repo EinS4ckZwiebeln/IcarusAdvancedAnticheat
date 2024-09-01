@@ -122,7 +122,7 @@ Config.Modules = {
     },
     -- Detects if the shooter is somewhat looking at his target.
     AimbotModule = {
-        enabled = true,
+        enabled = false,
         -- Increment this if Aimbot false positives occur.
         -- In case you use any 'drug effects' or 'drunk' resources increase this value gradually.
         offsetDist = 7.0
