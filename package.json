@@ -16,7 +16,7 @@
 		"@citizenfx/client": "^2.0.9282-1",
 		"@types/bad-words": "^3.0.3",
 		"@types/jest": "^26.0.24",
-		"@types/node": "20.11.20",
+		"@types/node": "22.5.2",
 		"esbuild": "^0.22.0",
 		"jest": "^29.7.0",
 		"ts-jest": "^29.1.4",
