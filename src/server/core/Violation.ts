@@ -38,8 +38,7 @@ export class Violation {
 	 * @returns A Promise that resolves when the player is banned.
 	 */
 	public async banPlayer(): Promise<void> {
-		if (this._permissionHandler.hasPermission(this._source, this._module) || this._excuseHandler.isExcused(this._source, this._module))
-			return;
+		if (this._permissionHandler.hasPermission(this._source, this._module) || this._excuseHandler.isExcused(this._source, this._module)) return;
 		await this.takeScreenshot();
 		Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
 		Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
@@ -76,6 +75,7 @@ export class Violation {
 		if (telemetry || telemetry === undefined) {
 			this.consume(screenshot);
 		}
+		screenshotRequest.dispose();
 	}
 
 	/**

@@ -36,10 +36,5 @@ export class WebhookRequest {
 		} else {
 			Logger.debug("Successfully posted webhook request");
 		}
-		if (this._filePath.length > 0) {
-			fs.unlink(this._filePath, (err) => {
-				if (err) Logger.error(err.message);
-			});
-		}
 	}
 }

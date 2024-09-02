@@ -12,8 +12,8 @@
 	"license": "MIT",
 	"private": true,
 	"devDependencies": {
-		"@citizenfx/server": "^2.0.8981-1",
-		"@citizenfx/client": "^2.0.9282-1",
+		"@citizenfx/client": "^2.0.9655-1",
+		"@citizenfx/server": "^2.0.9655-1",
 		"@types/bad-words": "^3.0.3",
 		"@types/jest": "^26.0.24",
 		"@types/node": "20.11.20",
