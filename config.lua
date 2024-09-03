@@ -162,7 +162,9 @@ Config.Modules = {
     WeaponModifierModule = {
         enabled = true,
         -- The maximum damage modifier a player can have for a weapon.
-        damageModifier = 1.0
+        damageModifier = 1.0,
+        -- Tries to determine the average player weapon modifier to use as a baseline.
+        dynamicModifier = false
     },
     -- Checks spawned particles for abnormal values.
     ParticlesModule = {
