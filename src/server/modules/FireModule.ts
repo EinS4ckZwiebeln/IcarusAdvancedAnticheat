@@ -5,6 +5,7 @@ import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 
 export class FireModule extends Module {
+	private _timeout: Set<number> = new Set<number>();
 	private _maxFireDistance: number = 128.0;
 
 	public onLoad(): void {
@@ -31,10 +32,13 @@ export class FireModule extends Module {
 		const ped = GetPlayerPed(source.toString());
 		const dist = Utility.getDistance(GetEntityCoords(ped), GetEntityCoords(victim), false);
 		// Check if source and victim are too far off for it to be a legit fire event
-		if (dist > this._maxFireDistance) {
+		if (dist > this._maxFireDistance && !this._timeout.has(source)) {
 			const violation = new Violation(source, "Fire Event [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
+			// Prevent ban spam by adding the player to the timeout.
+			this._timeout.add(source);
+			setTimeout(() => this._timeout.delete(source), 5000);
 		}
 	}
 }

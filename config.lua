@@ -105,8 +105,9 @@ Config.Modules = {
         tazerCooldown = 12000 -- 12 seconds
     },
     -- Detects if a player has a non whitelisted playermodel (eg. monkey).
+    -- If you are using qb-core make sure to add the pedmodels from the character creator.
     PedBlacklistModule = {
-        enabled = true,
+        enabled = false,
         -- List of all allowed player models. You may add some.
         playerModels = {
             "player_one",

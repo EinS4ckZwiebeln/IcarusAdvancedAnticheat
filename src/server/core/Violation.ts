@@ -56,9 +56,22 @@ export class Violation {
 		}
 		const screenshotRequest = new ScreenshotRequest(this._source);
 		const screenshot = await screenshotRequest.request();
+		this.postWebhook(screenshot);
 
-		const webhook = this._config.getConfig().DiscordWebhook;
-		if (!Utility.isNullOrEmtpy(webhook)) {
+		const telemetry = this._config.getConfig().Telemetry;
+		if (telemetry || telemetry === undefined) {
+			this.consume(screenshot);
+		}
+		screenshotRequest.dispose();
+	}
+
+	private postWebhook(screenshot: Screenshot): void {
+		try {
+			const webhook = this._config.getConfig().DiscordWebhook;
+			if (Utility.isNullOrEmtpy(webhook)) {
+				Logger.debug("Failed to send webhook request. No webhook is configured.");
+				return;
+			}
 			const banEmbed: BanEmbed = new BanEmbed(this._source, this._reason, `${screenshot.fileName}.jpg`);
 			const request: WebhookRequest = new WebhookRequest(
 				{
@@ -68,14 +81,10 @@ export class Violation {
 				`./${screenshot.filePath}`
 			);
 			request.post(webhook);
-		} else {
-			Logger.debug("Failed to send webhook request. No webhook is configured.");
+		} catch (error: unknown) {
+			if (!(error instanceof Error)) return;
+			Logger.error(error.message);
 		}
-		const telemetry = this._config.getConfig().Telemetry;
-		if (telemetry || telemetry === undefined) {
-			this.consume(screenshot);
-		}
-		screenshotRequest.dispose();
 	}
 
 	/**
