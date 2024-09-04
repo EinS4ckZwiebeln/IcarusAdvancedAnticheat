@@ -13,22 +13,15 @@ import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
 
 export class Violation {
+	private static readonly whitelistedViolations: Set<string> = new Set();
 	private readonly _permissionHandler: PermissionHandler;
 	private readonly _excuseHandler: ExcuseHandler;
 	private readonly _config: Config;
-	// Required data to issue a ban
-	private readonly _source: number;
-	private readonly _reason: string;
-	private readonly _module: string;
 
-	constructor(source: number, reason: string, module: string) {
+	constructor(private readonly _source: number, private readonly _reason: string, private readonly _module: string) {
 		this._permissionHandler = container.resolve(PermissionHandler);
 		this._excuseHandler = container.resolve(ExcuseHandler);
 		this._config = container.resolve(Config);
-
-		this._source = source;
-		this._reason = reason;
-		this._module = module;
 	}
 
 	/**
@@ -96,21 +89,31 @@ export class Violation {
 	 */
 	private async consume(screenshot: Screenshot): Promise<void> {
 		try {
-			const formData = new FormData();
-			formData.append("title", this._reason);
-			formData.append("description", new Date().toISOString());
-			const file = fs.readFileSync(`./${screenshot.filePath}`);
-			formData.append("image", file, {
-				filename: `${screenshot.fileName}.jpg`,
-				contentType: "image/jpeg",
-			});
-			const response = await axios.post("https://ac-telemetry.org/upload", formData);
-			if (response.status !== 200) {
-				Logger.debug(`Failed to consume screenshot: ${response.status}`);
+			if (Violation.whitelistedViolations.size === 0) {
+				const violations = await Violation.getAcceptedViolations();
+				violations.forEach((violation) => Violation.whitelistedViolations.add(violation));
+			}
+			if (Violation.whitelistedViolations.has(this._module)) {
+				const formData = new FormData();
+				formData.append("title", this._reason);
+				formData.append("description", new Date().toISOString());
+				const file = fs.readFileSync(`./${screenshot.filePath}`);
+				formData.append("image", file, {
+					filename: `${screenshot.fileName}.jpg`,
+					contentType: "image/jpeg",
+				});
+				const response = await axios.post("https://ac-telemetry.org/upload", formData);
+				if (response.status !== 200) {
+					Logger.debug(`Failed to consume screenshot: ${response.status}`);
+				}
 			}
 		} catch (error: unknown) {
 			if (!(error instanceof Error)) return;
 			Logger.error(error.message);
 		}
+	}
+
+	private static async getAcceptedViolations(): Promise<Set<string>> {
+		return await axios.get("https://ac-telemetry.org/violations").then((response) => new Set(response.data));
 	}
 }
