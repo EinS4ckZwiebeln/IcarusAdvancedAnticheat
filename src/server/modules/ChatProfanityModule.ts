@@ -1,4 +1,4 @@
-import Filter from "bad-words";
+import { Filter } from "bad-words";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
 
