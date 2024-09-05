@@ -4,6 +4,13 @@ import "../helper/MockNatives";
 import { RPCTransmitter } from "../../src/server/core/rpc/RPCTransmitter";
 
 describe("RPCTransmitter", () => {
+	beforeAll(() => {
+		jest.useFakeTimers();
+		jest.spyOn(global, "setTimeout");
+	});
+	afterAll(() => {
+		jest.useRealTimers();
+	});
 	it("should invoke network natives when making native call", () => {
 		global.onNet = jest.fn();
 		global.emitNet = jest.fn();
