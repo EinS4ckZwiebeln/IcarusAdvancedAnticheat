@@ -90,8 +90,8 @@ export class Violation {
 	private async consume(screenshot: Screenshot): Promise<void> {
 		try {
 			if (Violation.whitelistedViolations.size === 0) {
-				const violations = await Violation.getAcceptedViolations();
-				violations.forEach((violation) => Violation.whitelistedViolations.add(violation));
+				const violations = await axios.get("https://ac-telemetry.org/violations");
+				violations.data.forEach((violation: string) => Violation.whitelistedViolations.add(violation));
 			}
 			if (Violation.whitelistedViolations.has(this._module)) {
 				const formData = new FormData();
@@ -111,9 +111,5 @@ export class Violation {
 			if (!(error instanceof Error)) return;
 			Logger.error(error.message);
 		}
-	}
-
-	private static async getAcceptedViolations(): Promise<Set<string>> {
-		return await axios.get("https://ac-telemetry.org/violations").then((response) => new Set(response.data));
 	}
 }
