@@ -6,7 +6,6 @@ import { Utility } from "../util/Utility";
 export class EntityCreateModule extends Module {
 	private _illegalEntities: Set<number> = new Set<number>();
 	private _blacklistedWeapons: Set<number> = new Set<number>();
-	private _timeout: Set<number> = new Set<number>();
 	private _banNetworkOwner: boolean = false;
 	private _checkPedsForWeapons: boolean = false;
 	private _cleanUpEntities: boolean = false;
@@ -55,12 +54,9 @@ export class EntityCreateModule extends Module {
 	 * @param entity - The entity to be deleted.
 	 */
 	private handleViolation(violationType: string, owner: number): void {
-		if (this._banNetworkOwner && !this._timeout.has(owner)) {
+		if (this._banNetworkOwner) {
 			const violation = new Violation(owner, violationType, this.name);
 			violation.banPlayer();
-			// Prevent ban spam by adding the player to the timeout.
-			this._timeout.add(owner);
-			setTimeout(() => this._timeout.delete(owner), 5000);
 		}
 		if (this._cleanUpEntities) {
 			this.cleanUpEntities(owner);

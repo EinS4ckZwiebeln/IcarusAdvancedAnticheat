@@ -5,7 +5,6 @@ import { Utility } from "../util/Utility";
 
 export class WeaponBlacklistModule extends Module {
 	private _blacklistedWeapons: Set<number> = new Set<number>();
-	private _timeout: Set<number> = new Set<number>();
 
 	public onLoad(): void {
 		this._blacklistedWeapons = new Set<number>(Utility.hashify(this.config.BlacklistedWeapons));
@@ -22,13 +21,10 @@ export class WeaponBlacklistModule extends Module {
 	 * @param weaponType - The type of weapon used.
 	 */
 	private onWeaponDamage(source: number, data: WeaponDamageEvent): void {
-		if (this._blacklistedWeapons.has(data.weaponType) && !this._timeout.has(source)) {
+		if (this._blacklistedWeapons.has(data.weaponType)) {
 			const violation = new Violation(source, "Blacklisted Weapon [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
-			// Prevent ban spam by adding the player to the timeout.
-			this._timeout.add(source);
-			setTimeout(() => this._timeout.delete(source), 5000);
 		}
 	}
 }
