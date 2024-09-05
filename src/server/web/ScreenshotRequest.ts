@@ -1,3 +1,4 @@
+import fs from "fs";
 import crypto from "crypto";
 import { Logger } from "../core/logger/Logger";
 import { Utility } from "../util/Utility";
@@ -44,6 +45,17 @@ export class ScreenshotRequest {
 					}
 				}
 			);
+		});
+	}
+
+	/**
+	 * Dispose the ScreenshotRequest instance.
+	 * If the _filePath property is not empty, it deletes the file from the file system.
+	 */
+	public dispose(): void {
+		if (!(this._filePath.length > 0)) return;
+		fs.unlink(`./${this._filePath}`, (err) => {
+			if (err) Logger.error(err.message);
 		});
 	}
 }

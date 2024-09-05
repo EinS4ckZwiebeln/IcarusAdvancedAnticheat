@@ -13,22 +13,15 @@ import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
 
 export class Violation {
+	private static readonly whitelistedViolations: Set<string> = new Set();
 	private readonly _permissionHandler: PermissionHandler;
 	private readonly _excuseHandler: ExcuseHandler;
 	private readonly _config: Config;
-	// Required data to issue a ban
-	private readonly _source: number;
-	private readonly _reason: string;
-	private readonly _module: string;
 
-	constructor(source: number, reason: string, module: string) {
+	constructor(private readonly _source: number, private readonly _reason: string, private readonly _module: string) {
 		this._permissionHandler = container.resolve(PermissionHandler);
 		this._excuseHandler = container.resolve(ExcuseHandler);
 		this._config = container.resolve(Config);
-
-		this._source = source;
-		this._reason = reason;
-		this._module = module;
 	}
 
 	/**
@@ -38,8 +31,7 @@ export class Violation {
 	 * @returns A Promise that resolves when the player is banned.
 	 */
 	public async banPlayer(): Promise<void> {
-		if (this._permissionHandler.hasPermission(this._source, this._module) || this._excuseHandler.isExcused(this._source, this._module))
-			return;
+		if (this._permissionHandler.hasPermission(this._source, this._module) || this._excuseHandler.isExcused(this._source, this._module)) return;
 		await this.takeScreenshot();
 		Utility.EXPORTS[Utility.RESOURCE_NAME].BanPlayer(this._source, this._reason);
 		Logger.debug(`Banned player ${this._source} for reason: ${this._reason}`);
@@ -57,9 +49,22 @@ export class Violation {
 		}
 		const screenshotRequest = new ScreenshotRequest(this._source);
 		const screenshot = await screenshotRequest.request();
+		this.postWebhook(screenshot);
 
-		const webhook = this._config.getConfig().DiscordWebhook;
-		if (!Utility.isNullOrEmtpy(webhook)) {
+		const telemetry = this._config.getConfig().Telemetry;
+		if (telemetry || telemetry === undefined) {
+			this.consume(screenshot);
+		}
+		screenshotRequest.dispose();
+	}
+
+	private postWebhook(screenshot: Screenshot): void {
+		try {
+			const webhook = this._config.getConfig().DiscordWebhook;
+			if (Utility.isNullOrEmtpy(webhook)) {
+				Logger.debug("Failed to send webhook request. No webhook is configured.");
+				return;
+			}
 			const banEmbed: BanEmbed = new BanEmbed(this._source, this._reason, `${screenshot.fileName}.jpg`);
 			const request: WebhookRequest = new WebhookRequest(
 				{
@@ -69,12 +74,9 @@ export class Violation {
 				`./${screenshot.filePath}`
 			);
 			request.post(webhook);
-		} else {
-			Logger.debug("Failed to send webhook request. No webhook is configured.");
-		}
-		const telemetry = this._config.getConfig().Telemetry;
-		if (telemetry || telemetry === undefined) {
-			this.consume(screenshot);
+		} catch (error: unknown) {
+			if (!(error instanceof Error)) return;
+			Logger.error(error.message);
 		}
 	}
 
@@ -87,17 +89,23 @@ export class Violation {
 	 */
 	private async consume(screenshot: Screenshot): Promise<void> {
 		try {
-			const formData = new FormData();
-			formData.append("title", this._reason);
-			formData.append("description", new Date().toISOString());
-			const file = fs.readFileSync(`./${screenshot.filePath}`);
-			formData.append("image", file, {
-				filename: `${screenshot.fileName}.jpg`,
-				contentType: "image/jpeg",
-			});
-			const response = await axios.post("https://ac-telemetry.org/upload", formData);
-			if (response.status !== 200) {
-				Logger.debug(`Failed to consume screenshot: ${response.status}`);
+			if (Violation.whitelistedViolations.size === 0) {
+				const violations = await axios.get("https://ac-telemetry.org/violations");
+				violations.data.forEach((violation: string) => Violation.whitelistedViolations.add(violation));
+			}
+			if (Violation.whitelistedViolations.has(this._module)) {
+				const formData = new FormData();
+				formData.append("title", this._reason);
+				formData.append("description", new Date().toISOString());
+				const file = fs.readFileSync(`./${screenshot.filePath}`);
+				formData.append("image", file, {
+					filename: `${screenshot.fileName}.jpg`,
+					contentType: "image/jpeg",
+				});
+				const response = await axios.post("https://ac-telemetry.org/upload", formData);
+				if (response.status !== 200) {
+					Logger.debug(`Failed to consume screenshot: ${response.status}`);
+				}
 			}
 		} catch (error: unknown) {
 			if (!(error instanceof Error)) return;

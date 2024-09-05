@@ -4,8 +4,8 @@ import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 
 export class EntityCreateModule extends Module {
-	private _illegalEntities: Set<number> = new Set();
-	private _blacklistedWeapons: Set<number> = new Set();
+	private _illegalEntities: Set<number> = new Set<number>();
+	private _blacklistedWeapons: Set<number> = new Set<number>();
 	private _banNetworkOwner: boolean = false;
 	private _checkPedsForWeapons: boolean = false;
 	private _cleanUpEntities: boolean = false;

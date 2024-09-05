@@ -105,8 +105,9 @@ Config.Modules = {
         tazerCooldown = 12000 -- 12 seconds
     },
     -- Detects if a player has a non whitelisted playermodel (eg. monkey).
+    -- If you are using qb-core make sure to add the pedmodels from the character creator.
     PedBlacklistModule = {
-        enabled = true,
+        enabled = false,
         -- List of all allowed player models. You may add some.
         playerModels = {
             "player_one",
@@ -162,7 +163,9 @@ Config.Modules = {
     WeaponModifierModule = {
         enabled = true,
         -- The maximum damage modifier a player can have for a weapon.
-        damageModifier = 1.0
+        damageModifier = 1.0,
+        -- Tries to determine the average player weapon modifier to use as a baseline.
+        dynamicModifier = false
     },
     -- Checks spawned particles for abnormal values.
     ParticlesModule = {
