@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "node build.js",
-		"watch": "node watch.js",
+		"build": "node ./build/build.js",
+		"watch": "node ./build/watch.js",
 		"test": "jest --clearCache && jest --env=node"
 	},
 	"author": "EinS4ckZwiebeln",
