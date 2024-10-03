@@ -33,7 +33,7 @@ export class AimbotModule extends Module {
 		const sender = source.toString();
 		const killer = GetPlayerPed(sender);
 		// Not exactly sure why, but vehicles make this detection method inaccurate
-		if (GetVehiclePedIsIn(killer, false) !== 0) return;
+		if (GetVehiclePedIsIn(killer, false) !== 0 || GetEntityHealth(killer) === 0) return;
 		const killerCamCoords: number[] = await this.getApproximateCamCoords(parseInt(sender), killer);
 		const victimCoords: number[] = GetEntityCoords(victim);
 
