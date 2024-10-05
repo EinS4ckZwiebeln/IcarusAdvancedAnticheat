@@ -10,7 +10,7 @@ export class WipeEntitiesCommand extends Command {
 	 * @param source The player who executed the command.
 	 */
 	public async onExecute(source: number): Promise<void> {
-		const entities: number[] = [...GetAllObjects(), ...GetAllVehicles(), ...GetAllPeds()];
+		const entities: number[] = GetGamePool("CNetObject");
 		entities.forEach((entity: number) => {
 			DeleteEntity(entity);
 		});

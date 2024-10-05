@@ -14,6 +14,7 @@ declare global {
 	function GetAllObjects(): number[];
 	function GetAllVehicles(): number[];
 	function GetAllPeds(): number[];
+	function GetGamePool(): number[];
 	function GetPlayerPing(source: string): number;
 	function GetPlayerPed(source: string): number;
 }
@@ -45,6 +46,7 @@ global.DropPlayer = (_: string) => {};
 global.GetAllObjects = () => [];
 global.GetAllVehicles = () => [];
 global.GetAllPeds = () => [];
+global.GetGamePool = () => [];
 global.GetPlayerPing = (_: string) => 0;
 global.GetPlayerPed = (_: string) => 65535;
 
