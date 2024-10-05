@@ -18,6 +18,6 @@ server_script {
 }
 
 dependencies {
-    "/server:7290", 
+    "/server:10191", 
     "/onesync"
 }
