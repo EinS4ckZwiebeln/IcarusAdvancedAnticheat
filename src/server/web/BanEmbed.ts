@@ -1,13 +1,13 @@
-import { DiscordEmbed, EmbedField } from "../Types";
-import { Utility } from "../util/Utility";
+import type { DiscordEmbed, EmbedField } from '../Types'
+import { Utility } from '../util/Utility'
 
 /**
  * Represents a ban embed for Discord.
  */
 export class BanEmbed {
-	private readonly _embed: DiscordEmbed[];
+	private readonly _embed: DiscordEmbed[]
 	// List of identifiers to be displayed in the embed
-	private readonly _identifiers = ["license", "steam", "xbl"];
+	private readonly _identifiers = ['license', 'steam', 'xbl']
 
 	/**
 	 * Initializes a new instance of the BanEmbed class.
@@ -16,14 +16,14 @@ export class BanEmbed {
 	 * @param fileName The name of the file attached to the embed.
 	 */
 	constructor(source: number, reason: string, fileName: string) {
-		this._embed = [this.constructBanEmbed(source, reason, fileName)];
+		this._embed = [this.constructBanEmbed(source, reason, fileName)]
 	}
 
 	/**
 	 * Gets the embed object.
 	 */
 	public get embed(): DiscordEmbed[] {
-		return this._embed;
+		return this._embed
 	}
 
 	/**
@@ -33,12 +33,11 @@ export class BanEmbed {
 	 * @returns The clean player identifier.
 	 */
 	private getRawPlayerIdentifier(source: number, type: string): string {
-		const id = GetPlayerIdentifierByType(source.toString(), type);
-		if (typeof id === "string") {
-			return id.slice(id.indexOf(":") + 1);
-		} else {
-			return "unknown";
+		const id = GetPlayerIdentifierByType(source.toString(), type)
+		if (typeof id === 'string') {
+			return id.slice(id.indexOf(':') + 1)
 		}
+		return 'unknown'
 	}
 
 	/**
@@ -52,12 +51,12 @@ export class BanEmbed {
 				rawId: this.getRawPlayerIdentifier(source, identifier),
 				identifier,
 			}))
-			.filter(({ rawId }) => rawId !== "unknown")
+			.filter(({ rawId }) => rawId !== 'unknown')
 			.map(({ rawId, identifier }) => ({
 				name: `${identifier.charAt(0).toUpperCase()}${identifier.slice(1)}`,
 				value: `\`\`\`${rawId}\`\`\``,
 				inline: false,
-			}));
+			}))
 	}
 
 	/**
@@ -69,26 +68,26 @@ export class BanEmbed {
 	 */
 	private constructBanEmbed(source: number, reason: string, fileName: string): DiscordEmbed {
 		return {
-			color: "8421631",
+			color: '8421631',
 			author: {
 				name: `Icarus Advanced Anticheat v${Utility.CURRENT_VERSION}`,
-				icon_url: "https://github.com/EinS4ckZwiebeln/assets/raw/main/icarus_icon.png",
+				icon_url: 'https://github.com/EinS4ckZwiebeln/assets/raw/main/icarus_icon.png',
 			},
-			title: "Cheater Detected",
+			title: 'Cheater Detected',
 			fields: [
 				{
-					name: "Violation",
+					name: 'Violation',
 					value: reason,
 					inline: true,
 				},
 				{
-					name: "Player",
+					name: 'Player',
 					value: `${GetPlayerName(source.toString())} (${source})`,
 					inline: true,
 				},
 				{
-					name: "Discord",
-					value: `<@${this.getRawPlayerIdentifier(source, "discord")}>`,
+					name: 'Discord',
+					value: `<@${this.getRawPlayerIdentifier(source, 'discord')}>`,
 					inline: true,
 				},
 				...this.generateIdentifierFields(source),
@@ -98,8 +97,8 @@ export class BanEmbed {
 				url: `attachment://${fileName}`,
 			},
 			footer: {
-				text: "Icarus Ban Alert",
+				text: 'Icarus Ban Alert',
 			},
-		};
+		}
 	}
 }

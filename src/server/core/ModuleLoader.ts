@@ -1,8 +1,8 @@
 import { inject, singleton } from "tsyringe";
+import { Utility } from "../util/Utility";
+import type { Module } from "./Module";
 import { Config } from "./config/Config";
 import { Logger } from "./logger/Logger";
-import { Module } from "./Module";
-import { Utility } from "../util/Utility";
 
 @singleton()
 export class ModuleLoader {
@@ -40,7 +40,8 @@ export class ModuleLoader {
 		// Prevent loading the same module twice
 		if (this._modules.has(name)) {
 			throw new Error(`Module ${name} is already loaded`);
-		} else if (this._unloadedModules.has(name)) {
+		}
+		if (this._unloadedModules.has(name)) {
 			this._unloadedModules.delete(name);
 		}
 		if (this.isModuleEnabled(name)) {

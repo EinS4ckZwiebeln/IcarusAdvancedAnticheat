@@ -1,5 +1,5 @@
-import { singleton } from "tsyringe";
-import { Logger } from "../logger/Logger";
+import { singleton } from 'tsyringe'
+import { Logger } from '../logger/Logger'
 
 /**
  * The EventHandler class provides a mechanism for subscribing to and triggering events.
@@ -8,8 +8,8 @@ import { Logger } from "../logger/Logger";
  */
 @singleton()
 export class EventHandler {
-	private readonly _events: Map<string, Function[]> = new Map();
-	private readonly _netEvents: Set<string> = new Set();
+	private readonly _events: Map<string, Function[]> = new Map()
+	private readonly _netEvents: Set<string> = new Set()
 
 	/**
 	 * Subscribes to an event with the given name and callback function.
@@ -18,15 +18,15 @@ export class EventHandler {
 	 */
 	public subscribe(eventName: string | string[], callback: Function | Function[]): void {
 		if (Array.isArray(eventName) && Array.isArray(callback)) {
-			throw new Error("Unable to bind events to functions");
+			throw new Error('Unable to bind events to functions')
 		}
-		const events = Array.isArray(eventName) ? eventName : [eventName];
-		events.forEach((event: string) => {
-			Logger.debug(`Subscribing to ${event}`);
-			if (!this._netEvents.has(event)) this.registerNetEvent(event);
+		const events = Array.isArray(eventName) ? eventName : [eventName]
+		for (const event of events) {
+			Logger.debug(`Subscribing to ${event}`)
+			if (!this._netEvents.has(event)) this.registerNetEvent(event)
 			// Push new callback onto the stack
-			this._events.set(event, [...this.getEventCallbacks(event), ...(Array.isArray(callback) ? callback : [callback])]);
-		});
+			this._events.set(event, [...this.getEventCallbacks(event), ...(Array.isArray(callback) ? callback : [callback])])
+		}
 	}
 
 	/**
@@ -36,14 +36,16 @@ export class EventHandler {
 	 */
 	public unsubscribe(eventName: string | string[], callback: Function | Function[]): void {
 		if (Array.isArray(eventName) && Array.isArray(callback)) {
-			throw new Error("Unable to unbind events from functions");
+			throw new Error('Unable to unbind events from functions')
 		}
-		const events = Array.isArray(eventName) ? eventName : [eventName];
-		events.forEach((event: string) => {
-			Logger.debug(`Unsubscribing from ${event}`);
-			const functions = Array.isArray(callback) ? callback : [callback];
-			functions.forEach((cb: Function) => this.filterCallback(cb, event));
-		});
+		const events = Array.isArray(eventName) ? eventName : [eventName]
+		for (const event of events) {
+			Logger.debug(`Unsubscribing from ${event}`)
+			const functions = Array.isArray(callback) ? callback : [callback]
+			for (const cb of functions) {
+				this.filterCallback(cb, event)
+			}
+		}
 	}
 
 	/**
@@ -52,12 +54,12 @@ export class EventHandler {
 	 * @param event - The event the callback function is bound to.
 	 */
 	private filterCallback(callback: Function, event: string): void {
-		const callbackToString = callback.toString();
+		const callbackToString = callback.toString()
 		const eventCallbacks = this.getEventCallbacks(event).filter(
 			// Shitty workaround for callback equality check, needs refactoring later.
-			(cb: Function) => cb.toString() !== callbackToString
-		);
-		this._events.set(event, eventCallbacks);
+			(cb: Function) => cb.toString() !== callbackToString,
+		)
+		this._events.set(event, eventCallbacks)
 	}
 
 	/**
@@ -65,9 +67,9 @@ export class EventHandler {
 	 * @param eventName - The name of the network event to register.
 	 */
 	private registerNetEvent(eventName: string): void {
-		Logger.debug(`Registering net event ${eventName}`);
-		onNet(eventName, async (...args: unknown[]) => this.triggerEventCallbacks(eventName, args));
-		this._netEvents.add(eventName);
+		Logger.debug(`Registering net event ${eventName}`)
+		onNet(eventName, async (...args: unknown[]) => this.triggerEventCallbacks(eventName, args))
+		this._netEvents.add(eventName)
 	}
 
 	/**
@@ -76,7 +78,7 @@ export class EventHandler {
 	 * @returns An array of event callbacks.
 	 */
 	private getEventCallbacks(eventName: string): Function[] {
-		return this._events.get(eventName) ?? [];
+		return this._events.get(eventName) ?? []
 	}
 
 	/**
@@ -85,7 +87,7 @@ export class EventHandler {
 	 * @param args - The arguments to pass to the event callbacks.
 	 */
 	private triggerEventCallbacks(eventName: string, args: unknown[]): void {
-		const eventCallbacks = this.getEventCallbacks(eventName);
-		for (let i = 0; i < eventCallbacks.length; i++) eventCallbacks[i](...args); // Use traditional for loop to minimize functional overhead.
+		const eventCallbacks = this.getEventCallbacks(eventName)
+		for (let i = 0; i < eventCallbacks.length; i++) eventCallbacks[i](...args) // Use traditional for loop to minimize functional overhead.
 	}
 }

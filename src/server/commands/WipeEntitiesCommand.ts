@@ -1,8 +1,8 @@
-import { Command } from "../core/Command";
+import { Command } from '../core/Command'
 
 export class WipeEntitiesCommand extends Command {
 	constructor() {
-		super("wipe", "Removes all networked entities", []);
+		super('wipe', 'Removes all networked entities', [])
 	}
 
 	/**
@@ -10,10 +10,10 @@ export class WipeEntitiesCommand extends Command {
 	 * @param source The player who executed the command.
 	 */
 	public async onExecute(source: number): Promise<void> {
-		const entities: number[] = GetGamePool("CNetObject");
-		entities.forEach((entity: number) => {
-			DeleteEntity(entity);
-		});
-		this.writeToChat(source, `^3Removed ${entities.length} networked ${entities.length == 1 ? "entity" : "entities"}.^0`);
+		const entities: number[] = GetGamePool('CNetObject')
+		for (const entity of entities) {
+			DeleteEntity(entity)
+		}
+		this.writeToChat(source, `^3Removed ${entities.length} networked ${entities.length === 1 ? 'entity' : 'entities'}.^0`)
 	}
 }

@@ -1,5 +1,5 @@
-import { Projectiles } from "../enum/Projectiles";
-import { Weapons } from "../enum/Weapons";
+import { Projectiles } from '../enum/Projectiles'
+import { Weapons } from '../enum/Weapons'
 /**
  * A utility class containing various static methods and properties.
  */
@@ -8,28 +8,28 @@ export class Utility {
 	 * Throws an error if an attempt is made to instantiate the class.
 	 */
 	constructor() {
-		throw new Error("Utility is a static class and cannot be instantiated.");
+		throw new Error('Utility is a static class and cannot be instantiated.')
 	}
 
 	/**
 	 * The name of the current resource.
 	 */
-	public static readonly RESOURCE_NAME = GetCurrentResourceName();
+	public static readonly RESOURCE_NAME = GetCurrentResourceName()
 
 	/**
 	 * The current version of the resource.
 	 */
-	public static readonly CURRENT_VERSION = GetResourceMetadata(Utility.RESOURCE_NAME, "version", 0);
+	public static readonly CURRENT_VERSION = GetResourceMetadata(Utility.RESOURCE_NAME, 'version', 0)
 
 	/**
 	 * The number of degrees in one radian.
 	 */
-	public static readonly RADIANS = 180 / Math.PI;
+	public static readonly RADIANS = 180 / Math.PI
 
 	/**
 	 * The exports object from the global scope.
 	 */
-	public static readonly EXPORTS = global.exports;
+	public static readonly EXPORTS = global.exports
 
 	/**
 	 * Set of melee weapons.
@@ -55,7 +55,7 @@ export class Utility {
 		Weapons.WEAPON_POOLCUE,
 		Weapons.WEAPON_STONE_HATCHET,
 		Weapons.WEAPON_CANDYCANE,
-	]);
+	])
 
 	/**
 	 * Set of area-of-effect weapons.
@@ -91,7 +91,7 @@ export class Utility {
 		Weapons.WEAPON_PARACHUTE,
 		Weapons.WEAPON_FIREEXTINGUISHER,
 		Weapons.WEAPON_HIT_BY_WATER_CANNON,
-	]);
+	])
 
 	/**
 	 * Set of vehicle weapons.
@@ -148,7 +148,7 @@ export class Utility {
 		Weapons.VEHICLE_WEAPON_TAMPA_DUALMINIGUN,
 		Weapons.VEHICLE_WEAPON_HALFTRACK_DUALMG,
 		Weapons.VEHICLE_WEAPON_HALFTRACK_QUADMG,
-	]);
+	])
 
 	/**
 	 * Set of non-lethal weapons.
@@ -163,7 +163,7 @@ export class Utility {
 		Weapons.WEAPON_STUNGUN_MP,
 		Weapons.WEAPON_SMOKEGRENADE,
 		Weapons.WEAPON_NIGHTVISION,
-	]);
+	])
 
 	/**
 	 * Set of non-lethal projectiles.
@@ -173,7 +173,7 @@ export class Utility {
 		Projectiles.PROJECTILE_FLARE,
 		Projectiles.PROJECTILE_SNOWBALL,
 		Projectiles.PROJECTILE_BALL,
-	]);
+	])
 
 	/**
 	 * Set of missile projectiles.
@@ -186,7 +186,7 @@ export class Utility {
 		Projectiles.PROJECTILE_LAZERMISSILE,
 		Projectiles.PROJECTILE_RHINOMISSILE,
 		Projectiles.PROJECTILE_FIREWORKMISSILE,
-	]);
+	])
 
 	/**
 	 * Set of throwable projectiles.
@@ -200,14 +200,14 @@ export class Utility {
 		Projectiles.PROJECTILE_PIPEBOMB,
 		Projectiles.PROJECTILE_PROXIMITYMINE,
 		Projectiles.PROJECTILE_STICKYBOMB,
-	]);
+	])
 
 	/**
 	 * Delays the execution of a function by a specified number of milliseconds.
 	 * @param ms The number of milliseconds to delay the execution.
 	 * @returns A promise that resolves after the specified delay.
 	 */
-	public static Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+	public static Delay = (ms: number) => new Promise((res) => setTimeout(res, ms))
 
 	/**
 	 * Converts an array of strings to an array of their corresponding hash keys.
@@ -215,7 +215,7 @@ export class Utility {
 	 * @returns An array of hash keys.
 	 */
 	public static hashify(arr: string[]) {
-		return arr.map((x) => GetHashKey(x));
+		return arr.map((x) => GetHashKey(x))
 	}
 
 	/**
@@ -224,14 +224,14 @@ export class Utility {
 	 * @param coords2 An array containing the x and y coordinates of the second point.
 	 * @returns The Euclidean distance between the two points.
 	 */
-	public static getDistance(coords1: number[], coords2: number[], includeZ: boolean = false): number {
-		const [x1, y2, z2] = coords1;
-		const [x2, y1, z1] = coords2;
+	public static getDistance(coords1: number[], coords2: number[], includeZ = false): number {
+		const [x1, y2, z2] = coords1
+		const [x2, y1, z1] = coords2
 		// Euclidean distance formula
 		if (!includeZ) {
-			return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+			return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
 		}
-		return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
+		return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1))
 	}
 
 	/**
@@ -241,6 +241,6 @@ export class Utility {
 	 * @returns `true` if the value is null, undefined, or empty; otherwise, `false`.
 	 */
 	public static isNullOrEmtpy(value: string): boolean {
-		return value === null || value === undefined || value === "";
+		return value === null || value === undefined || value === ''
 	}
 }

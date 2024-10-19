@@ -1,21 +1,28 @@
-import { Config } from "../core/config/Config";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { Config } from "../core/config/Config";
 import { WeaponModifier } from "../enum/WeaponModifier";
 
 export class WeaponModifierModule extends Module {
-	private _damageModifier: number = 1.0;
-	private _dynamicModifier: boolean = false;
+	private _damageModifier = 1.0;
+	private _dynamicModifier = false;
 
 	public onLoad(): void {
 		// Add 0.0001 to the value to account for floating point errors.
-		this._damageModifier = Config.getValue<number>(this.config, "damageModifier") + 0.0001;
-		this._dynamicModifier = Config.getValue<boolean>(this.config, "dynamicModifier");
+		this._damageModifier =
+			Config.getValue<number>(this.config, "damageModifier") + 0.0001;
+		this._dynamicModifier = Config.getValue<boolean>(
+			this.config,
+			"dynamicModifier",
+		);
 		this.eventHandler.subscribe("weaponDamageEvent", this.onDamage.bind(this));
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("weaponDamageEvent", this.onDamage.bind(this));
+		this.eventHandler.unsubscribe(
+			"weaponDamageEvent",
+			this.onDamage.bind(this),
+		);
 	}
 
 	/**
@@ -24,15 +31,24 @@ export class WeaponModifierModule extends Module {
 	 * @param source - The source of the damage event.
 	 */
 	private onDamage(source: string): void {
-		if (GetPlayerMeleeWeaponDamageModifier(source) > this.getModifier(WeaponModifier.MELEE)) {
+		if (
+			GetPlayerMeleeWeaponDamageModifier(source) >
+			this.getModifier(WeaponModifier.MELEE)
+		) {
 			this.handleViolation(source, "Weapon Modifier [C1]");
 			return;
 		}
-		if (GetPlayerWeaponDamageModifier(source) > this.getModifier(WeaponModifier.WEAPON)) {
+		if (
+			GetPlayerWeaponDamageModifier(source) >
+			this.getModifier(WeaponModifier.WEAPON)
+		) {
 			this.handleViolation(source, "Weapon Modifier [C2]");
 			return;
 		}
-		if (GetPlayerWeaponDefenseModifier(source) > this.getModifier(WeaponModifier.DEFENSE)) {
+		if (
+			GetPlayerWeaponDefenseModifier(source) >
+			this.getModifier(WeaponModifier.DEFENSE)
+		) {
 			this.handleViolation(source, "Weapon Modifier [C3]");
 			return;
 		}
@@ -45,7 +61,9 @@ export class WeaponModifierModule extends Module {
 	 * @returns The configured damage modifier.
 	 */
 	private getModifier(type: WeaponModifier): number {
-		return this._dynamicModifier ? Math.max(this._damageModifier, this.getAverageDamageModifier(type)) : this._damageModifier;
+		return this._dynamicModifier
+			? Math.max(this._damageModifier, this.getAverageDamageModifier(type))
+			: this._damageModifier;
 	}
 
 	/**
@@ -88,7 +106,7 @@ export class WeaponModifierModule extends Module {
 	 * @returns void
 	 */
 	private handleViolation(source: string, reason: string): void {
-		const violation = new Violation(parseInt(source), reason, this.name);
+		const violation = new Violation(Number.parseInt(source), reason, this.name);
 		violation.banPlayer();
 		CancelEvent();
 	}

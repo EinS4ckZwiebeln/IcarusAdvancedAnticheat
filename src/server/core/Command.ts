@@ -1,9 +1,9 @@
-import { Parameter } from "../Types";
+import type { Parameter } from '../Types'
 
 export abstract class Command {
-	private readonly _name: string;
-	private readonly _description: string;
-	private readonly _parameters: Parameter[];
+	private readonly _name: string
+	private readonly _description: string
+	private readonly _parameters: Parameter[]
 
 	/**
 	 * Creates a new instance of the Command class.
@@ -12,21 +12,21 @@ export abstract class Command {
 	 * @param parameters - The parameters of the command.
 	 */
 	constructor(name: string, description: string, parameters: Parameter[]) {
-		this._name = name;
-		this._description = description;
-		this._parameters = parameters;
+		this._name = name
+		this._description = description
+		this._parameters = parameters
 	}
 
 	public get name(): string {
-		return this._name;
+		return this._name
 	}
 
 	public get description(): string {
-		return this._description;
+		return this._description
 	}
 
 	public get parameters(): Parameter[] {
-		return this._parameters;
+		return this._parameters
 	}
 
 	/**
@@ -35,7 +35,7 @@ export abstract class Command {
 	 * @param message - The message to write.
 	 */
 	protected writeToChat(source: number, message: string): void {
-		emitNet("chat:addMessage", source, { args: [message] });
+		emitNet('chat:addMessage', source, { args: [message] })
 	}
 
 	/**
@@ -43,5 +43,5 @@ export abstract class Command {
 	 * @param source - The source of the command.
 	 * @param args - The arguments of the command.
 	 */
-	public abstract onExecute(source: number, args?: string[]): Promise<void>;
+	public abstract onExecute(source: number, args?: string[]): Promise<void>
 }

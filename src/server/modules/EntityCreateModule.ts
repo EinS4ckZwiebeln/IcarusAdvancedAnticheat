@@ -6,23 +6,40 @@ import { Utility } from "../util/Utility";
 export class EntityCreateModule extends Module {
 	private _illegalEntities: Set<number> = new Set<number>();
 	private _blacklistedWeapons: Set<number> = new Set<number>();
-	private _banNetworkOwner: boolean = false;
-	private _checkPedsForWeapons: boolean = false;
-	private _cleanUpEntities: boolean = false;
+	private _banNetworkOwner = false;
+	private _checkPedsForWeapons = false;
+	private _cleanUpEntities = false;
 
 	public onLoad(): void {
 		this._illegalEntities = new Set(Utility.hashify(this.config.IllegalModels));
-		this._banNetworkOwner = Config.getValue<boolean>(this.config, "banNetworkOwner");
-		this._cleanUpEntities = Config.getValue<boolean>(this.config, "cleanUpEntities");
-		this._checkPedsForWeapons = Config.getValue<boolean>(this.config, "checkPedsForWeapons");
+		this._banNetworkOwner = Config.getValue<boolean>(
+			this.config,
+			"banNetworkOwner",
+		);
+		this._cleanUpEntities = Config.getValue<boolean>(
+			this.config,
+			"cleanUpEntities",
+		);
+		this._checkPedsForWeapons = Config.getValue<boolean>(
+			this.config,
+			"checkPedsForWeapons",
+		);
 		if (this._checkPedsForWeapons) {
-			this._blacklistedWeapons = new Set(Utility.hashify(this.config.BlacklistedWeapons));
+			this._blacklistedWeapons = new Set(
+				Utility.hashify(this.config.BlacklistedWeapons),
+			);
 		}
-		this.eventHandler.subscribe("entityCreating", this.onEntityCreated.bind(this));
+		this.eventHandler.subscribe(
+			"entityCreating",
+			this.onEntityCreated.bind(this),
+		);
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("entityCreating", this.onEntityCreated.bind(this));
+		this.eventHandler.unsubscribe(
+			"entityCreating",
+			this.onEntityCreated.bind(this),
+		);
 	}
 
 	/**
@@ -39,7 +56,10 @@ export class EntityCreateModule extends Module {
 
 		// If the entity is a ped and the owner is not a player and the selected weapon is blacklisted, ban the player.
 		if (this._checkPedsForWeapons) {
-			if (GetEntityType(entity) === 1 && this._blacklistedWeapons.has(GetSelectedPedWeapon(entity))) {
+			if (
+				GetEntityType(entity) === 1 &&
+				this._blacklistedWeapons.has(GetSelectedPedWeapon(entity))
+			) {
 				const owner: number = NetworkGetFirstEntityOwner(entity);
 				this.handleViolation("Illegal Entity [C3]", owner);
 				return;
@@ -70,10 +90,13 @@ export class EntityCreateModule extends Module {
 	 */
 	private cleanUpEntities(source: number): void {
 		const entities: number[] = GetGamePool("CNetObject");
-		entities.forEach((entity: number) => {
-			if (NetworkGetFirstEntityOwner(entity) === source || NetworkGetEntityOwner(entity) === source) {
+		for (const entity of entities) {
+			if (
+				NetworkGetFirstEntityOwner(entity) === source ||
+				NetworkGetEntityOwner(entity) === source
+			) {
 				DeleteEntity(entity);
 			}
-		});
+		}
 	}
 }

@@ -1,20 +1,26 @@
-import { Config } from "../core/config/Config";
+import type { DamageRecord, WeaponDamageEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { Config } from "../core/config/Config";
 import { Weapons } from "../enum/Weapons";
-import { DamageRecord, WeaponDamageEvent } from "../Types";
 
 export class GodmodeModule extends Module {
 	private _absorbedDamage: Map<number, DamageRecord> = new Map();
-	private _verifyPlayerDamage: boolean = false;
+	private _verifyPlayerDamage = false;
 
 	public onLoad(): void {
-		this._verifyPlayerDamage = Config.getValue<boolean>(this.config, "verifyPlayerDamage");
+		this._verifyPlayerDamage = Config.getValue<boolean>(
+			this.config,
+			"verifyPlayerDamage",
+		);
 		this.eventHandler.subscribe("weaponDamageEvent", this.onGodmode.bind(this));
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("weaponDamageEvent", this.onGodmode.bind(this));
+		this.eventHandler.unsubscribe(
+			"weaponDamageEvent",
+			this.onGodmode.bind(this),
+		);
 	}
 
 	/**
@@ -25,11 +31,14 @@ export class GodmodeModule extends Module {
 	private onGodmode(source: string, data: WeaponDamageEvent): void {
 		// Check if the event was canceled or if the player will be killed
 		if (WasEventCanceled() || data.willKill) return;
-		const target: number = NetworkGetEntityFromNetworkId(data.hitGlobalId || data.hitGlobalIds[0]);
+		const target: number = NetworkGetEntityFromNetworkId(
+			data.hitGlobalId || data.hitGlobalIds[0],
+		);
 
 		if (IsPedAPlayer(target)) {
 			this.handlePlayerInvincibility(source, target);
-			if (this._verifyPlayerDamage) this.handlePlayerDamage(source, data, target);
+			if (this._verifyPlayerDamage)
+				this.handlePlayerDamage(source, data, target);
 		}
 	}
 
@@ -40,7 +49,11 @@ export class GodmodeModule extends Module {
 	 */
 	private handlePlayerInvincibility(source: string, target: number): void {
 		if (GetPlayerInvincible(target.toString())) {
-			const violation = new Violation(parseInt(source), "Godmode [C1]", this.name);
+			const violation = new Violation(
+				Number.parseInt(source),
+				"Godmode [C1]",
+				this.name,
+			);
 			violation.banPlayer();
 			CancelEvent();
 		}
@@ -52,13 +65,27 @@ export class GodmodeModule extends Module {
 	 * @param data The data associated with the event.
 	 * @param target The target player.
 	 */
-	private handlePlayerDamage(source: string, data: WeaponDamageEvent, target: number): void {
-		if (data.overrideDefaultDamage && data.weaponType !== Weapons.WEAPON_UNARMED) {
+	private handlePlayerDamage(
+		source: string,
+		data: WeaponDamageEvent,
+		target: number,
+	): void {
+		if (
+			data.overrideDefaultDamage &&
+			data.weaponType !== Weapons.WEAPON_UNARMED
+		) {
 			const damage = data.weaponDamage * GetPlayerWeaponDamageModifier(source);
-			const absorbedDamage = this._absorbedDamage.get(target) || { damage: 0, time: data.damageTime };
+			const absorbedDamage = this._absorbedDamage.get(target) || {
+				damage: 0,
+				time: data.damageTime,
+			};
 
 			if (data.damageTime - absorbedDamage.time < 1000) {
-				this.handleAbsorbedDamage(target, data.damageTime, absorbedDamage.damage + damage);
+				this.handleAbsorbedDamage(
+					target,
+					data.damageTime,
+					absorbedDamage.damage + damage,
+				);
 			} else {
 				// Reset absorbed damage if time between damage events is too long
 				this._absorbedDamage.set(target, {
@@ -77,7 +104,11 @@ export class GodmodeModule extends Module {
 	 * @param damageTime The time when the damage occurred.
 	 * @param totalDamage The total damage taken by the player.
 	 */
-	private handleAbsorbedDamage(target: number, damageTime: number, totalDamage: number): void {
+	private handleAbsorbedDamage(
+		target: number,
+		damageTime: number,
+		totalDamage: number,
+	): void {
 		const hasArmor = GetPedArmour(target) > 0;
 		const maxHealth = GetEntityMaxHealth(target);
 		const targetSource = NetworkGetEntityOwner(target);
@@ -87,7 +118,10 @@ export class GodmodeModule extends Module {
 			const violation = new Violation(targetSource, "Godmode [C2]", this.name);
 			violation.banPlayer();
 			CancelEvent();
-		} else if (hasArmor && totalDamage > maxHealth + GetPlayerMaxArmour(targetSource.toString())) {
+		} else if (
+			hasArmor &&
+			totalDamage > maxHealth + GetPlayerMaxArmour(targetSource.toString())
+		) {
 			const violation = new Violation(targetSource, "Godmode [C3]", this.name);
 			violation.banPlayer();
 			CancelEvent();

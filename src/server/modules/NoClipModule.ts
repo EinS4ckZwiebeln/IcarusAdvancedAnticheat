@@ -1,6 +1,6 @@
-import { Config } from "../core/config/Config";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
 
 export class NoClipModule extends Module {
@@ -8,12 +8,21 @@ export class NoClipModule extends Module {
 	private readonly _newlySpawned: Set<string> = new Set();
 
 	public onLoad(): void {
-		this._speedThreshold = Config.getValue<number>(this.config, "speedThreshold");
-		this.eventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this._speedThreshold = Config.getValue<number>(
+			this.config,
+			"speedThreshold",
+		);
+		this.eventHandler.subscribe(
+			"respawnPlayerPedEvent",
+			this.onSpawn.bind(this),
+		);
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
+		this.eventHandler.unsubscribe(
+			"respawnPlayerPedEvent",
+			this.onSpawn.bind(this),
+		);
 	}
 
 	/**
@@ -47,19 +56,30 @@ export class NoClipModule extends Module {
 	 */
 	protected async onTick(): Promise<void> {
 		const players = getPlayers();
-		players.forEach(async (player: string) => {
+		for (const player of players) {
 			const ped = GetPlayerPed(player);
-			if (this._newlySpawned.has(player) || !this.hasNoClip(ped, player)) return;
+			if (this._newlySpawned.has(player) || !this.hasNoClip(ped, player))
+				continue;
+
 			const origin = GetEntityCoords(ped);
 			await this.Delay(1000);
-			if (!DoesEntityExist(ped)) return; // Abort if player has left
+
+			if (!DoesEntityExist(ped)) continue; // Abort if player has left
+
 			// Calculate the distance in meters
-			const speed = Utility.getDistance(origin, GetEntityCoords(ped), true) * 3.6; // Convert to km/h
+			const speed =
+				Utility.getDistance(origin, GetEntityCoords(ped), true) * 3.6; // Convert to km/h
+
 			if (speed > this._speedThreshold && this.hasNoClip(ped, player)) {
-				const violation = new Violation(parseInt(player), "NoClip [C1]", this.name);
+				const violation = new Violation(
+					Number.parseInt(player),
+					"NoClip [C1]",
+					this.name,
+				);
 				violation.banPlayer();
 			}
-		});
+		}
+
 		await this.Delay(5000);
 	}
 }

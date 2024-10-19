@@ -13,12 +13,16 @@ export class SuperJumpModule extends Module {
 	 */
 	protected async onTick(): Promise<void> {
 		const players: string[] = getPlayers();
-		players.forEach((player) => {
+		for (const player of players) {
 			if (IsPlayerUsingSuperJump(player)) {
-				const violation = new Violation(parseInt(player), "Super Jump [C1]", this.name);
+				const violation = new Violation(
+					Number.parseInt(player),
+					"Super Jump [C1]",
+					this.name,
+				);
 				violation.banPlayer();
 			}
-		});
+		}
 		await this.Delay(3000);
 	}
 }

@@ -20,7 +20,11 @@ export class PedBlacklistModule extends Module {
 	private verifyPlayerModel(player: string): void {
 		const model: number = GetEntityModel(GetPlayerPed(player));
 		if (model !== 0 && !this._whitelistedPedModels.has(model)) {
-			const violation = new Violation(parseInt(player), "Blacklisted Ped [C1]", this.name);
+			const violation = new Violation(
+				Number.parseInt(player),
+				"Blacklisted Ped [C1]",
+				this.name,
+			);
 			violation.banPlayer();
 			CancelEvent();
 		}
@@ -34,7 +38,9 @@ export class PedBlacklistModule extends Module {
 	 */
 	protected async onTick(): Promise<void> {
 		const players = getPlayers();
-		players.forEach(async (player: string) => this.verifyPlayerModel(player));
+		for (const player of players) {
+			await this.verifyPlayerModel(player);
+		}
 		await this.Delay(30000);
 	}
 }

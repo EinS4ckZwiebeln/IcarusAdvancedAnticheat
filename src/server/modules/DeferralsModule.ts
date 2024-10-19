@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Logger } from "../core/logger/Logger";
+import type { Deferrals, DeferralsObject } from "../Types";
 import { Module } from "../core/Module";
 import { Config } from "../core/config/Config";
-import { Deferrals, DeferralsObject } from "../Types";
+import { Logger } from "../core/logger/Logger";
 import { Utility } from "../util/Utility";
 
 export class DeferralsModule extends Module {
@@ -13,8 +13,14 @@ export class DeferralsModule extends Module {
 
 	public onLoad(): void {
 		this._steamApiKey = GetConvar("steam_webApiKey", "none");
-		this._banChecker = Config.getValue<DeferralsObject>(this.config, "BanChecker");
-		this._nameFilter = Config.getValue<DeferralsObject>(this.config, "NameFilter");
+		this._banChecker = Config.getValue<DeferralsObject>(
+			this.config,
+			"BanChecker",
+		);
+		this._nameFilter = Config.getValue<DeferralsObject>(
+			this.config,
+			"NameFilter",
+		);
 		this._noVPN = Config.getValue<DeferralsObject>(this.config, "NoVPN");
 		this.eventHandler.subscribe("playerConnecting", this.onDefer.bind(this));
 	}
@@ -39,12 +45,15 @@ export class DeferralsModule extends Module {
 	 * @throws An error if the HTTP request to the VPN lookup service fails.
 	 */
 	private async hasVPN(ipv4: string): Promise<boolean> {
-		const response = await axios.get(`https://blackbox.ipinfo.app/lookup/${ipv4}`, {
-			method: "GET",
-			headers: {
-				"User-Agent": "request",
+		const response = await axios.get(
+			`https://blackbox.ipinfo.app/lookup/${ipv4}`,
+			{
+				method: "GET",
+				headers: {
+					"User-Agent": "request",
+				},
 			},
-		});
+		);
 		if (response.status !== 200) {
 			Logger.error(`Failed to fetch vpn status for player: ${response.status}`);
 			return false;
@@ -59,10 +68,12 @@ export class DeferralsModule extends Module {
 	 */
 	private async hasVacBan(steamId: string): Promise<boolean> {
 		const response = await axios.get(
-			`https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=${this._steamApiKey}&steamids=${steamId}`
+			`https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=${this._steamApiKey}&steamids=${steamId}`,
 		);
 		if (response.status !== 200) {
-			Logger.error(`Failed to fetch vac ban status for player: ${response.status}`);
+			Logger.error(
+				`Failed to fetch vac ban status for player: ${response.status}`,
+			);
 			return false;
 		}
 		return (await response.data).players.length > 0;
@@ -74,13 +85,26 @@ export class DeferralsModule extends Module {
 	 * @param deferrals - The deferral object for the player.
 	 * @returns A Promise that resolves when the deferral is complete.
 	 */
-	private async onDefer(name: string, _: (reason: string) => void, deferrals: Deferrals): Promise<void> {
+	private async onDefer(
+		name: string,
+		_: (reason: string) => void,
+		deferrals: Deferrals,
+	): Promise<void> {
 		if (this.permissionHandler.hasPermission(source, this.name)) return;
-		const ipv4: string = GetPlayerIdentifierByType(source.toString(), "ip").slice(3);
-		const steamId: string = GetPlayerIdentifierByType(source.toString(), "steam");
+		const ipv4: string = GetPlayerIdentifierByType(
+			source.toString(),
+			"ip",
+		).slice(3);
+		const steamId: string = GetPlayerIdentifierByType(
+			source.toString(),
+			"steam",
+		);
 
 		const doVPNCheck: boolean = this._noVPN.enabled && ipv4 !== "127.0.0.1";
-		const doBanCheck: boolean = this._banChecker.enabled && !Utility.isNullOrEmtpy(steamId) && this._steamApiKey !== "none";
+		const doBanCheck: boolean =
+			this._banChecker.enabled &&
+			!Utility.isNullOrEmtpy(steamId) &&
+			this._steamApiKey !== "none";
 
 		if (this._nameFilter.enabled || doVPNCheck || doBanCheck) {
 			deferrals.defer();

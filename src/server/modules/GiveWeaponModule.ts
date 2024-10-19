@@ -1,18 +1,24 @@
+import type { GiveWeaponEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { GiveWeaponEvent } from "../Types";
 import { Config } from "../core/config/Config";
 
 export class GiveWeaponModule extends Module {
-	private _allowPickUp: boolean = false;
+	private _allowPickUp = false;
 
 	public onLoad(): void {
 		this._allowPickUp = Config.getValue<boolean>(this.config, "allowPickUp");
-		this.eventHandler.subscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
+		this.eventHandler.subscribe(
+			"giveWeaponEvent",
+			this.onGiveWeapon.bind(this),
+		);
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("giveWeaponEvent", this.onGiveWeapon.bind(this));
+		this.eventHandler.unsubscribe(
+			"giveWeaponEvent",
+			this.onGiveWeapon.bind(this),
+		);
 	}
 
 	/**
@@ -26,7 +32,7 @@ export class GiveWeaponModule extends Module {
 		const entity: number = NetworkGetEntityFromNetworkId(data.pedId);
 		if (DoesEntityExist(entity)) {
 			const owner = NetworkGetEntityOwner(entity);
-			if (source != owner) {
+			if (source !== owner) {
 				const violation = new Violation(source, "GiveWeapon [C1]", this.name);
 				violation.banPlayer();
 				CancelEvent();

@@ -1,25 +1,25 @@
-onNet("rpc:invoke", (receiverName: string, native: string, type: string, args: InputArgument[]) => {
+onNet('rpc:invoke', (receiverName: string, native: string, type: string, args: InputArgument[]) => {
 	try {
-		let result: unknown;
+		let result: unknown
 		switch (type) {
-			case "int":
-				result = Citizen.invokeNative(native, args, Citizen.resultAsInteger());
-				break;
-			case "float":
-				result = Citizen.invokeNative(native, args, Citizen.resultAsFloat());
-				break;
-			case "vector":
-				result = Citizen.invokeNative(native, args, Citizen.resultAsVector());
-				break;
-			case "string":
-				result = Citizen.invokeNative(native, args, Citizen.resultAsString());
-				break;
+			case 'int':
+				result = Citizen.invokeNative(native, args, Citizen.resultAsInteger())
+				break
+			case 'float':
+				result = Citizen.invokeNative(native, args, Citizen.resultAsFloat())
+				break
+			case 'vector':
+				result = Citizen.invokeNative(native, args, Citizen.resultAsVector())
+				break
+			case 'string':
+				result = Citizen.invokeNative(native, args, Citizen.resultAsString())
+				break
 			default:
-				result = Citizen.invokeNative(native, args, Citizen.returnResultAnyway());
-				break;
+				result = Citizen.invokeNative(native, args, Citizen.returnResultAnyway())
+				break
 		}
-		emitNet(receiverName, result);
+		emitNet(receiverName, result)
 	} catch (error: unknown) {
-		emitNet(receiverName, undefined);
+		emitNet(receiverName, undefined)
 	}
-});
+})

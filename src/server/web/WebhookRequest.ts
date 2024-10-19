@@ -1,15 +1,15 @@
-import FormData from "form-data";
-import axios from "axios";
-import fs from "fs";
-import { Logger } from "../core/logger/Logger";
-import { WebhookPayload } from "../Types";
+import fs from 'node:fs'
+import axios from 'axios'
+import FormData from 'form-data'
+import type { WebhookPayload } from '../Types'
+import { Logger } from '../core/logger/Logger'
 
 /**
  * Represents a webhook request.
  */
 export class WebhookRequest {
-	private readonly _form: FormData = new FormData();
-	private readonly _filePath: string = "";
+	private readonly _form: FormData = new FormData()
+	private readonly _filePath: string = ''
 
 	/**
 	 * Initializes a new instance of the WebhookRequest class.
@@ -18,10 +18,10 @@ export class WebhookRequest {
 	 */
 	constructor(payload: WebhookPayload, filePath?: string) {
 		if (filePath) {
-			this._filePath = filePath;
-			this._form.append("file0", fs.readFileSync(this._filePath), this._filePath);
+			this._filePath = filePath
+			this._form.append('file0', fs.readFileSync(this._filePath), this._filePath)
 		}
-		this._form.append("payload_json", JSON.stringify(payload));
+		this._form.append('payload_json', JSON.stringify(payload))
 	}
 
 	/**
@@ -30,11 +30,11 @@ export class WebhookRequest {
 	 * @returns A Promise that resolves when the request is complete.
 	 */
 	public async post(url: string): Promise<void> {
-		const response = await axios.post(url, this._form);
+		const response = await axios.post(url, this._form)
 		if (response.status !== 200) {
-			Logger.debug(`Failed to post webhook request: ${response.status}`);
+			Logger.debug(`Failed to post webhook request: ${response.status}`)
 		} else {
-			Logger.debug("Successfully posted webhook request");
+			Logger.debug('Successfully posted webhook request')
 		}
 	}
 }

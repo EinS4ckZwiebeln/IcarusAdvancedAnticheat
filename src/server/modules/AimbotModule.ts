@@ -1,11 +1,11 @@
+import type { WeaponDamageEvent } from "../Types";
 import { Module } from "../core/Module";
+import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
 import { Utility } from "../util/Utility";
-import { Violation } from "../core/Violation";
-import { WeaponDamageEvent } from "../Types";
 
 export class AimbotModule extends Module {
-	private _offsetDist: number = 4.5;
+	private _offsetDist = 4.5;
 
 	public onLoad(): void {
 		this._offsetDist = Config.getValue<number>(this.config, "offsetDist");
@@ -13,7 +13,10 @@ export class AimbotModule extends Module {
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("weaponDamageEvent", this.onAimbot.bind(this));
+		this.eventHandler.unsubscribe(
+			"weaponDamageEvent",
+			this.onAimbot.bind(this),
+		);
 	}
 
 	/**
@@ -23,30 +26,56 @@ export class AimbotModule extends Module {
 	 * @param target - The target of the player who is not using aimbot.
 	 * @param weaponType - The type of weapon the player is using.
 	 */
-	private async onAimbot(source: number, data: WeaponDamageEvent): Promise<void> {
-		if (Utility.WEAPONS_MELEE.has(data.weaponType) || Utility.WEAPONS_AOE.has(data.weaponType)) return;
+	private async onAimbot(
+		source: number,
+		data: WeaponDamageEvent,
+	): Promise<void> {
+		if (
+			Utility.WEAPONS_MELEE.has(data.weaponType) ||
+			Utility.WEAPONS_AOE.has(data.weaponType)
+		)
+			return;
 
-		const victim: number = NetworkGetEntityFromNetworkId(data.hitGlobalId || data.hitGlobalIds[0]);
+		const victim: number = NetworkGetEntityFromNetworkId(
+			data.hitGlobalId || data.hitGlobalIds[0],
+		);
 		// Account for networking issues and desync
-		if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || GetEntityHealth(victim) === 0 || IsPedRagdoll(victim)) return;
+		if (
+			!DoesEntityExist(victim) ||
+			!IsPedAPlayer(victim) ||
+			GetEntityHealth(victim) === 0 ||
+			IsPedRagdoll(victim)
+		)
+			return;
 
 		const sender = source.toString();
 		const killer = GetPlayerPed(sender);
 		// Not exactly sure why, but vehicles make this detection method inaccurate
-		if (GetVehiclePedIsIn(killer, false) !== 0 || GetEntityHealth(killer) === 0) return;
-		const killerCamCoords: number[] = await this.getApproximateCamCoords(parseInt(sender), killer);
+		if (GetVehiclePedIsIn(killer, false) !== 0 || GetEntityHealth(killer) === 0)
+			return;
+		const killerCamCoords: number[] = await this.getApproximateCamCoords(
+			Number.parseInt(sender),
+			killer,
+		);
 		const victimCoords: number[] = GetEntityCoords(victim);
 
 		const yaw: number = GetPlayerCameraRotation(sender)[2]; // In radians
 		const forwardVector: number[] = this.getForwardVector(yaw);
-		const distanceToVictim: number = Utility.getDistance(killerCamCoords, victimCoords, false);
+		const distanceToVictim: number = Utility.getDistance(
+			killerCamCoords,
+			victimCoords,
+			false,
+		);
 
 		const extendedForward: number[] = [
 			// Calculate x and y components of the extended forward vector
 			killerCamCoords[0] + forwardVector[0] * distanceToVictim,
 			killerCamCoords[1] + forwardVector[1] * distanceToVictim,
 		];
-		if (Utility.getDistance(extendedForward, victimCoords, false) > this._offsetDist) {
+		if (
+			Utility.getDistance(extendedForward, victimCoords, false) >
+			this._offsetDist
+		) {
 			const violation = new Violation(source, "Aimbot [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
@@ -60,14 +89,24 @@ export class AimbotModule extends Module {
 	 * @param killerPed - The killer ped.
 	 * @returns A promise that resolves to an array of numbers representing the camera coordinates.
 	 */
-	private async getApproximateCamCoords(killerSrc: number, killerPed: number): Promise<number[]> {
+	private async getApproximateCamCoords(
+		killerSrc: number,
+		killerPed: number,
+	): Promise<number[]> {
 		const killerPedCoords = GetEntityCoords(killerPed);
-		const camCoords = await this.rpcTransmitter.makeNativeCall<number[]>(killerSrc, "0xA200EB1EE790F448", "vector");
-		if (camCoords && typeof camCoords === "object" && Utility.getDistance(killerPedCoords, camCoords, true) < this._offsetDist) {
+		const camCoords = await this.rpcTransmitter.makeNativeCall<number[]>(
+			killerSrc,
+			"0xA200EB1EE790F448",
+			"vector",
+		);
+		if (
+			camCoords &&
+			typeof camCoords === "object" &&
+			Utility.getDistance(killerPedCoords, camCoords, true) < this._offsetDist
+		) {
 			return camCoords;
-		} else {
-			return killerPedCoords;
 		}
+		return killerPedCoords;
 	}
 
 	/**

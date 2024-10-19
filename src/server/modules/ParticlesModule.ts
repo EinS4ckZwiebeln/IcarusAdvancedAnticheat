@@ -1,13 +1,14 @@
-import { Config } from "../core/config/Config";
+import type { PtFxEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
-import { PtFxEvent } from "../Types";
+import { Config } from "../core/config/Config";
 
 export class ParticlesModule extends Module {
 	private _maxScale = -1;
 
 	public onLoad(): void {
-		this._maxScale = Config.getValue<number>(this.config, "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
+		this._maxScale =
+			Config.getValue<number>(this.config, "maxParticleScale") + 0.001; // Add 0.001 to the value to account for floating point errors.
 		this.eventHandler.subscribe("ptFxEvent", this.onParticle.bind(this));
 	}
 
@@ -24,7 +25,9 @@ export class ParticlesModule extends Module {
 	 */
 	private onParticle(source: number, data: PtFxEvent): void {
 		if (data.isOnEntity && data.entityNetId > 0) {
-			const owner: number = NetworkGetEntityOwner(NetworkGetEntityFromNetworkId(data.entityNetId));
+			const owner: number = NetworkGetEntityOwner(
+				NetworkGetEntityFromNetworkId(data.entityNetId),
+			);
 			if (owner === source) return;
 
 			const violation = new Violation(source, "ParticleFx [C1]", this.name);

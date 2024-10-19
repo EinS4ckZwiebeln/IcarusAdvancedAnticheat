@@ -1,21 +1,31 @@
+import type { ExplosionEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Config } from "../core/config/Config";
-import { ExplosionEvent } from "../Types";
 import { EntityExplosionTypes } from "../enum/ExplosionTypes";
 
 export class ExplosionFilterModule extends Module {
 	private readonly _entityExplosionTypes: Set<number> = new Set<number>(
-		Object.values(EntityExplosionTypes).filter((value) => typeof value === "number") as number[]
+		Object.values(EntityExplosionTypes).filter(
+			(value) => typeof value === "number",
+		) as number[],
 	);
 	private _whitelistedExplosionTypes: Set<number> = new Set();
-	private _explosionSpoofer: boolean = false;
-	private _hydrantExplosion: boolean = false;
+	private _explosionSpoofer = false;
+	private _hydrantExplosion = false;
 
 	public onLoad(): void {
-		this._explosionSpoofer = Config.getValue<boolean>(this.config, "explosionSpoofer");
-		this._hydrantExplosion = Config.getValue<boolean>(this.config, "hydrantExplosion");
-		this._whitelistedExplosionTypes = new Set(Config.getValue<number[]>(this.config, "whitelistedExplosionTypes"));
+		this._explosionSpoofer = Config.getValue<boolean>(
+			this.config,
+			"explosionSpoofer",
+		);
+		this._hydrantExplosion = Config.getValue<boolean>(
+			this.config,
+			"hydrantExplosion",
+		);
+		this._whitelistedExplosionTypes = new Set(
+			Config.getValue<number[]>(this.config, "whitelistedExplosionTypes"),
+		);
 		this.eventHandler.subscribe("explosionEvent", [
 			this.onExplosion.bind(this),
 			this.onExplosionSpoof.bind(this),
@@ -60,7 +70,11 @@ export class ExplosionFilterModule extends Module {
 	 * @param data - The explosion event data.
 	 */
 	private onExplosionSpoof(source: number, data: ExplosionEvent): void {
-		if (this._explosionSpoofer && this._entityExplosionTypes.has(data.explosionType) && data.f210 === 0) {
+		if (
+			this._explosionSpoofer &&
+			this._entityExplosionTypes.has(data.explosionType) &&
+			data.f210 === 0
+		) {
 			const violation = new Violation(source, "Explosion [C4]", this.name);
 			violation.banPlayer();
 		}
@@ -72,7 +86,13 @@ export class ExplosionFilterModule extends Module {
 	 * @param data - The explosion event data.
 	 */
 	private onHydrantExplosion(source: number, data: ExplosionEvent): void {
-		if (this._hydrantExplosion && data.explosionType === 13 && data.ownerNetId === 0 && !data.f242 && !data.f243) {
+		if (
+			this._hydrantExplosion &&
+			data.explosionType === 13 &&
+			data.ownerNetId === 0 &&
+			!data.f242 &&
+			!data.f243
+		) {
 			const violation = new Violation(source, "Explosion [C5]", this.name);
 			violation.banPlayer();
 		}

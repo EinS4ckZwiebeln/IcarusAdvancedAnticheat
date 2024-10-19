@@ -1,15 +1,21 @@
-import { WeaponDamageEvent } from "../Types";
+import type { WeaponDamageEvent } from "../Types";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
 import { Weapons } from "../enum/Weapons";
 
 export class FoldModule extends Module {
 	public onLoad(): void {
-		this.eventHandler.subscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
+		this.eventHandler.subscribe(
+			"weaponDamageEvent",
+			this.onWeaponDamage.bind(this),
+		);
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("weaponDamageEvent", this.onWeaponDamage.bind(this));
+		this.eventHandler.unsubscribe(
+			"weaponDamageEvent",
+			this.onWeaponDamage.bind(this),
+		);
 	}
 
 	/**
@@ -26,15 +32,26 @@ export class FoldModule extends Module {
 	}
 
 	private isSilencedWeaponViolation(data: WeaponDamageEvent): boolean {
-		return data.silenced && data.weaponDamage === 0 && this.isFallWeapon(data.weaponType);
+		return (
+			data.silenced &&
+			data.weaponDamage === 0 &&
+			this.isFallWeapon(data.weaponType)
+		);
 	}
 
 	private isBirdCrapWeaponViolation(data: WeaponDamageEvent): boolean {
-		return !data.silenced && data.weaponDamage === 131071 && data.weaponType === Weapons.WEAPON_BIRD_CRAP;
+		return (
+			!data.silenced &&
+			data.weaponDamage === 131071 &&
+			data.weaponType === Weapons.WEAPON_BIRD_CRAP
+		);
 	}
 
 	private isFallWeapon(weaponType: Weapons): boolean {
-		return weaponType === Weapons.WEAPON_FALL_01 || weaponType === Weapons.WEAPON_FALL_02;
+		return (
+			weaponType === Weapons.WEAPON_FALL_01 ||
+			weaponType === Weapons.WEAPON_FALL_02
+		);
 	}
 
 	private handleViolation(source: number, violationCode: string): void {

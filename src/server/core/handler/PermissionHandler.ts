@@ -1,5 +1,5 @@
 import { inject, singleton } from "tsyringe";
-import { AdminAuthEvent } from "../../Types";
+import type { AdminAuthEvent } from "../../Types";
 import { Config } from "../config/Config";
 import { Logger } from "../logger/Logger";
 import { EventHandler } from "./EventHandler";
@@ -31,7 +31,7 @@ export class PermissionHandler {
 	 * @returns True if the player has permission, false otherwise.
 	 */
 	public hasPermission(source: number, module?: string): boolean {
-		source = parseInt(source.toString()); // Ensure source is really a number during runtime
+		source = Number.parseInt(source.toString()); // Ensure source is really a number during runtime
 		return (
 			this._permitted.has(source) ||
 			this.hasModuleBypass(source.toString(), module) ||

@@ -1,9 +1,9 @@
+import { inject, singleton } from "tsyringe";
+import type { ChatSuggestion } from "../Types";
+import type { Command } from "./Command";
+import { EventHandler } from "./handler/EventHandler";
 import { PermissionHandler } from "./handler/PermissionHandler";
 import { Logger } from "./logger/Logger";
-import { Command } from "./Command";
-import { EventHandler } from "./handler/EventHandler";
-import { ChatSuggestion } from "../Types";
-import { inject, singleton } from "tsyringe";
 
 @singleton()
 export class CommandLoader {
@@ -24,7 +24,7 @@ export class CommandLoader {
 			(source: number, args?: string[]) => {
 				// Ensure player has correct permission for the command
 				if (!this._permissionHandler.hasPermission(source)) {
-					emitNet("chat:addMessage", source, { args: [`^1You are lacking permission to execute this command.^0`] });
+					emitNet("chat:addMessage", source, { args: ["^1You are lacking permission to execute this command.^0"] });
 					Logger.debug(`Player ${source} attempted to execute command "${command.name}" without permission.`);
 					return;
 				}
@@ -45,9 +45,9 @@ export class CommandLoader {
 
 	public registerChatSuggestions(): void {
 		this._eventHandler.subscribe("respawnPlayerPedEvent", (source: number) => {
-			this._chatSuggestions.forEach((suggestion: ChatSuggestion) => {
+			for (const suggestion of this._chatSuggestions) {
 				emitNet("chat:addSuggestion", source, `/${suggestion.command}`, suggestion.description, suggestion.parameters);
-			});
+			}
 		});
 	}
 }
