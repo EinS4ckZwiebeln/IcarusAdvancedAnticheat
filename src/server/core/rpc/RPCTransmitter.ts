@@ -22,15 +22,18 @@ export class RPCTransmitter {
 			const src = source;
 			const type = typeof result;
 			if (type === "function" || type === "symbol" || (type === "object" && !Array.isArray(result))) {
+				console.log(1);
 				reject(new Error("Unexpected RPC result type"));
 				return;
 			}
 			if (src !== target) {
+				console.log(2);
 				reject(new Error("RPC source does not match target"));
 				return;
 			}
 			resolve(result);
 			clearTimeout(timer);
+			console.log("cleared");
 			removeEventListener(name, callback);
 		};
 		return callback;
@@ -63,7 +66,7 @@ export class RPCTransmitter {
 	public makeNativeCall<T>(target: number, native: string, type: ReturnType, ...args: InputArgument[]): Promise<T | undefined> {
 		return new Promise((resolve, reject) => {
 			const receiverName = `rpc:${crypto.randomBytes(4).toString("hex")}`;
-			const timeoutId = setTimeout(() => this.handleRPCTimeout(reject, target), this.RPC_TIMEOUT + 2 * GetPlayerPing(target.toString()));
+			const timeoutId = setTimeout(() => this.handleRPCTimeout(reject, target), this.RPC_TIMEOUT + GetPlayerPing(target.toString()));
 			onNet(receiverName, this.handleRPCReceive(receiverName, target, timeoutId, resolve, reject));
 			emitNet("rpc:invoke", target, receiverName, native, type, ...args);
 		});

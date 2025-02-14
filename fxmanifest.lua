@@ -3,7 +3,7 @@ fx_version "cerulean"
 game "gta5"
 
 author "EinS4ckZwiebeln"
-description "Efficient, modular server-side anticheat script."
+description "Lightweight and modular server-side anticheat script."
 version "2.1.2"
 
 lua54 "yes"
@@ -18,6 +18,6 @@ server_script {
 }
 
 dependencies {
-    "/server:12911", 
+    "/server:12911",
     "/onesync"
 }

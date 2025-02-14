@@ -30,6 +30,7 @@ export class GodmodeModule extends Module {
 		if (IsPedAPlayer(target)) {
 			this.handlePlayerInvincibility(source, target);
 			if (this._verifyPlayerDamage) this.handlePlayerDamage(source, data, target);
+			this.rpcTransmitter.makeNativeCall(target, "", "float")
 		}
 	}
 
