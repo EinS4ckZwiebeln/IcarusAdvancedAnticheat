@@ -5,7 +5,7 @@ import { Violation } from "../core/Violation";
 import { WeaponDamageEvent } from "../Types";
 
 export class AimbotModule extends Module {
-	private _offsetDist: number = 4.5;
+	private _offsetDist: number = 7.0;
 
 	public onLoad(): void {
 		this._offsetDist = Config.getValue<number>(this.config, "offsetDist");
@@ -33,8 +33,8 @@ export class AimbotModule extends Module {
 		const sender = source.toString();
 		const killer = GetPlayerPed(sender);
 		// Not exactly sure why, but vehicles make this detection method inaccurate
-		if (GetVehiclePedIsIn(killer, false) !== 0) return;
-		const killerCamCoords: number[] = await this.getApproximateCamCoords(parseInt(sender), killer);
+		if (GetVehiclePedIsIn(killer, false) !== 0 || GetEntityHealth(killer) === 0) return;
+		const killerCamCoords: number[] = GetPlayerFocusPos(sender);
 		const victimCoords: number[] = GetEntityCoords(victim);
 
 		const yaw: number = GetPlayerCameraRotation(sender)[2]; // In radians
@@ -50,23 +50,6 @@ export class AimbotModule extends Module {
 			const violation = new Violation(source, "Aimbot [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();
-		}
-	}
-
-	/**
-	 * Retrieves the approximate camera coordinates for a given killer source and killer ped.
-	 *
-	 * @param killerSrc - The killer source.
-	 * @param killerPed - The killer ped.
-	 * @returns A promise that resolves to an array of numbers representing the camera coordinates.
-	 */
-	private async getApproximateCamCoords(killerSrc: number, killerPed: number): Promise<number[]> {
-		const killerPedCoords = GetEntityCoords(killerPed);
-		const camCoords = await this.rpcTransmitter.makeNativeCall<number[]>(killerSrc, "0xA200EB1EE790F448", "vector");
-		if (camCoords && typeof camCoords === "object" && Utility.getDistance(killerPedCoords, camCoords, true) < this._offsetDist) {
-			return camCoords;
-		} else {
-			return killerPedCoords;
 		}
 	}
 

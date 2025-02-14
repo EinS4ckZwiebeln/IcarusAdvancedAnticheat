@@ -69,7 +69,7 @@ export class EntityCreateModule extends Module {
 	 * @param source - The source to clean up entities for.
 	 */
 	private cleanUpEntities(source: number): void {
-		const entities: number[] = [...GetAllObjects(), ...GetAllVehicles(), ...GetAllPeds()];
+		const entities: number[] = GetGamePool("CNetObject");
 		entities.forEach((entity: number) => {
 			if (NetworkGetFirstEntityOwner(entity) === source || NetworkGetEntityOwner(entity) === source) {
 				DeleteEntity(entity);

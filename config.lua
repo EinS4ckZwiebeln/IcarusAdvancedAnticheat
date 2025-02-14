@@ -15,7 +15,7 @@ Config.Telemetry = true
 Config.DiscordWebhook = ""
 
 -- Implement your custom banning function here.
-function Config.BanPlayer (source, reason)
+function Config.BanPlayer(source, reason)
     -- TriggerEvent("EasyAdmin:banPlayer", source, "You have been banned for cheating", 1044463300) -- EasyAdmin for the sake of simplicity.
 end
 
@@ -26,7 +26,11 @@ Config.Modules = {
         -- Whether to use a preconfigured bad words blacklist.
         useDefaultBlacklist = true,
         -- List of all bad words.
-        badWords = {"Foo", "Bar", "Foobar"},
+        badWords = {
+            "Foo",
+            "Bar",
+            "Foobar"
+        },
         -- The message to send to the player if he uses a bad word.
         warningMsg = "^1Please refrain from using profanity in your messages.^0"
     },
@@ -58,7 +62,7 @@ Config.Modules = {
         -- Checks peds if they carry blacklisted weapons.
         checkPedsForWeapons = false,
         -- Whether all entities created or owned by the suspect should be removed upon violation.
-        cleanUpEntities = true,
+        cleanUpEntities = true
     },
     -- Bans everyone that causes a non-whitelisted explosion.
     ExplosionFilterModule = {
@@ -177,7 +181,7 @@ Config.Modules = {
     StartProjectileModule = {
         enabled = true,
         -- The maximum interval in which a player can shoot projectiles.
-        projectileCooldown = 50, --ms
+        projectileCooldown = 50, -- ms
         -- Whether players should be banned from firing missiles or turrets from vehicles.
         blockVehicleWeapons = true
     },
@@ -187,7 +191,7 @@ Config.Modules = {
         enabled = false,
         -- Miscellaneous player speed limit.
         -- Don't touch this unless you know what you are doing.
-        speedThreshold = 20.0,
+        speedThreshold = 20.0
     },
     -- Take a look at 'Config.BlacklistedEvents'.
     EventBlacklistModule = {
@@ -202,7 +206,7 @@ Config.Modules = {
     -- Detects if a player is using some sort of fold cheat.
     FoldModule = {
         enabled = true
-    },
+    }
 }
 
 -- Possesion of these weapons will get a player instantly banned.
@@ -239,7 +243,7 @@ Config.BlacklistedWeapons = {
     "WEAPON_ASSAULTSHOTGUN",
     "WEAPON_GRENADELAUNCHER",
     "WEAPON_COMPACTLAUNCHER",
-    "WEAPON_GRENADELAUNCHER_SMOKE",
+    "WEAPON_GRENADELAUNCHER_SMOKE"
 }
 
 -- Events that will get a player instantly banned when triggered.
@@ -247,27 +251,27 @@ Config.BlacklistedWeapons = {
 Config.BlacklistedEvents = {
     ["esx_jail"] = {
         "esx_jail:sendToJail",
-        "esx_jail:unjailQuest",
+        "esx_jail:unjailQuest"
     },
     ["esx_jailer"] = {
         "esx_jailer:sendToJail",
         "esx_jailer:unjailTime",
-        "esx_jailer:unjailTiDFWMme",
+        "esx_jailer:unjailTiDFWMme"
     },
     ["esx-qalle-jail"] = {
         "esx-qalle-jail:jailPlayer",
         "esx-qalle-jail:jailPlayerNew",
-        "esx-qalle-jail:jailPDFWMlayer",
+        "esx-qalle-jail:jailPDFWMlayer"
     },
     ["esx-qalle-hunting"] = {
         "esx-qalle-hunting:reward",
         "esx-qalle-hunting:sell",
         "esx-qalle-hunting:DFWMreward",
-        "esx-qalle-hunting:seDFWMll",
+        "esx-qalle-hunting:seDFWMll"
     },
     ["esx_pizza"] = {
         "esx_pizza:pay",
-        "esx_pizza:pDFWMay",
+        "esx_pizza:pDFWMay"
     },
     ["esx_drugs"] = {
         "esx_drugs:startHarvestWDFWMeed",
@@ -295,24 +299,24 @@ Config.BlacklistedEvents = {
         "esx_drugs:stopTransDFWMformOpium",
         "esx_drugs:stopSellOpiuDFWMm",
         "esx_drugs:pickedUpCDFWMannabis",
-        "esx_drugs:processCDFWMannabis",
+        "esx_drugs:processCDFWMannabis"
     },
     ["esx_garbagejob"] = {
         "esx_garbagejob:pay",
-        "esx_garbageDFWMjob:pay",
+        "esx_garbageDFWMjob:pay"
     },
     ["esx_ambulancejob"] = {
         "esx_ambulancejob:revive",
         "esx_ambulancejob:setDeathStatus",
         "esx_ambulancejob:getDeathStatus",
-        "esx_ambulancejob:storeNearbyVehicle",
+        "esx_ambulancejob:storeNearbyVehicle"
     },
     ["esx_billing"] = {
-        "esx_billing:sendBill",
+        "esx_billing:sendBill"
     },
     ["esx_carthief"] = {
         "esx_carthief:alertcops",
-        "esx_carthief:pay",
+        "esx_carthief:pay"
     },
     ["esx_dmvschool"] = {
         "esx_dmvschool:addLicense",
@@ -320,7 +324,7 @@ Config.BlacklistedEvents = {
         "esx_dmvschool:pDFWMay",
         "esx_dmvschool:addLiceDFWMnse",
         "dmv:succeDFWMss",
-        "dmv:success",
+        "dmv:success"
     },
     ["esx_policejob"] = {
         "esx_policejob:handcuff",
@@ -333,7 +337,7 @@ Config.BlacklistedEvents = {
         "esx_policejob:requestrelease",
         "esx:enterpolicecar",
         "police:cuffGDFWMranted",
-        "police:cuffGranted",
+        "police:cuffGranted"
     },
     ["esx_sheriffjob"] = {
         "esx_sheriffjob:handcuff",
@@ -342,16 +346,16 @@ Config.BlacklistedEvents = {
         "esx_sheriffjob:OutVehicle",
         "esx_sheriffjob:message",
         "esx_sheriffjob:requestarrest",
-        "esx_sheriffjob:givehandcuff",
+        "esx_sheriffjob:givehandcuff"
     },
     ["mellotrainer"] = {
         "mellotrainer:adminTempBan",
         "mellotrainer:adminKick",
-        "mellotrainer:s_adminKill",
+        "mellotrainer:s_adminKill"
     },
     ["LegacyFuel"] = {
         "LegacyFuel:PayFuel",
-        "LegacyFuel:PayFuDFWMel",
+        "LegacyFuel:PayFuDFWMel"
     },
     ["DFWM"] = {
         "DFWM:adminmenuenable",
@@ -365,15 +369,11 @@ Config.BlacklistedEvents = {
         "DFWM:log",
         "DFWM:openmenu",
         "DFWM:spectate",
-        "DFWM:ViolationDetected",
-    },
-    ["LegacyFuel"] = {
-        "LegacyFuel:PayFuel",
-        "LegacyFuel:PayFuDFWMel",
+        "DFWM:ViolationDetected"
     },
     ["gcphone"] = {
         "gcPhone:_internalAddMessageDFWM",
-        "gcPhone:tchat_channelDFWM",
+        "gcPhone:tchat_channelDFWM"
     },
     ["cylex"] = {
         "cylex:startSellSarap",
@@ -381,7 +381,7 @@ Config.BlacklistedEvents = {
         "cylex:startHarvestSarap",
         "cylex:startSellMelon",
         "cylex:startTransformMelon",
-        "cylex:startHarvestMelon",
+        "cylex:startHarvestMelon"
     },
     ["esx_mechanicjob"] = {
         "esx_mechanicjob:startHarvest",
@@ -390,8 +390,8 @@ Config.BlacklistedEvents = {
         "esx_mechanicjob:startHarvest4",
         "esx_mechanicjob:startCraft",
         "esx_mechanicjob:startCraft2",
-        "esx_mechanicjob:startCraft3",
-    },
+        "esx_mechanicjob:startCraft3"
+    }
 }
 
 -- Objects that get instantly deleted (including vehicles).
@@ -690,5 +690,5 @@ Config.IllegalModels = {
     "stt_prop_stunt_track_dwslope30",
     "stt_prop_stunt_track_dwslope45",
     "stt_prop_stunt_landing_zone_01",
-    "stt_prop_stunt_tVCACk_dwslope45",
+    "stt_prop_stunt_tVCACk_dwslope45"
 }
