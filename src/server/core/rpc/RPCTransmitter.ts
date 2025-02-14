@@ -19,7 +19,13 @@ export class RPCTransmitter {
 	 */
 	private handleRPCReceive<T>(name: string, target: number, timer: NodeJS.Timeout, resolve: (_: T | undefined) => void, reject: (_?: unknown) => void) {
 		const callback = (result: T | undefined) => {
-			if (source !== target) {
+			const src = source;
+			const type = typeof result;
+			if (type === "function" || type === "symbol" || (type === "object" && !Array.isArray(result))) {
+				reject(new Error("Unexpected RPC result type"));
+				return;
+			}
+			if (src !== target) {
 				reject(new Error("RPC source does not match target"));
 				return;
 			}
