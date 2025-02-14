@@ -22,18 +22,15 @@ export class RPCTransmitter {
 			const src = source;
 			const type = typeof result;
 			if (type === "function" || type === "symbol" || (type === "object" && !Array.isArray(result))) {
-				console.log(1);
 				reject(new Error("Unexpected RPC result type"));
 				return;
 			}
 			if (src !== target) {
-				console.log(2);
 				reject(new Error("RPC source does not match target"));
 				return;
 			}
 			resolve(result);
 			clearTimeout(timer);
-			console.log("cleared");
 			removeEventListener(name, callback);
 		};
 		return callback;
