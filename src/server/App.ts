@@ -41,11 +41,7 @@ import { container, injectable } from "tsyringe";
  */
 @injectable()
 class App {
-	constructor(
-		private readonly _config: Config,
-		private readonly _moduleLoader: ModuleLoader,
-		private readonly _commandLoader: CommandLoader
-	) {
+	constructor(private readonly _config: Config, private readonly _moduleLoader: ModuleLoader, private readonly _commandLoader: CommandLoader) {
 		Logger.debug(`Starting Icarus v${Utility.CURRENT_VERSION} ...`);
 		this.registerModules();
 		this.registerCommands();
@@ -124,9 +120,7 @@ class App {
 		convars.forEach((convar) => {
 			const convarValue = GetConvar(convar.name, "null");
 			if (convarValue !== "null" && convarValue != convar.recommendedValue) {
-				console.log(
-					`^3[WARNING] ConVar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
-				);
+				console.log(`^3[WARNING] ConVar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`);
 				Logger.debug(`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`);
 			}
 		});
