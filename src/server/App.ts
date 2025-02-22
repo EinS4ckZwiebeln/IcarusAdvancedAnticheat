@@ -35,6 +35,7 @@ import { FireModule } from "./modules/FireModule";
 import { Release } from "./Types";
 import { FoldModule } from "./modules/FoldModule";
 import { container, injectable } from "tsyringe";
+import { TaskBlacklistModule } from "./modules/TaskBlacklistModule";
 
 /**
  * Represents the main application class.
@@ -87,6 +88,7 @@ class App {
 		this._moduleLoader.loadModule(new EventBlacklistModule());
 		this._moduleLoader.loadModule(new FireModule());
 		this._moduleLoader.loadModule(new FoldModule());
+		this._moduleLoader.loadModule(new TaskBlacklistModule());
 		Logger.debug("Finished loading modules");
 	}
 

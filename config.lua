@@ -206,6 +206,26 @@ Config.Modules = {
     -- Detects if a player is using some sort of fold cheat.
     FoldModule = {
         enabled = true
+    },
+    -- Tasks that when given to a **remotely owned** ped will cancel and ban the sender.
+    -- If you use a script where 'client 1' creates a ped and 'client 2' assigns the task to it, disable this module or remove the blacklisted task.
+    -- If you are using 'sv_entityLockdownMode strict' you will need carefully configure the blacklisted tasks.
+    TaskBlacklistModule = {
+        enabled = true,
+        -- https://alloc8or.re/gta5/doc/enums/eTaskTypeIndex.txt
+        blacklistedTasks = {
+            12, -- CTaskVehicleGoTo
+            100, -- CTaskWanderingScenario
+            101, -- CTaskWanderingInRadiusScenario
+            151, -- CTaskCarDriveWander
+            205, -- CTaskMoveGoToPoint
+            221, -- CTaskWander
+            222, -- CTaskWanderInArea
+            224, -- CTaskGoToPointAnyMeans
+            307, -- CTaskCombatClosestTargetInArea
+            343, -- CTaskCombat
+            356 -- CTaskShootAtTarget
+        }
     }
 }
 
