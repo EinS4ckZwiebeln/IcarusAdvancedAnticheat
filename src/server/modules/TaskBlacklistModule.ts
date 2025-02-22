@@ -1,6 +1,7 @@
 import { Config } from "../core/config/Config";
 import { Module } from "../core/Module";
 import { Violation } from "../core/Violation";
+import { GivePedScriptedTaskEvent } from "../Types";
 
 export class TaskBlacklistModule extends Module {
 	private _blacklistedTasks: Set<number> = new Set();
@@ -20,8 +21,8 @@ export class TaskBlacklistModule extends Module {
 	 * @param source The player ID who triggered the event.
 	 * @param data The data associated with the event.
 	 */
-	private onGivePedTask(source: number, data: any): void {
-		if (this._blacklistedTasks.has(data.task)) {
+	private onGivePedTask(source: number, data: GivePedScriptedTaskEvent): void {
+		if (this._blacklistedTasks.has(data.taskId)) {
 			const violation = new Violation(source, "Blacklisted Task [C1]", this.name);
 			violation.banPlayer();
 			CancelEvent();

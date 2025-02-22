@@ -323,6 +323,13 @@ export type PlayerScopeEvent = {
 	player: string;
 };
 /**
+ * Represents an player enetered/left scope event.
+ */
+export type GivePedScriptedTaskEvent = {
+	entityNetId: number;
+	taskId: number;
+};
+/**
  * Represents an event for txAdmin authentication.
  */
 export type AdminAuthEvent = {
