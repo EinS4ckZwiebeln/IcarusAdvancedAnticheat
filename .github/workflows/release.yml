@@ -8,10 +8,10 @@ on:
                 required: true
                 default: "master"
             version:
-                description: "Version to tag the release with"
+                description: "Version to tag the release with (format: 'vX.X.X')"
                 required: true
             prerelease:
-                description: "Is this a prerelease?"
+                description: "Is this a pre-release?"
                 required: true
                 type: boolean
                 default: false
