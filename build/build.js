@@ -8,7 +8,7 @@ esbuild
 		bundle: true,
 		packages: "bundle",
 		platform: "node",
-		target: "node16.9.1",
+		target: "node22",
 		minifySyntax: true,
 		minifyWhitespace: true,
 	})

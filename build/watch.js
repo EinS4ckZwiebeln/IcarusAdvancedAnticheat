@@ -10,7 +10,7 @@ const build = async () => {
 			sourcemap: true,
 			packages: "bundle",
 			platform: "node",
-			target: "node16.9.1",
+			target: "node22",
 		});
 		await ctx.watch();
 	} catch (error) {

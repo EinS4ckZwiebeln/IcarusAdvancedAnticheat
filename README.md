@@ -74,7 +74,7 @@ end
 
 | FXServer | OneSync  | Screenshot-basic                                          |
 | -------- | -------- | --------------------------------------------------------- |
-| 12911+   | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
+| 12913+   | Required | [Optional](https://github.com/citizenfx/screenshot-basic) |
 
 ### Documentation
 
