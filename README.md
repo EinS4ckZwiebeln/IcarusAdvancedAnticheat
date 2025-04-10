@@ -2,6 +2,24 @@
 [![Github All Releases](https://img.shields.io/github/actions/workflow/status/EinS4ckZwiebeln/IcarusAdvancedAnticheat/release.yml)]()
 [![Github All Releases](https://img.shields.io/github/downloads/EinS4ckZwiebeln/IcarusAdvancedAnticheat/total.svg)]()
 
+## Sponsors
+
+### 💖 FiveGuard
+
+For a better paid anticheat check out: [store.fiveguard.ac](https://store.fiveguard.ac/).
+Fiveguard is the best FiveM anticheat.
+
+### 📜 JustScripts
+
+Check out [JustScripts](https://justscripts.net/) for quality **FiveM scripts**.
+
+### 🗺️ KingMaps
+
+Find high-quality **FiveM maps** at [KingMaps](https://kingmaps.net/).
+
+---
+
+We can provide this free product because of help from our sponsors: [FiveGuard](https://fiveguard.net/), [JustScripts](https://justscripts.net/), and [KingMaps](https://kingmaps.net/).
 ## Icarus Advanced Anticheat
 
 Icarus is a robust and serversided anti-cheat solution designed for FiveM servers. With unique detections and a diverse range of checks, it's a comprehensive tool to catch cheaters. While occasional bugs or false positives may occur, your feedback through issues and pull requests is crucial to its refinement. Install Icarus today and experience a robust and dependable anti-cheat solution for your server.
