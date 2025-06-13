@@ -8,16 +8,18 @@ on:
                 required: true
                 default: "master"
             version:
-                description: "Version to tag the release with"
+                description: "Version to tag the release with (format: 'vX.X.X')"
                 required: true
             prerelease:
-                description: "Is this a prerelease?"
+                description: "Is this a pre-release?"
                 required: true
-                default: "false"
+                type: boolean
+                default: false
             tests:
                 description: "Run tests before building the release?"
                 required: true
-                default: "true"
+                type: boolean
+                default: true
 
 jobs:
     build:
@@ -36,7 +38,7 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v2
               with:
-                  node-version: 18.x
+                  node-version: 22
 
             - name: Install esbuild
               run: yarn global add esbuild

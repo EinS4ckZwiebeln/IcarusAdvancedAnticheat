@@ -35,17 +35,14 @@ import { FireModule } from "./modules/FireModule";
 import { Release } from "./Types";
 import { FoldModule } from "./modules/FoldModule";
 import { container, injectable } from "tsyringe";
+import { TaskBlacklistModule } from "./modules/TaskBlacklistModule";
 
 /**
  * Represents the main application class.
  */
 @injectable()
 class App {
-	constructor(
-		private readonly _config: Config,
-		private readonly _moduleLoader: ModuleLoader,
-		private readonly _commandLoader: CommandLoader
-	) {
+	constructor(private readonly _config: Config, private readonly _moduleLoader: ModuleLoader, private readonly _commandLoader: CommandLoader) {
 		Logger.debug(`Starting Icarus v${Utility.CURRENT_VERSION} ...`);
 		this.registerModules();
 		this.registerCommands();
@@ -91,6 +88,7 @@ class App {
 		this._moduleLoader.loadModule(new EventBlacklistModule());
 		this._moduleLoader.loadModule(new FireModule());
 		this._moduleLoader.loadModule(new FoldModule());
+		this._moduleLoader.loadModule(new TaskBlacklistModule());
 		Logger.debug("Finished loading modules");
 	}
 
@@ -124,9 +122,7 @@ class App {
 		convars.forEach((convar) => {
 			const convarValue = GetConvar(convar.name, "null");
 			if (convarValue !== "null" && convarValue != convar.recommendedValue) {
-				console.log(
-					`^3[WARNING] ConVar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`
-				);
+				console.log(`^3[WARNING] ConVar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}' and could be abused by malicious actors.^0`);
 				Logger.debug(`Convar '${convar.name}' is not set to the recommended value of '${convar.recommendedValue}'`);
 			}
 		});

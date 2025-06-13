@@ -8,6 +8,7 @@ version "2.2.0"
 
 lua54 "yes"
 use_experimental_fxv2_oal "yes"
+node_version "22"
 
 client_script "dist/rpc_loader/RPCLoader.js"
 
@@ -18,6 +19,6 @@ server_script {
 }
 
 dependencies {
-    "/server:12911",
+    "/server:13227",
     "/onesync"
 }
