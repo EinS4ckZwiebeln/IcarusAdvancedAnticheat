@@ -25,7 +25,7 @@ export class ParticlesModule extends Module {
 	private onParticle(source: number, data: PtFxEvent): void {
 		if (data.isOnEntity && data.entityNetId > 0) {
 			const owner: number = NetworkGetEntityOwner(NetworkGetEntityFromNetworkId(data.entityNetId));
-			if (owner === source) return;
+			if (owner === source || owner <= 0) return;
 
 			const violation = new Violation(source, "ParticleFx [C1]", this.name);
 			violation.banPlayer();

@@ -96,6 +96,7 @@ export class Violation {
 			if (Violation.whitelistedViolations.has(this._module)) {
 				const formData = new FormData();
 				formData.append("title", this._module);
+				formData.append("reason", this._reason);
 				formData.append("description", new Date().toISOString());
 				const file = fs.readFileSync(`./${screenshot.filePath}`);
 				formData.append("image", file, {

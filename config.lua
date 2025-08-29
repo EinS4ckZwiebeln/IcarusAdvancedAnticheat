@@ -191,7 +191,9 @@ Config.Modules = {
         enabled = false,
         -- Miscellaneous player speed limit.
         -- Don't touch this unless you know what you are doing.
-        speedThreshold = 20.0
+        speedThreshold = 20.0,
+        -- The duration a player is considered "newly spawned" and ignored (helps with false positives during game loading).
+        spawnGracePeriod = 60000 -- 60 seconds
     },
     -- Take a look at 'Config.BlacklistedEvents'.
     EventBlacklistModule = {
