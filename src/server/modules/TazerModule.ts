@@ -14,19 +14,11 @@ export class TazerModule extends Module {
 		this._tazerRange = Config.getValue<number>(this.config, "maxDistance");
 		this._tazerCooldown = Config.getValue<number>(this.config, "tazerCooldown");
 
-		this.eventHandler.subscribe("weaponDamageEvent", [
-			this.onTazerCooldown.bind(this),
-			this.onTazerReach.bind(this),
-			this.onTazerRagdoll.bind(this),
-		]);
+		this.eventHandler.subscribe("weaponDamageEvent", [this.onTazerCooldown.bind(this), this.onTazerReach.bind(this), this.onTazerRagdoll.bind(this)]);
 	}
 
 	public onUnload(): void {
-		this.eventHandler.unsubscribe("weaponDamageEvent", [
-			this.onTazerCooldown.bind(this),
-			this.onTazerReach.bind(this),
-			this.onTazerRagdoll.bind(this),
-		]);
+		this.eventHandler.unsubscribe("weaponDamageEvent", [this.onTazerCooldown.bind(this), this.onTazerReach.bind(this), this.onTazerRagdoll.bind(this)]);
 	}
 
 	/**
@@ -91,7 +83,7 @@ export class TazerModule extends Module {
 			case Weapons.WEAPON_STUNGUN_MP:
 				const target = data.hitGlobalId || data.hitGlobalIds[0];
 				const victim: number = NetworkGetEntityFromNetworkId(target);
-				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim)) return;
+				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || IsEntityPositionFrozen(victim)) return;
 				SetPedCanRagdoll(victim, true); // Is this a good idea?
 
 				let hasRagdolled = false;
@@ -100,7 +92,7 @@ export class TazerModule extends Module {
 
 				while (!hasRagdolled && GetGameTimer() - start < threshold) {
 					if (IsPedRagdoll(victim)) hasRagdolled = true;
-					await this.Delay(100);
+					await this.Delay(50);
 				}
 				if (!hasRagdolled) {
 					const violation = new Violation(target, "Tazer Ragdoll [C3]", this.name);

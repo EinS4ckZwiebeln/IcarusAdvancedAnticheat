@@ -5,10 +5,12 @@ import { Utility } from "../util/Utility";
 
 export class NoClipModule extends Module {
 	private _speedThreshold: number;
+	private _spawnGracePeriod: number;
 	private readonly _newlySpawned: Set<string> = new Set();
 
 	public onLoad(): void {
 		this._speedThreshold = Config.getValue<number>(this.config, "speedThreshold");
+		this._spawnGracePeriod = Config.getValue<number>(this.config, "spawnGracePeriod");
 		this.eventHandler.subscribe("respawnPlayerPedEvent", this.onSpawn.bind(this));
 	}
 
@@ -23,7 +25,7 @@ export class NoClipModule extends Module {
 	private onSpawn(source: string) {
 		if (!this._newlySpawned.has(source)) {
 			this._newlySpawned.add(source);
-			setTimeout(() => this._newlySpawned.delete(source), 30000);
+			setTimeout(() => this._newlySpawned.delete(source), this._spawnGracePeriod);
 		}
 	}
 
@@ -33,11 +35,7 @@ export class NoClipModule extends Module {
 	 * @returns True if the ped has noclip, false otherwise.
 	 */
 	private hasNoClip(ped: number, source: string): boolean {
-		return (
-			(IsEntityPositionFrozen(ped) || GetPlayerInvincible(source)) &&
-			(!IsEntityVisible(ped) || GetEntityCollisionDisabled(ped)) &&
-			GetVehiclePedIsIn(ped, false) === 0
-		);
+		return (IsEntityPositionFrozen(ped) || GetPlayerInvincible(source)) && (!IsEntityVisible(ped) || GetEntityCollisionDisabled(ped)) && GetVehiclePedIsIn(ped, false) === 0;
 	}
 
 	/**
