@@ -83,7 +83,7 @@ export class TazerModule extends Module {
 			case Weapons.WEAPON_STUNGUN_MP:
 				const target = data.hitGlobalId || data.hitGlobalIds[0];
 				const victim: number = NetworkGetEntityFromNetworkId(target);
-				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || IsEntityPositionFrozen(victim)) return;
+				if (!DoesEntityExist(victim) || !IsPedAPlayer(victim) || IsEntityPositionFrozen(victim) || GetVehiclePedIsIn(victim, false) !== 0) return;
 				SetPedCanRagdoll(victim, true); // Is this a good idea?
 
 				let hasRagdolled = false;
